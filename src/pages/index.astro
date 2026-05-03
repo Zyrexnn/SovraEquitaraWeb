@@ -1,11 +1,536 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+  <main class="landing">
+    <!-- Header -->
+    <header class="header animate-fade-in-up delay-1">
+      <img src="/logo.svg" alt="SovraEquitara" class="logo" />
+      <p class="tagline">AI-Powered Equity Analytics</p>
+    </header>
+
+    <!-- Bento Grid -->
+    <section class="bento-grid">
+
+      <!-- HERO: 3D Heatmap Card -->
+      <div class="glass-card bento-full hero-card animate-fade-in-up delay-2">
+        <div class="hero-badge">LIVE INTELLIGENCE</div>
+        <canvas id="heatmap" class="heatmap-canvas"></canvas>
+        <div class="hero-overlay">
+          <h1 class="hero-title">Urban Equity<br/><span>Heatmap</span></h1>
+          <p class="hero-desc">Real-time spatial analysis across metropolitan zones</p>
+        </div>
+      </div>
+
+      <!-- AI Classification Card -->
+      <div class="glass-card bento-left ai-card animate-fade-in-up delay-3">
+        <div class="ai-icon-wrap">
+          <svg class="ai-sparkle" viewBox="0 0 24 24" fill="none" width="32" height="32">
+            <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="var(--color-accent-sky)" />
+            <path d="M19 15L19.75 17.25L22 18L19.75 18.75L19 21L18.25 18.75L16 18L18.25 17.25L19 15Z" fill="var(--color-accent-mint)" opacity="0.7"/>
+          </svg>
+        </div>
+        <h2 class="card-title">AI Classification</h2>
+        <p class="card-desc">Deep learning models for precision equity scoring</p>
+        <div class="ai-meter">
+          <div class="ai-meter-fill"></div>
+        </div>
+        <span class="ai-accuracy">98.7% accuracy</span>
+      </div>
+
+      <!-- Stats Card -->
+      <div class="glass-card bento-right stats-card animate-fade-in-up delay-4">
+        <span class="stats-label">Data Points</span>
+        <span class="stats-value" id="counter">0</span>
+        <span class="stats-unit">processed today</span>
+        <div class="stats-spark">
+          <svg viewBox="0 0 80 32" class="sparkline">
+            <polyline points="0,28 10,20 20,24 30,12 40,16 50,6 60,10 70,4 80,8" fill="none" stroke="var(--color-accent-sky)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="0,28 10,20 20,24 30,12 40,16 50,6 60,10 70,4 80,8" fill="url(#sparkGrad)" stroke="none" opacity="0.3"/>
+            <defs><linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--color-accent-sky)"/><stop offset="100%" stop-color="transparent"/></linearGradient></defs>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Model Status Card -->
+      <div class="glass-card bento-left model-card animate-fade-in-up delay-5">
+        <div class="model-dot"></div>
+        <span class="model-label">Model Status</span>
+        <span class="model-status">Active</span>
+        <div class="model-bars">
+          <div class="bar" style="--h:60%"></div>
+          <div class="bar" style="--h:80%"></div>
+          <div class="bar" style="--h:45%"></div>
+          <div class="bar" style="--h:90%"></div>
+          <div class="bar" style="--h:70%"></div>
+        </div>
+      </div>
+
+      <!-- Coverage Card -->
+      <div class="glass-card bento-right coverage-card animate-fade-in-up delay-5">
+        <span class="coverage-label">Coverage</span>
+        <div class="coverage-ring-wrap">
+          <svg viewBox="0 0 64 64" class="coverage-ring">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="var(--color-border)" stroke-width="5"/>
+            <circle cx="32" cy="32" r="26" fill="none" stroke="var(--color-accent-mint)" stroke-width="5" stroke-dasharray="143" stroke-dashoffset="22" stroke-linecap="round" class="ring-progress"/>
+          </svg>
+          <span class="coverage-pct">86%</span>
+        </div>
+        <span class="coverage-sub">metropolitan</span>
+      </div>
+
+      <!-- Info Banner -->
+      <div class="glass-card bento-full info-card animate-fade-in-up delay-6">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+            <path d="M9 12l2 2 4-4" stroke="var(--color-accent-mint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="10" stroke="var(--color-accent-mint)" stroke-width="1.5" opacity="0.5"/>
+          </svg>
+        </div>
+        <p class="info-text">Analyzing <strong>247 districts</strong> with multi-layer neural networks for equitable resource allocation.</p>
+      </div>
+
+      <!-- CTA: Instant Report (Thumb Zone) -->
+      <div class="bento-full cta-wrap animate-fade-in-up delay-7">
+        <button class="cta-button" id="ctaBtn">
+          <span class="cta-glow"></span>
+          <svg class="cta-icon" viewBox="0 0 24 24" width="22" height="22" fill="none">
+            <path d="M9 17H7A5 5 0 017 7h2M15 7h2a5 5 0 010 10h-2M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="cta-text">Instant Report</span>
+          <svg class="cta-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer animate-fade-in delay-8">
+      <p>&copy; 2026 SovraEquitara &middot; Precision Intelligence</p>
+    </footer>
+  </main>
 </Layout>
+
+<style>
+  .landing {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    padding: var(--space-xl) var(--space-md) var(--space-md);
+  }
+  .logo {
+    height: 36px;
+    margin: 0 auto var(--space-sm);
+    filter: brightness(1.1);
+  }
+  .tagline {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 500;
+  }
+
+  /* ── Hero Card with Heatmap ── */
+  .hero-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 240px;
+    padding: 0;
+  }
+  .hero-badge {
+    position: absolute;
+    top: var(--space-md);
+    left: var(--space-md);
+    z-index: 3;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--color-accent-mint);
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .heatmap-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  .hero-overlay {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    min-height: 240px;
+    padding: var(--space-lg);
+    background: linear-gradient(to top, rgba(2,6,23,0.9) 0%, rgba(2,6,23,0.3) 60%, transparent 100%);
+  }
+  .hero-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: var(--space-xs);
+  }
+  .hero-title span {
+    color: var(--color-accent-sky);
+  }
+  .hero-desc {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+  }
+
+  /* ── AI Card ── */
+  .ai-card {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .ai-icon-wrap {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(56, 189, 248, 0.08);
+    border-radius: 14px;
+    border: 1px solid rgba(56, 189, 248, 0.15);
+  }
+  .ai-sparkle {
+    animation: sparkle 2.5s ease-in-out infinite;
+  }
+  .card-title {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+  .card-desc {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+  .ai-meter {
+    height: 4px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: auto;
+  }
+  .ai-meter-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--color-accent-sky), var(--color-accent-mint));
+    border-radius: 4px;
+    animation: meterFill 2s 0.8s ease-out forwards;
+  }
+  @keyframes meterFill {
+    to { width: 98.7%; }
+  }
+  .ai-accuracy {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--color-accent-mint);
+    font-weight: 500;
+  }
+
+  /* ── Stats Card ── */
+  .stats-card {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    justify-content: center;
+  }
+  .stats-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+  .stats-value {
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--color-text-primary);
+    line-height: 1;
+  }
+  .stats-unit {
+    font-size: 10px;
+    color: var(--color-text-muted);
+  }
+  .stats-spark {
+    margin-top: var(--space-sm);
+  }
+  .sparkline {
+    width: 100%;
+    height: 32px;
+  }
+
+  /* ── Model Card ── */
+  .model-card {
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  .model-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent-mint);
+    box-shadow: 0 0 8px var(--color-accent-mint);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  .model-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+  .model-status {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-accent-mint);
+  }
+  .model-bars {
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+    height: 40px;
+    margin-top: auto;
+  }
+  .bar {
+    flex: 1;
+    background: linear-gradient(to top, var(--color-accent-sky), var(--color-accent-violet));
+    border-radius: 3px;
+    height: var(--h);
+    opacity: 0.7;
+    animation: barGrow 1s ease-out forwards;
+    transform-origin: bottom;
+    transform: scaleY(0);
+  }
+  .bar:nth-child(1) { animation-delay: 0.6s; }
+  .bar:nth-child(2) { animation-delay: 0.7s; }
+  .bar:nth-child(3) { animation-delay: 0.8s; }
+  .bar:nth-child(4) { animation-delay: 0.9s; }
+  .bar:nth-child(5) { animation-delay: 1.0s; }
+  @keyframes barGrow { to { transform: scaleY(1); } }
+
+  /* ── Coverage Card ── */
+  .coverage-card {
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    text-align: center;
+  }
+  .coverage-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+  .coverage-ring-wrap {
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+  .coverage-ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring-progress {
+    animation: ringDraw 2s 0.6s ease-out forwards;
+    stroke-dashoffset: 163;
+  }
+  @keyframes ringDraw { to { stroke-dashoffset: 22; } }
+  .coverage-pct {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--color-accent-mint);
+  }
+  .coverage-sub {
+    font-size: 10px;
+    color: var(--color-text-muted);
+  }
+
+  /* ── Info Card ── */
+  .info-card {
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    border-left: 3px solid var(--color-accent-mint);
+    border-radius: var(--glass-radius-sm);
+  }
+  .info-icon { flex-shrink: 0; }
+  .info-text {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+  .info-text strong { color: var(--color-text-primary); }
+
+  /* ── CTA Button (Thumb Zone) ── */
+  .cta-wrap { padding: var(--space-sm) 0 var(--space-md); }
+  .cta-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    width: 100%;
+    padding: 18px var(--space-xl);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    color: var(--color-bg);
+    background: linear-gradient(135deg, var(--color-accent-mint), #6ee7b7);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    box-shadow: 0 4px 30px var(--color-accent-mint-glow), 0 0 60px rgba(52,211,153,0.1);
+  }
+  .cta-button:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 8px 40px var(--color-accent-mint-glow), 0 0 80px rgba(52,211,153,0.15);
+  }
+  .cta-button:active { transform: scale(0.98); }
+  .cta-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  .cta-icon, .cta-text, .cta-arrow { position: relative; z-index: 1; }
+  .cta-arrow {
+    transition: transform var(--transition-base);
+  }
+  .cta-button:hover .cta-arrow { transform: translateX(4px); }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: var(--space-xl) var(--space-md) var(--space-2xl);
+    font-size: 11px;
+    color: var(--color-text-muted);
+    letter-spacing: 0.5px;
+  }
+</style>
+
+<script>
+  // ── Counter Animation ──
+  function animateCounter(el: HTMLElement, target: number, duration: number) {
+    const start = performance.now();
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target).toLocaleString();
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const counterEl = document.getElementById('counter');
+  if (counterEl) {
+    setTimeout(() => animateCounter(counterEl, 14827, 2500), 800);
+  }
+
+  // ── 3D City Heatmap Canvas ──
+  const canvas = document.getElementById('heatmap') as HTMLCanvasElement;
+  if (canvas) {
+    const ctx = canvas.getContext('2d')!;
+    let W: number, H: number;
+    let time = 0;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      W = rect.width;
+      H = rect.height;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.scale(dpr, dpr);
+    }
+
+    function hslColor(h: number, s: number, l: number, a: number) {
+      return `hsla(${h},${s}%,${l}%,${a})`;
+    }
+
+    function drawHeatmap() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Grid of "buildings"
+      const cols = 12;
+      const rows = 8;
+      const cellW = W / cols;
+      const cellH = H / rows;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = c * cellW;
+          const y = r * cellH;
+          const noise = Math.sin(c * 0.7 + time * 0.02) * Math.cos(r * 0.5 + time * 0.015);
+          const intensity = (noise + 1) / 2;
+
+          // Color from sky-blue to mint-green based on intensity
+          const hue = 160 + intensity * 40; // 160 (sky) to 200 (mint-ish)
+          const lightness = 30 + intensity * 25;
+          const alpha = 0.3 + intensity * 0.5;
+
+          ctx.fillStyle = hslColor(hue, 70, lightness, alpha);
+
+          // Building shape
+          const bW = cellW * 0.7;
+          const bH = cellH * (0.3 + intensity * 0.6);
+          const bX = x + (cellW - bW) / 2;
+          const bY = y + cellH - bH;
+
+          ctx.beginPath();
+          ctx.roundRect(bX, bY, bW, bH, 3);
+          ctx.fill();
+
+          // Glow on top
+          if (intensity > 0.6) {
+            ctx.fillStyle = hslColor(hue, 80, 60, 0.15);
+            ctx.beginPath();
+            ctx.arc(bX + bW / 2, bY, bW * 0.4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+
+      time++;
+      requestAnimationFrame(drawHeatmap);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    drawHeatmap();
+  }
+</script>

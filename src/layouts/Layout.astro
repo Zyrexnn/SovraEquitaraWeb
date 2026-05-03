@@ -1,23 +1,104 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "SovraEquitara — AI-Powered Equity Analytics",
+  description = "Next-generation AI classification and instant reporting for equitable intelligence. Precision analytics powered by deep learning."
+} = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#020617" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Ambient background effects -->
+    <div class="ambient-bg" aria-hidden="true">
+      <div class="ambient-orb ambient-orb--mint"></div>
+      <div class="ambient-orb ambient-orb--sky"></div>
+      <div class="ambient-orb ambient-orb--violet"></div>
+    </div>
+
+    <slot />
+  </body>
 </html>
 
+<style is:global>
+  @import '../styles/global.css';
+</style>
+
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  body {
+    position: relative;
+  }
+
+  .ambient-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    animation: float 12s ease-in-out infinite;
+  }
+
+  .ambient-orb--mint {
+    width: 300px;
+    height: 300px;
+    background: var(--color-accent-mint);
+    bottom: -80px;
+    left: -60px;
+    animation-delay: 0s;
+  }
+
+  .ambient-orb--sky {
+    width: 250px;
+    height: 250px;
+    background: var(--color-accent-sky);
+    top: 60px;
+    right: -40px;
+    animation-delay: -4s;
+  }
+
+  .ambient-orb--violet {
+    width: 200px;
+    height: 200px;
+    background: var(--color-accent-violet);
+    top: 40%;
+    left: 20%;
+    animation-delay: -8s;
+  }
+
+  /* Float animation for orbs */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px);
+    }
+    25% {
+      transform: translateY(-20px) translateX(10px);
+    }
+    50% {
+      transform: translateY(-8px) translateX(-8px);
+    }
+    75% {
+      transform: translateY(-24px) translateX(6px);
+    }
+  }
 </style>
