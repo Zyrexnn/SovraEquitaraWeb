@@ -1,0 +1,291 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Admin Panel — SovraEquitara">
+  <div class="app-layout">
+    <!-- Desktop Sidebar -->
+    <aside class="desktop-sidebar glass">
+      <div class="sidebar-top">
+        <div class="logo-box admin-logo">
+          <img src="/logo.svg" alt="Logo" />
+        </div>
+      </div>
+      <nav class="sidebar-links">
+        <a href="/admin/dashboard" class="side-link active" title="Admin Dashboard">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        </a>
+      </nav>
+      <div class="sidebar-bottom">
+        <button id="btn-logout" class="side-link logout" title="Keluar">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-nav glass">
+      <a href="/admin/dashboard" class="mob-link active">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Admin</span>
+      </a>
+      <button id="btn-logout-mob" class="mob-link">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Keluar</span>
+      </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="top-header">
+        <div class="header-left">
+          <h1 class="animate-up">Panel Verifikasi</h1>
+          <p class="subtitle animate-up delay-1">Tinjau dan tindak lanjuti laporan infrastruktur warga.</p>
+        </div>
+        <div class="header-right animate-up">
+          <div class="admin-badge glass-bright">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--color-danger)" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span>ADMIN</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="bento-grid">
+        <!-- Stats Row -->
+        <div class="bento-card stat-item glass animate-up delay-2">
+          <div class="stat-icon warning">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <div class="stat-info">
+            <span id="stat-pending" class="stat-val">0</span>
+            <span class="stat-label">Menunggu</span>
+          </div>
+        </div>
+
+        <div class="bento-card stat-item glass animate-up delay-3">
+          <div class="stat-icon brand">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </div>
+          <div class="stat-info">
+            <span id="stat-valid" class="stat-val">0</span>
+            <span class="stat-label">Valid</span>
+          </div>
+        </div>
+
+        <div class="bento-card stat-item glass animate-up delay-4">
+          <div class="stat-icon success">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="stat-info">
+            <span id="stat-resolved" class="stat-val">0</span>
+            <span class="stat-label">Selesai</span>
+          </div>
+        </div>
+
+        <!-- Table Card -->
+        <section class="bento-card card-table glass animate-up delay-5">
+          <div class="card-header flex-between">
+            <h3>Antrean Laporan</h3>
+          </div>
+          <div class="table-scroll scroll-slim">
+            <table class="premium-table">
+              <thead>
+                <tr>
+                  <th>Laporan</th>
+                  <th>Lokasi</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="reports-tbody">
+                <tr><td colspan="4" class="empty-state">Memuat data...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="toast" class="toast-premium"></div>
+  </div>
+</Layout>
+
+<script>
+  const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+  const token = localStorage.getItem('access_token');
+  const userRaw = localStorage.getItem('user');
+
+  if (!token || !userRaw) {
+    window.location.href = '/login';
+  } else {
+    const user = JSON.parse(userRaw);
+    if (user.role !== 'admin' && user.role !== 'ADMIN') {
+      window.location.href = '/dashboard';
+    }
+  }
+
+  async function fetchReports() {
+    try {
+      const res = await fetch(`${API_URL}/api/admin/reports`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      renderReports(data.data || []);
+    } catch (err) {
+      showToast('Gagal memuat laporan', 'error');
+    }
+  }
+
+  function renderReports(reports) {
+    const tbody = document.getElementById('reports-tbody');
+    
+    document.getElementById('stat-pending').textContent = reports.filter(r => r.status === 'PENDING').length;
+    document.getElementById('stat-valid').textContent = reports.filter(r => r.status === 'VALID').length;
+    document.getElementById('stat-resolved').textContent = reports.filter(r => r.status === 'RESOLVED').length;
+
+    if(reports.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" class="empty-state">Belum ada laporan masuk.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = reports.map(r => `
+      <tr class="report-row">
+        <td>
+          <div class="report-cell-desc">
+            <span class="report-id">#${String(r.id).substring(0,8)}</span>
+            <p>${r.description}</p>
+          </div>
+        </td>
+        <td>
+          <a href="https://maps.google.com/?q=${r.latitude},${r.longitude}" target="_blank" class="loc-tag">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path></svg>
+            ${r.location_detail || 'Lihat Peta'}
+          </a>
+        </td>
+        <td><span class="status-pill ${r.status.toLowerCase()}">${r.status}</span></td>
+        <td>
+          <div class="action-group">
+            ${r.status === 'PENDING' ? 
+              `<button class="btn-mini btn-brand" onclick="updateStatus('${r.id}', 'verify')">Validasi</button>` : ''}
+            ${r.status === 'VALID' ? 
+              `<button class="btn-mini btn-success" onclick="updateStatus('${r.id}', 'resolve')">Selesaikan</button>` : ''}
+            ${r.status === 'RESOLVED' ? 
+              `<span class="done-label"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Tuntas</span>` : ''}
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  window.updateStatus = async (id, action) => {
+    try {
+      const res = await fetch(`${API_URL}/api/admin/reports/${id}/${action}`, {
+        method: 'PATCH',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        showToast('Status diperbarui!');
+        fetchReports();
+      } else {
+        showToast('Gagal memperbarui', 'error');
+      }
+    } catch (err) {
+      showToast('Masalah koneksi', 'error');
+    }
+  };
+
+  function showToast(msg, type = 'success') {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = `toast-premium show ${type}`;
+    setTimeout(() => toast.className = 'toast-premium', 3000);
+  }
+
+  const logout = () => { localStorage.clear(); window.location.href = '/login'; };
+  document.getElementById('btn-logout')?.addEventListener('click', logout);
+  document.getElementById('btn-logout-mob')?.addEventListener('click', logout);
+
+  fetchReports();
+</script>
+
+<style>
+  /* Base Layout Re-use */
+  .app-layout { display: flex; min-height: 100vh; background: var(--color-bg); color: var(--color-text-body); }
+
+  /* Sidebar Desktop */
+  .desktop-sidebar { display: none; width: 80px; height: 100vh; position: fixed; left: 0; top: 0; flex-direction: column; align-items: center; padding: var(--space-xl) 0; z-index: 100; }
+  .logo-box { width: 44px; height: 44px; background: linear-gradient(135deg, var(--color-brand), var(--color-brand-alt)); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3); }
+  .admin-logo { background: linear-gradient(135deg, var(--color-danger), #991b1b); box-shadow: 0 10px 20px rgba(244, 63, 94, 0.3); }
+  .logo-box img { width: 24px; filter: brightness(0) invert(1); }
+  .sidebar-links { flex: 1; display: flex; flex-direction: column; gap: var(--space-lg); margin-top: var(--space-2xl); }
+  .side-link { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px; color: var(--color-text-muted); transition: all 0.3s; }
+  .side-link:hover, .side-link.active { color: white; background: rgba(255,255,255,0.05); }
+  .side-link.logout:hover { color: var(--color-danger); background: rgba(244, 63, 94, 0.1); }
+
+  /* Mobile Nav */
+  .mobile-nav { display: flex; position: fixed; bottom: 16px; left: 16px; right: 16px; height: 64px; border-radius: 20px; justify-content: space-around; align-items: center; z-index: 100; padding: 0 12px; }
+  .mob-link { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--color-text-muted); text-decoration: none; border: none; background: none; }
+  .mob-link span { font-size: 10px; font-weight: 700; text-transform: uppercase; }
+  .mob-link.active { color: var(--color-danger); }
+
+  /* Main Viewport */
+  .main-content { flex: 1; padding: var(--space-lg); padding-bottom: 100px; }
+  .top-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-xl); }
+  .top-header h1 { font-size: 28px; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: var(--color-text-muted); font-weight: 500; }
+
+  .admin-badge { display: flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 10px; font-size: 10px; font-weight: 800; color: white; letter-spacing: 0.1em; }
+
+  /* Bento Grid */
+  .bento-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
+  .bento-card { padding: var(--space-lg); border-radius: var(--radius-lg); }
+
+  /* Stats */
+  .stat-item { display: flex; align-items: center; gap: 12px; }
+  .stat-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .stat-icon.warning { background: rgba(245, 158, 11, 0.1); color: var(--color-warning); }
+  .stat-icon.brand { background: rgba(14, 165, 233, 0.1); color: var(--color-brand); }
+  .stat-icon.success { background: rgba(16, 185, 129, 0.1); color: var(--color-success); }
+  .stat-val { display: block; font-size: 22px; font-weight: 800; color: white; line-height: 1; }
+  .stat-label { font-size: 11px; font-weight: 600; color: var(--color-text-muted); }
+
+  /* Table Card */
+  .card-table { grid-column: 1 / -1; min-height: 400px; }
+  .table-scroll { margin-top: var(--space-lg); overflow-x: auto; }
+  .premium-table { width: 100%; border-collapse: collapse; text-align: left; }
+  .premium-table th { padding: 12px 16px; font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--color-text-muted); border-bottom: 1px solid var(--color-border); }
+  .premium-table td { padding: 16px; border-bottom: 1px solid var(--color-border); vertical-align: middle; }
+
+  .report-cell-desc .report-id { font-size: 10px; font-weight: 800; color: var(--color-brand); display: block; margin-bottom: 2px; }
+  .report-cell-desc p { font-size: 14px; font-weight: 600; color: white; max-width: 300px; }
+  
+  .loc-tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border-radius: 8px; font-size: 12px; font-weight: 600; color: var(--color-text-muted); text-decoration: none; }
+  .loc-tag:hover { background: rgba(255,255,255,0.08); color: white; }
+
+  .status-pill { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+  .status-pill.pending { color: var(--color-warning); background: rgba(245, 158, 11, 0.1); }
+  .status-pill.valid { color: var(--color-brand); background: rgba(14, 165, 233, 0.1); }
+  .status-pill.resolved { color: var(--color-success); background: rgba(16, 185, 129, 0.1); }
+
+  .action-group { display: flex; gap: 8px; }
+  .btn-mini { padding: 6px 12px; border-radius: 6px; border: none; font-size: 11px; font-weight: 800; cursor: pointer; color: white; transition: all 0.2s; }
+  .btn-brand { background: var(--color-brand); }
+  .btn-success { background: var(--color-success); }
+  .btn-mini:hover { transform: translateY(-2px); filter: brightness(1.1); }
+  
+  .done-label { font-size: 12px; font-weight: 700; color: var(--color-success); display: flex; align-items: center; gap: 4px; }
+
+  /* Toast Re-use */
+  .toast-premium { position: fixed; top: 16px; left: 16px; right: 16px; padding: 12px 20px; border-radius: 12px; background: var(--color-surface-bright); color: white; font-weight: 700; font-size: 13px; border: 1px solid var(--color-border-bright); transform: translateY(-100px); opacity: 0; transition: all 0.4s; z-index: 2000; text-align: center; }
+  .toast-premium.show { transform: translateY(0); opacity: 1; }
+  .toast-premium.error { border-left: 4px solid var(--color-danger); }
+
+  @media (min-width: 768px) {
+    .main-content { padding-left: 100px; padding-top: var(--space-xl); }
+    .desktop-sidebar { display: flex; }
+    .mobile-nav { display: none; }
+    .bento-grid { grid-template-columns: repeat(3, 1fr); }
+    .top-header h1 { font-size: 32px; }
+    .toast-premium { width: auto; left: auto; right: 24px; top: 24px; min-width: 300px; text-align: left; }
+  }
+</style>
