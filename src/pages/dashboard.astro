@@ -1,0 +1,508 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Dashboard — SovraEquitara">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  
+  <div class="app-layout">
+    <!-- Desktop Sidebar -->
+    <aside class="desktop-sidebar glass">
+      <div class="sidebar-top">
+        <div class="logo-box">
+          <img src="/logo.svg" alt="Logo" />
+        </div>
+      </div>
+      <nav class="sidebar-links">
+        <a href="/dashboard" class="side-link active" title="Dashboard">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        </a>
+        <a href="/profile" class="side-link" title="Profil">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </a>
+      </nav>
+      <div class="sidebar-bottom">
+        <button id="btn-logout" class="side-link logout" title="Keluar">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-nav glass">
+      <a href="/dashboard" class="mob-link active">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Home</span>
+      </a>
+      <a href="/profile" class="mob-link">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>Profil</span>
+      </a>
+      <button id="btn-logout-mob" class="mob-link">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Keluar</span>
+      </button>
+    </nav>
+
+    <!-- Main Scroll View -->
+    <main class="main-content">
+      <header class="top-header">
+        <div class="header-left">
+          <h1 id="user-greeting" class="animate-up">Halo, Warga</h1>
+          <p class="subtitle animate-up delay-1">Terima kasih atas kontribusi Anda.</p>
+        </div>
+        <div class="header-right animate-up">
+          <div class="profile-summary glass-bright">
+            <div class="pts-badge">
+              <span id="profile-points">0</span>
+              <small>PTS</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="bento-grid">
+        <!-- Profile Card -->
+        <section class="bento-card card-hero glass animate-up delay-2">
+          <div class="hero-content">
+            <h2 id="profile-name">Memuat...</h2>
+            <div class="rank-container">
+              <span id="profile-rank" class="rank-tag">Pemula</span>
+              <div class="progress-bar-wrapper">
+                <div class="progress-track"><div class="progress-fill" id="points-progress"></div></div>
+                <span id="next-rank" class="progress-label">Menuju Pangkat Berikutnya</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats Group -->
+        <div class="stats-group">
+          <div class="bento-card stat-item glass animate-up delay-3">
+            <div class="stat-icon success">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="stat-info">
+              <span id="count-resolved" class="stat-val">0</span>
+              <span class="stat-label">Terselesaikan</span>
+            </div>
+          </div>
+          <div class="bento-card stat-item glass animate-up delay-4">
+            <div class="stat-icon warning">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="stat-info">
+              <span id="count-pending" class="stat-val">0</span>
+              <span class="stat-label">Menunggu</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Section -->
+        <section class="bento-card card-form glass animate-up delay-5">
+          <div class="card-header">
+            <h3>Lapor Infrastruktur</h3>
+            <p>Laporkan masalah di sekitarmu sekarang.</p>
+          </div>
+          <form id="form-report" class="report-form">
+            <div class="field">
+              <textarea id="details" placeholder="Apa yang terjadi? (Contoh: Jalan berlubang)" required rows="3"></textarea>
+            </div>
+            <div class="field">
+              <input type="text" id="loc-detail" placeholder="Detail Lokasi (Contoh: Depan Toko Maju)" />
+            </div>
+            <div class="map-box glass">
+              <div id="map"></div>
+              <div class="map-label">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span id="loc-status">Geser pin untuk akurasi</span>
+              </div>
+              <input type="hidden" id="lat" />
+              <input type="hidden" id="lng" />
+            </div>
+            <button type="submit" id="btn-submit" class="btn btn-primary w-full">
+              Kirim Laporan
+            </button>
+          </form>
+        </section>
+
+        <!-- History Section -->
+        <section class="bento-card card-history glass animate-up delay-6">
+          <div class="card-header flex-between">
+            <h3>Riwayat Saya</h3>
+            <a href="/history" class="text-link">Semua</a>
+          </div>
+          <div id="reports-list" class="history-list scroll-slim">
+            <!-- Loading items -->
+            <div class="skeleton-item"></div>
+            <div class="skeleton-item"></div>
+          </div>
+        </section>
+
+        <!-- Leaderboard Section -->
+        <section class="bento-card card-leaderboard glass animate-up delay-7">
+          <div class="card-header">
+            <h3>Peringkat Warga</h3>
+          </div>
+          <div id="leaderboard-list" class="leader-list">
+            <!-- Loading items -->
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="toast" class="toast-premium"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <script>
+    const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+    const token = localStorage.getItem('access_token');
+    const userRaw = localStorage.getItem('user');
+
+    if (!token || !userRaw) window.location.href = '/login';
+
+    const user = JSON.parse(userRaw);
+    
+    // UI Init
+    document.getElementById('profile-name').textContent = user.name || 'Warga';
+    document.getElementById('user-greeting').textContent = `Halo, ${user.name || 'Warga'}`;
+
+    // Map Setup
+    const map = L.map('map', { zoomControl: false }).setView([-6.2000, 106.8166], 13);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; CartoDB'
+    }).addTo(map);
+
+    const marker = L.marker([-6.2000, 106.8166], { draggable: true }).addTo(map);
+    
+    function updateLoc(latlng) {
+      document.getElementById('lat').value = latlng.lat;
+      document.getElementById('lng').value = latlng.lng;
+      document.getElementById('loc-status').textContent = `${latlng.lat.toFixed(4)}, ${latlng.lng.toFixed(4)}`;
+    }
+
+    marker.on('dragend', (e) => updateLoc(e.target.getLatLng()));
+    map.on('click', (e) => {
+      marker.setLatLng(e.latlng);
+      updateLoc(e.latlng);
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        const ll = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        map.setView(ll, 15);
+        marker.setLatLng(ll);
+        updateLoc(ll);
+      });
+    }
+
+    // Data Management
+    async function refreshData() {
+      try {
+        const [repRes, leadRes] = await Promise.all([
+          fetch(`${API_URL}/api/my-reports`, { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch(`${API_URL}/api/leaderboard`, { headers: { 'Authorization': `Bearer ${token}` } })
+        ]);
+
+        const reps = await repRes.json();
+        const leads = await leadRes.json();
+
+        renderReports(reps.data || []);
+        renderLeaderboard(leads.data || []);
+        updateProfileStats(reps.data || []);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function updateProfileStats(reports) {
+      const pending = reports.filter(r => r.status === 'PENDING').length;
+      const resolved = reports.filter(r => r.status === 'RESOLVED').length;
+      document.getElementById('count-pending').textContent = pending;
+      document.getElementById('count-resolved').textContent = resolved;
+      
+      const pts = user.points || 0;
+      document.getElementById('profile-points').textContent = pts;
+      const progress = Math.min(100, (pts / 100) * 100);
+      document.getElementById('points-progress').style.width = `${progress}%`;
+      
+      let rank = 'Pemula';
+      if(pts >= 20) rank = 'Pemerhati Kota';
+      if(pts >= 50) rank = 'Aktivis Warga';
+      if(pts >= 100) rank = 'Pahlawan Kota';
+      document.getElementById('profile-rank').textContent = rank;
+    }
+
+    function renderReports(items) {
+      const list = document.getElementById('reports-list');
+      if (items.length === 0) {
+        list.innerHTML = '<div class="empty-state">Belum ada laporan</div>';
+        return;
+      }
+      list.innerHTML = items.map(r => `
+        <div class="history-item">
+          <div class="item-main">
+            <h4>${r.description}</h4>
+            <p>${new Date(r.created_at).toLocaleDateString()} • ${r.location_detail || 'Tanpa detail'}</p>
+          </div>
+          <span class="status-pill ${r.status.toLowerCase()}">${r.status}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderLeaderboard(items) {
+      const list = document.getElementById('leaderboard-list');
+      list.innerHTML = items.slice(0, 5).map((l, i) => `
+        <div class="leader-item">
+          <div class="leader-rank">${i+1}</div>
+          <div class="leader-name">${l.full_name || l.email.split('@')[0]}</div>
+          <div class="leader-pts">${l.points} PTS</div>
+        </div>
+      `).join('');
+    }
+
+    // Submit Logic
+    document.getElementById('form-report').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btn-submit');
+      btn.disabled = true;
+      btn.textContent = 'Mengirim...';
+
+      const payload = {
+        description: document.getElementById('details').value,
+        location_detail: document.getElementById('loc-detail').value,
+        latitude: parseFloat(document.getElementById('lat').value),
+        longitude: parseFloat(document.getElementById('lng').value)
+      };
+
+      try {
+        const res = await fetch(`${API_URL}/api/reports`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          showToast('Berhasil dikirim!');
+          document.getElementById('form-report').reset();
+          refreshData();
+        } else {
+          showToast('Gagal terkirim', 'error');
+        }
+      } catch (err) {
+        showToast('Masalah koneksi', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Kirim Laporan';
+      }
+    });
+
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.className = `toast-premium show ${type}`;
+      setTimeout(() => toast.className = 'toast-premium', 3000);
+    }
+
+    const logout = () => { localStorage.clear(); window.location.href = '/login'; };
+    document.getElementById('btn-logout')?.addEventListener('click', logout);
+    document.getElementById('btn-logout-mob')?.addEventListener('click', logout);
+
+    refreshData();
+  </script>
+</Layout>
+
+<style>
+  /* Layout Base */
+  .app-layout {
+    display: flex;
+    min-height: 100vh;
+    background: var(--color-bg);
+    color: var(--color-text-body);
+  }
+
+  /* Sidebar Desktop */
+  .desktop-sidebar {
+    display: none;
+    width: 80px;
+    height: 100vh;
+    position: fixed;
+    left: 0; top: 0;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-xl) 0;
+    z-index: 100;
+  }
+  
+  .logo-box {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--color-brand), var(--color-brand-alt));
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
+  }
+  .logo-box img { width: 24px; filter: brightness(0) invert(1); }
+
+  .sidebar-links { flex: 1; display: flex; flex-direction: column; gap: var(--space-lg); margin-top: var(--space-2xl); }
+  .side-link {
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 12px;
+    color: var(--color-text-muted);
+    transition: all 0.3s;
+  }
+  .side-link:hover, .side-link.active { color: white; background: rgba(255,255,255,0.05); }
+  .side-link.logout:hover { color: var(--color-danger); background: rgba(244, 63, 94, 0.1); }
+
+  /* Mobile Nav */
+  .mobile-nav {
+    display: flex;
+    position: fixed;
+    bottom: 16px; left: 16px; right: 16px;
+    height: 64px;
+    border-radius: 20px;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    padding: 0 12px;
+  }
+  .mob-link {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    color: var(--color-text-muted); text-decoration: none; border: none; background: none;
+  }
+  .mob-link span { font-size: 10px; font-weight: 700; text-transform: uppercase; }
+  .mob-link.active { color: var(--color-brand); }
+
+  /* Main Viewport */
+  .main-content {
+    flex: 1;
+    padding: var(--space-lg);
+    padding-bottom: 100px;
+  }
+
+  .top-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: var(--space-xl);
+  }
+  .top-header h1 { font-size: 24px; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: var(--color-text-muted); font-weight: 500; }
+
+  .profile-summary {
+    padding: 8px 16px; border-radius: 14px;
+    display: flex; align-items: center;
+  }
+  .pts-badge { display: flex; align-items: baseline; gap: 4px; }
+  .pts-badge span { font-size: 18px; font-weight: 800; color: white; }
+  .pts-badge small { font-size: 10px; font-weight: 700; opacity: 0.5; }
+
+  /* Bento Grid */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .bento-card { padding: var(--space-lg); border-radius: var(--radius-lg); }
+
+  /* Hero Card */
+  .card-hero { background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(99, 102, 241, 0.1)); }
+  .card-hero h2 { font-size: 28px; margin-bottom: 12px; }
+  .rank-tag {
+    display: inline-block; padding: 4px 12px; border-radius: 8px;
+    background: rgba(16, 185, 129, 0.1); color: var(--color-success);
+    font-weight: 700; font-size: 12px; margin-bottom: 12px;
+  }
+  .progress-track { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; width: 0%; background: var(--color-brand); border-radius: 4px; transition: width 1s ease-out; }
+  .progress-label { font-size: 11px; font-weight: 600; color: var(--color-text-muted); }
+
+  /* Stats */
+  .stats-group { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+  .stat-item { display: flex; align-items: center; gap: 12px; }
+  .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .stat-icon.success { background: rgba(16, 185, 129, 0.1); color: var(--color-success); }
+  .stat-icon.warning { background: rgba(245, 158, 11, 0.1); color: var(--color-warning); }
+  .stat-val { display: block; font-size: 20px; font-weight: 800; color: white; line-height: 1; }
+  .stat-label { font-size: 11px; font-weight: 600; color: var(--color-text-muted); }
+
+  /* Form */
+  .card-header h3 { font-size: 18px; margin-bottom: 4px; }
+  .card-header p { font-size: 13px; color: var(--color-text-muted); margin-bottom: var(--space-lg); }
+  
+  .report-form { display: flex; flex-direction: column; gap: var(--space-md); }
+  textarea, input[type="text"] {
+    width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--color-border);
+    border-radius: 12px; padding: 12px 16px; color: white; font-family: inherit; font-size: 14px;
+    transition: border-color 0.3s;
+  }
+  textarea:focus, input:focus { outline: none; border-color: var(--color-brand); }
+
+  .map-box { height: 180px; position: relative; border-radius: 16px; overflow: hidden; margin: 4px 0; }
+  #map { height: 100%; width: 100%; }
+  .map-label {
+    position: absolute; bottom: 8px; left: 8px; right: 8px; z-index: 1000;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+    padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; gap: 6px; color: white;
+  }
+
+  /* History */
+  .flex-between { display: flex; justify-content: space-between; align-items: baseline; }
+  .text-link { font-size: 12px; font-weight: 700; color: var(--color-brand); text-decoration: none; }
+  .history-list { display: flex; flex-direction: column; gap: 12px; max-height: 300px; overflow-y: auto; }
+  .history-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px; background: rgba(255,255,255,0.02); border-radius: 12px;
+  }
+  .item-main h4 { font-size: 13px; margin-bottom: 2px; }
+  .item-main p { font-size: 11px; color: var(--color-text-muted); }
+  .status-pill { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+  .status-pill.pending { color: var(--color-warning); background: rgba(245, 158, 11, 0.1); }
+  .status-pill.valid { color: var(--color-brand); background: rgba(14, 165, 233, 0.1); }
+  .status-pill.resolved { color: var(--color-success); background: rgba(16, 185, 129, 0.1); }
+
+  /* Leaderboard */
+  .leader-list { display: flex; flex-direction: column; gap: 8px; }
+  .leader-item {
+    display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+    background: rgba(255,255,255,0.03); border-radius: 10px;
+  }
+  .leader-rank { font-weight: 900; color: var(--color-brand); font-size: 16px; width: 20px; }
+  .leader-name { flex: 1; font-size: 13px; font-weight: 600; color: white; }
+  .leader-pts { font-size: 12px; font-weight: 700; opacity: 0.5; }
+
+  /* Toast */
+  .toast-premium {
+    position: fixed; top: 16px; left: 16px; right: 16px;
+    padding: 12px 20px; border-radius: 12px; background: var(--color-surface-bright);
+    color: white; font-weight: 700; font-size: 13px; border: 1px solid var(--color-border-bright);
+    transform: translateY(-100px); opacity: 0; transition: all 0.4s; z-index: 2000;
+  }
+  .toast-premium.show { transform: translateY(0); opacity: 1; }
+  .toast-premium.error { border-left: 4px solid var(--color-danger); }
+
+  /* Responsive Queries */
+  @media (min-width: 768px) {
+    .main-content { padding-left: 100px; padding-top: var(--space-xl); }
+    .desktop-sidebar { display: flex; }
+    .mobile-nav { display: none; }
+    .bento-grid { grid-template-columns: repeat(2, 1fr); }
+    .card-hero { grid-column: span 2; }
+    .top-header h1 { font-size: 32px; }
+    .toast-premium { width: auto; left: auto; right: 24px; top: 24px; min-width: 300px; }
+  }
+
+  @media (min-width: 1200px) {
+    .bento-grid { grid-template-columns: repeat(4, 1fr); }
+    .card-hero { grid-column: span 3; }
+    .stats-group { grid-column: span 1; grid-template-columns: 1fr; }
+    .card-form { grid-column: span 2; }
+    .card-history { grid-column: span 2; }
+    .card-leaderboard { grid-column: span 2; }
+  }
+</style>
