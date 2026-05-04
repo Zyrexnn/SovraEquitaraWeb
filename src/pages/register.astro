@@ -1,0 +1,265 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Daftar Warga — SovraEquitara">
+  <div class="auth-viewport">
+    <div class="auth-container animate-up">
+      <header class="auth-header">
+        <div class="logo-pill">
+          <img src="/logo.svg" alt="SovraEquitara" />
+        </div>
+        <h1 id="header-title">Buat Akun Warga</h1>
+        <p id="header-desc">Daftarkan diri Anda untuk mulai berkontribusi.</p>
+      </header>
+
+      <div class="auth-card glass">
+        <!-- Step 1: Registration Form -->
+        <div id="step-register" class="step-view active">
+          <form id="form-register" class="auth-form">
+            <div class="field-group">
+              <label for="name">Nama Lengkap</label>
+              <div class="input-glow">
+                <input type="text" id="name" placeholder="Nama Lengkap Anda" required />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="email">Email</label>
+              <div class="input-glow">
+                <input type="email" id="email" placeholder="nama@email.com" required />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="password">Kata Sandi</label>
+              <div class="input-glow">
+                <input type="password" id="password" placeholder="Minimal 6 karakter" minlength="6" required />
+              </div>
+            </div>
+
+            <button type="submit" id="btn-register" class="btn btn-primary w-full">
+              Lanjutkan Verifikasi
+            </button>
+          </form>
+
+          <div class="auth-divider"><span>atau</span></div>
+
+          <div class="auth-footer">
+            <p>Sudah punya akun? <a href="/login">Masuk</a></p>
+          </div>
+        </div>
+
+        <!-- Step 2: OTP Verification -->
+        <div id="step-otp" class="step-view">
+          <div class="otp-instruction">
+            <p>Kode OTP 6-digit telah dikirim ke:</p>
+            <strong id="display-email"></strong>
+          </div>
+
+          <form id="form-otp" class="auth-form">
+            <div class="field-group">
+              <label for="otp-code">Masukkan Kode OTP</label>
+              <div class="input-glow">
+                <input type="text" id="otp-code" placeholder="000000" maxlength="6" inputmode="numeric" required class="otp-input" />
+              </div>
+            </div>
+
+            <button type="submit" id="btn-verify" class="btn btn-primary w-full">
+              Verifikasi & Masuk
+            </button>
+
+            <button type="button" id="btn-back" class="btn btn-glass w-full">
+              Kembali ke Pendaftaran
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast-premium"></div>
+  </div>
+</Layout>
+
+<script>
+  const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+  
+  if (localStorage.getItem('access_token')) {
+    window.location.href = '/dashboard';
+  }
+
+  const stepRegister = document.getElementById('step-register')!;
+  const stepOtp = document.getElementById('step-otp')!;
+  const headerTitle = document.getElementById('header-title')!;
+  const headerDesc = document.getElementById('header-desc')!;
+  
+  const formRegister = document.getElementById('form-register')!;
+  const formOtp = document.getElementById('form-otp')!;
+  
+  const otpInput = document.getElementById('otp-code') as HTMLInputElement;
+  const displayEmail = document.getElementById('display-email')!;
+  
+  let registeredEmail = '';
+
+  // Step 1 Submit
+  formRegister.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = (document.getElementById('name') as HTMLInputElement).value;
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+    const btn = document.getElementById('btn-register') as HTMLButtonElement;
+
+    btn.disabled = true;
+    btn.textContent = 'Mendaftarkan...';
+
+    try {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Pendaftaran gagal');
+
+      registeredEmail = email;
+      displayEmail.textContent = registeredEmail;
+      
+      // UI Transition
+      stepRegister.classList.remove('active');
+      setTimeout(() => {
+        stepOtp.classList.add('active');
+        headerTitle.textContent = 'Verifikasi Akun';
+        headerDesc.textContent = 'Buka email Anda untuk mendapatkan kode OTP.';
+        showToast('OTP telah dikirim!');
+      }, 300);
+
+    } catch (err: any) {
+      showToast(err.message, 'error');
+      btn.disabled = false;
+      btn.textContent = 'Lanjutkan Verifikasi';
+    }
+  });
+
+  // Step 2 Submit
+  formOtp.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const token = otpInput.value;
+    const btn = document.getElementById('btn-verify') as HTMLButtonElement;
+
+    btn.disabled = true;
+    btn.textContent = 'Memverifikasi...';
+
+    try {
+      const res = await fetch(`${API_URL}/api/auth/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: registeredEmail, token })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'OTP salah atau kadaluarsa');
+
+      localStorage.setItem('access_token', data.access_token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      showToast('Verifikasi Berhasil!');
+      setTimeout(() => window.location.href = '/dashboard', 1000);
+
+    } catch (err: any) {
+      showToast(err.message, 'error');
+      btn.disabled = false;
+      btn.textContent = 'Verifikasi & Masuk';
+      otpInput.value = '';
+    }
+  });
+
+  // Back Logic
+  document.getElementById('btn-back')?.addEventListener('click', () => {
+    stepOtp.classList.remove('active');
+    setTimeout(() => {
+      stepRegister.classList.add('active');
+      headerTitle.textContent = 'Buat Akun Warga';
+      headerDesc.textContent = 'Daftarkan diri Anda untuk mulai berkontribusi.';
+    }, 300);
+  });
+
+  // Formatting
+  otpInput.addEventListener('input', () => {
+    otpInput.value = otpInput.value.replace(/\D/g, '').slice(0, 6);
+  });
+
+  function showToast(msg: string, type = 'success') {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.className = `toast-premium show ${type}`;
+    setTimeout(() => toast.className = 'toast-premium', 3000);
+  }
+</script>
+
+<style>
+  .auth-viewport {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl);
+    background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.15), transparent),
+                radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.15), transparent);
+  }
+
+  .auth-container { width: 100%; max-width: 420px; }
+
+  .auth-header { text-align: center; margin-bottom: var(--space-2xl); }
+  .logo-pill {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--color-brand), var(--color-brand-alt));
+    border-radius: 18px; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px; box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
+  }
+  .logo-pill img { width: 28px; filter: brightness(0) invert(1); }
+  .auth-header h1 { font-size: 28px; margin-bottom: 8px; transition: all 0.3s; }
+  .auth-header p { font-size: 14px; color: var(--color-text-muted); font-weight: 500; transition: all 0.3s; }
+
+  .auth-card { padding: var(--space-2xl); border-radius: var(--radius-lg); overflow: hidden; position: relative; min-height: 400px; }
+
+  .step-view {
+    display: none; opacity: 0; transform: translateX(20px); transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .step-view.active { display: flex; flex-direction: column; opacity: 1; transform: translateX(0); }
+
+  .auth-form { display: flex; flex-direction: column; gap: var(--space-lg); }
+  .field-group { display: flex; flex-direction: column; gap: 8px; }
+  .field-group label { font-size: 13px; font-weight: 700; color: var(--color-text-muted); }
+
+  .input-glow input {
+    width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--color-border);
+    border-radius: 12px; padding: 14px 18px; color: white; font-family: inherit; font-size: 15px;
+    transition: all 0.3s;
+  }
+  .input-glow input:focus { outline: none; border-color: var(--color-brand); background: rgba(0,0,0,0.4); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1); }
+
+  .otp-input { text-align: center; font-size: 24px !important; letter-spacing: 0.5em; font-weight: 800; }
+  .otp-instruction { text-align: center; margin-bottom: var(--space-xl); }
+  .otp-instruction p { font-size: 14px; color: var(--color-text-muted); }
+  .otp-instruction strong { font-size: 15px; color: var(--color-brand); display: block; margin-top: 4px; }
+
+  .auth-divider { text-align: center; position: relative; margin: var(--space-xl) 0; }
+  .auth-divider::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--color-border); z-index: 1; }
+  .auth-divider span { position: relative; z-index: 2; background: #0f172a; padding: 0 12px; font-size: 11px; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; }
+
+  .auth-footer { text-align: center; }
+  .auth-footer p { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+  .auth-footer a { color: var(--color-brand); font-weight: 800; }
+
+  .w-full { width: 100%; }
+
+  .toast-premium { position: fixed; top: 24px; right: 24px; left: 24px; padding: 14px 24px; border-radius: 14px; background: var(--color-surface-bright); color: white; font-weight: 700; font-size: 14px; transform: translateY(-100px); opacity: 0; transition: all 0.4s; z-index: 2000; text-align: center; }
+  .toast-premium.show { transform: translateY(0); opacity: 1; }
+  .toast-premium.error { border-left: 4px solid var(--color-danger); }
+
+  @media (min-width: 768px) {
+    .toast-premium { width: auto; left: auto; right: 24px; min-width: 300px; text-align: left; }
+  }
+</style>

@@ -1,0 +1,219 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Masuk — SovraEquitara">
+  <div class="auth-viewport">
+    <div class="auth-container animate-up">
+      <header class="auth-header">
+        <div class="logo-pill">
+          <img src="/logo.svg" alt="SovraEquitara" />
+        </div>
+        <h1>Selamat Datang</h1>
+        <p>Silakan masuk untuk melanjutkan kontribusi Anda.</p>
+      </header>
+
+      <div class="auth-card glass">
+        <form id="form-login" class="auth-form">
+          <div class="field-group">
+            <label for="email">Email</label>
+            <div class="input-glow">
+              <input type="email" id="email" placeholder="nama@email.com" required />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="label-row">
+              <label for="password">Kata Sandi</label>
+              <a href="/forgot-password" class="forgot-link">Lupa?</a>
+            </div>
+            <div class="input-glow">
+              <input type="password" id="password" placeholder="••••••••" required />
+            </div>
+          </div>
+
+          <button type="submit" id="btn-login" class="btn btn-primary w-full">
+            Masuk Sekarang
+          </button>
+        </form>
+
+        <div class="auth-divider">
+          <span>atau</span>
+        </div>
+
+        <div class="auth-footer">
+          <p>Belum punya akun? <a href="/register">Daftar Warga</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast-premium"></div>
+  </div>
+</Layout>
+
+<script>
+  const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+  
+  if (localStorage.getItem('access_token')) {
+    window.location.href = '/dashboard';
+  }
+
+  const form = document.getElementById('form-login');
+  const btn = document.getElementById('btn-login');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+
+    if (btn) {
+      btn.textContent = 'Memproses...';
+      (btn as HTMLButtonElement).disabled = true;
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Login gagal');
+
+      localStorage.setItem('access_token', data.access_token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      showToast('Login berhasil! Mengalihkan...');
+      setTimeout(() => {
+        window.location.href = (data.user.role === 'admin' || data.user.role === 'ADMIN') 
+          ? '/admin/dashboard' 
+          : '/dashboard';
+      }, 1000);
+
+    } catch (err: any) {
+      showToast(err.message, 'error');
+      if (btn) {
+        btn.textContent = 'Masuk Sekarang';
+        (btn as HTMLButtonElement).disabled = false;
+      }
+    }
+  });
+
+  function showToast(msg: string, type = 'success') {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.className = `toast-premium show ${type}`;
+    setTimeout(() => toast.className = 'toast-premium', 3000);
+  }
+</script>
+
+<style>
+  .auth-viewport {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl);
+    background: radial-gradient(circle at top left, rgba(14, 165, 233, 0.15), transparent),
+                radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.15), transparent);
+  }
+
+  .auth-container {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .auth-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .logo-pill {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--color-brand), var(--color-brand-alt));
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
+  }
+  .logo-pill img { width: 28px; filter: brightness(0) invert(1); }
+
+  .auth-header h1 { font-size: 32px; margin-bottom: 8px; }
+  .auth-header p { font-size: 15px; color: var(--color-text-muted); font-weight: 500; }
+
+  .auth-card {
+    padding: var(--space-2xl);
+    border-radius: var(--radius-lg);
+  }
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .field-group { display: flex; flex-direction: column; gap: 8px; }
+  .label-row { display: flex; justify-content: space-between; align-items: center; }
+  .field-group label { font-size: 13px; font-weight: 700; color: var(--color-text-muted); }
+  .forgot-link { font-size: 12px; font-weight: 700; color: var(--color-brand); }
+
+  .input-glow { position: relative; }
+  .input-glow input {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: white;
+    font-family: inherit;
+    font-size: 15px;
+    transition: all 0.3s;
+  }
+  .input-glow input:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    background: rgba(0,0,0,0.4);
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+  }
+
+  .auth-divider {
+    text-align: center;
+    position: relative;
+    margin: var(--space-xl) 0;
+  }
+  .auth-divider::before {
+    content: ""; position: absolute; top: 50%; left: 0; right: 0;
+    height: 1px; background: var(--color-border); z-index: 1;
+  }
+  .auth-divider span {
+    position: relative; z-index: 2;
+    background: #0f172a; /* Should match card color approx */
+    padding: 0 12px;
+    font-size: 12px; font-weight: 800; color: var(--color-text-muted);
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  .auth-footer { text-align: center; }
+  .auth-footer p { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+  .auth-footer a { color: var(--color-brand); font-weight: 800; }
+
+  .w-full { width: 100%; }
+
+  .toast-premium {
+    position: fixed; top: 24px; right: 24px; left: 24px;
+    padding: 14px 24px; border-radius: 14px;
+    background: var(--color-surface-bright);
+    color: white; font-weight: 700; font-size: 14px;
+    transform: translateY(-100px); opacity: 0; transition: all 0.4s;
+    z-index: 1000; text-align: center;
+  }
+  .toast-premium.show { transform: translateY(0); opacity: 1; }
+  .toast-premium.error { border-left: 4px solid var(--color-danger); }
+
+  @media (min-width: 768px) {
+    .toast-premium { width: auto; left: auto; right: 24px; min-width: 300px; text-align: left; }
+  }
+</style>
