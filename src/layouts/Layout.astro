@@ -5,8 +5,8 @@ interface Props {
 }
 
 const {
-  title = "SovraEquitara — AI-Powered Equity Analytics",
-  description = "Next-generation AI classification and instant reporting for equitable intelligence. Precision analytics powered by deep learning."
+  title = "SovraEquitara — Platform Pelaporan Infrastruktur",
+  description = "Platform civic tech untuk melaporkan kerusakan infrastruktur dengan sistem gamifikasi dan kecerdasan buatan."
 } = Astro.props;
 ---
 
@@ -16,7 +16,7 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#020617" />
+    <meta name="theme-color" content="#f1f5f9" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
@@ -25,8 +25,7 @@ const {
   <body>
     <!-- Ambient background effects -->
     <div class="ambient-bg" aria-hidden="true">
-      <div class="ambient-orb ambient-orb--mint"></div>
-      <div class="ambient-orb ambient-orb--sky"></div>
+      <div class="ambient-orb ambient-orb--brand"></div>
       <div class="ambient-orb ambient-orb--violet"></div>
     </div>
 
@@ -41,12 +40,13 @@ const {
 <style>
   body {
     position: relative;
+    background: #020617;
   }
 
   .ambient-bg {
     position: fixed;
     inset: 0;
-    z-index: 0;
+    z-index: -1;
     pointer-events: none;
     overflow: hidden;
   }
@@ -54,51 +54,31 @@ const {
   .ambient-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px);
+    filter: blur(140px);
     opacity: 0.15;
-    animation: float 12s ease-in-out infinite;
+    animation: float 20s ease-in-out infinite;
   }
 
-  .ambient-orb--mint {
-    width: 300px;
-    height: 300px;
-    background: var(--color-accent-mint);
-    bottom: -80px;
-    left: -60px;
-    animation-delay: 0s;
-  }
-
-  .ambient-orb--sky {
-    width: 250px;
-    height: 250px;
-    background: var(--color-accent-sky);
-    top: 60px;
-    right: -40px;
-    animation-delay: -4s;
+  .ambient-orb--brand {
+    width: 500px;
+    height: 500px;
+    background: var(--color-brand);
+    top: -100px;
+    right: -100px;
   }
 
   .ambient-orb--violet {
-    width: 200px;
-    height: 200px;
-    background: var(--color-accent-violet);
-    top: 40%;
-    left: 20%;
-    animation-delay: -8s;
+    width: 400px;
+    height: 400px;
+    background: var(--color-brand-alt);
+    bottom: -50px;
+    left: -50px;
+    animation-delay: -10s;
   }
 
-  /* Float animation for orbs */
   @keyframes float {
-    0%, 100% {
-      transform: translateY(0px) translateX(0px);
-    }
-    25% {
-      transform: translateY(-20px) translateX(10px);
-    }
-    50% {
-      transform: translateY(-8px) translateX(-8px);
-    }
-    75% {
-      transform: translateY(-24px) translateX(6px);
-    }
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(30px, -20px); }
+    66% { transform: translate(-20px, 40px); }
   }
 </style>
