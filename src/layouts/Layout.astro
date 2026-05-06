@@ -16,7 +16,7 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f1f5f9" />
+    <meta name="theme-color" content="#F4F1EA" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
@@ -26,7 +26,7 @@ const {
     <!-- Ambient background effects -->
     <div class="ambient-bg" aria-hidden="true">
       <div class="ambient-orb ambient-orb--brand"></div>
-      <div class="ambient-orb ambient-orb--violet"></div>
+      <div class="ambient-orb ambient-orb--secondary"></div>
     </div>
 
     <slot />
@@ -40,7 +40,7 @@ const {
 <style>
   body {
     position: relative;
-    background: #020617;
+    background: var(--color-bg);
   }
 
   .ambient-bg {
@@ -55,7 +55,7 @@ const {
     position: absolute;
     border-radius: 50%;
     filter: blur(140px);
-    opacity: 0.15;
+    opacity: 0.4;
     animation: float 20s ease-in-out infinite;
   }
 
@@ -67,10 +67,10 @@ const {
     right: -100px;
   }
 
-  .ambient-orb--violet {
+  .ambient-orb--secondary {
     width: 400px;
     height: 400px;
-    background: var(--color-brand-alt);
+    background: var(--color-text-muted);
     bottom: -50px;
     left: -50px;
     animation-delay: -10s;
