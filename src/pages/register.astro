@@ -7,7 +7,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="auth-container animate-up">
       <header class="auth-header">
         <div class="logo-pill">
-          <img src="/logo.svg" alt="SovraEquitara" />
+          <img src="/logo.svg" alt="Sovra" />
         </div>
         <h1 id="header-title">Buat Akun Warga</h1>
         <p id="header-desc">Daftarkan diri Anda untuk mulai berkontribusi.</p>
@@ -19,21 +19,21 @@ import Layout from '../layouts/Layout.astro';
           <form id="form-register" class="auth-form">
             <div class="field-group">
               <label for="name">Nama Lengkap</label>
-              <div class="input-glow">
+              <div class="input-wrapper">
                 <input type="text" id="name" placeholder="Nama Lengkap Anda" required />
               </div>
             </div>
 
             <div class="field-group">
-              <label for="email">Email</label>
-              <div class="input-glow">
+              <label for="email">Alamat Email</label>
+              <div class="input-wrapper">
                 <input type="email" id="email" placeholder="nama@email.com" required />
               </div>
             </div>
 
             <div class="field-group">
               <label for="password">Kata Sandi</label>
-              <div class="input-glow">
+              <div class="input-wrapper">
                 <input type="password" id="password" placeholder="Minimal 6 karakter" minlength="6" required />
               </div>
             </div>
@@ -60,7 +60,7 @@ import Layout from '../layouts/Layout.astro';
           <form id="form-otp" class="auth-form">
             <div class="field-group">
               <label for="otp-code">Masukkan Kode OTP</label>
-              <div class="input-glow">
+              <div class="input-wrapper">
                 <input type="text" id="otp-code" placeholder="000000" maxlength="6" inputmode="numeric" required class="otp-input" />
               </div>
             </div>
@@ -77,126 +77,126 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
 
-    <div id="toast" class="toast-premium"></div>
+    <div id="toast" class="toast-bento"></div>
   </div>
-</Layout>
 
-<script>
-  const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
-  
-  if (localStorage.getItem('access_token')) {
-    window.location.href = '/dashboard';
-  }
+  <script>
+    const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+    
+    if (localStorage.getItem('access_token')) {
+      window.location.href = '/dashboard';
+    }
 
-  const stepRegister = document.getElementById('step-register')!;
-  const stepOtp = document.getElementById('step-otp')!;
-  const headerTitle = document.getElementById('header-title')!;
-  const headerDesc = document.getElementById('header-desc')!;
-  
-  const formRegister = document.getElementById('form-register')!;
-  const formOtp = document.getElementById('form-otp')!;
-  
-  const otpInput = document.getElementById('otp-code') as HTMLInputElement;
-  const displayEmail = document.getElementById('display-email')!;
-  
-  let registeredEmail = '';
+    const stepRegister = document.getElementById('step-register')!;
+    const stepOtp = document.getElementById('step-otp')!;
+    const headerTitle = document.getElementById('header-title')!;
+    const headerDesc = document.getElementById('header-desc')!;
+    
+    const formRegister = document.getElementById('form-register')!;
+    const formOtp = document.getElementById('form-otp')!;
+    
+    const otpInput = document.getElementById('otp-code') as HTMLInputElement;
+    const displayEmail = document.getElementById('display-email')!;
+    
+    let registeredEmail = '';
 
-  // Step 1 Submit
-  formRegister.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = (document.getElementById('name') as HTMLInputElement).value;
-    const email = (document.getElementById('email') as HTMLInputElement).value;
-    const password = (document.getElementById('password') as HTMLInputElement).value;
-    const btn = document.getElementById('btn-register') as HTMLButtonElement;
+    // Step 1 Submit
+    formRegister.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('name') as HTMLInputElement).value;
+      const email = (document.getElementById('email') as HTMLInputElement).value;
+      const password = (document.getElementById('password') as HTMLInputElement).value;
+      const btn = document.getElementById('btn-register') as HTMLButtonElement;
 
-    btn.disabled = true;
-    btn.textContent = 'Mendaftarkan...';
+      btn.disabled = true;
+      btn.textContent = 'Mendaftarkan...';
 
-    try {
-      const res = await fetch(`${API_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-      });
+      try {
+        const res = await fetch(`${API_URL}/api/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Pendaftaran gagal');
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Pendaftaran gagal');
 
-      registeredEmail = email;
-      displayEmail.textContent = registeredEmail;
-      
-      // UI Transition
-      stepRegister.classList.remove('active');
+        registeredEmail = email;
+        displayEmail.textContent = registeredEmail;
+        
+        // UI Transition
+        stepRegister.classList.remove('active');
+        setTimeout(() => {
+          stepOtp.classList.add('active');
+          headerTitle.textContent = 'Verifikasi Akun';
+          headerDesc.textContent = 'Buka email Anda untuk mendapatkan kode OTP.';
+          showToast('OTP telah dikirim!');
+        }, 300);
+
+      } catch (err: any) {
+        showToast(err.message, 'error');
+        btn.disabled = false;
+        btn.textContent = 'Lanjutkan Verifikasi';
+      }
+    });
+
+    // Step 2 Submit
+    formOtp.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const token = otpInput.value;
+      const btn = document.getElementById('btn-verify') as HTMLButtonElement;
+
+      btn.disabled = true;
+      btn.textContent = 'Memverifikasi...';
+
+      try {
+        const res = await fetch(`${API_URL}/api/auth/verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: registeredEmail, token })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'OTP salah atau kadaluarsa');
+
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        showToast('Verifikasi Berhasil!');
+        setTimeout(() => window.location.href = '/dashboard', 1000);
+
+      } catch (err: any) {
+        showToast(err.message, 'error');
+        btn.disabled = false;
+        btn.textContent = 'Verifikasi & Masuk';
+        otpInput.value = '';
+      }
+    });
+
+    // Back Logic
+    document.getElementById('btn-back')?.addEventListener('click', () => {
+      stepOtp.classList.remove('active');
       setTimeout(() => {
-        stepOtp.classList.add('active');
-        headerTitle.textContent = 'Verifikasi Akun';
-        headerDesc.textContent = 'Buka email Anda untuk mendapatkan kode OTP.';
-        showToast('OTP telah dikirim!');
+        stepRegister.classList.add('active');
+        headerTitle.textContent = 'Buat Akun Warga';
+        headerDesc.textContent = 'Daftarkan diri Anda untuk mulai berkontribusi.';
       }, 300);
+    });
 
-    } catch (err: any) {
-      showToast(err.message, 'error');
-      btn.disabled = false;
-      btn.textContent = 'Lanjutkan Verifikasi';
+    // Formatting
+    otpInput.addEventListener('input', () => {
+      otpInput.value = otpInput.value.replace(/\D/g, '').slice(0, 6);
+    });
+
+    function showToast(msg: string, type = 'success') {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.className = `toast-bento show ${type}`;
+      setTimeout(() => toast.className = 'toast-bento', 3000);
     }
-  });
-
-  // Step 2 Submit
-  formOtp.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const token = otpInput.value;
-    const btn = document.getElementById('btn-verify') as HTMLButtonElement;
-
-    btn.disabled = true;
-    btn.textContent = 'Memverifikasi...';
-
-    try {
-      const res = await fetch(`${API_URL}/api/auth/verify`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: registeredEmail, token })
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'OTP salah atau kadaluarsa');
-
-      localStorage.setItem('access_token', data.access_token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      
-      showToast('Verifikasi Berhasil!');
-      setTimeout(() => window.location.href = '/dashboard', 1000);
-
-    } catch (err: any) {
-      showToast(err.message, 'error');
-      btn.disabled = false;
-      btn.textContent = 'Verifikasi & Masuk';
-      otpInput.value = '';
-    }
-  });
-
-  // Back Logic
-  document.getElementById('btn-back')?.addEventListener('click', () => {
-    stepOtp.classList.remove('active');
-    setTimeout(() => {
-      stepRegister.classList.add('active');
-      headerTitle.textContent = 'Buat Akun Warga';
-      headerDesc.textContent = 'Daftarkan diri Anda untuk mulai berkontribusi.';
-    }, 300);
-  });
-
-  // Formatting
-  otpInput.addEventListener('input', () => {
-    otpInput.value = otpInput.value.replace(/\D/g, '').slice(0, 6);
-  });
-
-  function showToast(msg: string, type = 'success') {
-    const toast = document.getElementById('toast');
-    if (!toast) return;
-    toast.textContent = msg;
-    toast.className = `toast-premium show ${type}`;
-    setTimeout(() => toast.className = 'toast-premium', 3000);
-  }
-</script>
+  </script>
+</Layout>
 
 <style>
   .auth-viewport {
@@ -205,61 +205,70 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     justify-content: center;
     padding: var(--space-xl);
-    background: radial-gradient(circle at top right, rgba(44, 62, 80, 0.05), transparent),
-                radial-gradient(circle at bottom left, rgba(168, 159, 145, 0.05), transparent);
+    background: var(--color-bg);
   }
 
-  .auth-container { width: 100%; max-width: 420px; }
+  .auth-container { width: 100%; max-width: 440px; }
 
   .auth-header { text-align: center; margin-bottom: var(--space-2xl); }
   .logo-pill {
-    width: 56px; height: 56px;
-    background: linear-gradient(135deg, var(--color-brand), var(--color-brand-alt));
-    border-radius: 18px; display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 20px; box-shadow: 0 15px 30px rgba(44, 62, 80, 0.3);
+    width: 80px; height: 80px;
+    background: var(--color-brand);
+    border-radius: 24px; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px; box-shadow: 0 15px 35px rgba(26, 26, 26, 0.1);
   }
-  .logo-pill img { width: 32px; filter: brightness(0) invert(1); } /* Enlarge logo */
-  .auth-header h1 { font-size: 28px; margin-bottom: 8px; color: var(--color-text-title); transition: all 0.3s; }
-  .auth-header p { font-size: 14px; color: var(--color-text-muted); font-weight: 500; transition: all 0.3s; }
+  .logo-pill img { width: 48px; filter: brightness(0) invert(1); }
 
-  .auth-card { padding: var(--space-2xl); border-radius: var(--radius-lg); overflow: hidden; position: relative; min-height: 400px; }
+  .auth-header h1 { font-size: 32px; font-weight: 800; color: var(--color-text-title); margin-bottom: 8px; transition: all 0.3s; }
+  .auth-header p { font-size: 15px; color: var(--color-text-muted); font-weight: 500; transition: all 0.3s; }
+
+  .auth-card { padding: var(--space-2xl); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-premium); overflow: hidden; position: relative; min-height: 400px; }
 
   .step-view {
-    display: none; opacity: 0; transform: translateX(20px); transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    display: none; opacity: 0; transform: translateX(20px); transition: all 0.4s var(--transition-smooth);
   }
   .step-view.active { display: flex; flex-direction: column; opacity: 1; transform: translateX(0); }
 
-  .auth-form { display: flex; flex-direction: column; gap: var(--space-lg); }
+  .auth-form { display: flex; flex-direction: column; gap: var(--space-xl); }
   .field-group { display: flex; flex-direction: column; gap: 8px; }
-  .field-group label { font-size: 13px; font-weight: 700; color: var(--color-text-title); }
+  .field-group label { font-size: 13px; font-weight: 800; color: var(--color-text-title); }
 
-  .input-glow input {
-    width: 100%; background: rgba(44, 62, 80, 0.05); border: 1px solid rgba(44, 62, 80, 0.1);
-    border-radius: 12px; padding: 14px 18px; color: var(--color-text-title); font-family: inherit; font-size: 15px;
-    transition: all 0.3s;
+  .input-wrapper input {
+    width: 100%; background: var(--color-bg); border: 1px solid var(--color-border);
+    border-radius: 16px; padding: 16px 20px; color: var(--color-text-title); font-family: inherit; font-size: 15px;
+    transition: all 0.3s var(--transition-smooth);
   }
-  .input-glow input:focus { outline: none; border-color: var(--color-brand); background: rgba(44, 62, 80, 0.08); box-shadow: 0 0 0 4px rgba(44, 62, 80, 0.1); }
+  .input-wrapper input:focus { outline: none; border-color: var(--color-brand); box-shadow: 0 0 0 4px rgba(26, 26, 26, 0.05); }
 
-  .otp-input { text-align: center; font-size: 24px !important; letter-spacing: 0.5em; font-weight: 800; }
-  .otp-instruction { text-align: center; margin-bottom: var(--space-xl); }
+  .otp-input { text-align: center; font-size: 24px !important; letter-spacing: 0.5em; font-weight: 900; }
+  .otp-instruction { text-align: center; margin-bottom: var(--space-2xl); }
   .otp-instruction p { font-size: 14px; color: var(--color-text-muted); }
-  .otp-instruction strong { font-size: 15px; color: var(--color-brand); display: block; margin-top: 4px; }
+  .otp-instruction strong { font-size: 16px; color: var(--color-brand); display: block; margin-top: 4px; }
 
-  .auth-divider { text-align: center; position: relative; margin: var(--space-xl) 0; }
+  .auth-divider { text-align: center; position: relative; margin: var(--space-2xl) 0; }
   .auth-divider::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--color-border); z-index: 1; }
-  .auth-divider span { position: relative; z-index: 2; background: var(--color-bg); padding: 0 12px; font-size: 11px; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; }
+  .auth-divider span { position: relative; z-index: 2; background: var(--color-surface); padding: 0 16px; font-size: 11px; font-weight: 900; color: var(--color-text-muted); text-transform: uppercase; }
 
   .auth-footer { text-align: center; }
   .auth-footer p { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-  .auth-footer a { color: var(--color-brand); font-weight: 800; }
+  .auth-footer a { color: var(--color-brand); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--color-accent); }
 
   .w-full { width: 100%; }
 
-  .toast-premium { position: fixed; top: 24px; right: 24px; left: 24px; padding: 14px 24px; border-radius: 14px; background: var(--color-surface-bright); color: white; font-weight: 700; font-size: 14px; transform: translateY(-100px); opacity: 0; transition: all 0.4s; z-index: 2000; text-align: center; }
-  .toast-premium.show { transform: translateY(0); opacity: 1; }
-  .toast-premium.error { border-left: 4px solid var(--color-danger); }
+  /* Toast Notification */
+  .toast-bento {
+    position: fixed; top: 32px; right: 32px; padding: 16px 32px; border-radius: 20px;
+    background: var(--color-brand); color: #fff; font-weight: 700; font-size: 15px;
+    transform: translateX(120%); opacity: 0; transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1000; box-shadow: 0 15px 35px rgba(26, 26, 26, 0.2);
+  }
+  .toast-bento.show { transform: translateX(0); opacity: 1; }
+  .toast-bento.error { background: var(--color-danger); }
 
-  @media (min-width: 768px) {
-    .toast-premium { width: auto; left: auto; right: 24px; min-width: 300px; text-align: left; }
+  @media (max-width: 768px) {
+    .auth-viewport { padding: var(--space-lg); }
+    .auth-card { padding: var(--space-xl); }
+    .toast-bento { left: 24px; right: 24px; top: 24px; transform: translateY(-150%); text-align: center; }
+    .toast-bento.show { transform: translateY(0); }
   }
 </style>
