@@ -86,7 +86,8 @@ import Layout from '../layouts/Layout.astro';
         
         showToast('Login berhasil! Mengalihkan...');
         setTimeout(() => {
-          window.location.href = (data.user.role === 'admin' || data.user.role === 'ADMIN') 
+          const role = (data.user.role || '').toUpperCase();
+          window.location.href = (role === 'ADMIN') 
             ? '/admin/dashboard' 
             : '/dashboard';
         }, 1000);
@@ -131,14 +132,11 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .logo-pill {
-    width: 80px; height: 80px;
-    background: var(--color-brand);
-    border-radius: 24px;
+    width: 120px; height: auto;
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 24px;
-    box-shadow: 0 15px 35px rgba(26, 26, 26, 0.1);
+    margin: 0 auto 32px;
   }
-  .logo-pill img { width: 48px; filter: brightness(0) invert(1); }
+  .logo-pill img { width: 100%; height: auto; object-fit: contain; }
 
   .auth-header h1 { font-size: 32px; font-weight: 800; color: var(--color-text-title); margin-bottom: 8px; }
   .auth-header p { font-size: 15px; color: var(--color-text-muted); font-weight: 500; }
@@ -163,19 +161,20 @@ import Layout from '../layouts/Layout.astro';
 
   .input-wrapper input {
     width: 100%;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
+    background: #F9FAFB;
+    border: 1.5px solid var(--color-border);
     border-radius: 16px;
     padding: 16px 20px;
     color: var(--color-text-title);
     font-family: inherit;
     font-size: 15px;
-    transition: all 0.3s var(--transition-smooth);
+    transition: all 0.2s;
   }
   .input-wrapper input:focus {
     outline: none;
-    border-color: var(--color-brand);
-    box-shadow: 0 0 0 4px rgba(26, 26, 26, 0.05);
+    border-color: var(--color-accent);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(253, 224, 71, 0.1);
   }
 
   .auth-divider {
