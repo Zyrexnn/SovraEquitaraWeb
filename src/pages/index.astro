@@ -223,32 +223,60 @@ import Layout from '../layouts/Layout.astro';
   </script>
 </Layout>
 
-<style>
+<style is:global>
   :root {
     --container-max: 1200px;
   }
   
   .saas-landing { background: var(--color-bg); min-height: 100vh; font-family: var(--font-sans); }
   .container { max-width: var(--container-max); margin: 0 auto; padding: 0 24px; }
+  .saas-landing * { box-sizing: border-box; }
 
   /* Navbar */
   .saas-nav { 
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 100px; 
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 80px; 
     display: flex; align-items: center; transition: all 0.3s;
   }
-  .nav-blur { position: absolute; inset: 0; backdrop-filter: blur(20px); mask-image: linear-gradient(to bottom, black 50%, transparent); }
+  .nav-blur { 
+    position: absolute; inset: 0; 
+    background: rgba(245, 242, 237, 0.9);
+    backdrop-filter: blur(20px); 
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+  }
   .nav-content { position: relative; width: 100%; max-width: var(--container-max); margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
   .logo-area { display: flex; align-items: center; }
-  .nav-logo { height: 72px; width: auto; object-fit: contain; }
+  .nav-logo { height: 44px; width: auto; object-fit: contain; }
   
   .nav-links { display: flex; gap: 32px; }
-  .nav-links a { text-decoration: none; color: var(--color-text-title); font-size: 14px; font-weight: 600; opacity: 0.7; transition: 0.3s; }
+  .nav-links a { text-decoration: none; color: var(--color-text-title) !important; font-size: 14px; font-weight: 600; opacity: 0.6; transition: 0.2s; }
   .nav-links a:hover { opacity: 1; }
   
-  .nav-cta { display: flex; align-items: center; gap: 20px; }
-  .link-login { text-decoration: none; color: var(--color-text-title); font-size: 14px; font-weight: 700; }
-  .btn-mulai { background: var(--color-brand); color: white; padding: 12px 28px; border-radius: 12px; text-decoration: none; font-size: 14px; font-weight: 700; transition: 0.3s; }
-  .btn-mulai:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+  .nav-cta { display: flex; align-items: center; gap: 24px; }
+  .link-login { text-decoration: none; color: var(--color-text-title) !important; font-size: 14px; font-weight: 700; opacity: 0.7; transition: 0.2s; }
+  .link-login:hover { opacity: 1; }
+  
+  .btn-mulai { 
+    background: var(--color-brand) !important; 
+    color: white !important; 
+    padding: 12px 24px; 
+    border-radius: 12px; 
+    text-decoration: none !important; 
+    font-size: 14px; 
+    font-weight: 700; 
+    transition: 0.3s; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(26, 26, 26, 0.15);
+    border: none;
+    cursor: pointer;
+  }
+  .btn-mulai:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 20px rgba(26, 26, 26, 0.2); 
+    background: #000 !important;
+  }
 
   /* Hero */
   .hero-section { padding: 180px 0 100px; text-align: center; position: relative; overflow: hidden; }
