@@ -1,128 +1,294 @@
----
+  ---
 import Layout from '../../layouts/Layout.astro';
-import '../../styles/dashboard-shared.css';
 ---
 
-<Layout title="Admin Command — SovraEquitara">
-  <div class="app-container">
+<Layout title="Admin Panel — SovraEquitara">
+  <div class="saas-layout">
     <!-- Desktop Sidebar -->
-    <aside class="desktop-sidebar">
-      <div class="sidebar-brand">
-        <img src="/logo.svg" alt="Sovra" class="brand-img" />
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <img src="/logo.svg" alt="SovraAdmin" style="height: 48px; width: auto;" />
+        </div>
       </div>
-      <nav class="sidebar-nav-v2">
-        <a href="/admin/dashboard" class="side-item active">
-          <svg viewBox="0 0 24 24" class="s-icon"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-          <span>Antrean Laporan</span>
+      
+      <nav class="nav-menu">
+        <div class="nav-section">PANEL KONTROL</div>
+        <a href="/admin/dashboard" class="nav-item active">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+          Antrean Laporan
         </a>
-        <a href="/admin/users" class="side-item">
-          <svg viewBox="0 0 24 24" class="s-icon"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-          <span>Kelola Pengguna</span>
+        <a href="/profile" class="nav-item">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Profil Admin
         </a>
       </nav>
-      <div class="sidebar-bottom">
-        <button id="btn-logout-desktop" class="side-item logout">
-          <svg viewBox="0 0 24 24" class="s-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
-          <span>Keluar</span>
+
+      <div class="sidebar-footer">
+        <button id="btn-logout-desktop" class="btn-logout">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          Keluar (Admin)
         </button>
       </div>
     </aside>
 
-    <!-- Mobile Bottom Nav -->
-    <nav class="mobile-nav">
-      <a href="/admin/dashboard" class="mob-item active">
-        <svg viewBox="0 0 24 24" class="m-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-      </a>
-      <a href="/admin/users" class="mob-item">
-        <svg viewBox="0 0 24 24" class="m-icon"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
-      </a>
-      <button id="btn-logout-mobile" class="mob-item">
-        <svg viewBox="0 0 24 24" class="m-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
-      </button>
-    </nav>
+    <!-- Mobile Top Bar -->
+    <header class="mobile-header">
+      <div class="logo">
+        <img src="/logo.svg" alt="SovraAdmin" style="height: 32px; width: auto;" />
+      </div>
+      <div class="admin-badge">Admin Mode</div>
+    </header>
 
-    <!-- Main Viewport -->
+    <!-- Main Content -->
     <main class="main-content scroll-slim">
-      <header class="app-header">
-        <div class="header-left">
-          <div class="mobile-logo-only">
-            <img src="/logo.svg" alt="Sovra" />
-          </div>
-          <div class="desktop-breadcrumb">
-            <span class="crumb">Panel Admin</span> / <span class="crumb active">Verifikasi Laporan</span>
-          </div>
-        </div>
-        <div class="header-right">
-          <div class="admin-badge">Admin Mode</div>
-        </div>
-      </header>
-
-      <div class="content-inner fade-in">
-        <section class="admin-hero">
-          <div class="hero-text">
-            <h1>Antrean Verifikasi</h1>
-            <p>Kelola dan validasi laporan warga secara real-time.</p>
-          </div>
-          <div class="hero-stats-grid">
-            <div class="mini-stat-card">
-              <span class="ms-lbl">Menunggu</span>
-              <span class="ms-val text-pending" id="stat-pending">0</span>
+      <div class="content-wrapper">
+        
+        <!-- Welcome Section -->
+        <section class="welcome-section fade-in">
+          <div class="hero-flex">
+            <div>
+              <h1 id="greeting">Antrean Verifikasi</h1>
+              <p class="subtitle">Kelola dan validasi laporan warga secara real-time.</p>
             </div>
-            <div class="mini-stat-card">
-              <span class="ms-lbl">Selesai</span>
-              <span class="ms-val text-success" id="stat-resolved">0</span>
+            <div class="stats-mini">
+              <div class="s-box">
+                <span class="s-lbl">Menunggu</span>
+                <span class="s-val text-danger" id="stat-pending">0</span>
+              </div>
+              <div class="s-box">
+                <span class="s-lbl">Selesai</span>
+                <span class="s-val text-success" id="stat-resolved">0</span>
+              </div>
             </div>
           </div>
         </section>
 
-        <!-- Search and Filter -->
-        <div class="admin-actions-row">
-          <div class="search-box-v2">
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <!-- Actions Row -->
+        <div class="actions-row fade-in" style="animation-delay: 0.1s;">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             <input type="text" id="admin-search" placeholder="Cari berdasarkan lokasi atau masalah..." />
+          </div>
+          <div class="filters-group">
+            <select id="category-filter" class="select-minimal">
+              <option value="">Semua Kategori</option>
+            </select>
+            <select id="sort-select" class="select-minimal">
+              <option value="recent">Waktu (Terbaru)</option>
+              <option value="votes">Populer (Votes)</option>
+              <option value="comments">Diskusi (Komentar)</option>
+            </select>
           </div>
         </div>
 
-        <!-- Responsive List / Table -->
-        <div class="card-zen list-wrapper-v2">
-          <div class="table-header-v2">
-            <div class="th-col">Laporan</div>
-            <div class="th-col d-hide">Lokasi</div>
-            <div class="th-col d-hide">Status</div>
-            <div class="th-col t-right">Tindakan</div>
+        <!-- Table View -->
+        <div class="table-card fade-in" style="animation-delay: 0.2s;">
+          <div class="table-header">
+            <div class="col-main">Laporan & Bukti</div>
+            <div class="col-cat desktop-only">Kategori</div>
+            <div class="col-stats desktop-only">Interaksi</div>
+            <div class="col-actions">Tindakan</div>
           </div>
-          <div id="admin-reports-list">
-            <div class="loading-state">Mengambil data laporan...</div>
+          
+          <div class="table-body scroll-slim" id="admin-reports-list">
+            <div class="feed-loading">
+              <div class="spinner"></div>
+              <p>Mengambil data...</p>
+            </div>
           </div>
         </div>
+
       </div>
     </main>
 
-    <div id="toast" class="saas-toast"></div>
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-nav">
+      <a href="/admin/dashboard" class="m-nav-item active">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+      </a>
+      <a href="/profile" class="m-nav-item">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </a>
+      <button id="btn-logout-mobile2" class="m-nav-item text-danger">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
+      </button>
+    </nav>
+
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="modal-overlay hidden">
+      <div class="modal-content large-modal">
+        <div class="modal-header">
+          <h3>Detail Laporan</h3>
+          <button id="close-detail" class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body scroll-slim" style="padding: 0;">
+          <div class="detail-layout">
+            <div class="detail-info">
+              <div id="detail-img-container" class="detail-img-box hidden">
+                <img id="detail-img" src="" alt="Bukti Foto" />
+              </div>
+              <div class="detail-text">
+                <div class="d-meta">
+                  <span id="detail-cat" class="badge-cat"></span>
+                  <span id="detail-status" class="badge-status"></span>
+                  <span id="detail-date" class="text-date" style="margin-left:auto;"></span>
+                </div>
+                <h2 id="detail-desc"></h2>
+                <div class="d-location">📍 <span id="detail-loc"></span></div>
+                
+                <div class="d-stats mt-4">
+                  <div class="stat-pill">🔥 <span id="detail-votes">0</span> Dukungan</div>
+                  <div class="stat-pill">💬 <span id="detail-comment-count">0</span> Diskusi</div>
+                </div>
+
+                <div class="admin-actions mt-4" id="detail-admin-actions">
+                  <!-- Injected based on status -->
+                </div>
+              </div>
+            </div>
+            
+            <div class="detail-comments">
+              <h4>Diskusi</h4>
+              <div id="comments-list" class="comments-container scroll-slim">
+                <!-- Comments -->
+              </div>
+              <div class="comment-input-wrapper">
+                <form id="form-comment" class="comment-input-group">
+                  <input type="text" id="comment-input" placeholder="Balas sebagai Admin..." required autocomplete="off" />
+                  <button type="submit" class="btn-send">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="modal-overlay hidden">
+      <div class="lightbox-wrapper">
+        <button id="lightbox-close" class="btn-close-modal">&times;</button>
+        <img id="lightbox-img" src="" alt="Full view" />
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-notification hidden">
+      <span id="toast-icon">✓</span>
+      <span id="toast-msg">Berhasil!</span>
+    </div>
   </div>
 
-  <script>
-    const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+  <!-- JavaScript Logic -->
+  <script is:inline>
+    const API_URL = 'http://localhost:3000';
+    
+    // Auth Check
     const token = localStorage.getItem('access_token');
     const userRaw = localStorage.getItem('user');
 
-    if (!token) window.location.href = '/login';
-    const user = userRaw ? JSON.parse(userRaw) : {};
-    const role = (user.role || '').toUpperCase();
-    if (role !== 'ADMIN') window.location.href = '/dashboard';
+    if (!token || !userRaw) {
+      window.location.href = '/login';
+    } else {
+      const user = JSON.parse(userRaw);
+      if ((user.role || '').toUpperCase() !== 'ADMIN') {
+        window.location.href = '/dashboard';
+      } else {
+        document.addEventListener('DOMContentLoaded', initAdminDashboard);
+      }
+    }
 
     let allReports = [];
+    let categories = [];
+    let currentSearch = '';
+    let currentCategory = '';
+    let activeReportId = null;
 
-    async function fetchReports() {
+    function initAdminDashboard() {
+      loadCategories().then(() => fetchReports('recent'));
+
+      document.getElementById('admin-search').addEventListener('input', (e) => {
+        currentSearch = e.target.value.toLowerCase();
+        applyFilters();
+      });
+
+      document.getElementById('category-filter').addEventListener('change', (e) => {
+        currentCategory = e.target.value;
+        applyFilters();
+      });
+
+      document.getElementById('sort-select').addEventListener('change', (e) => {
+        fetchReports(e.target.value);
+      });
+
+      document.getElementById('lightbox-close').addEventListener('click', () => {
+        document.getElementById('lightbox').classList.add('hidden');
+      });
+
+      document.getElementById('close-detail').addEventListener('click', () => {
+        document.getElementById('detail-modal').classList.add('hidden');
+      });
+
+      document.getElementById('form-comment').addEventListener('submit', handleCommentSubmit);
+      
+      const doLogout = () => { localStorage.clear(); window.location.href = '/login'; };
+      document.getElementById('btn-logout-desktop').addEventListener('click', doLogout);
+      document.getElementById('btn-logout-mobile2').addEventListener('click', doLogout);
+    }
+
+    async function loadCategories() {
       try {
-        const res = await fetch(`${API_URL}/api/admin/reports`, {
+        const res = await fetch(`${API_URL}/api/categories`);
+        const data = await res.json();
+        categories = data.data || [];
+        
+        const filterSelect = document.getElementById('category-filter');
+        categories.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.id;
+          opt.textContent = c.name;
+          filterSelect.appendChild(opt);
+        });
+      } catch (err) { console.error(err); }
+    }
+
+    function getCategoryName(id) {
+      if(!id) return 'Umum';
+      const cat = categories.find(c => c.id === id);
+      return cat ? cat.name : 'Umum';
+    }
+
+    async function fetchReports(sort) {
+      const list = document.getElementById('admin-reports-list');
+      list.innerHTML = '<div class="feed-loading"><div class="spinner"></div></div>';
+      try {
+        const res = await fetch(`${API_URL}/api/admin/reports?sort=${sort}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
         allReports = data.data || [];
-        renderReports(allReports);
+        applyFilters();
         updateStats(allReports);
-      } catch (err) { console.error(err); }
+      } catch (err) {
+        list.innerHTML = '<div class="empty-state text-danger">Gagal memuat laporan.</div>';
+      }
+    }
+
+    function applyFilters() {
+      let filtered = allReports;
+      if (currentSearch) {
+        filtered = filtered.filter(r => 
+          (r.description || '').toLowerCase().includes(currentSearch) || 
+          (r.location_detail || '').toLowerCase().includes(currentSearch)
+        );
+      }
+      if (currentCategory) {
+        filtered = filtered.filter(r => String(r.category_id) === currentCategory);
+      }
+      renderReports(filtered);
     }
 
     function updateStats(reports) {
@@ -133,151 +299,393 @@ import '../../styles/dashboard-shared.css';
     function renderReports(items) {
       const list = document.getElementById('admin-reports-list');
       if (items.length === 0) {
-        list.innerHTML = '<div class="empty-msg">Tidak ada laporan yang masuk.</div>';
+        list.innerHTML = '<div class="empty-state">Tidak ada laporan ditemukan.</div>';
         return;
       }
-      list.innerHTML = items.map(r => `
-        <div class="admin-row-v2">
-          <div class="row-main">
-            <div class="r-info">
-              <span class="r-title">${r.description}</span>
-              <span class="r-meta m-show">${r.location_detail}</span>
-              <span class="r-date">${new Date(r.created_at).toLocaleString('id-ID')}</span>
+      list.innerHTML = items.map(r => {
+        const catName = getCategoryName(r.category_id);
+        const statusClass = r.status.toLowerCase();
+        
+        let actionBtn = `<span class="badge-status resolved">SELESAI</span>`;
+        if (r.status === 'PENDING') {
+          actionBtn = `<button class="btn-action btn-verify" onclick="event.stopPropagation(); window.doAction('${r.id}', 'verify')">Verifikasi</button>`;
+        } else if (r.status === 'VALID') {
+          actionBtn = `<button class="btn-action btn-resolve" onclick="event.stopPropagation(); window.doAction('${r.id}', 'resolve')">Selesaikan</button>`;
+        }
+
+        const imgBlock = r.image_url 
+          ? `<div class="thumb" onclick="event.stopPropagation(); window.openImg('${API_URL}${r.image_url}')"><img src="${API_URL}${r.image_url}" alt="Img" /></div>`
+          : `<div class="thumb empty"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></div>`;
+
+        return `
+          <div class="table-row clickable" onclick="window.openDetail('${r.id}')">
+            <div class="col-main flex-gap">
+              ${imgBlock}
+              <div class="row-info">
+                <h4>${r.description}</h4>
+                <p>📍 ${r.location_detail} • ${new Date(r.created_at).toLocaleDateString('id-ID')}</p>
+                <div class="mobile-only mt-1">
+                  <span class="badge-cat">${catName}</span>
+                </div>
+              </div>
             </div>
-            <div class="r-loc d-hide">${r.location_detail}</div>
-            <div class="r-status d-hide">
-              <span class="a-pill ${r.status.toLowerCase()}">${r.status}</span>
+            <div class="col-cat desktop-only"><span class="badge-cat">${catName}</span></div>
+            <div class="col-stats desktop-only">
+              <span class="mini-stat">🔥 ${r.vote_count}</span>
+              <span class="mini-stat">💬 ${r.comment_count}</span>
             </div>
-            <div class="r-actions">
-              ${r.status === 'PENDING' ? `
-                <button class="btn-verify" onclick="handleAction(${r.id}, 'verify')">Verifikasi</button>
-              ` : r.status === 'VERIFIED' ? `
-                <button class="btn-resolve" onclick="handleAction(${r.id}, 'resolve')">Selesaikan</button>
-              ` : `
-                <span class="text-done">Sudah Selesai</span>
-              `}
+            <div class="col-actions">
+              ${actionBtn}
             </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
-    async function handleAction(id, action) {
+    window.openDetail = (id) => {
+      activeReportId = id;
+      const r = allReports.find(x => x.id === id);
+      if(!r) return;
+
+      if(r.image_url) {
+        document.getElementById('detail-img').src = API_URL + r.image_url;
+        document.getElementById('detail-img-container').classList.remove('hidden');
+      } else {
+        document.getElementById('detail-img-container').classList.add('hidden');
+      }
+
+      document.getElementById('detail-desc').textContent = r.description;
+      document.getElementById('detail-loc').textContent = r.location_detail;
+      document.getElementById('detail-cat').textContent = getCategoryName(r.category_id);
+      document.getElementById('detail-date').textContent = new Date(r.created_at).toLocaleDateString('id-ID');
+      
+      const st = document.getElementById('detail-status');
+      st.textContent = r.status;
+      st.className = `badge-status ${r.status.toLowerCase()}`;
+
+      document.getElementById('detail-votes').textContent = r.vote_count;
+      document.getElementById('detail-comment-count').textContent = r.comment_count;
+
+      // Admin Actions in Modal
+      const actionsDiv = document.getElementById('detail-admin-actions');
+      if(r.status === 'PENDING') {
+        actionsDiv.innerHTML = `<button class="btn-primary w-full" style="background:#0F172A;" onclick="window.doAction('${r.id}', 'verify')">Verifikasi Laporan Ini</button>`;
+      } else if (r.status === 'VALID') {
+        actionsDiv.innerHTML = `<button class="btn-primary w-full" style="background:#3B82F6;" onclick="window.doAction('${r.id}', 'resolve')">Tandai Selesai</button>`;
+      } else {
+        actionsDiv.innerHTML = `<div class="badge-status resolved" style="display:block;text-align:center;padding:12px;">LAPORAN SELESAI DITANGANI</div>`;
+      }
+
+      document.getElementById('detail-modal').classList.remove('hidden');
+      loadComments(id);
+    };
+
+    window.openImg = (url) => {
+      document.getElementById('lightbox-img').src = url;
+      document.getElementById('lightbox').classList.remove('hidden');
+    };
+
+    window.doAction = async (id, action) => {
       try {
         const res = await fetch(`${API_URL}/api/admin/reports/${id}/${action}`, {
           method: 'PATCH',
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
-          showToast(`Laporan berhasil di-${action === 'verify' ? 'verifikasi' : 'selesaikan'}`);
-          fetchReports();
-        } else { showToast('Gagal memproses laporan', 'error'); }
-      } catch (err) { showToast('Terjadi kesalahan sistem', 'error'); }
+          showToast(`Laporan berhasil di${action === 'verify' ? 'verifikasi' : 'selesaikan'}`);
+          fetchReports(document.getElementById('sort-select').value);
+          // if modal is open and shows same report, update it
+          if(activeReportId === id) {
+             document.getElementById('detail-modal').classList.add('hidden');
+          }
+        } else {
+          showToast('Gagal memproses', 'error');
+        }
+      } catch (err) {
+        showToast('Kesalahan jaringan', 'error');
+      }
+    };
+
+    async function loadComments(id) {
+      const list = document.getElementById('comments-list');
+      list.innerHTML = '<div class="feed-loading"><div class="spinner"></div></div>';
+      try {
+        const res = await fetch(`${API_URL}/api/reports/${id}/comments`);
+        const data = await res.json();
+        const comments = data.data || [];
+        if(comments.length === 0) {
+          list.innerHTML = '<div class="empty-state">Belum ada diskusi.</div>';
+          return;
+        }
+        list.innerHTML = comments.map(c => `
+          <div class="comment-bubble">
+            <div class="c-head">
+              <strong>${c.user?.full_name || (c.user?.role === 'admin' ? 'Admin' : 'Warga')}</strong> 
+              <span>${new Date(c.created_at).toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}</span>
+            </div>
+            <div class="c-body">${c.content}</div>
+          </div>
+        `).join('');
+        list.scrollTop = list.scrollHeight;
+      } catch(e) {
+        list.innerHTML = '<div class="empty-state text-danger">Gagal memuat diskusi.</div>';
+      }
     }
 
-    document.getElementById('admin-search').addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase();
-      const filtered = allReports.filter(r => 
-        r.description.toLowerCase().includes(q) || 
-        r.location_detail.toLowerCase().includes(q)
-      );
-      renderReports(filtered);
-    });
+    async function handleCommentSubmit(e) {
+      e.preventDefault();
+      if(!activeReportId) return;
+      const input = document.getElementById('comment-input');
+      if(!input.value.trim()) return;
+
+      const btn = e.target.querySelector('.btn-send');
+      btn.disabled = true;
+      
+      try {
+        const res = await fetch(`${API_URL}/api/reports/${activeReportId}/comments`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ content: input.value })
+        });
+        if(res.ok) {
+          input.value = '';
+          loadComments(activeReportId);
+          fetchReports(document.getElementById('sort-select').value);
+        }
+      } catch(err) {}
+      btn.disabled = false;
+    }
 
     function showToast(msg, type = 'success') {
       const t = document.getElementById('toast');
-      t.textContent = msg; t.className = `saas-toast show ${type}`;
-      setTimeout(() => t.className = 'saas-toast', 3000);
+      const i = document.getElementById('toast-icon');
+      const m = document.getElementById('toast-msg');
+      
+      t.className = `toast-notification ${type}`;
+      i.textContent = type === 'error' ? '!' : '✓';
+      m.textContent = msg;
+      
+      t.classList.remove('hidden');
+      setTimeout(() => t.classList.add('hidden'), 3000);
+    }
+  </script>
+
+  <style is:global>
+    /* =========================================
+       Zen SaaS Architecture (Admin)
+       ========================================= */
+    
+    :root {
+      --c-bg: #F8FAFC;
+      --c-surface: #FFFFFF;
+      --c-text: #0F172A;
+      --c-text-soft: #64748B;
+      --c-border: #E2E8F0;
+      --c-brand: #0F172A;
+      --c-accent: #3B82F6;
+      --c-danger: #EF4444;
+      --c-success: #10B981;
+      
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05);
     }
 
-    const logout = () => { localStorage.clear(); window.location.href = '/login'; };
-    document.getElementById('btn-logout-desktop').onclick = logout;
-    document.getElementById('btn-logout-mobile').onclick = logout;
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
+    body { background: var(--c-bg); color: var(--c-text); -webkit-font-smoothing: antialiased; }
 
-    fetchReports();
-  </script>
+    /* Layout */
+    .saas-layout { display: flex; height: 100vh; overflow: hidden; }
+    
+    /* Sidebar Desktop */
+    .sidebar { display: none; width: 280px; background: var(--c-surface); border-right: 1px solid var(--c-border); flex-direction: column; z-index: 100; }
+    .sidebar-header { padding: 32px 24px; }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-text { font-weight: 800; font-size: 20px; letter-spacing: -0.03em; }
+    
+    .nav-menu { flex: 1; padding: 0 16px; display: flex; flex-direction: column; gap: 4px; }
+    .nav-section { font-size: 11px; font-weight: 700; color: var(--c-text-soft); padding: 16px 12px 8px; letter-spacing: 0.05em; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-sm); color: var(--c-text-soft); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; }
+    .nav-item:hover { background: var(--c-bg); color: var(--c-text); }
+    .nav-item.active { background: var(--c-bg); color: var(--c-brand); }
+    
+    .sidebar-footer { padding: 24px 16px; border-top: 1px solid var(--c-border); }
+    .btn-logout { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; background: transparent; border: 1px solid var(--c-border); border-radius: var(--radius-sm); color: var(--c-danger); font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .btn-logout:hover { background: #FEF2F2; border-color: #FECACA; }
+
+    /* Mobile Nav */
+    .mobile-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: var(--c-surface); border-bottom: 1px solid var(--c-border); position: sticky; top: 0; z-index: 90; }
+    .admin-badge { background: var(--c-brand); color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+    
+    .mobile-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: var(--c-surface); border-top: 1px solid var(--c-border); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
+    .m-nav-item { padding: 8px 24px; color: var(--c-text-soft); border-radius: 12px; border: none; background: none; }
+    .m-nav-item.active { color: var(--c-brand); background: var(--c-bg); }
+    .text-danger { color: var(--c-danger) !important; }
+
+    /* Main Area */
+    .main-content { flex: 1; overflow-y: auto; background: var(--c-bg); padding-bottom: 80px; }
+    .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
+    
+    @media (min-width: 768px) {
+      .sidebar { display: flex; }
+      .mobile-header, .mobile-nav { display: none; }
+      .main-content { padding-bottom: 0; }
+      .content-wrapper { padding: 40px 48px; }
+    }
+
+    /* Typography & Core */
+    .welcome-section { margin-bottom: 32px; }
+    .hero-flex { display: flex; flex-direction: column; gap: 20px; }
+    @media (min-width: 768px) { .hero-flex { flex-direction: row; justify-content: space-between; align-items: flex-end; } }
+    h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
+    .subtitle { color: var(--c-text-soft); font-size: 15px; }
+
+    .stats-mini { display: flex; gap: 16px; }
+    .s-box { background: var(--c-surface); border: 1px solid var(--c-border); padding: 12px 20px; border-radius: var(--radius-sm); display: flex; flex-direction: column; min-width: 120px; box-shadow: var(--shadow-sm); }
+    .s-lbl { font-size: 11px; font-weight: 700; color: var(--c-text-soft); text-transform: uppercase; }
+    .s-val { font-size: 24px; font-weight: 800; line-height: 1.2; }
+    .text-danger { color: var(--c-danger); }
+    .text-success { color: var(--c-success); }
+
+    /* Actions Row */
+    .actions-row { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+    @media (min-width: 768px) { .actions-row { flex-direction: row; justify-content: space-between; } }
+    
+    .search-box { position: relative; flex: 1; max-width: 500px; }
+    .search-box svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--c-text-soft); }
+    .search-box input { width: 100%; padding: 12px 16px 12px 42px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; transition: 0.2s; }
+    .search-box input:focus { border-color: var(--c-brand); box-shadow: 0 0 0 3px rgba(15,23,42,0.05); }
+
+    .filters-group { display: flex; gap: 12px; flex-wrap: wrap; }
+    .select-minimal { padding: 12px 16px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); background: white; font-size: 14px; font-weight: 500; cursor: pointer; outline: none; }
+    .select-minimal:focus { border-color: var(--c-brand); }
+
+    /* Table View */
+    .table-card { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column; max-height: 800px; }
+    .table-header { display: flex; padding: 16px 24px; background: #F8FAFC; border-bottom: 1px solid var(--c-border); font-size: 12px; font-weight: 700; color: var(--c-text-soft); text-transform: uppercase; letter-spacing: 0.05em; }
+    .table-body { flex: 1; overflow-y: auto; }
+    
+    .table-row { display: flex; padding: 20px 24px; border-bottom: 1px solid var(--c-border); align-items: center; transition: 0.2s; }
+    .table-row:hover { background: #FAFAFA; }
+    .table-row:last-child { border-bottom: none; }
+    .table-row.clickable { cursor: pointer; }
+
+    .col-main { flex: 2; }
+    .col-cat { flex: 1; }
+    .col-stats { flex: 1; display: flex; gap: 16px; }
+    .col-actions { width: 140px; text-align: right; }
+
+    /* Table Row Content */
+    .flex-gap { display: flex; gap: 16px; align-items: center; }
+    .thumb { width: 48px; height: 48px; border-radius: 8px; border: 1px solid var(--c-border); overflow: hidden; flex-shrink: 0; cursor: pointer; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; transition: 0.2s; }
+    .thumb:hover img { transform: scale(1.1); }
+    .thumb.empty { background: var(--c-bg); display: flex; align-items: center; justify-content: center; color: var(--c-text-soft); cursor: default; }
+    
+    .row-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .row-info p { font-size: 12px; color: var(--c-text-soft); }
+
+    .badge-cat { font-size: 11px; font-weight: 700; background: var(--c-bg); padding: 4px 8px; border-radius: 4px; color: var(--c-text); border: 1px solid var(--c-border); }
+    .badge-status { font-size: 10px; font-weight: 800; padding: 6px 12px; border-radius: 6px; text-transform: uppercase; display: inline-block; }
+    .badge-status.pending { background: #FEF2F2; color: var(--c-danger); }
+    .badge-status.valid { background: #FEFCE8; color: #CA8A04; }
+    .badge-status.resolved { background: #ECFDF5; color: var(--c-success); }
+    
+    .mini-stat { font-size: 13px; font-weight: 600; color: var(--c-text-soft); }
+
+    .btn-action { padding: 8px 16px; border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+    .btn-verify { background: var(--c-brand); color: white; }
+    .btn-verify:hover { background: #1E293B; }
+    .btn-resolve { background: #3B82F6; color: white; }
+    .btn-resolve:hover { background: #2563EB; }
+    .btn-primary { padding: 12px; border: none; border-radius: var(--radius-sm); font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
+    .btn-primary:hover { opacity: 0.9; }
+
+    /* Responsive Table */
+    .desktop-only { display: block; }
+    .mobile-only { display: none; }
+    .mt-1 { margin-top: 8px; }
+    .mt-4 { margin-top: 16px; }
+    .w-full { width: 100%; }
+
+    @media (max-width: 768px) {
+      .desktop-only { display: none; }
+      .mobile-only { display: block; }
+      .table-header { display: none; }
+      .table-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .col-actions { width: 100%; text-align: left; }
+      .btn-action { width: 100%; padding: 12px; }
+      .filters-group { width: 100%; }
+      .select-minimal { flex: 1; }
+    }
+
+    /* Modals & Overlays */
+    .hidden { display: none !important; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.8); backdrop-filter: blur(4px); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    
+    .lightbox-wrapper { position: relative; max-width: 100%; max-height: 100%; }
+    #lightbox-img { max-width: 100%; max-height: 85vh; border-radius: 8px; box-shadow: var(--shadow-lg); }
+    
+    .modal-content { background: var(--c-surface); width: 100%; max-width: 480px; border-radius: var(--radius-lg); display: flex; flex-direction: column; max-height: 80vh; overflow: hidden; box-shadow: var(--shadow-lg); }
+    .large-modal { max-width: 900px; max-height: 90vh; }
+    .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--c-border); display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h3 { font-size: 18px; font-weight: 700; margin: 0; }
+    .btn-close-modal { background: none; border: none; font-size: 28px; line-height: 1; color: var(--c-text-soft); cursor: pointer; padding: 0; position: absolute; right: 0; top: -40px; color: white; }
+    .modal-header .btn-close-modal { position: static; color: var(--c-text-soft); }
+    
+    /* Detail Layout */
+    .detail-layout { display: flex; flex-direction: column; height: 100%; }
+    @media (min-width: 768px) { .detail-layout { flex-direction: row; } }
+    
+    .detail-info { flex: 1; padding: 24px; border-bottom: 1px solid var(--c-border); overflow-y: auto; }
+    @media (min-width: 768px) { .detail-info { border-bottom: none; border-right: 1px solid var(--c-border); width: 60%; } }
+    
+    .detail-img-box { width: 100%; height: 240px; border-radius: 12px; overflow: hidden; margin-bottom: 20px; background: var(--c-bg); border: 1px solid var(--c-border); }
+    .detail-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .d-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .detail-text h2 { font-size: 20px; font-weight: 700; margin-bottom: 12px; line-height: 1.4; }
+    .d-location { font-size: 14px; color: var(--c-text-soft); margin-bottom: 20px; padding: 12px; background: var(--c-bg); border-radius: 8px; }
+    .d-stats { display: flex; gap: 12px; }
+    .stat-pill { font-size: 13px; font-weight: 600; padding: 8px 16px; background: var(--c-bg); border-radius: 8px; border: 1px solid var(--c-border); }
+
+    .detail-comments { flex: 1; display: flex; flex-direction: column; background: #FAFAFA; }
+    @media (min-width: 768px) { .detail-comments { width: 40%; } }
+    .detail-comments h4 { padding: 20px 24px; margin: 0; font-size: 15px; border-bottom: 1px solid var(--c-border); background: var(--c-surface); }
+    .comments-container { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+    
+    .comment-bubble { background: var(--c-surface); border: 1px solid var(--c-border); padding: 12px 16px; border-radius: 16px 16px 16px 0; box-shadow: var(--shadow-sm); }
+    .c-head { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 12px; }
+    .c-head strong { color: var(--c-brand); }
+    .c-head span { color: var(--c-text-soft); }
+    .c-body { font-size: 14px; color: var(--c-text); line-height: 1.5; }
+    
+    .comment-input-wrapper { padding: 16px 24px; border-top: 1px solid var(--c-border); background: var(--c-surface); }
+    .comment-input-group { display: flex; gap: 12px; }
+    .comment-input-group input { flex: 1; padding: 12px 16px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; }
+    .comment-input-group input:focus { border-color: var(--c-brand); }
+    .btn-send { background: var(--c-brand); color: white; border: none; width: 44px; height: 44px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+    .btn-send:hover { background: var(--c-accent); }
+
+    /* Utilities */
+    .scroll-slim::-webkit-scrollbar { width: 6px; }
+    .scroll-slim::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+    .toast-notification { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--c-brand); color: white; padding: 12px 24px; border-radius: 100px; display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; z-index: 9999; opacity: 0; transition: 0.3s; box-shadow: var(--shadow-lg); }
+    .toast-notification:not(.hidden) { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast-notification.error { background: var(--c-danger); }
+    #toast-icon { width: 20px; height: 20px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--c-text-soft); font-size: 14px; font-weight: 500; }
+    .feed-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; gap: 12px; color: var(--c-text-soft); font-size: 13px; }
+    .spinner { width: 24px; height: 24px; border: 3px solid #E2E8F0; border-top-color: var(--c-brand); border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  </style>
 </Layout>
-
-<style>
-  /* Admin Specific UI */
-  .sidebar-brand { margin-bottom: 48px; padding: 0 12px; }
-  .brand-img { height: 48px; width: auto; filter: invert(1); }
-  
-  .sidebar-nav-v2 { display: flex; flex-direction: column; gap: 8px; flex: 1; }
-  .side-item { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 14px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 600; font-size: 15px; transition: 0.2s; }
-  .side-item:hover { background: rgba(255,255,255,0.05); color: white; }
-  .side-item.active { background: var(--color-saas-accent); color: #111827; }
-  .side-item.logout { color: #F87171; margin-top: auto; }
-  .s-icon { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
-
-  .mobile-logo-only { display: none; }
-  @media (max-width: 767px) {
-    .mobile-logo-only { display: block; height: 32px; }
-    .mobile-logo-only img { height: 100%; }
-    .desktop-breadcrumb { display: none; }
-  }
-
-  .admin-badge { background: #111827; color: white; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
-
-  .admin-hero { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
-  .hero-text h1 { font-size: 32px; font-weight: 900; margin-bottom: 8px; }
-  .hero-text p { color: var(--color-saas-text-muted); }
-
-  .hero-stats-grid { display: flex; gap: 16px; }
-  .mini-stat-card { background: white; padding: 16px 24px; border-radius: 20px; border: 1px solid var(--color-saas-border); display: flex; flex-direction: column; min-width: 140px; }
-  .ms-lbl { font-size: 12px; font-weight: 700; color: var(--color-saas-text-muted); margin-bottom: 4px; }
-  .ms-val { font-size: 28px; font-weight: 900; }
-  .text-pending { color: #EF4444; }
-  .text-success { color: #10B981; }
-
-  .admin-actions-row { margin-bottom: 24px; }
-  .search-box-v2 { position: relative; max-width: 500px; display: flex; align-items: center; }
-  .search-box-v2 svg { position: absolute; left: 16px; color: var(--color-saas-text-muted); }
-  .search-box-v2 input { width: 100%; padding: 14px 14px 14px 48px; border-radius: 16px; border: 1.5px solid var(--color-saas-border); background: white; font-family: inherit; transition: 0.2s; }
-  .search-box-v2 input:focus { border-color: var(--color-saas-accent); outline: none; box-shadow: 0 0 0 4px rgba(253, 224, 71, 0.1); }
-
-  /* Table Header */
-  .table-header-v2 { display: flex; padding: 16px 24px; background: #F9FAFB; border-bottom: 1px solid var(--color-saas-border); }
-  .th-col { flex: 1; font-size: 12px; font-weight: 800; color: var(--color-saas-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-  .t-right { text-align: right; }
-
-  .admin-row-v2 { border-bottom: 1px solid var(--color-saas-border); transition: 0.2s; }
-  .admin-row-v2:hover { background: #F9FAFB; }
-  .row-main { display: flex; align-items: center; padding: 24px; }
-  
-  .r-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-  .r-title { font-weight: 700; color: #111827; font-size: 16px; }
-  .r-meta { font-size: 13px; color: var(--color-saas-text-muted); }
-  .r-date { font-size: 11px; font-weight: 600; color: #9CA3AF; }
-  
-  .r-loc { flex: 1; font-size: 14px; color: var(--color-saas-text-main); }
-  .r-status { flex: 1; }
-  .r-actions { flex: 1; display: flex; justify-content: flex-end; gap: 12px; }
-
-  /* Action Buttons */
-  .btn-verify, .btn-resolve { padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; }
-  .btn-verify { background: #111827; color: white; }
-  .btn-verify:hover { background: #1F2937; transform: translateY(-2px); }
-  .btn-resolve { background: #10B981; color: white; }
-  .btn-resolve:hover { background: #059669; transform: translateY(-2px); }
-  
-  .text-done { font-size: 13px; font-weight: 700; color: #10B981; }
-
-  /* Pills */
-  .a-pill { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
-  .a-pill.pending { background: #FEE2E2; color: #EF4444; }
-  .a-pill.verified { background: #FEF3C7; color: #D97706; }
-  .a-pill.resolved { background: #D1FAE5; color: #10B981; }
-
-  .m-show { display: none; }
-  @media (max-width: 767px) {
-    .d-hide { display: none; }
-    .m-show { display: block; }
-    .row-main { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .r-actions { width: 100%; justify-content: flex-start; }
-    .btn-verify, .btn-resolve { width: 100%; padding: 12px; }
-    .admin-hero { flex-direction: column; align-items: flex-start; gap: 24px; }
-    .hero-stats-grid { width: 100%; }
-    .mini-stat-card { flex: 1; }
-  }
-</style>
