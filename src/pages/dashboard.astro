@@ -340,13 +340,10 @@ import Layout from '../layouts/Layout.astro';
   }
   
   .logo-box {
-    width: 44px; height: 44px;
-    background: linear-gradient(135deg, var(--color-brand), var(--color-brand-alt));
-    border-radius: 14px;
+    height: 40px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
   }
-  .logo-box img { width: 24px; filter: brightness(0) invert(1); }
+  .logo-box img { height: 32px; width: auto; }
 
   .sidebar-links { flex: 1; display: flex; flex-direction: column; gap: var(--space-lg); margin-top: var(--space-2xl); }
   .side-link {
@@ -356,7 +353,7 @@ import Layout from '../layouts/Layout.astro';
     color: var(--color-text-muted);
     transition: all 0.3s;
   }
-  .side-link:hover, .side-link.active { color: white; background: rgba(255,255,255,0.05); }
+  .side-link:hover, .side-link.active { color: var(--color-brand); background: rgba(44, 62, 80, 0.05); }
   .side-link.logout:hover { color: var(--color-danger); background: rgba(244, 63, 94, 0.1); }
 
   /* Mobile Nav */
@@ -389,7 +386,7 @@ import Layout from '../layouts/Layout.astro';
     display: flex; justify-content: space-between; align-items: flex-start;
     margin-bottom: var(--space-xl);
   }
-  .top-header h1 { font-size: 24px; margin-bottom: 4px; }
+  .top-header h1 { font-size: 24px; margin-bottom: 4px; color: var(--color-text-title); }
   .subtitle { font-size: 14px; color: var(--color-text-muted); font-weight: 500; }
 
   .profile-summary {
@@ -397,8 +394,8 @@ import Layout from '../layouts/Layout.astro';
     display: flex; align-items: center;
   }
   .pts-badge { display: flex; align-items: baseline; gap: 4px; }
-  .pts-badge span { font-size: 18px; font-weight: 800; color: white; }
-  .pts-badge small { font-size: 10px; font-weight: 700; opacity: 0.5; }
+  .pts-badge span { font-size: 18px; font-weight: 800; color: var(--color-text-title); }
+  .pts-badge small { font-size: 10px; font-weight: 700; color: var(--color-text-muted); }
 
   /* Bento Grid */
   .bento-grid {
@@ -410,14 +407,14 @@ import Layout from '../layouts/Layout.astro';
   .bento-card { padding: var(--space-lg); border-radius: var(--radius-lg); }
 
   /* Hero Card */
-  .card-hero { background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(99, 102, 241, 0.1)); }
-  .card-hero h2 { font-size: 28px; margin-bottom: 12px; }
+  .card-hero { background: linear-gradient(135deg, rgba(44, 62, 80, 0.05), rgba(168, 159, 145, 0.1)); }
+  .card-hero h2 { font-size: 28px; margin-bottom: 12px; color: var(--color-text-title); }
   .rank-tag {
     display: inline-block; padding: 4px 12px; border-radius: 8px;
     background: rgba(16, 185, 129, 0.1); color: var(--color-success);
     font-weight: 700; font-size: 12px; margin-bottom: 12px;
   }
-  .progress-track { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+  .progress-track { height: 8px; background: rgba(44, 62, 80, 0.1); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
   .progress-fill { height: 100%; width: 0%; background: var(--color-brand); border-radius: 4px; transition: width 1s ease-out; }
   .progress-label { font-size: 11px; font-weight: 600; color: var(--color-text-muted); }
 
@@ -426,29 +423,29 @@ import Layout from '../layouts/Layout.astro';
   .stat-item { display: flex; align-items: center; gap: 12px; }
   .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
   .stat-icon.success { background: rgba(16, 185, 129, 0.1); color: var(--color-success); }
-  .stat-icon.warning { background: rgba(245, 158, 11, 0.1); color: var(--color-warning); }
-  .stat-val { display: block; font-size: 20px; font-weight: 800; color: white; line-height: 1; }
+  .stat-icon.warning { background: rgba(230, 126, 34, 0.1); color: var(--color-warning); } /* Use accent orange */
+  .stat-val { display: block; font-size: 20px; font-weight: 800; color: var(--color-text-title); line-height: 1; }
   .stat-label { font-size: 11px; font-weight: 600; color: var(--color-text-muted); }
 
   /* Form */
-  .card-header h3 { font-size: 18px; margin-bottom: 4px; }
+  .card-header h3 { font-size: 18px; margin-bottom: 4px; color: var(--color-text-title); }
   .card-header p { font-size: 13px; color: var(--color-text-muted); margin-bottom: var(--space-lg); }
   
   .report-form { display: flex; flex-direction: column; gap: var(--space-md); }
   textarea, input[type="text"] {
-    width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--color-border);
-    border-radius: 12px; padding: 12px 16px; color: white; font-family: inherit; font-size: 14px;
+    width: 100%; background: rgba(44, 62, 80, 0.05); border: 1px solid var(--color-border);
+    border-radius: 12px; padding: 12px 16px; color: var(--color-text-title); font-family: inherit; font-size: 14px;
     transition: border-color 0.3s;
   }
   textarea:focus, input:focus { outline: none; border-color: var(--color-brand); }
 
-  .map-box { height: 180px; position: relative; border-radius: 16px; overflow: hidden; margin: 4px 0; }
+  .map-box { height: 180px; position: relative; border-radius: 16px; overflow: hidden; margin: 4px 0; border: 1px solid var(--color-border); }
   #map { height: 100%; width: 100%; }
   .map-label {
     position: absolute; bottom: 8px; left: 8px; right: 8px; z-index: 1000;
-    background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.8); backdrop-filter: blur(8px); border: 1px solid var(--color-border);
     padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 700;
-    display: flex; align-items: center; gap: 6px; color: white;
+    display: flex; align-items: center; gap: 6px; color: var(--color-text-title);
   }
 
   /* History */
@@ -457,29 +454,30 @@ import Layout from '../layouts/Layout.astro';
   .history-list { display: flex; flex-direction: column; gap: 12px; max-height: 300px; overflow-y: auto; }
   .history-item {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 12px; background: rgba(255,255,255,0.02); border-radius: 12px;
+    padding: 12px; background: rgba(44, 62, 80, 0.03); border-radius: 12px; border: 1px solid transparent;
   }
-  .item-main h4 { font-size: 13px; margin-bottom: 2px; }
+  .history-item:hover { border-color: var(--color-border); }
+  .item-main h4 { font-size: 13px; margin-bottom: 2px; color: var(--color-text-title); }
   .item-main p { font-size: 11px; color: var(--color-text-muted); }
   .status-pill { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
-  .status-pill.pending { color: var(--color-warning); background: rgba(245, 158, 11, 0.1); }
-  .status-pill.valid { color: var(--color-brand); background: rgba(14, 165, 233, 0.1); }
+  .status-pill.pending { color: var(--color-warning); background: rgba(230, 126, 34, 0.1); }
+  .status-pill.valid { color: var(--color-brand); background: rgba(44, 62, 80, 0.1); }
   .status-pill.resolved { color: var(--color-success); background: rgba(16, 185, 129, 0.1); }
 
   /* Leaderboard */
   .leader-list { display: flex; flex-direction: column; gap: 8px; }
   .leader-item {
     display: flex; align-items: center; gap: 12px; padding: 10px 16px;
-    background: rgba(255,255,255,0.03); border-radius: 10px;
+    background: rgba(44, 62, 80, 0.03); border-radius: 10px;
   }
   .leader-rank { font-weight: 900; color: var(--color-brand); font-size: 16px; width: 20px; }
-  .leader-name { flex: 1; font-size: 13px; font-weight: 600; color: white; }
-  .leader-pts { font-size: 12px; font-weight: 700; opacity: 0.5; }
+  .leader-name { flex: 1; font-size: 13px; font-weight: 600; color: var(--color-text-title); }
+  .leader-pts { font-size: 12px; font-weight: 700; color: var(--color-text-muted); }
 
   /* Toast */
   .toast-premium {
     position: fixed; top: 16px; left: 16px; right: 16px;
-    padding: 12px 20px; border-radius: 12px; background: var(--color-surface-bright);
+    padding: 12px 20px; border-radius: 12px; background: var(--color-brand);
     color: white; font-weight: 700; font-size: 13px; border: 1px solid var(--color-border-bright);
     transform: translateY(-100px); opacity: 0; transition: all 0.4s; z-index: 2000;
   }

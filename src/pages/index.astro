@@ -8,8 +8,7 @@ import Layout from '../layouts/Layout.astro';
     <nav class="landing-nav animate-up">
       <div class="nav-container glass">
         <div class="logo-area">
-          <img src="/logo.svg" alt="Logo" class="nav-logo" />
-          <span class="logo-text">SovraEquitara</span>
+          <img src="/logo.svg" alt="SovraEquitara" class="nav-logo" />
         </div>
         <div class="nav-actions">
           <a href="/login" class="btn btn-glass btn-sm">Masuk</a>
@@ -38,7 +37,7 @@ import Layout from '../layouts/Layout.astro';
         <section class="bento-item bento-stats glass animate-up delay-2">
           <div class="stat-circle">
             <svg viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"></circle>
+              <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(44, 62, 80, 0.1)" stroke-width="8"></circle>
               <circle cx="50" cy="50" r="45" fill="none" stroke="var(--color-brand)" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="70" class="circle-progress"></circle>
             </svg>
             <div class="stat-content">
@@ -120,8 +119,7 @@ import Layout from '../layouts/Layout.astro';
     border-radius: var(--radius-full); display: flex; justify-content: space-between; align-items: center;
   }
   .logo-area { display: flex; align-items: center; gap: 12px; }
-  .nav-logo { width: 32px; height: 32px; filter: brightness(0) invert(1); }
-  .logo-text { font-family: var(--font-display); font-weight: 800; font-size: 18px; color: white; letter-spacing: -0.02em; }
+  .nav-logo { height: 56px; width: auto; filter: brightness(0) sepia(1) hue-rotate(175deg) saturate(300%) brightness(0.3); }
   .nav-actions { display: flex; gap: 12px; }
   .btn-sm { padding: 8px 16px; font-size: 13px; }
 
@@ -137,17 +135,17 @@ import Layout from '../layouts/Layout.astro';
 
   /* Hero Main */
   .bento-hero-main {
-    background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.2), transparent),
-                linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.9));
+    background: radial-gradient(circle at top right, rgba(44, 62, 80, 0.05), transparent),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(244, 241, 234, 0.95));
   }
   .badge-premium {
     display: inline-block; padding: 4px 12px; border-radius: 8px;
-    background: rgba(255,255,255,0.05); color: var(--color-brand);
+    background: rgba(44, 62, 80, 0.05); color: var(--color-brand);
     font-size: 10px; font-weight: 800; letter-spacing: 0.1em; margin-bottom: 20px;
-    border: 1px solid rgba(14, 165, 233, 0.2);
+    border: 1px solid rgba(44, 62, 80, 0.2);
   }
   .display-text { font-size: 40px; line-height: 1.1; margin-bottom: 20px; }
-  .text-gradient { background: linear-gradient(to right, var(--color-brand), #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .text-gradient { background: linear-gradient(to right, var(--color-brand), #475569); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .hero-p { font-size: 16px; color: var(--color-text-muted); max-width: 500px; margin-bottom: 32px; line-height: 1.6; }
   .hero-cta-group { display: flex; flex-wrap: wrap; gap: 16px; }
   .btn-lg { padding: 16px 32px; font-size: 16px; border-radius: var(--radius-md); }
@@ -158,21 +156,21 @@ import Layout from '../layouts/Layout.astro';
   .stat-circle svg { transform: rotate(-90deg); }
   .circle-progress { transition: stroke-dashoffset 2s ease-out; }
   .stat-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .stat-num { font-size: 32px; font-weight: 800; color: white; line-height: 1; }
+  .stat-num { font-size: 32px; font-weight: 800; color: var(--color-brand); line-height: 1; }
   .stat-label { font-size: 10px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; margin-top: 4px; }
 
   /* Feature Cards */
   .bento-feature h3 { font-size: 20px; margin: 16px 0 8px; }
   .bento-feature p { font-size: 14px; color: var(--color-text-muted); }
   .feat-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; }
-  .brand-glow { background: var(--color-brand); box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3); }
+  .brand-glow { background: var(--color-brand); box-shadow: 0 10px 20px rgba(44, 62, 80, 0.3); }
   .success-glow { background: var(--color-success); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
 
   /* Leaderboard Preview */
   .bento-leader h3 { font-size: 18px; }
   .card-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
   .leader-preview-list { display: flex; flex-direction: column; gap: 12px; }
-  .p-item { display: flex; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 12px; font-size: 13px; font-weight: 600; }
+  .p-item { display: flex; justify-content: space-between; padding: 12px; background: rgba(44, 62, 80, 0.05); border-radius: 12px; font-size: 13px; font-weight: 600; }
   .p-item strong { color: var(--color-brand); }
 
   .landing-footer { text-align: center; padding: var(--space-2xl) var(--space-lg); border-top: 1px solid var(--color-border); font-size: 12px; color: var(--color-text-muted); }
