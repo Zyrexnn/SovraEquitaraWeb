@@ -3,99 +3,93 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Profil Saya — SovraEquitara">
-  <div class="app-layout">
-    <!-- Desktop Sidebar -->
-    <aside class="desktop-sidebar glass">
-      <div class="sidebar-top">
-        <div class="logo-box">
-          <img src="/logo.svg" alt="Logo" />
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar-nav">
+      <div class="nav-brand">
+        <div class="brand-logo-pill">
+          <img src="/logo.svg" alt="Sovra" />
         </div>
       </div>
-      <nav class="sidebar-links">
-        <a href="/dashboard" class="side-link" title="Dashboard">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      <nav class="nav-links">
+        <a href="/dashboard" class="nav-link" title="Dashboard">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
         </a>
-        <a href="/profile" class="side-link active" title="Profil">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <a href="/profile" class="nav-link active" title="Profil">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
         </a>
       </nav>
-      <div class="sidebar-bottom">
-        <button id="btn-logout" class="side-link logout" title="Keluar">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      <div class="nav-footer">
+        <button id="btn-logout" class="nav-link logout-link" title="Keluar">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
         </button>
       </div>
     </aside>
 
-    <!-- Mobile Bottom Nav -->
-    <nav class="mobile-nav glass">
-      <a href="/dashboard" class="mob-link">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-        <span>Home</span>
-      </a>
-      <a href="/profile" class="mob-link active">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        <span>Profil</span>
-      </a>
-      <button id="btn-logout-mob" class="mob-link">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-        <span>Keluar</span>
-      </button>
-    </nav>
-
-    <main class="main-content">
-      <header class="top-header">
-        <div class="header-left">
-          <h1 class="animate-up">Pengaturan Profil</h1>
-          <p class="subtitle animate-up delay-1">Kelola informasi publik dan keamanan Anda.</p>
+    <!-- Main Content -->
+    <main class="main-viewport scroll-slim">
+      <header class="top-nav">
+        <div class="welcome-msg">
+          <h1>Pengaturan Profil</h1>
+          <p>Kelola informasi publik dan keamanan akun Anda.</p>
         </div>
       </header>
 
-      <div class="profile-container animate-up delay-2">
-        <!-- Profile Form -->
-        <section class="profile-card-large glass">
-          <div class="profile-avatar-setup">
-            <div class="avatar-circle glass-bright">
+      <div class="bento-container">
+        <!-- Profile Card -->
+        <div class="bento-item glass animate-up" style="grid-column: span 12;">
+          <div class="profile-header-zen">
+            <div class="avatar-zen">
               <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
-            <div class="avatar-info">
+            <div class="avatar-details">
               <h3 id="display-name-header">Memuat...</h3>
               <p id="display-email">email@example.com</p>
             </div>
           </div>
 
-          <form id="form-profile" class="profile-form">
-            <div class="input-grid">
-              <div class="input-field">
+          <form id="form-profile" class="zen-form">
+            <div class="form-row">
+              <div class="form-group">
                 <label for="full_name">Nama Lengkap</label>
-                <input type="text" id="full_name" placeholder="Nama Lengkap Anda" required />
+                <div class="zen-input">
+                  <input type="text" id="full_name" placeholder="Nama Lengkap Anda" required />
+                </div>
               </div>
-              <div class="input-field">
+              <div class="form-group">
                 <label for="phone">Nomor Telepon</label>
-                <input type="tel" id="phone" placeholder="08xxxxxxxxxx" />
+                <div class="zen-input">
+                  <input type="tel" id="phone" placeholder="08xxxxxxxxxx" />
+                </div>
               </div>
             </div>
-            <button type="submit" id="btn-save" class="btn btn-primary">Simpan Perubahan</button>
+            <div class="form-actions-right">
+              <button type="submit" id="btn-save" class="btn btn-primary">Simpan Perubahan</button>
+            </div>
           </form>
-        </section>
+        </div>
 
         <!-- Security Section -->
-        <section class="security-card glass animate-up delay-3">
-          <div class="section-header">
+        <div class="bento-item glass animate-up delay-1" style="grid-column: span 12;">
+          <div class="card-header-flex">
             <h3>Keamanan Akun</h3>
-            <p>Perbarui password Anda secara berkala.</p>
+            <p>Perbarui password secara berkala.</p>
           </div>
-          <div class="security-item glass-bright">
-            <div class="item-text">
-              <h4>Ganti Password</h4>
-              <p>Gunakan OTP email untuk mereset password lama Anda.</p>
+          
+          <div class="security-list">
+            <div class="security-row">
+              <div class="security-info">
+                <h4>Ganti Kata Sandi</h4>
+                <p>Gunakan verifikasi OTP email untuk mengatur ulang password.</p>
+              </div>
+              <button id="btn-reset-pw" class="btn btn-glass">Minta Reset</button>
             </div>
-            <button id="btn-reset-pw" class="btn btn-glass">Minta Reset</button>
           </div>
-        </section>
+        </div>
       </div>
     </main>
 
-    <div id="toast" class="toast-premium"></div>
+    <div id="toast" class="toast-bento"></div>
   </div>
 
   <script>
@@ -119,16 +113,13 @@ import Layout from '../layouts/Layout.astro';
           document.getElementById('phone').value = data.data.phone || '';
           document.getElementById('display-name-header').textContent = data.data.full_name || user.email.split('@')[0];
         }
-      } catch (err) {
-        console.error('Gagal mengambil profil');
-      }
+      } catch (err) { console.error('Gagal ambil profil'); }
     }
 
     document.getElementById('form-profile').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('btn-save');
-      btn.disabled = true;
-      btn.textContent = 'Menyimpan...';
+      btn.disabled = true; btn.textContent = 'Menyimpan...';
 
       const payload = {
         full_name: document.getElementById('full_name').value,
@@ -150,22 +141,14 @@ import Layout from '../layouts/Layout.astro';
           user.name = payload.full_name;
           localStorage.setItem('user', JSON.stringify(user));
           document.getElementById('display-name-header').textContent = payload.full_name;
-        } else {
-          showToast('Gagal menyimpan', 'error');
-        }
-      } catch (err) {
-        showToast('Masalah koneksi', 'error');
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Simpan Perubahan';
-      }
+        } else { showToast('Gagal menyimpan', 'error'); }
+      } catch (err) { showToast('Masalah koneksi', 'error'); } 
+      finally { btn.disabled = false; btn.textContent = 'Simpan Perubahan'; }
     });
 
-    document.getElementById('btn-reset-pw').addEventListener('click', async () => {
+    document.getElementById('btn-reset-pw').onclick = async () => {
       const btn = document.getElementById('btn-reset-pw');
-      btn.disabled = true;
-      btn.textContent = 'Memproses...';
-
+      btn.disabled = true; btn.textContent = 'Memproses...';
       try {
         const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
           method: 'POST',
@@ -174,95 +157,58 @@ import Layout from '../layouts/Layout.astro';
         });
         if (res.ok) {
           showToast('OTP dikirim ke email!');
-          setTimeout(() => {
-            window.location.href = `/reset-password?email=${user.email}`;
-          }, 1500);
-        } else {
-          showToast('Gagal mengirim OTP', 'error');
-        }
-      } catch (err) {
-        showToast('Masalah koneksi', 'error');
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Minta Reset';
-      }
-    });
+          setTimeout(() => window.location.href = `/reset-password?email=${user.email}`, 1500);
+        } else { showToast('Gagal kirim OTP', 'error'); }
+      } catch (err) { showToast('Masalah koneksi', 'error'); } 
+      finally { btn.disabled = false; btn.textContent = 'Minta Reset'; }
+    };
 
     function showToast(msg, type = 'success') {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.className = `toast-premium show ${type}`;
-      setTimeout(() => toast.className = 'toast-premium', 3000);
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.className = `toast-bento show ${type}`;
+      setTimeout(() => t.className = 'toast-bento', 3000);
     }
 
-    const logout = () => { localStorage.clear(); window.location.href = '/login'; };
-    document.getElementById('btn-logout')?.addEventListener('click', logout);
-    document.getElementById('btn-logout-mob')?.addEventListener('click', logout);
-
+    document.getElementById('btn-logout').onclick = () => { localStorage.clear(); window.location.href = '/login'; };
     fetchProfile();
   </script>
 </Layout>
 
 <style>
-  /* Base Layout Re-use */
-  .app-layout { display: flex; min-height: 100vh; background: var(--color-bg); color: var(--color-text-body); }
+  .profile-header-zen { display: flex; align-items: center; gap: var(--space-xl); margin-bottom: var(--space-2xl); }
+  .avatar-zen { 
+    width: 90px; height: 90px; border-radius: 30px; 
+    background: var(--color-bg); color: var(--color-brand);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-soft);
+  }
+  .avatar-details h3 { font-size: 24px; font-weight: 800; color: var(--color-text-title); margin-bottom: 4px; }
+  .avatar-details p { font-size: 15px; color: var(--color-text-muted); font-weight: 600; }
 
-  /* Sidebar Desktop */
-  .desktop-sidebar { display: none; width: 80px; height: 100vh; position: fixed; left: 0; top: 0; flex-direction: column; align-items: center; padding: var(--space-xl) 0; z-index: 100; }
-  .logo-box { width: 56px; height: 56px; background: linear-gradient(135deg, var(--color-brand), var(--color-brand-alt)); border-radius: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(44, 62, 80, 0.3); }
-  .logo-box img { width: 36px; filter: brightness(0) invert(1); } /* Enlarge logo inside pill */
-  .sidebar-links { flex: 1; display: flex; flex-direction: column; gap: var(--space-lg); margin-top: var(--space-2xl); }
-  .side-link { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px; color: var(--color-text-muted); transition: all 0.3s; }
-  .side-link:hover, .side-link.active { color: var(--color-brand); background: rgba(44, 62, 80, 0.05); }
-  .side-link.logout:hover { color: var(--color-danger); background: rgba(244, 63, 94, 0.1); }
+  .zen-form { display: flex; flex-direction: column; gap: var(--space-xl); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); }
+  .form-group label { display: block; font-size: 13px; font-weight: 800; color: var(--color-text-title); margin-bottom: 8px; }
+  
+  .zen-input input {
+    width: 100%; background: var(--color-bg); border: 1px solid var(--color-border);
+    border-radius: 16px; padding: 14px 20px; color: var(--color-text-title);
+    font-family: inherit; font-size: 15px; transition: all 0.3s;
+  }
+  .zen-input input:focus { outline: none; border-color: var(--color-brand); box-shadow: 0 0 0 4px rgba(26,26,26,0.05); }
 
-  /* Mobile Nav */
-  .mobile-nav { display: flex; position: fixed; bottom: 16px; left: 16px; right: 16px; height: 64px; border-radius: 20px; justify-content: space-around; align-items: center; z-index: 100; padding: 0 12px; }
-  .mob-link { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--color-text-muted); text-decoration: none; border: none; background: none; }
-  .mob-link span { font-size: 10px; font-weight: 700; text-transform: uppercase; }
-  .mob-link.active { color: var(--color-brand); }
+  .form-actions-right { display: flex; justify-content: flex-end; margin-top: var(--space-lg); }
 
-  /* Main Viewport */
-  .main-content { flex: 1; padding: var(--space-lg); padding-bottom: 100px; }
-  .top-header { margin-bottom: var(--space-xl); }
-  .top-header h1 { font-size: 28px; margin-bottom: 4px; color: var(--color-text-title); }
-  .subtitle { font-size: 14px; color: var(--color-text-muted); font-weight: 500; }
+  .security-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: var(--space-lg); background: var(--color-bg); border-radius: 20px;
+    margin-top: var(--space-xl);
+  }
+  .security-info h4 { font-size: 15px; font-weight: 800; color: var(--color-text-title); margin-bottom: 4px; }
+  .security-info p { font-size: 13px; color: var(--color-text-muted); }
 
-  .profile-container { max-width: 800px; display: flex; flex-direction: column; gap: var(--space-lg); }
-
-  /* Profile Card */
-  .profile-card-large { padding: var(--space-xl); border-radius: var(--radius-lg); }
-  .profile-avatar-setup { display: flex; align-items: center; gap: var(--space-lg); margin-bottom: var(--space-2xl); }
-  .avatar-circle { width: 80px; height: 80px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--color-brand); }
-  .avatar-info h3 { font-size: 20px; margin-bottom: 4px; color: var(--color-text-title); }
-  .avatar-info p { font-size: 14px; color: var(--color-text-muted); }
-
-  .profile-form { display: flex; flex-direction: column; gap: var(--space-lg); }
-  .input-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
-  .input-field label { display: block; font-size: 13px; font-weight: 700; color: var(--color-text-title); margin-bottom: 8px; }
-  .input-field input { width: 100%; background: rgba(44, 62, 80, 0.05); border: 1px solid var(--color-border); border-radius: 12px; padding: 12px 16px; color: var(--color-text-title); font-family: inherit; font-size: 15px; }
-  .input-field input:focus { outline: none; border-color: var(--color-brand); }
-
-  /* Security Card */
-  .security-card { padding: var(--space-xl); border-radius: var(--radius-lg); }
-  .security-card h3 { font-size: 18px; margin-bottom: 4px; color: var(--color-text-title); }
-  .security-card p { font-size: 13px; color: var(--color-text-muted); margin-bottom: var(--space-lg); }
-  .security-item { display: flex; flex-direction: column; gap: var(--space-md); padding: var(--space-lg); border-radius: var(--radius-md); }
-  .item-text h4 { font-size: 15px; margin-bottom: 4px; color: var(--color-text-title); }
-  .item-text p { font-size: 12px; color: var(--color-text-muted); }
-
-  /* Toast Re-use */
-  .toast-premium { position: fixed; top: 16px; left: 16px; right: 16px; padding: 12px 20px; border-radius: 12px; background: var(--color-brand); color: white; font-weight: 700; font-size: 13px; border: 1px solid var(--color-border-bright); transform: translateY(-100px); opacity: 0; transition: all 0.4s; z-index: 2000; }
-  .toast-premium.show { transform: translateY(0); opacity: 1; }
-  .toast-premium.error { border-left: 4px solid var(--color-danger); }
-
-  @media (min-width: 768px) {
-    .main-content { padding-left: 100px; padding-top: var(--space-xl); }
-    .desktop-sidebar { display: flex; }
-    .mobile-nav { display: none; }
-    .input-grid { grid-template-columns: 1fr 1fr; }
-    .security-item { flex-direction: row; justify-content: space-between; align-items: center; }
-    .top-header h1 { font-size: 32px; }
-    .toast-premium { width: auto; left: auto; right: 24px; top: 24px; min-width: 300px; }
+  @media (max-width: 768px) {
+    .form-row { grid-template-columns: 1fr; }
+    .profile-header-zen { flex-direction: column; text-align: center; }
+    .security-row { flex-direction: column; gap: var(--space-lg); text-align: center; }
   }
 </style>

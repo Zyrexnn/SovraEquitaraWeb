@@ -3,86 +3,89 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="SovraEquitara — Bangun Kota Bersama">
-  <main class="landing-page">
-    <!-- Navigation -->
-    <nav class="landing-nav animate-up">
+  <main class="zen-landing">
+    <!-- Header Nav -->
+    <nav class="zen-nav animate-up">
       <div class="nav-container glass">
         <div class="logo-area">
-          <img src="/logo.svg" alt="SovraEquitara" class="nav-logo" />
+          <img src="/logo.svg" alt="Sovra" class="nav-logo" />
         </div>
         <div class="nav-actions">
-          <a href="/login" class="btn btn-glass btn-sm">Masuk</a>
-          <a href="/register" class="btn btn-primary btn-sm">Mulai</a>
+          <a href="/login" class="zen-link">Masuk</a>
+          <a href="/register" class="zen-btn-nav">Mulai</a>
         </div>
       </div>
     </nav>
 
-    <!-- Hero & Bento Grid -->
-    <div class="content-wrapper">
-      <div class="bento-grid-landing">
-        <!-- Main Hero Card -->
-        <section class="bento-item bento-hero-main glass animate-up delay-1">
-          <div class="hero-inner">
-            <span class="badge-premium">PLATFORM CIVIC TECH 2026</span>
-            <h1 class="display-text">Satu Laporan,<br/><span class="text-gradient">Ribuan Perubahan.</span></h1>
-            <p class="hero-p">Berdayakan suara Anda untuk memperbaiki infrastruktur kota. Cepat, transparan, dan terverifikasi secara cerdas.</p>
-            <div class="hero-cta-group">
-              <a href="/register" class="btn btn-primary btn-lg">Daftar Sekarang</a>
-              <a href="#about" class="btn btn-glass btn-lg">Pelajari Alur</a>
+    <div class="zen-content scroll-slim">
+      <div class="bento-grid-zen">
+        <!-- Hero Section -->
+        <section class="bento-item hero-zen glass animate-up delay-1">
+          <div class="hero-content">
+            <span class="zen-badge">CIVIC TECH 2026</span>
+            <h1 class="zen-display">Satu Laporan,<br/><span class="accent-text">Ribuan Perubahan.</span></h1>
+            <p class="zen-lead">Berdayakan suara Anda untuk memperbaiki infrastruktur kota secara transparan dan terverifikasi.</p>
+            <div class="zen-cta-row">
+              <a href="/register" class="btn btn-primary">Daftar Sekarang</a>
+              <a href="/login" class="btn btn-glass">Masuk Dashboard</a>
             </div>
+          </div>
+          <div class="zen-decoration">
+            <div class="zen-blob blob-hero"></div>
           </div>
         </section>
 
-        <!-- Stats Card -->
-        <section class="bento-item bento-stats glass animate-up delay-2">
-          <div class="stat-circle">
+        <!-- Stats Bento -->
+        <section class="bento-item stats-zen glass animate-up delay-2">
+          <div class="zen-circular">
             <svg viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(44, 62, 80, 0.1)" stroke-width="8"></circle>
-              <circle cx="50" cy="50" r="45" fill="none" stroke="var(--color-brand)" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="70" class="circle-progress"></circle>
+              <circle cx="50" cy="50" r="45" class="cir-bg"></circle>
+              <circle cx="50" cy="50" r="45" class="cir-val" id="progress-circle"></circle>
             </svg>
-            <div class="stat-content">
-              <span class="stat-num" id="total-reports">0</span>
-              <span class="stat-label">Laporan Selesai</span>
+            <div class="cir-content">
+              <span class="cir-num" id="total-reports">0</span>
+              <span class="cir-label">LAPORAN</span>
             </div>
           </div>
+          <p class="zen-small">Tuntas & Terverifikasi</p>
         </section>
 
-        <!-- Feature Card 1 -->
-        <section class="bento-item bento-feature glass animate-up delay-3">
-          <div class="feat-icon brand-glow">
+        <!-- Feature 1 -->
+        <section class="bento-item feat-zen glass animate-up delay-3">
+          <div class="feat-icon-zen">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
           </div>
           <h3>Presisi Lokasi</h3>
-          <p>Titik koordinat akurat untuk setiap laporan yang Anda kirimkan.</p>
+          <p>Titik koordinat akurat untuk setiap laporan infrastruktur Anda.</p>
         </section>
 
-        <!-- Feature Card 2 -->
-        <section class="bento-item bento-feature glass animate-up delay-4">
-          <div class="feat-icon success-glow">
+        <!-- Feature 2 -->
+        <section class="bento-item feat-zen glass animate-up delay-4">
+          <div class="feat-icon-zen accent">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
           </div>
           <h3>Verifikasi Cepat</h3>
-          <p>Validasi sistem cerdas memastikan laporan Anda segera diproses.</p>
+          <p>Validasi sistem cerdas memastikan laporan Anda segera diproses oleh admin.</p>
         </section>
 
-        <!-- Leaderboard Preview -->
-        <section class="bento-item bento-leader glass animate-up delay-5">
-          <div class="card-header-row">
+        <!-- Leaderboard -->
+        <section class="bento-item leader-zen glass animate-up delay-5">
+          <div class="leader-header">
             <h3>Pahlawan Warga</h3>
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--color-warning)" stroke-width="2.5"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path></svg>
+            <span class="star-icon">✦</span>
           </div>
-          <div class="leader-preview-list">
-            <div class="p-item"><span>1. Budi Santoso</span><strong>1,240 pts</strong></div>
-            <div class="p-item"><span>2. Citra Dewi</span><strong>980 pts</strong></div>
-            <div class="p-item"><span>3. Andi Wijaya</span><strong>850 pts</strong></div>
+          <div class="leader-rows">
+            <div class="l-row"><span>Budi Santoso</span><strong>1,240 pts</strong></div>
+            <div class="l-row"><span>Citra Dewi</span><strong>980 pts</strong></div>
+            <div class="l-row"><span>Andi Wijaya</span><strong>850 pts</strong></div>
           </div>
         </section>
       </div>
-    </div>
 
-    <footer class="landing-footer">
-      <p>&copy; 2026 SovraEquitara. Membangun masa depan perkotaan yang lebih transparan.</p>
-    </footer>
+      <footer class="zen-footer">
+        <p>&copy; 2026 SovraEquitara. Membangun masa depan kota yang lebih transparan.</p>
+      </footer>
+    </div>
   </main>
 </Layout>
 
@@ -91,103 +94,135 @@ import Layout from '../layouts/Layout.astro';
     const el = document.getElementById(id);
     if (!el) return;
     let current = 0;
-    const step = target / 60;
-    const timer = setInterval(() => {
-      current += step;
-      if (current >= target) {
-        el.textContent = target.toLocaleString();
-        clearInterval(timer);
-      } else {
-        el.textContent = Math.floor(current).toLocaleString();
-      }
-    }, 16);
+    const duration = 2000;
+    const startTime = performance.now();
+
+    function update(now: number) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      current = Math.floor(ease * target);
+      el!.textContent = current.toLocaleString();
+      
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
   }
 
   animateCounter('total-reports', 14820);
+  
+  // Circle Progress
+  setTimeout(() => {
+    const circle = document.getElementById('progress-circle');
+    if (circle) (circle as any).style.strokeDashoffset = "80";
+  }, 500);
 </script>
 
 <style>
-  .landing-page { min-height: 100vh; overflow-x: hidden; position: relative; }
+  .zen-landing { 
+    min-height: 100vh; background: var(--color-bg); 
+    color: var(--color-text-body); font-family: 'Plus Jakarta Sans', sans-serif;
+  }
 
   /* Navigation */
-  .landing-nav {
-    position: fixed; top: 20px; left: 0; right: 0; z-index: 1000;
-    padding: 0 var(--space-lg);
+  .zen-nav { position: fixed; top: 24px; left: 0; right: 0; z-index: 1000; padding: 0 var(--space-xl); }
+  .nav-container { 
+    max-width: 1200px; margin: 0 auto; padding: 12px 24px;
+    border-radius: 99px; display: flex; justify-content: space-between; align-items: center;
+    box-shadow: var(--shadow-premium);
   }
-  .nav-container {
-    max-width: 1100px; margin: 0 auto; padding: 12px 24px;
-    border-radius: var(--radius-full); display: flex; justify-content: space-between; align-items: center;
+  .nav-logo { height: 50px; width: auto; filter: brightness(0); }
+  .nav-actions { display: flex; align-items: center; gap: 24px; }
+  .zen-link { font-size: 14px; font-weight: 800; color: var(--color-text-title); text-decoration: none; }
+  .zen-btn-nav { 
+    background: var(--color-brand); color: white; padding: 10px 24px; 
+    border-radius: 99px; font-size: 13px; font-weight: 800; text-decoration: none;
+    transition: all 0.3s;
   }
-  .logo-area { display: flex; align-items: center; gap: 12px; }
-  .nav-logo { height: 56px; width: auto; filter: brightness(0) sepia(1) hue-rotate(175deg) saturate(300%) brightness(0.3); }
-  .nav-actions { display: flex; gap: 12px; }
-  .btn-sm { padding: 8px 16px; font-size: 13px; }
+  .zen-btn-nav:hover { transform: scale(1.05); }
 
-  /* Layout Wrapper */
-  .content-wrapper { padding: 100px var(--space-lg) var(--space-2xl); max-width: 1100px; margin: 0 auto; }
+  /* Content Layout */
+  .zen-content { padding: 140px var(--space-xl) 60px; max-width: 1240px; margin: 0 auto; }
+  .bento-grid-zen { display: grid; grid-template-columns: 1fr; gap: var(--space-xl); }
 
-  /* Bento Grid Landing */
-  .bento-grid-landing {
-    display: grid; grid-template-columns: 1fr; gap: var(--space-md);
+  /* Hero Card */
+  .hero-zen { 
+    grid-column: span 1; padding: var(--space-3xl); 
+    display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;
   }
-
-  .bento-item { padding: var(--space-xl); border-radius: var(--radius-lg); }
-
-  /* Hero Main */
-  .bento-hero-main {
-    background: radial-gradient(circle at top right, rgba(44, 62, 80, 0.05), transparent),
-                linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(244, 241, 234, 0.95));
+  .zen-badge { 
+    font-size: 11px; font-weight: 900; color: var(--color-brand); 
+    background: var(--color-accent); padding: 6px 14px; border-radius: 8px;
+    margin-bottom: 24px; display: inline-block; letter-spacing: 0.1em;
   }
-  .badge-premium {
-    display: inline-block; padding: 4px 12px; border-radius: 8px;
-    background: rgba(44, 62, 80, 0.05); color: var(--color-brand);
-    font-size: 10px; font-weight: 800; letter-spacing: 0.1em; margin-bottom: 20px;
-    border: 1px solid rgba(44, 62, 80, 0.2);
+  .zen-display { font-size: 48px; line-height: 1.1; font-weight: 800; color: var(--color-text-title); margin-bottom: 24px; }
+  .accent-text { color: var(--color-brand); opacity: 0.8; }
+  .zen-lead { font-size: 18px; color: var(--color-text-muted); max-width: 540px; margin-bottom: 40px; line-height: 1.6; }
+  .zen-cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .zen-blob { 
+    position: absolute; width: 400px; height: 400px; 
+    background: var(--color-accent); opacity: 0.2; 
+    border-radius: 50%; filter: blur(80px); z-index: -1; 
+    top: -100px; right: -100px;
+    animation: blob-move 12s infinite alternate ease-in-out;
   }
-  .display-text { font-size: 40px; line-height: 1.1; margin-bottom: 20px; }
-  .text-gradient { background: linear-gradient(to right, var(--color-brand), #475569); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .hero-p { font-size: 16px; color: var(--color-text-muted); max-width: 500px; margin-bottom: 32px; line-height: 1.6; }
-  .hero-cta-group { display: flex; flex-wrap: wrap; gap: 16px; }
-  .btn-lg { padding: 16px 32px; font-size: 16px; border-radius: var(--radius-md); }
+  @keyframes blob-move { from { transform: translate(0,0); } to { transform: translate(-100px, 50px); } }
 
-  /* Stats Card */
-  .bento-stats { display: flex; align-items: center; justify-content: center; }
-  .stat-circle { position: relative; width: 180px; height: 180px; }
-  .stat-circle svg { transform: rotate(-90deg); }
-  .circle-progress { transition: stroke-dashoffset 2s ease-out; }
-  .stat-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .stat-num { font-size: 32px; font-weight: 800; color: var(--color-brand); line-height: 1; }
-  .stat-label { font-size: 10px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; margin-top: 4px; }
+  /* Stats Bento */
+  .stats-zen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: var(--space-2xl); }
+  .zen-circular { position: relative; width: 180px; height: 180px; margin-bottom: 16px; }
+  .cir-bg { fill: none; stroke: var(--color-border); stroke-width: 8; }
+  .cir-val { 
+    fill: none; stroke: var(--color-brand); stroke-width: 8; 
+    stroke-dasharray: 283; stroke-dashoffset: 283;
+    stroke-linecap: round; transform: rotate(-90deg); transform-origin: center;
+    transition: stroke-dashoffset 2s var(--transition-smooth);
+  }
+  .cir-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .cir-num { font-size: 34px; font-weight: 900; color: var(--color-text-title); }
+  .cir-label { font-size: 10px; font-weight: 800; color: var(--color-text-muted); letter-spacing: 0.1em; }
+  .zen-small { font-size: 12px; font-weight: 700; color: var(--color-text-muted); }
 
-  /* Feature Cards */
-  .bento-feature h3 { font-size: 20px; margin: 16px 0 8px; }
-  .bento-feature p { font-size: 14px; color: var(--color-text-muted); }
-  .feat-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; }
-  .brand-glow { background: var(--color-brand); box-shadow: 0 10px 20px rgba(44, 62, 80, 0.3); }
-  .success-glow { background: var(--color-success); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
+  /* Features */
+  .feat-zen { padding: var(--space-xl); }
+  .feat-icon-zen { 
+    width: 56px; height: 56px; border-radius: 20px; 
+    background: var(--color-brand); color: white;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
+  }
+  .feat-icon-zen.accent { background: var(--color-accent); color: var(--color-brand); }
+  .feat-zen h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+  .feat-zen p { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
 
-  /* Leaderboard Preview */
-  .bento-leader h3 { font-size: 18px; }
-  .card-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .leader-preview-list { display: flex; flex-direction: column; gap: 12px; }
-  .p-item { display: flex; justify-content: space-between; padding: 12px; background: rgba(44, 62, 80, 0.05); border-radius: 12px; font-size: 13px; font-weight: 600; }
-  .p-item strong { color: var(--color-brand); }
+  /* Leaderboard */
+  .leader-zen { padding: var(--space-xl); }
+  .leader-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .leader-header h3 { font-size: 18px; font-weight: 800; }
+  .star-icon { color: var(--color-brand); font-size: 20px; }
+  .leader-rows { display: flex; flex-direction: column; gap: 12px; }
+  .l-row { 
+    display: flex; justify-content: space-between; padding: 14px 20px; 
+    background: var(--color-bg); border-radius: 16px; 
+    font-size: 13px; font-weight: 700;
+  }
+  .l-row strong { color: var(--color-brand); }
 
-  .landing-footer { text-align: center; padding: var(--space-2xl) var(--space-lg); border-top: 1px solid var(--color-border); font-size: 12px; color: var(--color-text-muted); }
+  /* Footer */
+  .zen-footer { text-align: center; margin-top: 80px; padding: 40px 0; border-top: 1px solid var(--color-border); font-size: 12px; color: var(--color-text-muted); }
 
-  /* Desktop Queries */
+  /* Responsive */
   @media (min-width: 768px) {
-    .bento-grid-landing { grid-template-columns: repeat(2, 1fr); }
-    .bento-hero-main { grid-column: span 2; padding: var(--space-2xl); }
-    .display-text { font-size: 64px; }
-    .hero-inner { padding: 40px 0; }
+    .bento-grid-zen { grid-template-columns: repeat(2, 1fr); }
+    .hero-zen { grid-column: span 2; padding: var(--space-3xl); }
+    .zen-display { font-size: 72px; }
   }
 
   @media (min-width: 1024px) {
-    .bento-grid-landing { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, auto); }
-    .bento-hero-main { grid-column: 1 / 4; grid-row: 1 / 2; }
-    .bento-stats { grid-column: 4 / 5; grid-row: 1 / 2; }
-    .bento-feature { grid-column: span 1; }
-    .bento-leader { grid-column: 3 / 5; }
+    .bento-grid-zen { grid-template-columns: repeat(4, 1fr); }
+    .hero-zen { grid-column: 1 / 4; }
+    .stats-zen { grid-column: 4 / 5; }
+    .leader-zen { grid-column: 3 / 5; }
   }
 </style>
