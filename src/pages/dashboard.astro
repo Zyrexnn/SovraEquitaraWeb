@@ -1,131 +1,164 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import '../styles/dashboard-shared.css';
 ---
 
 <Layout title="Dashboard — SovraEquitara">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   
-  <div class="dashboard-wrapper">
-    <!-- Sidebar -->
-    <aside class="sidebar-nav">
-      <div class="nav-brand">
-        <div class="brand-logo-pill">
-          <img src="/logo.svg" alt="Sovra" />
-        </div>
+  <div class="app-container">
+    <!-- Desktop Sidebar -->
+    <aside class="desktop-sidebar">
+      <div class="sidebar-brand">
+        <img src="/logo.svg" alt="SovraEquitara" class="brand-img" />
       </div>
-      <nav class="nav-links">
-        <a href="/dashboard" class="nav-link active" title="Dashboard">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      <nav   class="sidebar-nav-v2">
+        <a href="/dashboard" class="side-item active">
+          <svg viewBox="0 0 24 24" class="s-icon"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+          <span>Dashboard</span>
         </a>
-        <a href="/profile" class="nav-link" title="Profil">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <a href="/profile" class="side-item">
+          <svg viewBox="0 0 24 24" class="s-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Profil Saya</span>
         </a>
-        <a href="/history" class="nav-link" title="Riwayat">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <a href="/history" class="side-item">
+          <svg viewBox="0 0 24 24" class="s-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          <span>Riwayat</span>
         </a>
       </nav>
-      <div class="nav-footer">
-        <button id="btn-logout" class="nav-link logout-link" title="Keluar">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      <div class="sidebar-bottom">
+        <button id="btn-logout-desktop" class="side-item logout">
+          <svg viewBox="0 0 24 24" class="s-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
+          <span>Keluar</span>
         </button>
       </div>
     </aside>
 
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-nav">
+      <a href="/dashboard" class="mob-item active">
+        <svg viewBox="0 0 24 24" class="m-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 22"></polyline></svg>
+      </a>
+      <a href="/profile" class="mob-item">
+        <svg viewBox="0 0 24 24" class="m-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </a>
+      <a href="/history" class="mob-item">
+        <svg viewBox="0 0 24 24" class="m-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+      </a>
+      <button id="btn-logout-mobile" class="mob-item">
+        <svg viewBox="0 0 24 24" class="m-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+      </button>
+    </nav>
+
     <!-- Main Content -->
-    <main class="main-viewport scroll-slim">
-      <header class="top-nav">
-        <div class="welcome-msg">
-          <h1 id="user-greeting">Halo, Amanda!</h1>
-          <p>Yuk, lihat kontribusi infrastrukturmu hari ini.</p>
-        </div>
-        <div class="top-actions">
-          <div class="search-bar">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" placeholder="Cari laporan..." />
+    <main class="main-content scroll-slim">
+      <header class="app-header">
+        <div class="header-left">
+          <div class="mobile-logo-only">
+            <img src="/logo.svg" alt="Sovra" />
           </div>
-          <button class="btn btn-primary btn-upgrade">Lihat Peta</button>
+          <div class="desktop-breadcrumb">
+            <span class="crumb">App</span> / <span class="crumb active">Dashboard</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="user-pill-v2">
+            <span class="points-val" id="profile-points">0 PTS</span>
+            <div class="u-avatar" id="u-initial">U</div>
+          </div>
         </div>
       </header>
 
-      <div class="bento-container">
-        <!-- Hero Stats Card -->
-        <div class="bento-item glass card-hero animate-up" style="grid-column: span 8; grid-row: span 2;">
-          <div class="hero-header">
-            <h3>Statistik Aktivitas</h3>
-            <p>Data kontribusi terbaru Anda</p>
+      <div class="content-inner fade-in">
+        <section class="hero-header-v2">
+          <div class="welcome-block">
+            <h1 id="user-greeting">Halo, Warga!</h1>
+            <p>Berikan laporan Anda untuk infrastruktur yang lebih baik.</p>
           </div>
-          
-          <div class="zen-visual">
-            <div class="blob blob-main">
-              <span class="blob-val" id="profile-points">0</span>
-              <span class="blob-label">PTS</span>
-            </div>
-            <div class="blob blob-sub-1">
-              <span class="blob-val" id="count-resolved">0</span>
-              <span class="blob-label">Selesai</span>
-            </div>
-            <div class="blob blob-sub-2">
-              <span class="blob-val" id="count-pending">0</span>
-              <span class="blob-label">Pending</span>
+          <div class="hero-actions">
+            <button class="btn-saas btn-saas-primary">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              Jelajahi Peta
+            </button>
+          </div>
+        </section>
+
+        <!-- Bento Layout V2 -->
+        <div class="dashboard-grid">
+          <!-- Stats Card -->
+          <div class="card-zen stats-card-v2">
+            <div class="card-p">
+              <div class="card-h-flex">
+                <h3>Ikhtisar Kontribusi</h3>
+                <span class="rank-badge-v2" id="profile-rank">Pemula</span>
+              </div>
+              <div class="stats-content-v2">
+                <div class="main-stat-v2">
+                  <div class="v-circle">
+                    <span class="v-val" id="count-total">0</span>
+                    <span class="v-lbl">Laporan</span>
+                  </div>
+                </div>
+                <div class="sub-stats-v2">
+                  <div class="s-row">
+                    <span class="s-lbl">Sedang Diproses</span>
+                    <span class="s-val text-pending" id="count-pending">0</span>
+                  </div>
+                  <div class="s-row">
+                    <span class="s-lbl">Telah Selesai</span>
+                    <span class="s-val text-success" id="count-resolved">0</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="hero-legend">
-            <div class="legend-item"><span class="dot pts"></span> Poin Akumulasi</div>
-            <div class="legend-item"><span class="dot resolved"></span> Laporan Selesai</div>
-            <div class="legend-item"><span class="dot pending"></span> Masih Proses</div>
-          </div>
-        </div>
-
-        <!-- Leaderboard Card -->
-        <div class="bento-item glass card-dark animate-up delay-1" style="grid-column: span 4; grid-row: span 2;">
-          <div class="card-header-flex">
-            <h3>Warga Aktif</h3>
-            <div class="month-select">Mei <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-          </div>
-          
-          <div id="leaderboard-list" class="zen-list-dark">
-            <!-- Items injected by script -->
-          </div>
-
-          <div class="card-footer-center">
-            <div class="pts-status">
-              <span class="dot current"></span> Peringkat: <strong id="profile-rank">Pemula</strong>
+          <!-- Report Form Card -->
+          <div class="card-zen report-form-v2">
+            <div class="card-p">
+              <h3>Lapor Cepat</h3>
+              <form id="form-report" class="form-zen">
+                <div class="input-group">
+                  <label>Detail Kerusakan</label>
+                  <input type="text" id="details" placeholder="Apa yang rusak?" required />
+                </div>
+                <div class="input-group">
+                  <label>Lokasi Spesifik</label>
+                  <input type="text" id="location_detail" placeholder="Cth: Depan SDN 01" required />
+                </div>
+                <div class="map-box">
+                  <div id="map"></div>
+                  <input type="hidden" id="lat" /><input type="hidden" id="lng" />
+                </div>
+                <button type="submit" id="btn-submit" class="btn-saas btn-saas-primary w-full">Kirim Laporan</button>
+              </form>
             </div>
           </div>
-        </div>
 
-        <!-- Report Form Card -->
-        <div class="bento-item glass animate-up delay-2" style="grid-column: span 4;">
-          <div class="card-header-simple">
-            <h3>Lapor Cepat</h3>
-            <p>Laporkan masalah infrastruktur</p>
-          </div>
-          <form id="form-report" class="zen-form">
-            <input type="text" id="details" placeholder="Apa masalahnya?" required />
-            <div class="map-mini glass">
-              <div id="map"></div>
-              <input type="hidden" id="lat" /><input type="hidden" id="lng" />
+          <!-- Leaderboard Card -->
+          <div class="card-zen dark-card-v2">
+            <div class="card-p">
+              <h3>Leaderboard Warga</h3>
+              <div id="leaderboard-list" class="list-dark-v2">
+                <!-- Injected -->
+              </div>
             </div>
-            <button type="submit" id="btn-submit" class="btn btn-primary w-full">Kirim Laporan</button>
-          </form>
-        </div>
-
-        <!-- Progress Card -->
-        <div class="bento-item glass animate-up delay-3" style="grid-column: span 8;">
-          <div class="card-header-flex">
-            <h3>Laporan Terbaru</h3>
-            <button class="btn-icon-plus" title="Tambah Baru">+</button>
           </div>
-          
-          <div id="reports-list" class="zen-activity-list">
-            <!-- Items injected by script -->
+
+          <!-- Recent Reports Card -->
+          <div class="card-zen activity-card-v2">
+            <div class="card-p">
+              <h3>Laporan Terbaru</h3>
+              <div id="reports-list" class="activity-list-v2">
+                <!-- Injected -->
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </main>
 
-    <div id="toast" class="toast-bento"></div>
+    <div id="toast" class="saas-toast"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -139,8 +172,9 @@ import Layout from '../layouts/Layout.astro';
 
     const user = JSON.parse(userRaw);
     document.getElementById('user-greeting').textContent = `Halo, ${user.name || 'Warga'}!`;
+    document.getElementById('u-initial').textContent = (user.name || 'U')[0].toUpperCase();
 
-    // Map Init
+    // Map Setup
     const map = L.map('map', { zoomControl: false }).setView([-6.2000, 106.8166], 13);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
     const marker = L.marker([-6.2000, 106.8166], { draggable: true }).addTo(map);
@@ -176,7 +210,8 @@ import Layout from '../layouts/Layout.astro';
       const resolved = reports.filter(r => r.status === 'RESOLVED').length;
       document.getElementById('count-pending').textContent = pending;
       document.getElementById('count-resolved').textContent = resolved;
-      document.getElementById('profile-points').textContent = user.points || 0;
+      document.getElementById('count-total').textContent = reports.length;
+      document.getElementById('profile-points').textContent = `${user.points || 0} PTS`;
       
       let rank = 'Pemula';
       if(user.points >= 20) rank = 'Pemerhati';
@@ -186,17 +221,18 @@ import Layout from '../layouts/Layout.astro';
 
     function renderReports(items) {
       const list = document.getElementById('reports-list');
-      list.innerHTML = items.slice(0, 4).map(r => `
-        <div class="zen-row">
-          <div class="zen-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
-          <div class="zen-info">
-            <h4>${r.description}</h4>
-            <p>${r.location_detail || 'Lokasi Terdeteksi'}</p>
+      if(items.length === 0) {
+        list.innerHTML = '<div class="empty-msg">Belum ada laporan yang Anda buat.</div>';
+        return;
+      }
+      list.innerHTML = items.slice(0, 5).map(r => `
+        <div class="activity-v2">
+          <div class="a-indicator ${r.status.toLowerCase()}"></div>
+          <div class="a-body">
+            <span class="a-title">${r.description}</span>
+            <span class="a-meta">${r.location_detail} • ${new Date(r.created_at).toLocaleDateString('id-ID')}</span>
           </div>
-          <div class="zen-status">
-            <span class="status-indicator ${r.status.toLowerCase()}"></span>
-            ${r.status}
-          </div>
+          <span class="a-pill ${r.status.toLowerCase()}">${r.status}</span>
         </div>
       `).join('');
     }
@@ -204,10 +240,10 @@ import Layout from '../layouts/Layout.astro';
     function renderLeaderboard(items) {
       const list = document.getElementById('leaderboard-list');
       list.innerHTML = items.slice(0, 5).map((l, i) => `
-        <div class="zen-dark-row">
-          <div class="dark-rank">${i+1}</div>
-          <div class="dark-name">${l.full_name || 'Warga'}</div>
-          <div class="dark-pts">${l.points} PTS</div>
+        <div class="dark-item-v2">
+          <span class="i-rank">${i+1}</span>
+          <span class="i-name">${l.full_name || 'Warga'}</span>
+          <span class="i-pts">${l.points} PTS</span>
         </div>
       `).join('');
     }
@@ -218,6 +254,7 @@ import Layout from '../layouts/Layout.astro';
       btn.disabled = true;
       const payload = {
         description: document.getElementById('details').value,
+        location_detail: document.getElementById('location_detail').value,
         latitude: parseFloat(document.getElementById('lat').value),
         longitude: parseFloat(document.getElementById('lng').value)
       };
@@ -226,137 +263,110 @@ import Layout from '../layouts/Layout.astro';
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(payload)
       });
-      if (res.ok) { showToast('Laporan Terkirim!'); document.getElementById('form-report').reset(); refreshData(); }
-      else { showToast('Gagal mengirim', 'error'); }
+      if (res.ok) { 
+        showToast('Laporan Terkirim!'); 
+        document.getElementById('form-report').reset(); 
+        refreshData(); 
+      } else { showToast('Gagal mengirim', 'error'); }
       btn.disabled = false;
     });
 
-    function showToast(msg, type = 'success') {
-      const t = document.getElementById('toast');
-      t.textContent = msg; t.className = `toast-bento show ${type}`;
-      setTimeout(() => t.className = 'toast-bento', 3000);
-    }
-
-    document.getElementById('btn-logout').onclick = () => { localStorage.clear(); window.location.href = '/login'; };
+    const logout = () => { localStorage.clear(); window.location.href = '/login'; };
+    document.getElementById('btn-logout-desktop').onclick = logout;
+    document.getElementById('btn-logout-mobile').onclick = logout;
+    
     refreshData();
   </script>
 </Layout>
 
 <style>
-  /* Page Specific Layout */
-  .hero-header h3 { font-size: 20px; font-weight: 800; }
-  .hero-header p { font-size: 13px; color: var(--color-text-muted); }
-
-  .zen-visual {
-    height: 240px;
-    position: relative;
-    display: flex; align-items: center; justify-content: center;
-    margin-top: var(--space-xl);
-  }
-
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    backdrop-filter: blur(40px);
-    transition: all 0.5s var(--transition-smooth);
-    animation: float 6s infinite ease-in-out;
-  }
-
-  .blob-main {
-    width: 180px; height: 180px;
-    background: rgba(249, 212, 35, 0.4);
-    z-index: 2;
-    box-shadow: 0 20px 40px rgba(249, 212, 35, 0.2);
-  }
-  .blob-sub-1 {
-    width: 120px; height: 120px;
-    background: rgba(26, 26, 26, 0.6);
-    color: white;
-    top: 20px; left: 20%;
-    animation-delay: -2s;
-  }
-  .blob-sub-2 {
-    width: 100px; height: 100px;
-    background: rgba(242, 139, 130, 0.5);
-    bottom: 20px; right: 25%;
-    animation-delay: -4s;
-  }
-
-  .blob-val { font-size: 24px; font-weight: 800; line-height: 1; }
-  .blob-label { font-size: 10px; font-weight: 700; text-transform: uppercase; margin-top: 4px; opacity: 0.8; }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-15px) scale(1.02); }
-  }
-
-  .hero-legend {
-    display: flex; justify-content: center; gap: var(--space-xl);
-    margin-top: var(--space-xl);
-  }
-  .legend-item { font-size: 11px; font-weight: 700; color: var(--color-text-muted); display: flex; align-items: center; gap: 6px; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; }
-  .dot.pts { background: var(--color-accent); }
-  .dot.resolved { background: var(--color-brand); }
-  .dot.pending { background: var(--color-secondary); }
-
-  /* Dark Card (Leaderboard) */
-  .card-dark { background: var(--color-brand); color: white; border: none; }
-  .card-dark h3 { color: white; font-size: 18px; }
-  .month-select { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 4px; }
+  /* Local Dashboard Overrides */
+  .sidebar-brand { margin-bottom: 48px; padding: 0 12px; }
+  .brand-img { height: 48px; width: auto; filter: invert(1); }
   
-  .zen-list-dark { margin-top: var(--space-xl); display: flex; flex-direction: column; gap: 12px; }
-  .zen-dark-row {
-    display: flex; align-items: center; gap: 16px;
-    padding: 12px 16px; background: rgba(255,255,255,0.05);
-    border-radius: 16px; transition: background 0.3s;
-  }
-  .zen-dark-row:hover { background: rgba(255,255,255,0.1); }
-  .dark-rank { width: 24px; height: 24px; background: var(--color-accent); color: var(--color-brand); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 12px; }
-  .dark-name { flex: 1; font-size: 14px; font-weight: 600; }
-  .dark-pts { font-size: 12px; font-weight: 800; color: var(--color-accent); }
+  .sidebar-nav-v2 { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .side-item { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 14px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 600; font-size: 15px; transition: 0.2s; }
+  .side-item:hover { background: rgba(255,255,255,0.05); color: white; }
+  .side-item.active { background: var(--color-saas-accent); color: #111827; }
+  .side-item.logout { color: #F87171; margin-top: auto; }
+  .s-icon { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
 
-  .pts-status { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); margin-top: var(--space-xl); text-align: center; }
-  .pts-status strong { color: white; }
+  .mob-item { color: var(--saas-text-muted); padding: 12px; border-radius: 12px; }
+  .mob-item.active { color: #111827; background: #F9FAFB; }
+  .m-icon { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.5; }
 
-  /* Form & Activity */
-  .zen-form input {
-    width: 100%; padding: 14px 20px; border-radius: 16px;
-    border: 1px solid var(--color-border); background: var(--color-bg);
-    font-family: inherit; font-size: 14px; margin-bottom: var(--space-md);
-  }
-  .map-mini { height: 160px; border-radius: 20px; overflow: hidden; margin-bottom: var(--space-lg); }
-  #map { height: 100%; width: 100%; }
-
-  .zen-activity-list { margin-top: var(--space-lg); display: flex; flex-direction: column; gap: 8px; }
-  .zen-row {
-    display: flex; align-items: center; gap: 16px;
-    padding: 16px; background: var(--color-bg);
-    border-radius: 20px; border: 1px solid transparent;
-    transition: all 0.3s;
-  }
-  .zen-row:hover { border-color: var(--color-accent); transform: translateX(5px); }
-  .zen-icon { width: 44px; height: 44px; background: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--color-brand); box-shadow: var(--shadow-soft); }
-  .zen-info h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
-  .zen-info p { font-size: 12px; color: var(--color-text-muted); }
-  .zen-status { margin-left: auto; font-size: 11px; font-weight: 800; color: var(--color-text-muted); display: flex; align-items: center; gap: 6px; text-transform: uppercase; }
-  .status-indicator { width: 6px; height: 6px; border-radius: 50%; }
-  .status-indicator.pending { background: var(--color-secondary); }
-  .status-indicator.resolved { background: var(--color-brand); }
-
-  .btn-icon-plus {
-    width: 32px; height: 32px; border-radius: 10px; background: var(--color-brand);
-    color: white; border: none; font-size: 20px; font-weight: 300; cursor: pointer;
+  .mobile-logo-only { display: none; }
+  @media (max-width: 767px) {
+    .mobile-logo-only { display: block; height: 32px; }
+    .mobile-logo-only img { height: 100%; }
+    .desktop-breadcrumb { display: none; }
   }
 
-  .card-header-flex { display: flex; justify-content: space-between; align-items: center; }
+  .user-pill-v2 { display: flex; align-items: center; gap: 12px; background: #F3F4F6; padding: 6px 14px; border-radius: 99px; }
+  .points-val { font-size: 12px; font-weight: 800; color: #111827; background: var(--color-saas-accent); padding: 4px 10px; border-radius: 99px; }
+  .u-avatar { width: 32px; height: 32px; background: #111827; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
+
+  .hero-header-v2 { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+  .welcome-block h1 { font-size: 32px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 8px; }
+  .welcome-block p { color: var(--color-saas-text-muted); font-size: 16px; }
+
+  .dashboard-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+  .card-p { padding: 32px; }
+  
+  .stats-card-v2 { grid-column: span 7; }
+  .card-h-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+  .rank-badge-v2 { background: #F3F4F6; padding: 6px 14px; border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--color-saas-text-muted); }
+  
+  .stats-content-v2 { display: flex; align-items: center; gap: 64px; }
+  .v-circle { width: 150px; height: 140px; border: 8px solid var(--color-saas-accent); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #FFFBEB; }
+  .v-val { font-size: 40px; font-weight: 900; color: #111827; line-height: 1; }
+  .v-lbl { font-size: 11px; font-weight: 700; color: var(--color-saas-text-muted); text-transform: uppercase; margin-top: 4px; }
+  
+  .sub-stats-v2 { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+  .s-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; background: #F9FAFB; border-radius: 20px; }
+  .s-lbl { font-size: 14px; font-weight: 600; color: var(--color-saas-text-muted); }
+  .s-val { font-size: 24px; font-weight: 900; }
+  .text-pending { color: #EF4444; }
+  .text-success { color: #10B981; }
+
+  .report-form-v2 { grid-column: span 5; }
+  .map-box { height: 160px; border-radius: 20px; overflow: hidden; margin-bottom: 24px; border: 1.5px solid var(--color-saas-border); }
+  #map { height: 100%; }
+
+  .dark-card-v2 { grid-column: span 4; background: #111827; color: white; border: none; }
+  .dark-card-v2 h3 { color: white; margin-bottom: 24px; }
+  .list-dark-v2 { display: flex; flex-direction: column; gap: 12px; }
+  .dark-item-v2 { display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: rgba(255,255,255,0.05); border-radius: 16px; border: 1px solid rgba(255,255,255,0.03); }
+  .i-rank { width: 30px; height: 30px; background: var(--color-saas-accent); color: #111827; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+  .i-name { flex: 1; font-weight: 600; font-size: 15px; }
+  .i-pts { font-weight: 800; color: var(--color-saas-accent); font-size: 13px; }
+
+  .activity-card-v2 { grid-column: span 8; }
+  .activity-list-v2 { display: flex; flex-direction: column; gap: 12px; }
+  .activity-v2 { display: flex; align-items: center; gap: 16px; padding: 20px 24px; background: #F9FAFB; border-radius: 20px; border: 1px solid transparent; transition: 0.2s; }
+  .activity-v2:hover { border-color: var(--color-saas-accent); background: white; transform: scale(1.01); }
+  .a-indicator { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .a-indicator.pending { background: #EF4444; }
+  .a-indicator.resolved { background: #10B981; }
+  .a-body { flex: 1; }
+  .a-title { display: block; font-weight: 700; color: #111827; margin-bottom: 2px; font-size: 15px; }
+  .a-meta { font-size: 13px; color: var(--color-saas-text-muted); }
+  .a-pill { font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 8px; text-transform: uppercase; }
+  .a-pill.pending { background: #FEE2E2; color: #EF4444; }
+  .a-pill.resolved { background: #D1FAE5; color: #10B981; }
+
+  .w-full { width: 100%; }
+  .saas-toast { position: fixed; bottom: 90px; right: 24px; left: 24px; padding: 16px; background: #111827; color: white; border-radius: 16px; text-align: center; font-weight: 700; transform: translateY(20px); opacity: 0; transition: 0.3s; z-index: 1000; }
+  @media (min-width: 768px) { .saas-toast { left: auto; width: 300px; bottom: 32px; } }
+  .saas-toast.show { transform: translateY(0); opacity: 1; }
+  .saas-toast.error { background: #EF4444; }
 
   @media (max-width: 1024px) {
-    .bento-container { grid-template-columns: 1fr; display: flex; flex-direction: column; }
-    .bento-item { grid-column: span 1 !important; }
-    .top-actions { width: 100%; display: flex; flex-direction: column; gap: 12px; }
-    .search-bar { width: 100%; }
-    .btn-upgrade { width: 100%; }
+    .stats-card-v2, .report-form-v2, .dark-card-v2, .activity-card-v2 { grid-column: span 12; }
+    .stats-content-v2 { flex-direction: column; gap: 32px; }
+    .v-circle { width: 100%; border-radius: 24px; height: 120px; }
+    .hero-header-v2 { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .hero-actions { width: 100%; }
+    .hero-actions button { width: 100%; }
   }
 </style>
