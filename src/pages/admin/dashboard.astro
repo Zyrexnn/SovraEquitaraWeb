@@ -1,98 +1,104 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import '../../styles/dashboard-shared.css';
 ---
 
-<Layout title="Admin Panel — SovraEquitara">
-  <div class="dashboard-wrapper">
-    <!-- Sidebar -->
-    <aside class="sidebar-nav">
-      <div class="nav-brand">
-        <div class="brand-logo-pill">
-          <img src="/logo.svg" alt="Sovra" />
-        </div>
+<Layout title="Admin Command — SovraEquitara">
+  <div class="app-container">
+    <!-- Desktop Sidebar -->
+    <aside class="desktop-sidebar">
+      <div class="sidebar-brand">
+        <img src="/logo.svg" alt="Sovra" class="brand-img" />
       </div>
-      <nav class="nav-links">
-        <a href="/admin/dashboard" class="nav-link active" title="Admin Dashboard">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      <nav class="sidebar-nav-v2">
+        <a href="/admin/dashboard" class="side-item active">
+          <svg viewBox="0 0 24 24" class="s-icon"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+          <span>Antrean Laporan</span>
+        </a>
+        <a href="/admin/users" class="side-item">
+          <svg viewBox="0 0 24 24" class="s-icon"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Kelola Pengguna</span>
         </a>
       </nav>
-      <div class="nav-footer">
-        <button id="btn-logout" class="nav-link logout-link" title="Keluar">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      <div class="sidebar-bottom">
+        <button id="btn-logout-desktop" class="side-item logout">
+          <svg viewBox="0 0 24 24" class="s-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+          <span>Keluar</span>
         </button>
       </div>
     </aside>
 
-    <!-- Main Content -->
-    <main class="main-viewport scroll-slim">
-      <header class="top-nav">
-        <div class="welcome-msg">
-          <h1>Panel Verifikasi</h1>
-          <p>Tinjau kontribusi infrastruktur dari seluruh warga.</p>
-        </div>
-        <div class="top-actions">
-          <div class="admin-badge">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            ADMIN MODE
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-nav">
+      <a href="/admin/dashboard" class="mob-item active">
+        <svg viewBox="0 0 24 24" class="m-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+      </a>
+      <a href="/admin/users" class="mob-item">
+        <svg viewBox="0 0 24 24" class="m-icon"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+      </a>
+      <button id="btn-logout-mobile" class="mob-item">
+        <svg viewBox="0 0 24 24" class="m-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+      </button>
+    </nav>
+
+    <!-- Main Viewport -->
+    <main class="main-content scroll-slim">
+      <header class="app-header">
+        <div class="header-left">
+          <div class="mobile-logo-only">
+            <img src="/logo.svg" alt="Sovra" />
           </div>
+          <div class="desktop-breadcrumb">
+            <span class="crumb">Panel Admin</span> / <span class="crumb active">Verifikasi Laporan</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="admin-badge">Admin Mode</div>
         </div>
       </header>
 
-      <div class="bento-container">
-        <!-- Admin Stats Card -->
-        <div class="bento-item glass card-hero animate-up" style="grid-column: span 12;">
-          <div class="hero-header-flex">
-            <div>
-              <h3>Ikhtisar Laporan</h3>
-              <p>Status distribusi seluruh laporan masuk</p>
+      <div class="content-inner fade-in">
+        <section class="admin-hero">
+          <div class="hero-text">
+            <h1>Antrean Verifikasi</h1>
+            <p>Kelola dan validasi laporan warga secara real-time.</p>
+          </div>
+          <div class="hero-stats-grid">
+            <div class="mini-stat-card">
+              <span class="ms-lbl">Menunggu</span>
+              <span class="ms-val text-pending" id="stat-pending">0</span>
+            </div>
+            <div class="mini-stat-card">
+              <span class="ms-lbl">Selesai</span>
+              <span class="ms-val text-success" id="stat-resolved">0</span>
             </div>
           </div>
-          
-          <div class="zen-visual admin-visual">
-            <div class="blob blob-main">
-              <span class="blob-val" id="stat-pending">0</span>
-              <span class="blob-label">Menunggu</span>
-            </div>
-            <div class="blob blob-sub-1">
-              <span class="blob-val" id="stat-valid">0</span>
-              <span class="blob-label">Valid</span>
-            </div>
-            <div class="blob blob-sub-2">
-              <span class="blob-val" id="stat-resolved">0</span>
-              <span class="blob-label">Selesai</span>
-            </div>
+        </section>
+
+        <!-- Search and Filter -->
+        <div class="admin-actions-row">
+          <div class="search-box-v2">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="admin-search" placeholder="Cari berdasarkan lokasi atau masalah..." />
           </div>
         </div>
 
-        <!-- Reports Queue -->
-        <div class="bento-item glass animate-up delay-1" style="grid-column: span 12;">
-          <div class="card-header-flex">
-            <h3>Antrean Verifikasi</h3>
-            <div class="search-mini">
-              <input type="text" placeholder="Filter..." />
-            </div>
+        <!-- Responsive List / Table -->
+        <div class="card-zen list-wrapper-v2">
+          <div class="table-header-v2">
+            <div class="th-col">Laporan</div>
+            <div class="th-col d-hide">Lokasi</div>
+            <div class="th-col d-hide">Status</div>
+            <div class="th-col t-right">Tindakan</div>
           </div>
-          
-          <div class="zen-table-wrapper scroll-slim">
-            <table class="zen-table">
-              <thead>
-                <tr>
-                  <th>Informasi Laporan</th>
-                  <th>Lokasi</th>
-                  <th>Status</th>
-                  <th>Tindakan</th>
-                </tr>
-              </thead>
-              <tbody id="reports-tbody">
-                <tr><td colspan="4" class="empty-state">Memuat data verifikasi...</td></tr>
-              </tbody>
-            </table>
+          <div id="admin-reports-list">
+            <div class="loading-state">Mengambil data laporan...</div>
           </div>
         </div>
       </div>
     </main>
 
-    <div id="toast" class="toast-bento"></div>
+    <div id="toast" class="saas-toast"></div>
   </div>
 
   <script>
@@ -100,12 +106,12 @@ import Layout from '../../layouts/Layout.astro';
     const token = localStorage.getItem('access_token');
     const userRaw = localStorage.getItem('user');
 
-    if (!token || !userRaw) {
-      window.location.href = '/login';
-    } else {
-      const user = JSON.parse(userRaw);
-      if (user.role !== 'admin' && user.role !== 'ADMIN') window.location.href = '/dashboard';
-    }
+    if (!token) window.location.href = '/login';
+    const user = userRaw ? JSON.parse(userRaw) : {};
+    const role = (user.role || '').toUpperCase();
+    if (role !== 'ADMIN') window.location.href = '/dashboard';
+
+    let allReports = [];
 
     async function fetchReports() {
       try {
@@ -113,137 +119,165 @@ import Layout from '../../layouts/Layout.astro';
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
-        renderReports(data.data || []);
-      } catch (err) { showToast('Gagal memuat data', 'error'); }
+        allReports = data.data || [];
+        renderReports(allReports);
+        updateStats(allReports);
+      } catch (err) { console.error(err); }
     }
 
-    function renderReports(reports) {
-      const tbody = document.getElementById('reports-tbody');
-      
+    function updateStats(reports) {
       document.getElementById('stat-pending').textContent = reports.filter(r => r.status === 'PENDING').length;
-      document.getElementById('stat-valid').textContent = reports.filter(r => r.status === 'VALID').length;
       document.getElementById('stat-resolved').textContent = reports.filter(r => r.status === 'RESOLVED').length;
+    }
 
-      if(reports.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="empty-state">Belum ada laporan masuk.</td></tr>';
+    function renderReports(items) {
+      const list = document.getElementById('admin-reports-list');
+      if (items.length === 0) {
+        list.innerHTML = '<div class="empty-msg">Tidak ada laporan yang masuk.</div>';
         return;
       }
-
-      tbody.innerHTML = reports.map(r => `
-        <tr class="zen-row-admin">
-          <td>
-            <div class="admin-cell-main">
-              <span class="id-tag">#${String(r.id).substring(0,6)}</span>
-              <h4>${r.description}</h4>
+      list.innerHTML = items.map(r => `
+        <div class="admin-row-v2">
+          <div class="row-main">
+            <div class="r-info">
+              <span class="r-title">${r.description}</span>
+              <span class="r-meta m-show">${r.location_detail}</span>
+              <span class="r-date">${new Date(r.created_at).toLocaleString('id-ID')}</span>
             </div>
-          </td>
-          <td>
-            <a href="https://maps.google.com/?q=${r.latitude},${r.longitude}" target="_blank" class="zen-loc-btn">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path></svg>
-              Peta
-            </a>
-          </td>
-          <td>
-            <span class="zen-status-pill ${r.status.toLowerCase()}">${r.status}</span>
-          </td>
-          <td>
-            <div class="zen-action-group">
-              ${r.status === 'PENDING' ? 
-                `<button class="zen-btn-action valid" onclick="updateStatus('${r.id}', 'verify')">Validasi</button>` : ''}
-              ${r.status === 'VALID' ? 
-                `<button class="zen-btn-action finish" onclick="updateStatus('${r.id}', 'resolve')">Selesai</button>` : ''}
-              ${r.status === 'RESOLVED' ? 
-                `<span class="zen-done-tag"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Selesai</span>` : ''}
+            <div class="r-loc d-hide">${r.location_detail}</div>
+            <div class="r-status d-hide">
+              <span class="a-pill ${r.status.toLowerCase()}">${r.status}</span>
             </div>
-          </td>
-        </tr>
+            <div class="r-actions">
+              ${r.status === 'PENDING' ? `
+                <button class="btn-verify" onclick="handleAction(${r.id}, 'verify')">Verifikasi</button>
+              ` : r.status === 'VERIFIED' ? `
+                <button class="btn-resolve" onclick="handleAction(${r.id}, 'resolve')">Selesaikan</button>
+              ` : `
+                <span class="text-done">Sudah Selesai</span>
+              `}
+            </div>
+          </div>
+        </div>
       `).join('');
     }
 
-    window.updateStatus = async (id, action) => {
-      const res = await fetch(`${API_URL}/api/admin/reports/${id}/${action}`, {
-        method: 'PATCH',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (res.ok) { showToast('Status Diperbarui!'); fetchReports(); }
-      else { showToast('Gagal update', 'error'); }
-    };
+    async function handleAction(id, action) {
+      try {
+        const res = await fetch(`${API_URL}/api/admin/reports/${id}/${action}`, {
+          method: 'PATCH',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+          showToast(`Laporan berhasil di-${action === 'verify' ? 'verifikasi' : 'selesaikan'}`);
+          fetchReports();
+        } else { showToast('Gagal memproses laporan', 'error'); }
+      } catch (err) { showToast('Terjadi kesalahan sistem', 'error'); }
+    }
+
+    document.getElementById('admin-search').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      const filtered = allReports.filter(r => 
+        r.description.toLowerCase().includes(q) || 
+        r.location_detail.toLowerCase().includes(q)
+      );
+      renderReports(filtered);
+    });
 
     function showToast(msg, type = 'success') {
       const t = document.getElementById('toast');
-      t.textContent = msg; t.className = `toast-bento show ${type}`;
-      setTimeout(() => t.className = 'toast-bento', 3000);
+      t.textContent = msg; t.className = `saas-toast show ${type}`;
+      setTimeout(() => t.className = 'saas-toast', 3000);
     }
 
-    document.getElementById('btn-logout').onclick = () => { localStorage.clear(); window.location.href = '/login'; };
+    const logout = () => { localStorage.clear(); window.location.href = '/login'; };
+    document.getElementById('btn-logout-desktop').onclick = logout;
+    document.getElementById('btn-logout-mobile').onclick = logout;
+
     fetchReports();
   </script>
 </Layout>
 
 <style>
-  .admin-badge {
-    background: var(--color-brand); color: white;
-    padding: 10px 20px; border-radius: 99px; font-size: 11px; font-weight: 800;
-    display: flex; align-items: center; gap: 8px; letter-spacing: 0.1em;
+  /* Admin Specific UI */
+  .sidebar-brand { margin-bottom: 48px; padding: 0 12px; }
+  .brand-img { height: 48px; width: auto; filter: invert(1); }
+  
+  .sidebar-nav-v2 { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .side-item { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 14px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 600; font-size: 15px; transition: 0.2s; }
+  .side-item:hover { background: rgba(255,255,255,0.05); color: white; }
+  .side-item.active { background: var(--color-saas-accent); color: #111827; }
+  .side-item.logout { color: #F87171; margin-top: auto; }
+  .s-icon { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  .mobile-logo-only { display: none; }
+  @media (max-width: 767px) {
+    .mobile-logo-only { display: block; height: 32px; }
+    .mobile-logo-only img { height: 100%; }
+    .desktop-breadcrumb { display: none; }
   }
 
-  .hero-header-flex { display: flex; justify-content: space-between; align-items: flex-start; }
-  .hero-header-flex h3 { font-size: 20px; font-weight: 800; }
-  .hero-header-flex p { font-size: 13px; color: var(--color-text-muted); }
+  .admin-badge { background: #111827; color: white; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
 
-  .admin-visual { height: 260px; margin-top: var(--space-xl); }
-  .blob-main { background: rgba(255, 118, 117, 0.4); } /* Pending uses danger/coral */
-  .blob-sub-1 { background: rgba(249, 212, 35, 0.4); color: var(--color-brand); left: 30%; } /* Valid uses accent */
-  .blob-sub-2 { background: rgba(26, 26, 26, 0.5); color: white; right: 30%; } /* Resolved uses brand */
+  .admin-hero { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+  .hero-text h1 { font-size: 32px; font-weight: 900; margin-bottom: 8px; }
+  .hero-text p { color: var(--color-saas-text-muted); }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-20px) scale(1.05); }
-  }
-  .blob { animation: float 8s infinite ease-in-out; }
+  .hero-stats-grid { display: flex; gap: 16px; }
+  .mini-stat-card { background: white; padding: 16px 24px; border-radius: 20px; border: 1px solid var(--color-saas-border); display: flex; flex-direction: column; min-width: 140px; }
+  .ms-lbl { font-size: 12px; font-weight: 700; color: var(--color-saas-text-muted); margin-bottom: 4px; }
+  .ms-val { font-size: 28px; font-weight: 900; }
+  .text-pending { color: #EF4444; }
+  .text-success { color: #10B981; }
 
-  /* Table Styles */
-  .zen-table-wrapper { margin-top: var(--space-xl); overflow-x: auto; }
-  .zen-table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
-  .zen-table th { padding: 12px 16px; font-size: 11px; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; border-bottom: 1px solid var(--color-border); }
-  .zen-table td { padding: 20px 16px; border-bottom: 1px solid var(--color-border); vertical-align: middle; }
+  .admin-actions-row { margin-bottom: 24px; }
+  .search-box-v2 { position: relative; max-width: 500px; display: flex; align-items: center; }
+  .search-box-v2 svg { position: absolute; left: 16px; color: var(--color-saas-text-muted); }
+  .search-box-v2 input { width: 100%; padding: 14px 14px 14px 48px; border-radius: 16px; border: 1.5px solid var(--color-saas-border); background: white; font-family: inherit; transition: 0.2s; }
+  .search-box-v2 input:focus { border-color: var(--color-saas-accent); outline: none; box-shadow: 0 0 0 4px rgba(253, 224, 71, 0.1); }
 
-  .admin-cell-main .id-tag { font-size: 10px; font-weight: 800; color: var(--color-text-muted); display: block; margin-bottom: 4px; }
-  .admin-cell-main h4 { font-size: 14px; font-weight: 700; color: var(--color-text-title); }
+  /* Table Header */
+  .table-header-v2 { display: flex; padding: 16px 24px; background: #F9FAFB; border-bottom: 1px solid var(--color-saas-border); }
+  .th-col { flex: 1; font-size: 12px; font-weight: 800; color: var(--color-saas-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .t-right { text-align: right; }
 
-  .zen-loc-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 12px; border-radius: 8px; background: var(--color-bg);
-    color: var(--color-text-body); text-decoration: none; font-size: 12px; font-weight: 700;
-  }
-  .zen-loc-btn:hover { background: var(--color-accent); color: var(--color-brand); }
+  .admin-row-v2 { border-bottom: 1px solid var(--color-saas-border); transition: 0.2s; }
+  .admin-row-v2:hover { background: #F9FAFB; }
+  .row-main { display: flex; align-items: center; padding: 24px; }
+  
+  .r-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .r-title { font-weight: 700; color: #111827; font-size: 16px; }
+  .r-meta { font-size: 13px; color: var(--color-saas-text-muted); }
+  .r-date { font-size: 11px; font-weight: 600; color: #9CA3AF; }
+  
+  .r-loc { flex: 1; font-size: 14px; color: var(--color-saas-text-main); }
+  .r-status { flex: 1; }
+  .r-actions { flex: 1; display: flex; justify-content: flex-end; gap: 12px; }
 
-  .zen-status-pill { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
-  .zen-status-pill.pending { background: rgba(255, 118, 117, 0.1); color: var(--color-danger); }
-  .zen-status-pill.valid { background: rgba(249, 212, 35, 0.1); color: var(--color-brand); }
-  .zen-status-pill.resolved { background: rgba(26, 26, 26, 0.05); color: var(--color-brand); }
+  /* Action Buttons */
+  .btn-verify, .btn-resolve { padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; }
+  .btn-verify { background: #111827; color: white; }
+  .btn-verify:hover { background: #1F2937; transform: translateY(-2px); }
+  .btn-resolve { background: #10B981; color: white; }
+  .btn-resolve:hover { background: #059669; transform: translateY(-2px); }
+  
+  .text-done { font-size: 13px; font-weight: 700; color: #10B981; }
 
-  .zen-action-group { display: flex; gap: 8px; }
-  .zen-btn-action {
-    padding: 8px 16px; border-radius: 10px; border: none; cursor: pointer;
-    font-size: 11px; font-weight: 800; transition: all 0.3s;
-  }
-  .zen-btn-action.valid { background: var(--color-accent); color: var(--color-brand); }
-  .zen-btn-action.finish { background: var(--color-brand); color: white; }
-  .zen-btn-action:hover { transform: scale(1.05); box-shadow: var(--shadow-soft); }
+  /* Pills */
+  .a-pill { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+  .a-pill.pending { background: #FEE2E2; color: #EF4444; }
+  .a-pill.verified { background: #FEF3C7; color: #D97706; }
+  .a-pill.resolved { background: #D1FAE5; color: #10B981; }
 
-  .zen-done-tag { font-size: 12px; font-weight: 700; color: var(--color-text-muted); display: flex; align-items: center; gap: 4px; }
-
-  .search-mini input {
-    background: var(--color-bg); border: 1px solid var(--color-border);
-    padding: 8px 16px; border-radius: 10px; font-size: 12px; font-family: inherit;
-  }
-
-  @media (max-width: 1024px) {
-    .zen-table td { padding: 16px 8px; }
-    .zen-btn-action { padding: 6px 10px; font-size: 10px; }
-    .admin-visual { height: 200px; }
-    .blob-main { width: 140px; height: 140px; }
-    .blob-sub-1, .blob-sub-2 { width: 90px; height: 90px; }
+  .m-show { display: none; }
+  @media (max-width: 767px) {
+    .d-hide { display: none; }
+    .m-show { display: block; }
+    .row-main { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .r-actions { width: 100%; justify-content: flex-start; }
+    .btn-verify, .btn-resolve { width: 100%; padding: 12px; }
+    .admin-hero { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .hero-stats-grid { width: 100%; }
+    .mini-stat-card { flex: 1; }
   }
 </style>
