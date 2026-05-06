@@ -1,95 +1,128 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import '../styles/dashboard-shared.css';
 ---
 
 <Layout title="Profil Saya — SovraEquitara">
-  <div class="dashboard-wrapper">
-    <!-- Sidebar -->
-    <aside class="sidebar-nav">
-      <div class="nav-brand">
-        <div class="brand-logo-pill">
-          <img src="/logo.svg" alt="Sovra" />
-        </div>
+  <div class="app-container">
+    <!-- Desktop Sidebar -->
+    <aside class="desktop-sidebar">
+      <div class="sidebar-brand">
+        <img src="/logo.svg" alt="Sovra" class="brand-img" />
       </div>
-      <nav class="nav-links">
-        <a href="/dashboard" class="nav-link" title="Dashboard">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      <nav class="sidebar-nav-v2">
+        <a href="/dashboard" class="side-item">
+          <svg viewBox="0 0 24 24" class="s-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          <span>Dashboard</span>
         </a>
-        <a href="/profile" class="nav-link active" title="Profil">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <a href="/profile" class="side-item active">
+          <svg viewBox="0 0 24 24" class="s-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Profil Saya</span>
+        </a>
+        <a href="/history" class="side-item">
+          <svg viewBox="0 0 24 24" class="s-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+          <span>Riwayat</span>
         </a>
       </nav>
-      <div class="nav-footer">
-        <button id="btn-logout" class="nav-link logout-link" title="Keluar">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      <div class="sidebar-bottom">
+        <button id="btn-logout-desktop" class="side-item logout">
+          <svg viewBox="0 0 24 24" class="s-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+          <span>Keluar</span>
         </button>
       </div>
     </aside>
 
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav">
+      <a href="/dashboard" class="mob-item">
+        <svg viewBox="0 0 24 24" class="m-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+      </a>
+      <a href="/profile" class="mob-item active">
+        <svg viewBox="0 0 24 24" class="m-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </a>
+      <a href="/history" class="mob-item">
+        <svg viewBox="0 0 24 24" class="m-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+      </a>
+      <button id="btn-logout-mobile" class="mob-item">
+        <svg viewBox="0 0 24 24" class="m-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+      </button>
+    </nav>
+
     <!-- Main Content -->
-    <main class="main-viewport scroll-slim">
-      <header class="top-nav">
-        <div class="welcome-msg">
-          <h1>Pengaturan Profil</h1>
-          <p>Kelola informasi publik dan keamanan akun Anda.</p>
+    <main class="main-content scroll-slim">
+      <header class="app-header">
+        <div class="header-left">
+          <div class="mobile-logo-only">
+            <img src="/logo.svg" alt="Sovra" />
+          </div>
+          <div class="desktop-breadcrumb">
+            <span class="crumb">App</span> / <span class="crumb active">Profil Saya</span>
+          </div>
         </div>
       </header>
 
-      <div class="bento-container">
-        <!-- Profile Card -->
-        <div class="bento-item glass animate-up" style="grid-column: span 12;">
-          <div class="profile-header-zen">
-            <div class="avatar-zen">
-              <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            </div>
-            <div class="avatar-details">
-              <h3 id="display-name-header">Memuat...</h3>
-              <p id="display-email">email@example.com</p>
-            </div>
-          </div>
-
-          <form id="form-profile" class="zen-form">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="full_name">Nama Lengkap</label>
-                <div class="zen-input">
-                  <input type="text" id="full_name" placeholder="Nama Lengkap Anda" required />
+      <div class="content-inner fade-in">
+        <div class="profile-layout">
+          <!-- Profile Header Block -->
+          <div class="card-zen profile-hero-card">
+            <div class="card-p">
+              <div class="profile-header-main">
+                <div class="profile-avatar-large" id="avatar-circle">
+                  <span id="avatar-text">U</span>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="phone">Nomor Telepon</label>
-                <div class="zen-input">
-                  <input type="tel" id="phone" placeholder="08xxxxxxxxxx" />
+                <div class="profile-meta-text">
+                  <h1 id="display-name-hero">Memuat...</h1>
+                  <p id="display-email-hero">email@example.com</p>
                 </div>
               </div>
             </div>
-            <div class="form-actions-right">
-              <button type="submit" id="btn-save" class="btn btn-primary">Simpan Perubahan</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Security Section -->
-        <div class="bento-item glass animate-up delay-1" style="grid-column: span 12;">
-          <div class="card-header-flex">
-            <h3>Keamanan Akun</h3>
-            <p>Perbarui password secara berkala.</p>
           </div>
-          
-          <div class="security-list">
-            <div class="security-row">
-              <div class="security-info">
-                <h4>Ganti Kata Sandi</h4>
-                <p>Gunakan verifikasi OTP email untuk mengatur ulang password.</p>
+
+          <div class="profile-grid">
+            <!-- Edit Information -->
+            <div class="card-zen info-card">
+              <div class="card-p">
+                <h3 class="card-title-v2">Informasi Publik</h3>
+                <form id="form-profile" class="form-zen">
+                  <div class="input-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="full_name" placeholder="Nama Lengkap Anda" required />
+                  </div>
+                  <div class="input-group">
+                    <label>Nomor Telepon</label>
+                    <input type="tel" id="phone" placeholder="08xxxxxxxxxx" />
+                  </div>
+                  <button type="submit" id="btn-save" class="btn-saas btn-saas-primary">Simpan Perubahan</button>
+                </form>
               </div>
-              <button id="btn-reset-pw" class="btn btn-glass">Minta Reset</button>
+            </div>
+
+            <!-- Security Card -->
+            <div class="card-zen security-card">
+              <div class="card-p">
+                <h3 class="card-title-v2">Keamanan & Akses</h3>
+                <div class="security-item">
+                  <div class="s-info">
+                    <h4>Ganti Kata Sandi</h4>
+                    <p>Atur ulang password Anda melalui email verifikasi.</p>
+                  </div>
+                  <button id="btn-reset-pw" class="btn-saas btn-outline-v2">Ganti Password</button>
+                </div>
+                <div class="security-item danger-item">
+                  <div class="s-info">
+                    <h4>Keluar Sesi</h4>
+                    <p>Keluar dari akun Anda di perangkat ini.</p>
+                  </div>
+                  <button id="btn-logout-main" class="btn-saas btn-danger-v2">Keluar</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </main>
 
-    <div id="toast" class="toast-bento"></div>
+    <div id="toast" class="saas-toast"></div>
   </div>
 
   <script>
@@ -100,7 +133,8 @@ import Layout from '../layouts/Layout.astro';
     if (!token || !userRaw) window.location.href = '/login';
 
     const user = JSON.parse(userRaw);
-    document.getElementById('display-email').textContent = user.email;
+    document.getElementById('display-email-hero').textContent = user.email;
+    document.getElementById('avatar-text').textContent = (user.name || 'U')[0].toUpperCase();
 
     async function fetchProfile() {
       try {
@@ -111,7 +145,8 @@ import Layout from '../layouts/Layout.astro';
         if (data.data) {
           document.getElementById('full_name').value = data.data.full_name || '';
           document.getElementById('phone').value = data.data.phone || '';
-          document.getElementById('display-name-header').textContent = data.data.full_name || user.email.split('@')[0];
+          document.getElementById('display-name-hero').textContent = data.data.full_name || user.email.split('@')[0];
+          document.getElementById('avatar-text').textContent = (data.data.full_name || 'U')[0].toUpperCase();
         }
       } catch (err) { console.error('Gagal ambil profil'); }
     }
@@ -119,13 +154,11 @@ import Layout from '../layouts/Layout.astro';
     document.getElementById('form-profile').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('btn-save');
-      btn.disabled = true; btn.textContent = 'Menyimpan...';
-
+      btn.disabled = true;
       const payload = {
         full_name: document.getElementById('full_name').value,
         phone: document.getElementById('phone').value
       };
-
       try {
         const res = await fetch(`${API_URL}/api/profile`, {
           method: 'PUT',
@@ -135,20 +168,20 @@ import Layout from '../layouts/Layout.astro';
           },
           body: JSON.stringify(payload)
         });
-
         if (res.ok) {
-          showToast('Profil diperbarui!');
+          showToast('Profil berhasil diperbarui!');
           user.name = payload.full_name;
           localStorage.setItem('user', JSON.stringify(user));
-          document.getElementById('display-name-header').textContent = payload.full_name;
+          document.getElementById('display-name-hero').textContent = payload.full_name;
+          document.getElementById('avatar-text').textContent = payload.full_name[0].toUpperCase();
         } else { showToast('Gagal menyimpan', 'error'); }
-      } catch (err) { showToast('Masalah koneksi', 'error'); } 
-      finally { btn.disabled = false; btn.textContent = 'Simpan Perubahan'; }
+      } catch (err) { showToast('Terjadi kesalahan', 'error'); }
+      finally { btn.disabled = false; }
     });
 
     document.getElementById('btn-reset-pw').onclick = async () => {
       const btn = document.getElementById('btn-reset-pw');
-      btn.disabled = true; btn.textContent = 'Memproses...';
+      btn.disabled = true;
       try {
         const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
           method: 'POST',
@@ -158,57 +191,75 @@ import Layout from '../layouts/Layout.astro';
         if (res.ok) {
           showToast('OTP dikirim ke email!');
           setTimeout(() => window.location.href = `/reset-password?email=${user.email}`, 1500);
-        } else { showToast('Gagal kirim OTP', 'error'); }
-      } catch (err) { showToast('Masalah koneksi', 'error'); } 
-      finally { btn.disabled = false; btn.textContent = 'Minta Reset'; }
+        } else { showToast('Gagal mengirim OTP', 'error'); }
+      } catch (err) { showToast('Terjadi kesalahan', 'error'); }
+      finally { btn.disabled = false; }
     };
+
+    const logout = () => { localStorage.clear(); window.location.href = '/login'; };
+    document.getElementById('btn-logout-desktop').onclick = logout;
+    document.getElementById('btn-logout-mobile').onclick = logout;
+    document.getElementById('btn-logout-main').onclick = logout;
 
     function showToast(msg, type = 'success') {
       const t = document.getElementById('toast');
-      t.textContent = msg; t.className = `toast-bento show ${type}`;
-      setTimeout(() => t.className = 'toast-bento', 3000);
+      t.textContent = msg; t.className = `saas-toast show ${type}`;
+      setTimeout(() => t.className = 'saas-toast', 3000);
     }
 
-    document.getElementById('btn-logout').onclick = () => { localStorage.clear(); window.location.href = '/login'; };
     fetchProfile();
   </script>
 </Layout>
 
 <style>
-  .profile-header-zen { display: flex; align-items: center; gap: var(--space-xl); margin-bottom: var(--space-2xl); }
-  .avatar-zen { 
-    width: 90px; height: 90px; border-radius: 30px; 
-    background: var(--color-bg); color: var(--color-brand);
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: var(--shadow-soft);
-  }
-  .avatar-details h3 { font-size: 24px; font-weight: 800; color: var(--color-text-title); margin-bottom: 4px; }
-  .avatar-details p { font-size: 15px; color: var(--color-text-muted); font-weight: 600; }
-
-  .zen-form { display: flex; flex-direction: column; gap: var(--space-xl); }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); }
-  .form-group label { display: block; font-size: 13px; font-weight: 800; color: var(--color-text-title); margin-bottom: 8px; }
+  /* Profile Specific Layout */
+  .profile-layout { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
   
-  .zen-input input {
-    width: 100%; background: var(--color-bg); border: 1px solid var(--color-border);
-    border-radius: 16px; padding: 14px 20px; color: var(--color-text-title);
-    font-family: inherit; font-size: 15px; transition: all 0.3s;
-  }
-  .zen-input input:focus { outline: none; border-color: var(--color-brand); box-shadow: 0 0 0 4px rgba(26,26,26,0.05); }
+  .profile-hero-card { background: white; }
+  .profile-header-main { display: flex; align-items: center; gap: 32px; }
+  .profile-avatar-large { width: 100px; height: 100px; background: #111827; color: white; border-radius: 32px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; }
+  .profile-meta-text h1 { font-size: 32px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 4px; }
+  .profile-meta-text p { color: var(--color-saas-text-muted); font-size: 16px; font-weight: 600; }
 
-  .form-actions-right { display: flex; justify-content: flex-end; margin-top: var(--space-lg); }
+  .profile-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; }
+  .card-p { padding: 32px; }
+  .card-title-v2 { font-size: 18px; font-weight: 800; margin-bottom: 24px; }
 
-  .security-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: var(--space-lg); background: var(--color-bg); border-radius: 20px;
-    margin-top: var(--space-xl);
-  }
-  .security-info h4 { font-size: 15px; font-weight: 800; color: var(--color-text-title); margin-bottom: 4px; }
-  .security-info p { font-size: 13px; color: var(--color-text-muted); }
+  .security-item { padding: 20px; background: #F9FAFB; border-radius: 20px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; border: 1px solid var(--color-saas-border); }
+  .s-info h4 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+  .s-info p { font-size: 13px; color: var(--color-saas-text-muted); }
+  
+  .btn-outline-v2 { background: white; border: 1.5px solid var(--color-saas-border); color: #111827; }
+  .btn-outline-v2:hover { background: #F9FAFB; border-color: #D1D5DB; }
+  
+  .btn-danger-v2 { background: #FEE2E2; color: #EF4444; border: 1.5px solid #FCA5A5; }
+  .btn-danger-v2:hover { background: #FECACA; }
 
-  @media (max-width: 768px) {
-    .form-row { grid-template-columns: 1fr; }
-    .profile-header-zen { flex-direction: column; text-align: center; }
-    .security-row { flex-direction: column; gap: var(--space-lg); text-align: center; }
+  /* Responsive Adjustments */
+  @media (max-width: 1024px) {
+    .profile-grid { grid-template-columns: 1fr; }
+    .profile-header-main { flex-direction: column; text-align: center; }
   }
+
+  @media (max-width: 767px) {
+    .profile-hero-card .card-p { padding: 24px; }
+    .profile-avatar-large { width: 80px; height: 80px; font-size: 28px; border-radius: 24px; }
+    .profile-meta-text h1 { font-size: 24px; }
+    .card-p { padding: 24px; }
+  }
+
+  /* Shared Sidebar Local overrides */
+  .sidebar-brand { margin-bottom: 48px; padding: 0 12px; }
+  .brand-img { height: 48px; width: auto; filter: invert(1); }
+  .sidebar-nav-v2 { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .side-item { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 14px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 600; font-size: 15px; transition: 0.2s; }
+  .side-item:hover { background: rgba(255,255,255,0.05); color: white; }
+  .side-item.active { background: var(--color-saas-accent); color: #111827; }
+  .side-item.logout { color: #F87171; margin-top: auto; }
+  .s-icon { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .mob-item { color: var(--color-saas-text-muted); padding: 12px; border-radius: 12px; }
+  .mob-item.active { color: #111827; background: #F9FAFB; }
+  .m-icon { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+  .mobile-logo-only { display: none; }
+  @media (max-width: 767px) { .mobile-logo-only { display: block; height: 32px; } .mobile-logo-only img { height: 100%; } }
 </style>
