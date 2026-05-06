@@ -205,8 +205,8 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     justify-content: center;
     padding: var(--space-xl);
-    background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.15), transparent),
-                radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.15), transparent);
+    background: radial-gradient(circle at top right, rgba(44, 62, 80, 0.05), transparent),
+                radial-gradient(circle at bottom left, rgba(168, 159, 145, 0.05), transparent);
   }
 
   .auth-container { width: 100%; max-width: 420px; }
@@ -216,10 +216,10 @@ import Layout from '../layouts/Layout.astro';
     width: 56px; height: 56px;
     background: linear-gradient(135deg, var(--color-brand), var(--color-brand-alt));
     border-radius: 18px; display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 20px; box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
+    margin: 0 auto 20px; box-shadow: 0 15px 30px rgba(44, 62, 80, 0.3);
   }
-  .logo-pill img { width: 28px; filter: brightness(0) invert(1); }
-  .auth-header h1 { font-size: 28px; margin-bottom: 8px; transition: all 0.3s; }
+  .logo-pill img { width: 32px; filter: brightness(0) invert(1); } /* Enlarge logo */
+  .auth-header h1 { font-size: 28px; margin-bottom: 8px; color: var(--color-text-title); transition: all 0.3s; }
   .auth-header p { font-size: 14px; color: var(--color-text-muted); font-weight: 500; transition: all 0.3s; }
 
   .auth-card { padding: var(--space-2xl); border-radius: var(--radius-lg); overflow: hidden; position: relative; min-height: 400px; }
@@ -231,14 +231,14 @@ import Layout from '../layouts/Layout.astro';
 
   .auth-form { display: flex; flex-direction: column; gap: var(--space-lg); }
   .field-group { display: flex; flex-direction: column; gap: 8px; }
-  .field-group label { font-size: 13px; font-weight: 700; color: var(--color-text-muted); }
+  .field-group label { font-size: 13px; font-weight: 700; color: var(--color-text-title); }
 
   .input-glow input {
-    width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--color-border);
-    border-radius: 12px; padding: 14px 18px; color: white; font-family: inherit; font-size: 15px;
+    width: 100%; background: rgba(44, 62, 80, 0.05); border: 1px solid rgba(44, 62, 80, 0.1);
+    border-radius: 12px; padding: 14px 18px; color: var(--color-text-title); font-family: inherit; font-size: 15px;
     transition: all 0.3s;
   }
-  .input-glow input:focus { outline: none; border-color: var(--color-brand); background: rgba(0,0,0,0.4); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1); }
+  .input-glow input:focus { outline: none; border-color: var(--color-brand); background: rgba(44, 62, 80, 0.08); box-shadow: 0 0 0 4px rgba(44, 62, 80, 0.1); }
 
   .otp-input { text-align: center; font-size: 24px !important; letter-spacing: 0.5em; font-weight: 800; }
   .otp-instruction { text-align: center; margin-bottom: var(--space-xl); }
@@ -247,7 +247,7 @@ import Layout from '../layouts/Layout.astro';
 
   .auth-divider { text-align: center; position: relative; margin: var(--space-xl) 0; }
   .auth-divider::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--color-border); z-index: 1; }
-  .auth-divider span { position: relative; z-index: 2; background: #0f172a; padding: 0 12px; font-size: 11px; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; }
+  .auth-divider span { position: relative; z-index: 2; background: var(--color-bg); padding: 0 12px; font-size: 11px; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; }
 
   .auth-footer { text-align: center; }
   .auth-footer p { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }

@@ -117,8 +117,8 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     justify-content: center;
     padding: var(--space-xl);
-    background: radial-gradient(circle at top left, rgba(14, 165, 233, 0.15), transparent),
-                radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.15), transparent);
+    background: radial-gradient(circle at top left, rgba(44, 62, 80, 0.05), transparent),
+                radial-gradient(circle at bottom right, rgba(168, 159, 145, 0.05), transparent);
   }
 
   .auth-container {
@@ -137,11 +137,11 @@ import Layout from '../layouts/Layout.astro';
     border-radius: 18px;
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 20px;
-    box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
+    box-shadow: 0 15px 30px rgba(44, 62, 80, 0.3);
   }
-  .logo-pill img { width: 28px; filter: brightness(0) invert(1); }
+  .logo-pill img { width: 32px; filter: brightness(0) invert(1); } /* Enlarge logo here too */
 
-  .auth-header h1 { font-size: 32px; margin-bottom: 8px; }
+  .auth-header h1 { font-size: 32px; margin-bottom: 8px; color: var(--color-text-title); }
   .auth-header p { font-size: 15px; color: var(--color-text-muted); font-weight: 500; }
 
   .auth-card {
@@ -157,17 +157,17 @@ import Layout from '../layouts/Layout.astro';
 
   .field-group { display: flex; flex-direction: column; gap: 8px; }
   .label-row { display: flex; justify-content: space-between; align-items: center; }
-  .field-group label { font-size: 13px; font-weight: 700; color: var(--color-text-muted); }
+  .field-group label { font-size: 13px; font-weight: 700; color: var(--color-text-title); }
   .forgot-link { font-size: 12px; font-weight: 700; color: var(--color-brand); }
 
   .input-glow { position: relative; }
   .input-glow input {
     width: 100%;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid var(--color-border);
+    background: rgba(44, 62, 80, 0.05);
+    border: 1px solid rgba(44, 62, 80, 0.1);
     border-radius: 12px;
     padding: 14px 18px;
-    color: white;
+    color: var(--color-text-title);
     font-family: inherit;
     font-size: 15px;
     transition: all 0.3s;
@@ -175,8 +175,8 @@ import Layout from '../layouts/Layout.astro';
   .input-glow input:focus {
     outline: none;
     border-color: var(--color-brand);
-    background: rgba(0,0,0,0.4);
-    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+    background: rgba(44, 62, 80, 0.08);
+    box-shadow: 0 0 0 4px rgba(44, 62, 80, 0.1);
   }
 
   .auth-divider {
@@ -190,7 +190,7 @@ import Layout from '../layouts/Layout.astro';
   }
   .auth-divider span {
     position: relative; z-index: 2;
-    background: #0f172a; /* Should match card color approx */
+    background: var(--color-bg); /* Match app background or surface */
     padding: 0 12px;
     font-size: 12px; font-weight: 800; color: var(--color-text-muted);
     text-transform: uppercase; letter-spacing: 0.1em;
