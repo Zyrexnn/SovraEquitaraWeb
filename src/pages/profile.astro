@@ -5,52 +5,48 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Profil Saya — SovraEquitara">
   <div class="saas-layout">
     <!-- Desktop Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar glass-nav">
       <div class="sidebar-header">
         <div class="logo">
-          <img src="/logo.svg" alt="SovraEquitara" style="height: 48px; width: auto;" />
+          <img src="/logo.svg" alt="SovraEquitara" class="user-logo" />
         </div>
       </div>
       
       <nav class="nav-menu">
-        <div class="nav-section" id="nav-section-title">MENU UTAMA</div>
+        <div class="nav-section" id="nav-section-title">NAVIGASI</div>
         <a href="/dashboard" class="nav-item" id="nav-dashboard-link">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
-          <span id="nav-dashboard-text">Dashboard</span>
-        </a>
-        <a href="/history" class="nav-item nav-history">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          Riwayat Laporan
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+          <span id="nav-dashboard-text">Dashboard Warga</span>
         </a>
         <a href="/profile" class="nav-item active">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          <span id="nav-profile-text">Profil Saya</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Profil Saya
         </a>
       </nav>
 
       <div class="sidebar-footer">
-        <div class="user-profile">
-          <div class="avatar" id="sidebar-avatar">U</div>
-          <div class="user-info">
-            <span class="user-name" id="sidebar-name">Warga</span>
-            <span class="user-points" id="sidebar-points">0 PTS</span>
+        <div class="user-card glass">
+          <div class="avatar-large" id="sidebar-avatar">U</div>
+          <div class="user-details">
+            <span class="u-name" id="sidebar-name">Memuat...</span>
+            <span class="u-points" id="sidebar-points">0 PTS</span>
           </div>
         </div>
-        <button id="btn-logout-desktop" class="btn-logout">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-          Keluar
+        <button id="btn-logout-desktop" class="btn-logout-zen">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
+          Keluar Sesi
         </button>
       </div>
     </aside>
 
-    <!-- Mobile Top Bar -->
-    <header class="mobile-header">
+    <!-- Mobile Header -->
+    <header class="mobile-header glass-bright">
       <div class="logo">
-        <img src="/logo.svg" alt="SovraEquitara" style="height: 32px; width: auto;" />
+        <img src="/logo.svg" alt="Sovra" style="height: 32px; width: auto;" />
       </div>
-      <div class="user-profile-mobile">
-        <span class="points-badge" id="mobile-points">0 PTS</span>
-        <div class="avatar-small" id="mobile-avatar">U</div>
+      <div class="user-pill glass">
+        <span id="mobile-points">0 PTS</span>
+        <div class="avatar-sm" id="mobile-avatar">U</div>
       </div>
     </header>
 
@@ -58,99 +54,101 @@ import Layout from '../layouts/Layout.astro';
     <main class="main-content scroll-slim">
       <div class="content-wrapper">
         
-        <!-- Welcome Section -->
-        <section class="welcome-section fade-in">
-          <div>
-            <h1 id="greeting">Profil Saya</h1>
-            <p class="subtitle">Kelola informasi publik dan keamanan akun Anda.</p>
+        <header class="page-header fade-in">
+          <div class="header-left">
+            <h1 class="font-display">Pengaturan <span class="text-gradient">Profil</span></h1>
+            <p class="subtitle">Kelola identitas dan keamanan akun Anda.</p>
           </div>
-        </section>
+          <div class="header-right">
+             <div class="role-badge-large glass" id="hero-role">Warga</div>
+          </div>
+        </header>
 
-        <div class="profile-layout">
-          <!-- Profile Header Block -->
-          <div class="bento-card profile-hero-card fade-in" style="animation-delay: 0.1s;">
-            <div class="profile-header-main">
-              <div class="profile-avatar-large" id="avatar-circle">
-                <span id="avatar-text">U</span>
-              </div>
-              <div class="profile-meta-text">
-                <h1 id="display-name-hero">Memuat...</h1>
+        <div class="bento-grid-profile">
+          
+          <!-- Hero Profile Info -->
+          <div class="bento-card card-hero glass animate-up" style="animation-delay: 0.1s;">
+            <div class="profile-hero-content">
+              <div class="avatar-giant" id="avatar-circle">U</div>
+              <div class="hero-text">
+                <h2 id="display-name-hero" class="font-display">Memuat...</h2>
                 <p id="display-email-hero">email@example.com</p>
-                <div class="badge-role mt-2">Warga</div>
               </div>
             </div>
           </div>
 
-          <div class="bento-grid profile-grid">
-            <!-- Edit Information -->
-            <div class="bento-card info-card fade-in" style="animation-delay: 0.2s;">
-              <div class="card-header">
-                <h2>Informasi Publik</h2>
-              </div>
-              <form id="form-profile" class="saas-form">
-                <div class="form-group">
-                  <label>Nama / Nickname (Publik)</label>
-                  <input type="text" id="full_name" placeholder="Nama yang akan tampil di diskusi" required />
-                  <p class="help-text mt-1">Nama ini akan digunakan pada semua laporan dan komentar Anda.</p>
-                </div>
-                <div class="form-group">
-                  <label>Nomor Telepon</label>
-                  <input type="tel" id="phone" placeholder="08xxxxxxxxxx" />
-                </div>
-                <button type="submit" id="btn-save" class="btn-primary w-full mt-4">Simpan Perubahan</button>
-              </form>
+          <!-- Public Info Form -->
+          <div class="bento-card card-info glass animate-up" style="animation-delay: 0.15s;">
+            <div class="card-head">
+              <h3>Informasi Publik</h3>
+              <span class="head-hint">Identitas Warga</span>
             </div>
-
-            <!-- Security Card -->
-            <div class="bento-card security-card fade-in" style="animation-delay: 0.3s;">
-              <div class="card-header">
-                <h2>Keamanan & Akses</h2>
+            <form id="form-profile" class="zen-form">
+              <div class="input-group">
+                <label>Nama Lengkap / Nickname</label>
+                <input type="text" id="full_name" placeholder="Contoh: Budi Santoso" required />
+                <p class="hint">Nama ini akan terlihat pada laporan dan diskusi publik.</p>
               </div>
-              <div class="security-list">
-                <div class="security-item">
-                  <div class="s-info">
-                    <h4>Ganti Kata Sandi</h4>
-                    <p>Atur ulang password Anda melalui email verifikasi.</p>
-                  </div>
-                  <button id="btn-reset-pw" class="btn-outline-v2 mt-2">Kirim Email Reset</button>
+              <div class="input-group">
+                <label>Nomor WhatsApp</label>
+                <input type="tel" id="phone" placeholder="08xxxxxxxxxx" />
+              </div>
+              <button type="submit" id="btn-save" class="btn-zen-primary w-full">
+                Simpan Perubahan
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </button>
+            </form>
+          </div>
+
+          <!-- Security Settings -->
+          <div class="bento-card card-security glass animate-up" style="animation-delay: 0.2s;">
+            <div class="card-head">
+              <h3>Keamanan Akun</h3>
+              <span class="head-hint">Akses & Privasi</span>
+            </div>
+            <div class="security-options">
+              <div class="sec-item glass-lite">
+                <div class="sec-text">
+                  <h4>Ganti Kata Sandi</h4>
+                  <p>Kirim instruksi reset ke email terdaftar.</p>
                 </div>
-                <div class="security-item danger-item mt-4">
-                  <div class="s-info">
-                    <h4 class="text-danger">Keluar Sesi</h4>
-                    <p>Keluar dari akun Anda di perangkat ini.</p>
-                  </div>
-                  <button id="btn-logout-main" class="btn-danger-v2 mt-2">Keluar Sekarang</button>
+                <button id="btn-reset-pw" class="btn-zen-outline">Reset via Email</button>
+              </div>
+              <div class="sec-item danger glass-lite">
+                <div class="sec-text">
+                  <h4>Hapus Sesi</h4>
+                  <p>Keluar dari akun Anda pada perangkat ini.</p>
                 </div>
+                <button id="btn-logout-main" class="btn-zen-danger">Keluar Sesi</button>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </main>
 
-    <!-- Mobile Bottom Nav -->
-    <nav class="mobile-nav">
-      <a href="/dashboard" class="m-nav-item" id="mob-dashboard-link">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav glass-bright">
+      <a href="/dashboard" class="m-item" id="mob-dashboard-link">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
       </a>
-      <a href="/history" class="m-nav-item mob-history">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+      <a href="/profile" class="m-item active">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       </a>
-      <a href="/profile" class="m-nav-item active">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      </a>
+      <button id="btn-logout-mobile" class="m-item text-danger">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
+      </button>
     </nav>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast-notification hidden">
-      <span id="toast-icon">✓</span>
-      <span id="toast-msg">Berhasil!</span>
+    <!-- Zen Toast -->
+    <div id="toast" class="zen-toast hidden">
+      <span id="toast-msg">Notifikasi</span>
     </div>
   </div>
 
   <script is:inline>
     const API_URL = 'http://localhost:3000';
-    
     const token = localStorage.getItem('access_token');
     const userRaw = localStorage.getItem('user');
 
@@ -162,79 +160,72 @@ import Layout from '../layouts/Layout.astro';
 
     let user;
 
-    function initProfile() {
-      try {
-        user = JSON.parse(userRaw);
-        const initial = (user.name || 'U')[0].toUpperCase();
-        const isAdmin = (user.role || '').toUpperCase() === 'ADMIN';
-        
-        // Role-based UI Adjustments
-        if (isAdmin) {
-          document.getElementById('nav-section-title').textContent = 'PANEL KONTROL';
-          document.getElementById('nav-dashboard-link').href = '/admin/dashboard';
-          document.getElementById('nav-dashboard-text').textContent = 'Antrean Laporan';
-          document.getElementById('nav-profile-text').textContent = 'Profil Admin';
-          document.querySelector('.badge-role').textContent = 'Administrator';
-          document.querySelector('.badge-role').style.background = '#0F172A';
-          document.querySelector('.badge-role').style.color = 'white';
-          
-          // Hide History link for admin if not needed, or keep it. Let's hide it to be consistent with admin dashboard.
-          document.querySelector('.nav-history').style.display = 'none';
-          document.querySelector('.mob-history').style.display = 'none';
-          document.getElementById('mob-dashboard-link').href = '/admin/dashboard';
-        }
+    async function initProfile() {
+      user = JSON.parse(userRaw);
+      setupUI();
+      await fetchProfileData();
+      setupListeners();
+    }
 
-        // Sidebar Setup
-        document.getElementById('sidebar-name').textContent = user.name;
-        document.getElementById('sidebar-avatar').textContent = initial;
-        document.getElementById('mobile-avatar').textContent = initial;
-        document.getElementById('sidebar-points').textContent = `${user.points || 0} PTS`;
-        document.getElementById('mobile-points').textContent = `${user.points || 0} PTS`;
-
-        // Profile Setup
-        document.getElementById('display-email-hero').textContent = user.email;
-        document.getElementById('avatar-text').textContent = initial;
-        document.getElementById('display-name-hero').textContent = user.name || (isAdmin ? 'Admin' : 'Warga');
-
-        fetchProfileData();
-
-        document.getElementById('form-profile').addEventListener('submit', handleProfileUpdate);
-        document.getElementById('btn-reset-pw').addEventListener('click', handleResetPassword);
-
-        const doLogout = () => { localStorage.clear(); window.location.href = '/login'; };
-        document.getElementById('btn-logout-desktop').addEventListener('click', doLogout);
-        document.getElementById('btn-logout-main').addEventListener('click', doLogout);
-        
-      } catch(e) {
-        console.error("Profile Init Error: ", e);
+    function setupUI() {
+      const isAdmin = (user.role || '').toUpperCase() === 'ADMIN';
+      const initial = (user.name || 'U')[0].toUpperCase();
+      
+      if (isAdmin) {
+        document.getElementById('nav-section-title').textContent = 'ADMINISTRASI';
+        document.getElementById('nav-dashboard-link').href = '/admin/dashboard';
+        document.getElementById('nav-dashboard-text').textContent = 'Dashboard Admin';
+        document.getElementById('mob-dashboard-link').href = '/admin/dashboard';
+        document.getElementById('hero-role').textContent = 'Administrator';
+        document.getElementById('hero-role').classList.add('admin-role');
       }
+
+      document.getElementById('sidebar-name').textContent = user.name || 'Warga';
+      document.getElementById('sidebar-avatar').textContent = initial;
+      document.getElementById('mobile-avatar').textContent = initial;
+      document.getElementById('sidebar-points').textContent = `${user.points || 0} PTS`;
+      document.getElementById('mobile-points').textContent = `${user.points || 0} PTS`;
+      
+      document.getElementById('display-name-hero').textContent = user.name || (isAdmin ? 'Admin' : 'Warga');
+      document.getElementById('display-email-hero').textContent = user.email;
+      document.getElementById('avatar-circle').textContent = initial;
     }
 
     async function fetchProfileData() {
       try {
-        const res = await fetch(`${API_URL}/api/profile`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const res = await fetch(`${API_URL}/api/profile`, { headers: { 'Authorization': `Bearer ${token}` }});
         const data = await res.json();
         if (data.data) {
           const name = data.data.full_name || user.email.split('@')[0];
           document.getElementById('full_name').value = name;
           document.getElementById('phone').value = data.data.phone || '';
-          document.getElementById('display-name-hero').textContent = name;
-          document.getElementById('avatar-text').textContent = name[0].toUpperCase();
-          document.getElementById('sidebar-name').textContent = name;
-          document.getElementById('sidebar-avatar').textContent = name[0].toUpperCase();
-          document.getElementById('mobile-avatar').textContent = name[0].toUpperCase();
+          updateDisplays(name);
         }
-      } catch (err) { console.error('Gagal ambil profil'); }
+      } catch (e) {}
+    }
+
+    function updateDisplays(name) {
+      const initial = name[0].toUpperCase();
+      document.getElementById('display-name-hero').textContent = name;
+      document.getElementById('avatar-circle').textContent = initial;
+      document.getElementById('sidebar-name').textContent = name;
+      document.getElementById('sidebar-avatar').textContent = initial;
+      document.getElementById('mobile-avatar').textContent = initial;
+    }
+
+    function setupListeners() {
+      document.getElementById('form-profile').onsubmit = handleProfileUpdate;
+      document.getElementById('btn-reset-pw').onclick = handleResetPassword;
+      const logout = () => { localStorage.clear(); window.location.href = '/login'; };
+      document.getElementById('btn-logout-desktop').onclick = logout;
+      document.getElementById('btn-logout-mobile').onclick = logout;
+      document.getElementById('btn-logout-main').onclick = logout;
     }
 
     async function handleProfileUpdate(e) {
       e.preventDefault();
       const btn = document.getElementById('btn-save');
       btn.disabled = true;
-      btn.textContent = 'Menyimpan...';
-
       const payload = {
         full_name: document.getElementById('full_name').value,
         phone: document.getElementById('phone').value
@@ -243,39 +234,22 @@ import Layout from '../layouts/Layout.astro';
       try {
         const res = await fetch(`${API_URL}/api/profile`, {
           method: 'PUT',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify(payload)
         });
         if (res.ok) {
-          showToast('Profil berhasil diperbarui!');
+          showToast('Profil Diperbarui!');
           user.name = payload.full_name;
           localStorage.setItem('user', JSON.stringify(user));
-          
-          const initial = payload.full_name[0].toUpperCase();
-          document.getElementById('display-name-hero').textContent = payload.full_name;
-          document.getElementById('avatar-text').textContent = initial;
-          document.getElementById('sidebar-name').textContent = payload.full_name;
-          document.getElementById('sidebar-avatar').textContent = initial;
-          document.getElementById('mobile-avatar').textContent = initial;
-        } else { 
-          showToast('Gagal menyimpan profil', 'error'); 
+          updateDisplays(payload.full_name);
         }
-      } catch (err) { 
-        showToast('Terjadi kesalahan jaringan', 'error'); 
-      }
-      finally { 
-        btn.disabled = false; 
-        btn.textContent = 'Simpan Perubahan';
-      }
+      } catch (e) {}
+      btn.disabled = false;
     }
 
     async function handleResetPassword() {
       const btn = document.getElementById('btn-reset-pw');
       btn.disabled = true;
-      btn.textContent = 'Mengirim...';
       try {
         const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
           method: 'POST',
@@ -283,29 +257,16 @@ import Layout from '../layouts/Layout.astro';
           body: JSON.stringify({ email: user.email })
         });
         if (res.ok) {
-          showToast('Email reset berhasil dikirim!');
+          showToast('Email Terkirim!');
           setTimeout(() => window.location.href = `/reset-password?email=${user.email}`, 1500);
-        } else { 
-          showToast('Gagal mengirim email reset', 'error'); 
         }
-      } catch (err) { 
-        showToast('Terjadi kesalahan', 'error'); 
-      }
-      finally { 
-        btn.disabled = false; 
-        btn.textContent = 'Kirim Email Reset';
-      }
+      } catch (e) {}
+      btn.disabled = false;
     }
 
-    function showToast(msg, type = 'success') {
+    function showToast(msg) {
       const t = document.getElementById('toast');
-      const i = document.getElementById('toast-icon');
-      const m = document.getElementById('toast-msg');
-      
-      t.className = `toast-notification ${type}`;
-      i.textContent = type === 'error' ? '!' : '✓';
-      m.textContent = msg;
-      
+      document.getElementById('toast-msg').textContent = msg;
       t.classList.remove('hidden');
       setTimeout(() => t.classList.add('hidden'), 3000);
     }
@@ -313,146 +274,146 @@ import Layout from '../layouts/Layout.astro';
 
   <style is:global>
     /* =========================================
-       Zen SaaS Architecture (Profile)
+       Zen Minimalist SaaS System (Profile)
        ========================================= */
     
     :root {
-      --c-bg: #F8FAFC;
-      --c-surface: #FFFFFF;
-      --c-text: #0F172A;
-      --c-text-soft: #64748B;
-      --c-border: #E2E8F0;
-      --c-brand: #0F172A;
-      --c-accent: #3B82F6;
-      --c-danger: #EF4444;
-      --c-success: #10B981;
-      --c-warning: #F59E0B;
+      --zen-bg: #F5F2ED;
+      --zen-surface: rgba(255, 255, 255, 0.7);
+      --zen-text: #1A1A1A;
+      --zen-muted: #71717A;
+      --zen-border: rgba(26, 26, 26, 0.08);
+      --zen-brand: #1A1A1A;
+      --zen-blue: #3B82F6;
+      --zen-green: #10B981;
+      --zen-danger: #EF4444;
       
-      --radius-sm: 8px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05);
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-sans: 'Inter', sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-    body { background: var(--c-bg); color: var(--c-text); -webkit-font-smoothing: antialiased; }
+    body { 
+      background-color: var(--zen-bg); 
+      color: var(--zen-text); 
+      font-family: var(--font-sans);
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
 
-    /* Layout */
     .saas-layout { display: flex; height: 100vh; overflow: hidden; }
-    
-    /* Sidebar Desktop */
-    .sidebar { display: none; width: 280px; background: var(--c-surface); border-right: 1px solid var(--c-border); flex-direction: column; z-index: 100; }
-    .sidebar-header { padding: 32px 24px; }
-    .logo { display: flex; align-items: center; gap: 12px; }
-    .logo-text { font-weight: 800; font-size: 20px; letter-spacing: -0.03em; }
-    
-    .nav-menu { flex: 1; padding: 0 16px; display: flex; flex-direction: column; gap: 4px; }
-    .nav-section { font-size: 11px; font-weight: 700; color: var(--c-text-soft); padding: 16px 12px 8px; letter-spacing: 0.05em; }
-    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-sm); color: var(--c-text-soft); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; }
-    .nav-item:hover { background: var(--c-bg); color: var(--c-text); }
-    .nav-item.active { background: var(--c-bg); color: var(--c-brand); }
-    
-    .sidebar-footer { padding: 24px 16px; border-top: 1px solid var(--c-border); }
-    .user-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 0 8px; }
-    .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--c-bg); border: 1px solid var(--c-border); display: flex; align-items: center; justify-content: center; font-weight: 700; }
-    .user-info { display: flex; flex-direction: column; }
-    .user-name { font-weight: 600; font-size: 14px; }
-    .user-points { font-size: 12px; font-weight: 700; color: var(--c-accent); }
-    
-    .btn-logout { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; background: transparent; border: 1px solid var(--c-border); border-radius: var(--radius-sm); color: var(--c-danger); font-weight: 600; cursor: pointer; transition: 0.2s; }
-    .btn-logout:hover { background: #FEF2F2; border-color: #FECACA; }
 
-    /* Mobile Nav */
-    .mobile-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: var(--c-surface); border-bottom: 1px solid var(--c-border); position: sticky; top: 0; z-index: 90; }
-    .user-profile-mobile { display: flex; align-items: center; gap: 12px; }
-    .points-badge { background: #EFF6FF; color: var(--c-accent); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-    .avatar-small { width: 32px; height: 32px; background: var(--c-bg); border: 1px solid var(--c-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
+    /* Sidebar Glass */
+    .sidebar { 
+      width: 280px; background: rgba(255, 255, 255, 0.4); 
+      backdrop-filter: blur(20px); border-right: 1px solid var(--zen-border);
+      display: flex; flex-direction: column; z-index: 100;
+    }
+    .sidebar-header { padding: 40px 24px; }
+    .user-logo { height: 40px; width: auto; filter: grayscale(1); }
     
-    .mobile-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: var(--c-surface); border-top: 1px solid var(--c-border); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-    .m-nav-item { padding: 8px 24px; color: var(--c-text-soft); border-radius: 12px; border: none; background: none; }
-    .m-nav-item.active { color: var(--c-brand); background: var(--c-bg); }
-    .text-danger { color: var(--c-danger) !important; }
+    .nav-menu { flex: 1; padding: 0 16px; }
+    .nav-section { font-size: 10px; font-weight: 800; color: var(--zen-muted); padding: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .nav-item { 
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px; 
+      border-radius: 12px; color: var(--zen-muted); text-decoration: none; 
+      font-size: 14px; font-weight: 600; transition: all 0.3s;
+    }
+    .nav-item.active { background: white; color: var(--zen-text); box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid var(--zen-border); }
 
-    /* Main Area */
-    .main-content { flex: 1; overflow-y: auto; background: var(--c-bg); padding-bottom: 80px; }
-    .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
+    .sidebar-footer { padding: 24px; border-top: 1px solid var(--zen-border); }
+    .user-card { padding: 16px; border-radius: 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .avatar-large { width: 44px; height: 44px; border-radius: 50%; background: var(--zen-brand); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+    .u-name { font-weight: 800; font-size: 14px; display: block; }
+    .u-points { font-size: 11px; font-weight: 800; color: var(--zen-blue); }
     
-    @media (min-width: 768px) {
-      .sidebar { display: flex; }
-      .mobile-header, .mobile-nav { display: none; }
-      .main-content { padding-bottom: 0; }
-      .content-wrapper { padding: 40px 48px; }
+    .btn-logout-zen { 
+      width: 100%; display: flex; align-items: center; justify-content: center; 
+      gap: 10px; padding: 12px; background: transparent; border: 1px solid rgba(0,0,0,0.05); 
+      border-radius: 12px; color: var(--zen-muted); font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s;
     }
 
-    /* Typography & Core */
-    .welcome-section { margin-bottom: 32px; }
-    h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
-    .subtitle { color: var(--c-text-soft); font-size: 15px; }
-
-    /* Profile Specific */
-    .profile-layout { display: flex; flex-direction: column; gap: 24px; max-width: 900px; margin: 0 auto; }
-    .profile-hero-card { margin-bottom: 8px; }
-    .profile-header-main { display: flex; align-items: center; gap: 32px; }
-    .profile-avatar-large { width: 100px; height: 100px; background: var(--c-brand); color: white; border-radius: 32px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; }
-    .profile-meta-text h1 { font-size: 32px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 4px; }
-    .profile-meta-text p { color: var(--c-text-soft); font-size: 16px; font-weight: 600; }
-    .badge-role { display: inline-block; background: #EFF6FF; color: var(--c-accent); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
-
-    .bento-grid.profile-grid { grid-template-columns: 1fr; }
-    @media (min-width: 1024px) { .bento-grid.profile-grid { grid-template-columns: 1.5fr 1fr; } }
+    /* Main Content */
+    .main-content { flex: 1; overflow-y: auto; }
+    .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
     
-    .bento-card { background: var(--c-surface); border-radius: var(--radius-lg); border: 1px solid var(--c-border); padding: 32px; box-shadow: var(--shadow-sm); }
-    .card-header { margin-bottom: 24px; }
-    .card-header h2 { font-size: 18px; font-weight: 700; margin: 0; }
+    .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+    h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.04em; margin: 0; }
+    .role-badge-large { padding: 8px 16px; border-radius: 99px; font-weight: 800; font-size: 12px; background: white; text-transform: uppercase; letter-spacing: 0.05em; }
+    .role-badge-large.admin-role { background: var(--zen-brand); color: white; }
 
-    /* Forms */
-    .form-group { margin-bottom: 20px; }
-    label { display: block; font-size: 13px; font-weight: 600; color: var(--c-text); margin-bottom: 8px; }
-    input[type="text"], input[type="tel"] { width: 100%; background: var(--c-bg); border: 1px solid var(--c-border); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 14px; transition: 0.2s; outline: none; }
-    input:focus { border-color: var(--c-brand); background: var(--c-surface); box-shadow: 0 0 0 3px rgba(15,23,42,0.05); }
-    .help-text { font-size: 12px; color: var(--c-text-soft); }
+    /* Bento Profile Grid */
+    .bento-grid-profile { 
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px; 
+    }
+    .bento-card { border-radius: 28px; padding: 32px; border: 1px solid var(--zen-border); }
+    
+    .card-hero { grid-column: span 2; }
+    .card-info { grid-column: span 1; }
+    .card-security { grid-column: span 1; }
 
-    .security-list { display: flex; flex-direction: column; gap: 16px; }
-    .security-item { padding: 20px; background: #F8FAFC; border-radius: 16px; border: 1px solid var(--c-border); }
-    .s-info h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-    .s-info p { font-size: 13px; color: var(--c-text-soft); }
+    .profile-hero-content { display: flex; align-items: center; gap: 32px; }
+    .avatar-giant { width: 120px; height: 120px; border-radius: 40px; background: var(--zen-brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 900; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    .hero-text h2 { font-size: 36px; font-weight: 900; margin: 0; letter-spacing: -0.04em; }
+    .hero-text p { color: var(--zen-muted); font-size: 18px; margin-top: 4px; font-weight: 500; }
+
+    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+    .card-head h3 { font-size: 16px; font-weight: 800; margin: 0; }
+    .head-hint { font-size: 11px; font-weight: 800; color: var(--zen-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Zen Form */
+    .zen-form { display: flex; flex-direction: column; gap: 24px; }
+    .input-group label { display: block; font-size: 12px; font-weight: 800; color: var(--zen-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .input-group input { 
+      width: 100%; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--zen-border); 
+      background: white; outline: none; font-size: 14px; font-weight: 500; transition: 0.3s;
+    }
+    .input-group input:focus { border-color: var(--zen-brand); box-shadow: 0 0 0 4px rgba(0,0,0,0.03); }
+    .hint { font-size: 11px; color: var(--zen-muted); margin-top: 8px; font-weight: 600; }
+
+    /* Security */
+    .security-options { display: flex; flex-direction: column; gap: 16px; }
+    .sec-item { padding: 24px; border-radius: 20px; display: flex; flex-direction: column; gap: 16px; }
+    .glass-lite { background: rgba(255,255,255,0.4); border: 1px solid var(--zen-border); }
+    .sec-text h4 { font-size: 15px; font-weight: 800; margin: 0; }
+    .sec-text p { font-size: 13px; color: var(--zen-muted); margin: 4px 0 0; line-height: 1.4; }
+
+    /* Buttons */
+    .btn-zen-primary { padding: 16px; border-radius: 16px; background: var(--zen-brand); color: white; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .btn-zen-outline { padding: 12px; border-radius: 12px; background: white; border: 1px solid var(--zen-border); font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; }
+    .btn-zen-danger { padding: 12px; border-radius: 12px; background: rgba(239, 68, 68, 0.1); color: var(--zen-danger); border: 1px solid rgba(239, 68, 68, 0.2); font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; }
     
-    .btn-outline-v2 { width: 100%; padding: 10px; background: white; border: 1px solid var(--c-border); border-radius: var(--radius-sm); color: var(--c-text); font-weight: 600; cursor: pointer; transition: 0.2s; }
-    .btn-outline-v2:hover { background: var(--c-bg); border-color: #CBD5E1; }
-    
-    .btn-danger-v2 { width: 100%; padding: 10px; background: #FEF2F2; color: var(--c-danger); border: 1px solid #FECACA; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; transition: 0.2s; }
-    .btn-danger-v2:hover { background: #FEE2E2; }
-    
-    .btn-primary { padding: 14px; background: var(--c-brand); color: white; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-    .btn-primary:hover { opacity: 0.9; }
-    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+    .btn-zen-primary:hover, .btn-zen-outline:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .btn-zen-danger:hover { background: var(--zen-danger); color: white; }
 
     /* Utilities */
-    .mt-1 { margin-top: 4px; }
-    .mt-2 { margin-top: 12px; }
-    .mt-4 { margin-top: 24px; }
+    .glass { background: var(--zen-surface); backdrop-filter: blur(12px); border: 1px solid var(--zen-border); }
+    .glass-nav { background: rgba(255,255,255,0.6); backdrop-filter: blur(20px); }
+    .text-gradient { background: linear-gradient(90deg, #3B82F6, #10B981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hidden { display: none !important; }
     .w-full { width: 100%; }
-    .text-danger { color: var(--c-danger); }
+    .animate-up { animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .scroll-slim::-webkit-scrollbar { width: 6px; }
-    .scroll-slim::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
-    
-    .toast-notification { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--c-brand); color: white; padding: 12px 24px; border-radius: 100px; display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; z-index: 9999; opacity: 0; transition: 0.3s; box-shadow: var(--shadow-lg); }
-    .toast-notification:not(.hidden) { transform: translateX(-50%) translateY(0); opacity: 1; }
-    .toast-notification.error { background: var(--c-danger); }
-    #toast-icon { width: 20px; height: 20px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    /* Mobile Headers */
+    .mobile-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--zen-border); position: sticky; top: 0; z-index: 1000; }
+    .user-pill { display: flex; align-items: center; gap: 10px; padding: 4px 6px 4px 12px; border-radius: 99px; background: white; font-weight: 800; font-size: 12px; color: var(--zen-blue); }
+    .avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: var(--zen-brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; }
 
-    .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .mobile-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; right: 0; height: 72px; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-top: 1px solid var(--zen-border); z-index: 1000; padding-bottom: env(safe-area-inset-bottom); }
+    .m-item { color: var(--zen-muted); text-decoration: none; padding: 12px; border-radius: 12px; }
+    .m-item.active { color: var(--zen-brand); background: rgba(0,0,0,0.05); }
 
+    .zen-toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--zen-brand); color: white; padding: 12px 24px; border-radius: 99px; font-weight: 800; font-size: 13px; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+
+    /* Responsive */
     @media (max-width: 768px) {
-      .profile-header-main { flex-direction: column; text-align: center; }
-      .profile-avatar-large { width: 80px; height: 80px; font-size: 28px; border-radius: 24px; }
-      .profile-meta-text h1 { font-size: 24px; }
-      .bento-card { padding: 24px; }
+      .sidebar { display: none; }
+      .bento-grid-profile { grid-template-columns: 1fr; }
+      .card-hero, .card-info, .card-security { grid-column: span 1; }
+      .avatar-giant { width: 80px; height: 80px; font-size: 32px; border-radius: 28px; }
+      .hero-text h2 { font-size: 24px; }
+      .main-content { padding-bottom: 100px; }
     }
+    @media (min-width: 769px) { .mobile-header, .mobile-nav { display: none; } }
   </style>
 </Layout>
