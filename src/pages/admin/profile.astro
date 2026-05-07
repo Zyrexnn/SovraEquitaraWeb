@@ -1,0 +1,801 @@
+---
+// Admin Profile Page - Zen Minimalist SaaS Design
+---
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Admin — SovraEquitara</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="zen-admin-root">
+    
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="mobile-menu-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+    
+    <!-- Zen Sidebar -->
+    <aside class="zen-sidebar">
+      <div class="sidebar-header">
+        <img src="/logo.svg" alt="SovraEquitara" class="logo-mark" />
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="/admin/dashboard" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="/admin/profile" class="nav-item active">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>Profile</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-profile">
+          <div class="profile-avatar">A</div>
+          <div class="profile-info">
+            <div class="profile-name">Admin</div>
+            <div class="profile-status">Online</div>
+          </div>
+        </div>
+        <button id="logout-btn" class="logout-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="zen-main">
+      <div class="main-container">
+        
+        <!-- Header -->
+        <header class="page-header">
+          <div>
+            <h1 class="page-title">Profile Admin</h1>
+            <p class="page-subtitle">Kelola informasi akun administrator</p>
+          </div>
+        </header>
+
+        <!-- Profile Content -->
+        <div class="profile-grid">
+          
+          <!-- Profile Card -->
+          <div class="profile-card">
+            <div class="profile-card-header">
+              <h3 class="card-title">Informasi Akun</h3>
+            </div>
+            <div class="profile-card-body">
+              <div class="profile-avatar-large">
+                <div class="avatar-circle">A</div>
+                <div class="avatar-info">
+                  <div class="avatar-name" id="admin-name">Admin</div>
+                  <div class="avatar-role">Administrator</div>
+                </div>
+              </div>
+
+              <div class="info-grid">
+                <div class="info-item">
+                  <div class="info-label">Username</div>
+                  <div class="info-value" id="admin-username">ikhsan</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-label">Email</div>
+                  <div class="info-value" id="admin-email">ikhsan@admin.com</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-label">Role</div>
+                  <div class="info-value">
+                    <span class="role-badge">ADMIN</span>
+                  </div>
+                </div>
+                <div class="info-item">
+                  <div class="info-label">Status</div>
+                  <div class="info-value">
+                    <span class="status-badge status-active">Active</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Stats -->
+          <div class="activity-card">
+            <div class="activity-header">
+              <h3 class="card-title">Aktivitas</h3>
+            </div>
+            <div class="activity-stats">
+              <div class="activity-stat">
+                <div class="stat-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <div class="stat-content">
+                  <div class="stat-value" id="verified-count">0</div>
+                  <div class="stat-label">Laporan Diverifikasi</div>
+                </div>
+              </div>
+              <div class="activity-stat">
+                <div class="stat-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 11 12 14 22 4"></polyline>
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                  </svg>
+                </div>
+                <div class="stat-content">
+                  <div class="stat-value" id="resolved-count">0</div>
+                  <div class="stat-label">Laporan Diselesaikan</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- System Info -->
+          <div class="system-card">
+            <div class="system-header">
+              <h3 class="card-title">Informasi Sistem</h3>
+            </div>
+            <div class="system-info">
+              <div class="system-item">
+                <div class="system-label">Last Login</div>
+                <div class="system-value" id="last-login">-</div>
+              </div>
+              <div class="system-item">
+                <div class="system-label">Session Started</div>
+                <div class="system-value" id="session-time">-</div>
+              </div>
+              <div class="system-item">
+                <div class="system-label">Platform</div>
+                <div class="system-value mono">Web Dashboard</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:3000';
+    const token = localStorage.getItem('access_token');
+    const userRaw = localStorage.getItem('user');
+
+    // Auth check
+    if (!token || !userRaw) {
+      window.location.href = '/admin/login';
+    } else {
+      const user = JSON.parse(userRaw);
+      if ((user.role || '').toUpperCase() !== 'ADMIN') {
+        window.location.href = '/dashboard';
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProfile();
+      loadStats();
+      setupEventListeners();
+    });
+
+    function setupEventListeners() {
+      document.getElementById('logout-btn').addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = '/admin/login';
+      });
+
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const sidebar = document.querySelector('.zen-sidebar');
+      
+      if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', () => {
+          sidebar.classList.toggle('mobile-open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+          if (window.innerWidth <= 1024) {
+            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+              sidebar.classList.remove('mobile-open');
+            }
+          }
+        });
+      }
+    }
+
+    function loadProfile() {
+      const user = JSON.parse(userRaw);
+      
+      // Update profile info
+      if (user.name) {
+        document.getElementById('admin-name').textContent = user.name;
+      }
+      if (user.email) {
+        document.getElementById('admin-email').textContent = user.email;
+      }
+
+      // Set session time
+      const now = new Date();
+      document.getElementById('session-time').textContent = now.toLocaleString('id-ID', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      // Set last login (same as session for now)
+      document.getElementById('last-login').textContent = now.toLocaleString('id-ID', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch(`${API_URL}/api/admin/reports`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const reports = data.data || [];
+
+        const verified = reports.filter(r => r.status === 'VALID' || r.status === 'RESOLVED').length;
+        const resolved = reports.filter(r => r.status === 'RESOLVED').length;
+
+        document.getElementById('verified-count').textContent = verified;
+        document.getElementById('resolved-count').textContent = resolved;
+      } catch (err) {
+        console.error('Failed to load stats:', err);
+      }
+    }
+  </script>
+
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fafafa;
+      color: #1a1a1a;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Layout */
+    .zen-admin-root {
+      display: flex;
+      min-height: 100vh;
+      background: #fafafa;
+    }
+
+    /* Sidebar */
+    .zen-sidebar {
+      width: 260px;
+      background: white;
+      border-right: 1px solid #e5e5e5;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 32px 24px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .logo-mark {
+      height: 28px;
+      width: auto;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 24px 16px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      color: #666;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      margin-bottom: 4px;
+    }
+
+    .nav-item:hover {
+      background: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    .nav-item.active {
+      background: #1a1a1a;
+      color: white;
+    }
+
+    .nav-item svg {
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .profile-avatar {
+      width: 36px;
+      height: 36px;
+      background: #1a1a1a;
+      color: white;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .profile-status {
+      font-size: 11px;
+      color: #10b981;
+      font-weight: 500;
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 10px;
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #666;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .logout-btn:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    /* Main Content */
+    .zen-main {
+      flex: 1;
+      margin-left: 260px;
+      overflow-y: auto;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 40px;
+    }
+
+    /* Page Header */
+    .page-header {
+      margin-bottom: 40px;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: #666;
+      font-weight: 400;
+    }
+
+    /* Profile Grid */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    .profile-card,
+    .activity-card,
+    .system-card {
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .profile-card {
+      grid-column: 1 / 2;
+      grid-row: 1 / 3;
+    }
+
+    .profile-card-header,
+    .activity-header,
+    .system-header {
+      padding: 24px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .profile-card-body {
+      padding: 32px 24px;
+    }
+
+    .profile-avatar-large {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 32px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .avatar-circle {
+      width: 80px;
+      height: 80px;
+      background: #1a1a1a;
+      color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .avatar-name {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .avatar-role {
+      font-size: 14px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .info-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #1a1a1a;
+      color: white;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-active {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    /* Activity Card */
+    .activity-stats {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .activity-stat {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+
+    .stat-icon {
+      width: 44px;
+      height: 44px;
+      background: #1a1a1a;
+      color: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-content {
+      flex: 1;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 2px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    /* System Card */
+    .system-info {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .system-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .system-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .system-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a1a;
+      color: white;
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 2000;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .zen-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+      }
+
+      .zen-sidebar.mobile-open {
+        transform: translateX(0);
+      }
+
+      .zen-main {
+        margin-left: 0;
+      }
+
+      .main-container {
+        padding-top: 80px;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-card {
+        grid-column: 1;
+        grid-row: auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        padding: 24px 20px;
+        padding-top: 80px;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-avatar-large {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .activity-stats {
+        padding: 20px;
+      }
+
+      .system-info {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-container {
+        padding: 20px 16px;
+        padding-top: 76px;
+      }
+
+      .page-title {
+        font-size: 20px;
+      }
+
+      .avatar-circle {
+        width: 64px;
+        height: 64px;
+        font-size: 24px;
+      }
+
+      .avatar-name {
+        font-size: 20px;
+      }
+
+      .profile-card-body {
+        padding: 24px 20px;
+      }
+    }
+
+    /* Mobile Menu Button (hidden by default) */
+    .mobile-menu-btn {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 200;
+      width: 44px;
+      height: 44px;
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .mobile-menu-btn {
+        display: flex;
+      }
+    }
+  </style>
+</body>
+</html>
