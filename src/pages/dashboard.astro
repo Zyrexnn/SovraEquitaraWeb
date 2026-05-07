@@ -7,52 +7,48 @@ import Layout from '../layouts/Layout.astro';
   
   <div class="saas-layout">
     <!-- Desktop Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar glass-nav">
       <div class="sidebar-header">
         <div class="logo">
-          <img src="/logo.svg" alt="SovraEquitara" style="height: 48px; width: auto;" />
+          <img src="/logo.svg" alt="SovraEquitara" class="user-logo" />
         </div>
       </div>
       
       <nav class="nav-menu">
-        <div class="nav-section">MENU UTAMA</div>
+        <div class="nav-section">NAVIGASI</div>
         <a href="/dashboard" class="nav-item active">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
-          Dashboard
-        </a>
-        <a href="/history" class="nav-item">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          Riwayat Laporan
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+          Dashboard Warga
         </a>
         <a href="/profile" class="nav-item">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Profil Saya
         </a>
       </nav>
 
       <div class="sidebar-footer">
-        <div class="user-profile">
-          <div class="avatar" id="sidebar-avatar">U</div>
-          <div class="user-info">
-            <span class="user-name" id="sidebar-name">Warga</span>
-            <span class="user-points" id="sidebar-points">0 PTS</span>
+        <div class="user-card glass">
+          <div class="avatar-large" id="sidebar-avatar">U</div>
+          <div class="user-details">
+            <span class="u-name" id="sidebar-name">Memuat...</span>
+            <span class="u-points" id="sidebar-points">0 PTS</span>
           </div>
         </div>
-        <button id="btn-logout-desktop" class="btn-logout">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-          Keluar
+        <button id="btn-logout-desktop" class="btn-logout-zen">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
+          Keluar Sesi
         </button>
       </div>
     </aside>
 
-    <!-- Mobile Top Bar -->
-    <header class="mobile-header">
+    <!-- Mobile Header -->
+    <header class="mobile-header glass-bright">
       <div class="logo">
-        <img src="/logo.svg" alt="SovraEquitara" style="height: 32px; width: auto;" />
+        <img src="/logo.svg" alt="Sovra" style="height: 32px; width: auto;" />
       </div>
-      <div class="user-profile-mobile">
-        <span class="points-badge" id="mobile-points">0 PTS</span>
-        <div class="avatar-small" id="mobile-avatar">U</div>
+      <div class="user-pill glass">
+        <span id="mobile-points">0 PTS</span>
+        <div class="avatar-sm" id="mobile-avatar">U</div>
       </div>
     </header>
 
@@ -60,123 +56,111 @@ import Layout from '../layouts/Layout.astro';
     <main class="main-content scroll-slim">
       <div class="content-wrapper">
         
-        <!-- Welcome Section -->
-        <section class="welcome-section fade-in">
-          <div>
-            <h1 id="greeting">Selamat Datang</h1>
-            <p class="subtitle">Mari bersama wujudkan fasilitas kota yang lebih baik.</p>
+        <header class="page-header fade-in">
+          <div class="header-left">
+            <h1 class="font-display">Suara <span class="text-gradient">Warga</span></h1>
+            <p class="subtitle" id="greeting">Selamat beraktivitas, Warga.</p>
           </div>
-        </section>
+          <div class="header-right">
+            <div id="current-date" class="date-badge glass">Memuat...</div>
+          </div>
+        </header>
 
-        <!-- Bento Grid -->
-        <div class="bento-grid">
+        <div class="bento-grid-user">
           
-          <!-- Left Column -->
-          <div class="left-column fade-in" style="animation-delay: 0.1s; display: flex; flex-direction: column; gap: 24px;">
-            <!-- Create Report Form -->
-            <div class="bento-card form-card">
-              <div class="card-header">
-                <h2>Buat Laporan</h2>
-                <span class="card-badge">Baru</span>
-              </div>
-              
-              <form id="form-report" class="saas-form">
-                <div class="form-group">
-                  <label>Kategori Masalah</label>
-                  <div class="chip-group" id="category-chips">
-                    <div class="chip skeleton"></div>
-                    <div class="chip skeleton"></div>
-                    <div class="chip skeleton"></div>
-                  </div>
-                  <input type="hidden" id="category_id" />
-                </div>
-
-                <div class="form-group">
-                  <label>Deskripsi Kerusakan</label>
-                  <textarea id="description" placeholder="Ceritakan secara detail kerusakan yang terjadi..." rows="3" required></textarea>
-                </div>
-
-                <div class="form-group">
-                  <label>Bukti Foto</label>
-                  <div class="upload-zone" id="drop-zone">
-                    <div class="upload-icon">
-                      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                    </div>
-                    <p>Tarik & Lepas gambar atau <span class="upload-link">Pilih File</span></p>
-                    <p class="upload-hint">Maks. 2MB (JPG/PNG)</p>
-                    <input type="file" id="image-upload" accept="image/jpeg, image/png" hidden />
-                  </div>
-                  <div id="image-preview" class="preview-zone hidden">
-                    <img id="preview-img" src="" alt="Preview" />
-                    <button type="button" class="btn-remove" id="btn-remove-image">&times;</button>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Titik Lokasi</label>
-                  <input type="text" id="location_detail" placeholder="Cth: Depan SDN 01 Pagi" required />
-                  <div class="map-container mt-2">
-                    <div id="map"></div>
-                  </div>
-                  <input type="hidden" id="lat" />
-                  <input type="hidden" id="lng" />
-                </div>
-
-                <button type="submit" id="btn-submit" class="btn-primary w-full">
-                  Kirim Laporan
-                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                </button>
-              </form>
+          <!-- Report Creation (Bento Main) -->
+          <div class="bento-card card-form glass animate-up" style="animation-delay: 0.1s;">
+            <div class="card-head">
+              <h3>Aspirasi Infrastruktur</h3>
+              <span class="head-hint">Laporkan Kerusakan</span>
             </div>
+            
+            <form id="form-report" class="zen-form">
+              <div class="input-group">
+                <label>Kategori Masalah</label>
+                <div class="chip-container" id="category-chips">
+                  <!-- Chips injected -->
+                </div>
+                <input type="hidden" id="category_id" />
+              </div>
 
-            <!-- Leaderboard Card -->
-            <div class="bento-card leaderboard-card">
-              <div class="card-header" style="margin-bottom: 16px;">
-                <h2 style="font-size: 16px;">Pahlawan Warga (Top 10)</h2>
+              <div class="grid-2">
+                <div class="input-group">
+                  <label>Deskripsi Detail</label>
+                  <textarea id="description" placeholder="Deskripsikan kerusakan atau keluhan Anda..." required></textarea>
+                </div>
+                
+                <div class="input-group">
+                  <label>Bukti Visual</label>
+                  <div class="drop-zone" id="drop-zone">
+                    <div class="drop-icon">📸</div>
+                    <p>Klik atau Tarik Gambar</p>
+                    <input type="file" id="image-upload" accept="image/*" hidden />
+                  </div>
+                  <div id="image-preview" class="preview-box hidden">
+                    <img id="preview-img" src="" alt="Preview" />
+                    <button type="button" class="btn-clear" id="btn-remove-image">&times;</button>
+                  </div>
+                </div>
               </div>
-              <div class="leaderboard-list" id="leaderboard-list">
-                <div class="feed-loading"><div class="spinner-small"></div><p>Memuat klasemen...</p></div>
+
+              <div class="input-group">
+                <label>Lokasi Kejadian</label>
+                <div class="loc-input-wrap">
+                  <input type="text" id="location_detail" placeholder="Contoh: Jl. Sudirman Blok B (Depan Halte)" required />
+                  <div id="map" class="zen-map"></div>
+                </div>
+                <input type="hidden" id="lat" /><input type="hidden" id="lng" />
               </div>
+
+              <button type="submit" id="btn-submit" class="btn-zen-primary w-full">
+                Kirim Laporan
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </button>
+            </form>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="bento-card card-stats glass animate-up" style="animation-delay: 0.15s;">
+            <div class="stat-item">
+              <span class="s-label">Total Laporan</span>
+              <h2 id="stat-total">0</h2>
+            </div>
+            <div class="stat-item">
+              <span class="s-label">Diproses</span>
+              <h2 id="stat-pending" class="text-yellow">0</h2>
+            </div>
+            <div class="stat-item">
+              <span class="s-label">Terselesaikan</span>
+              <h2 id="stat-resolved" class="text-green">0</h2>
             </div>
           </div>
 
-          <!-- Feed Section (Right Column) -->
-          <div class="feed-column fade-in" style="animation-delay: 0.2s;">
-            <!-- Stats -->
-            <div class="stats-grid">
-              <div class="stat-box">
-                <span class="stat-label">Total Laporanmu</span>
-                <span class="stat-value" id="stat-total">0</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-label">Sedang Diproses</span>
-                <span class="stat-value text-warning" id="stat-pending">0</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-label">Telah Selesai</span>
-                <span class="stat-value text-success" id="stat-resolved">0</span>
+          <!-- Leaderboard -->
+          <div class="bento-card card-leaderboard glass animate-up" style="animation-delay: 0.2s;">
+            <div class="card-head">
+              <h3>Warga Teladan</h3>
+              <span class="badge-new">TOP 10</span>
+            </div>
+            <div class="leader-list scroll-slim" id="leaderboard-list">
+              <!-- Leaderboard items -->
+            </div>
+          </div>
+
+          <!-- Feed (Bento Wide Bottom) -->
+          <div class="bento-card card-feed glass animate-up" style="animation-delay: 0.25s;">
+            <div class="feed-header">
+              <h3>Pantauan Kota</h3>
+              <div class="feed-filters">
+                <select id="feed-sort" class="zen-select-sm">
+                  <option value="recent">Terbaru</option>
+                  <option value="votes">Populer</option>
+                  <option value="comments">Diskusi</option>
+                </select>
               </div>
             </div>
-
-            <!-- Feed -->
-            <div class="bento-card feed-card">
-              <div class="feed-controls">
-                <h2>Laporan Publik</h2>
-                <div class="filter-dropdown">
-                  <select id="feed-sort" class="select-minimal">
-                    <option value="recent">Terbaru</option>
-                    <option value="votes">Terpopuler</option>
-                    <option value="comments">Teramai</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div class="feed-list scroll-slim" id="reports-list">
-                <div class="feed-loading">
-                  <div class="spinner"></div>
-                  <p>Memuat laporan...</p>
-                </div>
-              </div>
+            <div id="reports-list" class="zen-feed">
+              <!-- Reports injected -->
             </div>
           </div>
 
@@ -184,227 +168,171 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </main>
 
-    <!-- Mobile Bottom Nav -->
-    <nav class="mobile-nav">
-      <a href="/dashboard" class="m-nav-item active">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav glass-bright">
+      <a href="/dashboard" class="m-item active">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
       </a>
-      <a href="/history" class="m-nav-item">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+      <a href="/profile" class="m-item">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       </a>
-      <a href="/profile" class="m-nav-item">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      </a>
+      <button id="btn-logout-mobile" class="m-item text-danger">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
+      </button>
     </nav>
 
     <!-- Detail Modal -->
     <div id="detail-modal" class="modal-overlay hidden">
-      <div class="modal-content large-modal">
-        <div class="modal-header">
+      <div class="modal-card glass-modal">
+        <div class="modal-head">
           <h3>Detail Laporan</h3>
-          <button id="close-detail" class="btn-close-modal">&times;</button>
+          <button id="close-detail" class="btn-close">&times;</button>
         </div>
-        <div class="modal-body scroll-slim" style="padding: 0;">
-          <div class="detail-layout">
-            <div class="detail-info">
-              <div id="detail-img-container" class="detail-img-box hidden">
-                <img id="detail-img" src="" alt="Bukti Foto" />
+        <div class="modal-body scroll-slim">
+          <div class="modal-grid">
+            <div class="modal-info">
+              <div id="detail-img-box" class="detail-img hidden">
+                <img id="detail-img" src="" alt="Bukti" />
               </div>
-              <div class="detail-text">
-                <div class="d-meta">
-                  <span id="detail-cat" class="badge-cat"></span>
-                  <span id="detail-status" class="badge-status"></span>
-                  <span id="detail-date" class="text-date" style="margin-left:auto;"></span>
+              <div class="report-content">
+                <div class="badge-row">
+                  <span id="detail-cat" class="cat-pill"></span>
+                  <span id="detail-status" class="status-pill"></span>
                 </div>
-                <h2 id="detail-desc"></h2>
-                <div class="d-location">📍 <span id="detail-loc"></span></div>
-                
-                <div class="d-stats mt-4">
-                  <div class="stat-pill">🔥 <span id="detail-votes">0</span> Dukungan</div>
-                  <div class="stat-pill">💬 <span id="detail-comment-count">0</span> Diskusi</div>
+                <h2 id="detail-desc" class="font-display"></h2>
+                <div class="loc-box glass">
+                  📍 <span id="detail-loc"></span>
+                </div>
+                <div class="meta-row">
+                  <span id="detail-date"></span>
+                  <div class="meta-stats">
+                    <button class="btn-vote" id="btn-vote-modal">
+                      🔥 <b id="detail-votes">0</b> Dukungan
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-            
-            <div class="detail-comments">
-              <h4>Diskusi</h4>
-              <div id="comments-list" class="comments-container scroll-slim">
-                <!-- Comments -->
-              </div>
-              <div class="comment-input-wrapper">
-                <form id="form-comment" class="comment-input-group">
-                  <input type="hidden" id="comment-report-id" />
-                  <input type="text" id="comment-input" placeholder="Balas atau diskusi..." required autocomplete="off" />
-                  <button type="submit" class="btn-send">
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                  </button>
-                </form>
-              </div>
+            <div class="modal-comments">
+              <div class="comments-header">Diskusi & Solusi</div>
+              <div id="comments-list" class="comments-feed scroll-slim"></div>
+              <form id="form-comment" class="comment-input glass">
+                <input type="hidden" id="active-report-id" />
+                <input type="text" id="comment-input" placeholder="Tulis pendapat Anda..." required />
+                <button type="submit" class="btn-send">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Lightbox Modal -->
+    <!-- Lightbox -->
     <div id="lightbox" class="modal-overlay hidden">
-      <div class="lightbox-wrapper">
-        <button id="lightbox-close" class="btn-close-modal">&times;</button>
+      <div class="lightbox-content">
         <img id="lightbox-img" src="" alt="Full view" />
+        <button id="lightbox-close" class="btn-close-lg">&times;</button>
       </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast-notification hidden">
-      <span id="toast-icon">✓</span>
-      <span id="toast-msg">Berhasil!</span>
+    <!-- Zen Toast -->
+    <div id="toast" class="zen-toast hidden">
+      <span id="toast-msg">Notifikasi</span>
     </div>
   </div>
 
-  <!-- JavaScript Logic -->
+  <!-- Scripts -->
   <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   
   <script is:inline>
-    const API_URL = 'http://localhost:3000'; // Make sure this matches your backend
-    
-    // Auth Check
+    const API_URL = 'http://localhost:3000';
     const token = localStorage.getItem('access_token');
     const userRaw = localStorage.getItem('user');
 
     if (!token || !userRaw) {
       window.location.href = '/login';
     } else {
-      document.addEventListener('DOMContentLoaded', initDashboard);
+      document.addEventListener('DOMContentLoaded', initZenDashboard);
     }
 
-    let user, categories = [], selectedFile = null, map, marker;
-    let allReportsList = [];
+    let user, categories = [], selectedFile = null, map, marker, allReports = [];
 
-    function initDashboard() {
-      try {
-        user = JSON.parse(userRaw);
-        
-        // Setup UI User Profile
-        document.getElementById('greeting').textContent = `Halo, ${user.name || 'Warga'}!`;
-        const initial = (user.name || 'U')[0].toUpperCase();
-        document.getElementById('sidebar-name').textContent = user.name;
-        document.getElementById('sidebar-avatar').textContent = initial;
-        document.getElementById('mobile-avatar').textContent = initial;
-        updatePointsUI(user.points || 0);
-
-        // Setup Map
-        setupMap();
-
-        // Setup File Upload
-        setupImageUpload();
-
-        // Load Initial Data
-        loadCategories();
-        fetchMyStats();
-        fetchFeed('recent');
-        fetchLeaderboard();
-
-        // Setup Listeners
-        document.getElementById('form-report').addEventListener('submit', handleReportSubmit);
-        document.getElementById('feed-sort').addEventListener('change', (e) => fetchFeed(e.target.value));
-        
-        // Modals
-        document.getElementById('lightbox-close').addEventListener('click', () => document.getElementById('lightbox').classList.add('hidden'));
-        document.getElementById('close-detail').addEventListener('click', () => document.getElementById('detail-modal').classList.add('hidden'));
-        document.getElementById('form-comment').addEventListener('submit', handleCommentSubmit);
-        
-        // Logout
-        const doLogout = () => { localStorage.clear(); window.location.href = '/login'; };
-        document.getElementById('btn-logout-desktop').addEventListener('click', doLogout);
-        document.getElementById('btn-logout-mobile2').addEventListener('click', doLogout);
-
-      } catch(e) {
-        console.error("Dashboard Init Error: ", e);
-      }
+    async function initZenDashboard() {
+      user = JSON.parse(userRaw);
+      setupUI();
+      setupMap();
+      setupUpload();
+      await loadCategories();
+      await fetchData();
+      setupListeners();
     }
 
-    function updatePointsUI(pts) {
-      document.getElementById('sidebar-points').textContent = `${pts} PTS`;
-      document.getElementById('mobile-points').textContent = `${pts} PTS`;
+    function setupUI() {
+      const initial = (user.name || 'U')[0].toUpperCase();
+      document.getElementById('sidebar-name').textContent = user.name || 'Warga';
+      document.getElementById('sidebar-avatar').textContent = initial;
+      document.getElementById('mobile-avatar').textContent = initial;
+      document.getElementById('sidebar-points').textContent = `${user.points || 0} PTS`;
+      document.getElementById('mobile-points').textContent = `${user.points || 0} PTS`;
+      document.getElementById('greeting').textContent = `Selamat ${getTimeGreeting()}, ${user.name?.split(' ')[0] || 'Warga'}.`;
+      document.getElementById('current-date').textContent = new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'short' });
+    }
+
+    function getTimeGreeting() {
+      const hrs = new Date().getHours();
+      if(hrs < 11) return 'Pagi';
+      if(hrs < 15) return 'Siang';
+      if(hrs < 19) return 'Sore';
+      return 'Malam';
     }
 
     function setupMap() {
-      try {
-        if(typeof L !== 'undefined') {
-          const defaultLoc = { lat: -6.2000, lng: 106.8166 };
-          map = L.map('map', { zoomControl: false }).setView([defaultLoc.lat, defaultLoc.lng], 13);
-          L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-          marker = L.marker([defaultLoc.lat, defaultLoc.lng], { draggable: true }).addTo(map);
-          
-          const updateLoc = (latlng) => {
-            document.getElementById('lat').value = latlng.lat;
-            document.getElementById('lng').value = latlng.lng;
-          };
-          
-          updateLoc(defaultLoc);
-          
-          marker.on('dragend', (e) => updateLoc(e.target.getLatLng()));
-          
-          map.on('click', (e) => {
-            marker.setLatLng(e.latlng);
-            updateLoc(e.latlng);
-          });
-          
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(pos => {
-              const ll = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-              map.setView(ll, 15); marker.setLatLng(ll); updateLoc(ll);
-            });
-          }
-        }
-      } catch(e) { console.error("Map Error", e); }
+      const def = { lat: -6.2000, lng: 106.8166 };
+      map = L.map('map', { zoomControl: false }).setView([def.lat, def.lng], 13);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+      marker = L.marker([def.lat, def.lng], { draggable: true }).addTo(map);
+      
+      const setCoords = (ll) => {
+        document.getElementById('lat').value = ll.lat;
+        document.getElementById('lng').value = ll.lng;
+      };
+      setCoords(def);
+      marker.on('dragend', (e) => setCoords(e.target.getLatLng()));
+      map.on('click', (e) => { marker.setLatLng(e.latlng); setCoords(e.latlng); });
+
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(p => {
+          const ll = { lat: p.coords.latitude, lng: p.coords.longitude };
+          map.setView(ll, 15); marker.setLatLng(ll); setCoords(ll);
+        });
+      }
     }
 
-    function setupImageUpload() {
-      const dropZone = document.getElementById('drop-zone');
-      const fileInput = document.getElementById('image-upload');
-      const previewDiv = document.getElementById('image-preview');
-      const previewImg = document.getElementById('preview-img');
-      const btnRemove = document.getElementById('btn-remove-image');
-
-      if(!dropZone || !fileInput) return;
-
-      dropZone.addEventListener('click', () => fileInput.click());
-      dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = '#111827'; });
-      dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = '#E5E7EB'; });
-      dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.style.borderColor = '#E5E7EB';
-        if (e.dataTransfer.files.length > 0) handleFileSelect(e.dataTransfer.files[0], previewImg, dropZone, previewDiv);
-      });
-      fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) handleFileSelect(e.target.files[0], previewImg, dropZone, previewDiv);
-      });
-
-      btnRemove.addEventListener('click', () => {
-        selectedFile = null;
-        fileInput.value = '';
-        previewImg.src = '';
-        dropZone.classList.remove('hidden');
-        previewDiv.classList.add('hidden');
-      });
+    function setupUpload() {
+      const zone = document.getElementById('drop-zone');
+      const input = document.getElementById('image-upload');
+      zone.onclick = () => input.click();
+      input.onchange = (e) => handleFile(e.target.files[0]);
+      zone.ondragover = (e) => { e.preventDefault(); zone.classList.add('active'); };
+      zone.ondragleave = () => zone.classList.remove('active');
+      zone.ondrop = (e) => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); };
+      document.getElementById('btn-remove-image').onclick = () => {
+        selectedFile = null; input.value = '';
+        document.getElementById('image-preview').classList.add('hidden');
+        zone.classList.remove('hidden');
+      };
     }
 
-    function handleFileSelect(file, imgEl, dropZ, prevZ) {
-      if (!file.type.startsWith('image/')) {
-        showToast('Hanya file gambar yang diizinkan', 'error');
-        return;
-      }
-      if (file.size > 2 * 1024 * 1024) {
-        showToast('Ukuran gambar maksimal 2MB', 'error');
-        return;
-      }
+    function handleFile(file) {
+      if(!file || !file.type.startsWith('image/')) return showToast('Pilih file gambar!', 'error');
       selectedFile = file;
       const reader = new FileReader();
       reader.onload = (e) => {
-        imgEl.src = e.target.result;
-        dropZ.classList.add('hidden');
-        prevZ.classList.remove('hidden');
+        document.getElementById('preview-img').src = e.target.result;
+        document.getElementById('image-preview').classList.remove('hidden');
+        document.getElementById('drop-zone').classList.add('hidden');
       };
       reader.readAsDataURL(file);
     }
@@ -414,112 +342,62 @@ import Layout from '../layouts/Layout.astro';
         const res = await fetch(`${API_URL}/api/categories`);
         const data = await res.json();
         categories = data.data || [];
-        
-        if (categories.length === 0) {
-          categories = [
-            {id: 1, name: 'Infrastruktur'},
-            {id: 2, name: 'Lingkungan'},
-            {id: 3, name: 'Fasilitas Umum'},
-            {id: 4, name: 'Keamanan'}
-          ];
-        }
-
         const container = document.getElementById('category-chips');
-        container.innerHTML = categories.map(c => `
-          <div class="chip" data-id="${c.id}">${c.name}</div>
-        `).join('');
-
-        container.querySelectorAll('.chip').forEach(chip => {
-          chip.addEventListener('click', () => {
-            container.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-            chip.classList.add('active');
-            document.getElementById('category_id').value = chip.dataset.id;
-          });
+        container.innerHTML = categories.map(c => `<div class="chip" data-id="${c.id}">${c.name}</div>`).join('');
+        container.querySelectorAll('.chip').forEach(c => c.onclick = () => {
+          container.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+          c.classList.add('active');
+          document.getElementById('category_id').value = c.dataset.id;
         });
-      } catch (err) { 
-        console.error("Categories Error", err); 
-        categories = [
-          {id: 1, name: 'Infrastruktur'},
-          {id: 2, name: 'Lingkungan'},
-          {id: 3, name: 'Fasilitas Umum'},
-          {id: 4, name: 'Keamanan'}
-        ];
-        const container = document.getElementById('category-chips');
-        container.innerHTML = categories.map(c => `
-          <div class="chip" data-id="${c.id}">${c.name}</div>
-        `).join('');
-        container.querySelectorAll('.chip').forEach(chip => {
-          chip.addEventListener('click', () => {
-            container.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-            chip.classList.add('active');
-            document.getElementById('category_id').value = chip.dataset.id;
-          });
-        });
-      }
+      } catch(e) {}
     }
 
-    async function fetchMyStats() {
+    async function fetchData() {
+      fetchStats();
+      fetchFeed('recent');
+      fetchLeaderboard();
+    }
+
+    
+    async function fetchStats() {
       try {
         const res = await fetch(`${API_URL}/api/my-reports`, { headers: { 'Authorization': `Bearer ${token}` }});
         const data = await res.json();
-        const reports = data.data || [];
-        
-        document.getElementById('stat-total').textContent = reports.length;
-        document.getElementById('stat-pending').textContent = reports.filter(r => r.status === 'PENDING').length;
-        document.getElementById('stat-resolved').textContent = reports.filter(r => r.status === 'RESOLVED').length;
-      } catch (err) { console.error(err); }
+        const r = data.data || [];
+        document.getElementById('stat-total').textContent = r.length;
+        document.getElementById('stat-pending').textContent = r.filter(x => x.status === 'PENDING').length;
+        document.getElementById('stat-resolved').textContent = r.filter(x => x.status === 'RESOLVED').length;
+      } catch(e) {}
     }
 
     async function fetchFeed(sort) {
       const list = document.getElementById('reports-list');
-      list.innerHTML = '<div class="feed-loading"><div class="spinner"></div></div>';
+      list.innerHTML = '<div class="zen-loader"></div>';
       try {
         const res = await fetch(`${API_URL}/api/public-reports?sort=${sort}`, { headers: { 'Authorization': `Bearer ${token}` }});
         const data = await res.json();
-        allReportsList = data.data || [];
+        allReports = data.data || [];
+        if(allReports.length === 0) { list.innerHTML = '<div class="empty-zen">Belum ada laporan.</div>'; return; }
         
-        if(allReportsList.length === 0) {
-          list.innerHTML = '<div class="empty-state">Belum ada laporan publik.</div>';
-          return;
-        }
-
-        list.innerHTML = allReportsList.map(r => {
-          const catName = categories.find(c => c.id === r.category_id)?.name || 'Umum';
-          const statusClass = r.status.toLowerCase();
-          const imgHtml = r.image_url 
-            ? `<div class="feed-img" onclick="event.stopPropagation(); window.openImg('${API_URL}${r.image_url}')"><img src="${API_URL}${r.image_url}" alt="Bukti"/></div>` 
-            : '';
-
+        list.innerHTML = allReports.map(r => {
+          const cat = categories.find(c => c.id === r.category_id)?.name || 'Umum';
+          const img = r.image_url ? `<div class="f-img"><img src="${API_URL}${r.image_url}" /></div>` : '';
           return `
-            <div class="feed-item clickable" onclick="window.openDetail('${r.id}')">
-              <div class="feed-item-header">
-                <span class="badge-cat">${catName}</span>
-                <span class="badge-status ${statusClass}">${r.status}</span>
-              </div>
-              <div class="feed-item-body">
-                ${imgHtml}
-                <div class="feed-info">
-                  <h4 class="feed-desc">${r.description}</h4>
-                  <div class="feed-meta">📍 ${r.location_detail}</div>
-                  <div class="feed-meta">🕒 ${new Date(r.created_at).toLocaleDateString('id-ID')}</div>
-                </div>
-              </div>
-              <div class="feed-item-actions">
-                <button class="action-btn" onclick="event.stopPropagation(); window.doVote('${r.id}')">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
-                  <span>${r.vote_count}</span>
-                </button>
-                <div class="action-btn">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                  <span>${r.comment_count} Diskusi</span>
+            <div class="feed-card-item glass clickable" onclick="window.openDetail('${r.id}')">
+              ${img}
+              <div class="f-body">
+                <div class="f-meta"><span class="cat">${cat}</span> <span class="status ${r.status.toLowerCase()}">${r.status}</span></div>
+                <h4>${r.description}</h4>
+                <p>📍 ${r.location_detail}</p>
+                <div class="f-footer">
+                  <button class="vote-btn" onclick="event.stopPropagation(); window.doVote('${r.id}')">🔥 ${r.vote_count}</button>
+                  <span>💬 ${r.comment_count} Diskusi</span>
                 </div>
               </div>
             </div>
           `;
         }).join('');
-      } catch(e) {
-        list.innerHTML = '<div class="empty-state text-danger">Gagal memuat feed.</div>';
-      }
+      } catch(e) {}
     }
 
     async function fetchLeaderboard() {
@@ -527,119 +405,88 @@ import Layout from '../layouts/Layout.astro';
       try {
         const res = await fetch(`${API_URL}/api/leaderboard`, { headers: { 'Authorization': `Bearer ${token}` }});
         const data = await res.json();
-        const profiles = data.data || [];
-        
-        if (profiles.length === 0) {
-          list.innerHTML = '<div class="empty-state" style="padding: 20px;">Belum ada pahlawan warga.</div>';
-          return;
-        }
-
-        list.innerHTML = profiles.map((p, index) => {
-          let rankMedal = '';
-          if(index === 0) rankMedal = '🥇';
-          else if(index === 1) rankMedal = '🥈';
-          else if(index === 2) rankMedal = '🥉';
-          else rankMedal = `<span style="font-size:12px;color:#64748B;">#${index+1}</span>`;
-
-          const initial = (p.full_name || p.email)[0].toUpperCase();
-
-          return `
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--c-border);">
-              <div style="display:flex; align-items:center; gap:12px;">
-                <div style="width:32px;text-align:center;">${rankMedal}</div>
-                <div style="width:32px;height:32px;border-radius:50%;background:var(--c-bg);border:1px solid var(--c-border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">${initial}</div>
-                <div style="font-size:13px;font-weight:600;">${p.full_name || 'Warga'}</div>
-              </div>
-              <div style="font-size:12px;font-weight:800;color:var(--c-accent);">${p.points} PTS</div>
+        const users = data.data || [];
+        list.innerHTML = users.map((u, i) => `
+          <div class="leader-item">
+            <span class="rank">${i < 3 ? ['🥇','🥈','🥉'][i] : '#'+(i+1)}</span>
+            <div class="l-info">
+              <strong>${u.full_name}</strong>
+              <span>${u.points} PTS</span>
             </div>
-          `;
-        }).join('');
-      } catch (err) {
-        list.innerHTML = '<div class="empty-state text-danger">Gagal memuat klasemen.</div>';
-      }
+          </div>
+        `).join('');
+      } catch(e) {}
     }
+
+    function setupListeners() {
+      document.getElementById('form-report').onsubmit = handleReportSubmit;
+      document.getElementById('feed-sort').onchange = (e) => fetchFeed(e.target.value);
+      document.getElementById('close-detail').onclick = () => document.getElementById('detail-modal').classList.add('hidden');
+      document.getElementById('lightbox-close').onclick = () => document.getElementById('lightbox').classList.add('hidden');
+      document.getElementById('form-comment').onsubmit = handleCommentSubmit;
+      document.getElementById('btn-logout-desktop').onclick = logout;
+      document.getElementById('btn-logout-mobile').onclick = logout;
+    }
+
+    function logout() { localStorage.clear(); window.location.href = '/login'; }
 
     async function handleReportSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('btn-submit');
-      const catId = document.getElementById('category_id').value;
-      const desc = document.getElementById('description').value;
-      const loc = document.getElementById('location_detail').value;
-      const lat = document.getElementById('lat').value;
-      const lng = document.getElementById('lng').value;
-
-      if(!catId) { showToast('Silakan pilih kategori!', 'error'); return; }
-      if(!lat || !lng) { showToast('Lokasi peta belum didapatkan!', 'error'); return; }
+      const cat = document.getElementById('category_id').value;
+      if(!cat) return showToast('Pilih kategori!', 'error');
 
       btn.disabled = true;
-      btn.innerHTML = '<div class="spinner-small"></div> Mengirim...';
-
-      const formData = new FormData();
-      formData.append('category_id', catId);
-      formData.append('description', desc);
-      formData.append('location_detail', loc);
-      formData.append('latitude', lat);
-      formData.append('longitude', lng);
-      if (selectedFile) formData.append('image', selectedFile);
+      const fd = new FormData();
+      fd.append('category_id', cat);
+      fd.append('description', document.getElementById('description').value);
+      fd.append('location_detail', document.getElementById('location_detail').value);
+      fd.append('latitude', document.getElementById('lat').value);
+      fd.append('longitude', document.getElementById('lng').value);
+      if(selectedFile) fd.append('image', selectedFile);
 
       try {
         const res = await fetch(`${API_URL}/api/reports`, {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}` },
-          body: formData
+          body: fd
         });
-        
-        if (res.ok) {
-          showToast('Laporan berhasil dikirim!');
+        if(res.ok) {
+          showToast('Laporan Terkirim!');
           document.getElementById('form-report').reset();
-          document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-          document.getElementById('category_id').value = '';
           if(selectedFile) document.getElementById('btn-remove-image').click();
-          fetchMyStats();
-          fetchFeed(document.getElementById('feed-sort').value);
-        } else {
-          const err = await res.json();
-          showToast(err.error || 'Gagal mengirim', 'error');
+          fetchData();
         }
-      } catch (err) {
-        showToast('Kesalahan jaringan', 'error');
-      }
-      
+      } catch(e) {}
       btn.disabled = false;
-      btn.innerHTML = 'Kirim Laporan <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>';
     }
 
-    // Global Functions for inline onclick
     window.openDetail = (id) => {
-      const r = allReportsList.find(x => x.id === id);
+      const r = allReports.find(x => x.id === id);
       if(!r) return;
-
-      document.getElementById('comment-report-id').value = id;
-
+      document.getElementById('active-report-id').value = id;
+      
+      const imgBox = document.getElementById('detail-img-box');
       if(r.image_url) {
         document.getElementById('detail-img').src = API_URL + r.image_url;
-        document.getElementById('detail-img-container').classList.remove('hidden');
-      } else {
-        document.getElementById('detail-img-container').classList.add('hidden');
-      }
+        imgBox.classList.remove('hidden');
+        imgBox.onclick = () => window.openLightbox(API_URL + r.image_url);
+      } else { imgBox.classList.add('hidden'); }
 
       document.getElementById('detail-desc').textContent = r.description;
       document.getElementById('detail-loc').textContent = r.location_detail;
       document.getElementById('detail-cat').textContent = categories.find(c => c.id === r.category_id)?.name || 'Umum';
       document.getElementById('detail-date').textContent = new Date(r.created_at).toLocaleDateString('id-ID');
-      
-      const st = document.getElementById('detail-status');
-      st.textContent = r.status;
-      st.className = `badge-status ${r.status.toLowerCase()}`;
-
+      document.getElementById('detail-status').textContent = r.status;
+      document.getElementById('detail-status').className = `status-pill ${r.status.toLowerCase()}`;
       document.getElementById('detail-votes').textContent = r.vote_count;
-      document.getElementById('detail-comment-count').textContent = r.comment_count;
+      document.getElementById('btn-vote-modal').onclick = () => window.doVote(id);
 
       document.getElementById('detail-modal').classList.remove('hidden');
       loadComments(id);
     };
 
-    window.openImg = (url) => {
+    window.openLightbox = (url) => {
       document.getElementById('lightbox-img').src = url;
       document.getElementById('lightbox').classList.remove('hidden');
     };
@@ -648,20 +495,14 @@ import Layout from '../layouts/Layout.astro';
       try {
         const res = await fetch(`${API_URL}/api/reports/${id}/vote`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({ vote_type: 1 })
         });
         if(res.ok) {
           fetchFeed(document.getElementById('feed-sort').value);
-          // If modal is open, refresh comments to show updated vote
-          const currentModalId = document.getElementById('comment-report-id').value;
-          if (currentModalId === id) {
-            const updatedReportRes = await fetch(`${API_URL}/api/public-reports?sort=${document.getElementById('feed-sort').value}`, { headers: { 'Authorization': `Bearer ${token}` }});
-            const data = await updatedReportRes.json();
-            const r = (data.data || []).find(x => x.id === id);
-            if (r) {
-              document.getElementById('detail-votes').textContent = r.vote_count;
-            }
+          const r = allReports.find(x => x.id === id);
+          if(r && document.getElementById('active-report-id').value === id) {
+             document.getElementById('detail-votes').textContent = r.vote_count + 1;
           }
         }
       } catch(e) {}
@@ -669,67 +510,39 @@ import Layout from '../layouts/Layout.astro';
 
     async function loadComments(id) {
       const list = document.getElementById('comments-list');
-      list.innerHTML = '<div class="feed-loading"><div class="spinner"></div></div>';
+      list.innerHTML = '<div class="zen-loader"></div>';
       try {
         const res = await fetch(`${API_URL}/api/reports/${id}/comments`);
         const data = await res.json();
-        const comments = data.data || [];
-        if(comments.length === 0) {
-          list.innerHTML = '<div class="empty-state">Jadilah yang pertama berdiskusi!</div>';
-          return;
-        }
-        list.innerHTML = comments.map(c => `
-          <div class="comment-bubble">
-            <div class="c-head">
-              <strong>${c.user?.full_name || (c.user?.role === 'admin' ? 'Admin' : 'Warga')}</strong> 
-              <span>${new Date(c.created_at).toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}</span>
-            </div>
-            <div class="c-body">${c.content}</div>
+        const c = data.data || [];
+        if(c.length === 0) { list.innerHTML = '<div class="empty-chat">Belum ada diskusi.</div>'; return; }
+        list.innerHTML = c.map(x => `
+          <div class="chat-bubble ${x.user?.role === 'admin' ? 'admin' : ''}">
+            <div class="chat-meta"><strong>${x.user?.full_name || 'Warga'}</strong></div>
+            <p>${x.content}</p>
           </div>
         `).join('');
-        // scroll to bottom
         list.scrollTop = list.scrollHeight;
-      } catch(e) {
-        list.innerHTML = '<div class="empty-state text-danger">Gagal memuat diskusi.</div>';
-      }
+      } catch(e) {}
     }
 
     async function handleCommentSubmit(e) {
       e.preventDefault();
-      const id = document.getElementById('comment-report-id').value;
+      const id = document.getElementById('active-report-id').value;
       const input = document.getElementById('comment-input');
-      if(!input.value.trim() || !id) return;
-
-      const btn = e.target.querySelector('.btn-send');
-      btn.disabled = true;
-      
       try {
         const res = await fetch(`${API_URL}/api/reports/${id}/comments`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({ content: input.value })
         });
-        if(res.ok) {
-          input.value = '';
-          loadComments(id);
-          fetchFeed(document.getElementById('feed-sort').value);
-          // Update comment count in modal
-          const currentCount = parseInt(document.getElementById('detail-comment-count').textContent || "0");
-          document.getElementById('detail-comment-count').textContent = currentCount + 1;
-        }
-      } catch(err) {}
-      btn.disabled = false;
+        if(res.ok) { input.value = ''; loadComments(id); fetchFeed(document.getElementById('feed-sort').value); }
+      } catch(e) {}
     }
 
-    function showToast(msg, type = 'success') {
+    function showToast(msg) {
       const t = document.getElementById('toast');
-      const i = document.getElementById('toast-icon');
-      const m = document.getElementById('toast-msg');
-      
-      t.className = `toast-notification ${type}`;
-      i.textContent = type === 'error' ? '!' : '✓';
-      m.textContent = msg;
-      
+      document.getElementById('toast-msg').textContent = msg;
       t.classList.remove('hidden');
       setTimeout(() => t.classList.add('hidden'), 3000);
     }
@@ -737,235 +550,200 @@ import Layout from '../layouts/Layout.astro';
 
   <style is:global>
     /* =========================================
-       Zen SaaS Architecture
+       Zen Minimalist SaaS System (User)
        ========================================= */
     
     :root {
-      --c-bg: #F8FAFC;
-      --c-surface: #FFFFFF;
-      --c-text: #0F172A;
-      --c-text-soft: #64748B;
-      --c-border: #E2E8F0;
-      --c-brand: #0F172A;
-      --c-accent: #3B82F6;
-      --c-danger: #EF4444;
-      --c-success: #10B981;
-      --c-warning: #F59E0B;
+      --zen-bg: #F5F2ED;
+      --zen-surface: rgba(255, 255, 255, 0.7);
+      --zen-text: #1A1A1A;
+      --zen-muted: #71717A;
+      --zen-border: rgba(26, 26, 26, 0.08);
+      --zen-brand: #1A1A1A;
+      --zen-blue: #3B82F6;
+      --zen-green: #10B981;
+      --zen-yellow: #F59E0B;
       
-      --radius-sm: 8px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05);
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-sans: 'Inter', sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
-    
-    body { background: var(--c-bg); color: var(--c-text); -webkit-font-smoothing: antialiased; }
+    body { 
+      background-color: var(--zen-bg); 
+      color: var(--zen-text); 
+      font-family: var(--font-sans);
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
 
-    /* Layout */
     .saas-layout { display: flex; height: 100vh; overflow: hidden; }
-    
-    /* Sidebar Desktop */
-    .sidebar { display: none; width: 280px; background: var(--c-surface); border-right: 1px solid var(--c-border); flex-direction: column; z-index: 100; }
-    .sidebar-header { padding: 32px 24px; }
-    .logo { display: flex; align-items: center; gap: 12px; }
-    .logo-mark { width: 32px; height: 32px; background: var(--c-brand); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
-    .logo-text { font-weight: 800; font-size: 20px; letter-spacing: -0.03em; }
-    
-    .nav-menu { flex: 1; padding: 0 16px; display: flex; flex-direction: column; gap: 4px; }
-    .nav-section { font-size: 11px; font-weight: 700; color: var(--c-text-soft); padding: 16px 12px 8px; letter-spacing: 0.05em; }
-    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-sm); color: var(--c-text-soft); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; }
-    .nav-item:hover { background: var(--c-bg); color: var(--c-text); }
-    .nav-item.active { background: var(--c-bg); color: var(--c-brand); }
-    
-    .sidebar-footer { padding: 24px 16px; border-top: 1px solid var(--c-border); }
-    .user-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 0 8px; }
-    .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--c-bg); border: 1px solid var(--c-border); display: flex; align-items: center; justify-content: center; font-weight: 700; }
-    .user-info { display: flex; flex-direction: column; }
-    .user-name { font-weight: 600; font-size: 14px; }
-    .user-points { font-size: 12px; font-weight: 700; color: var(--c-accent); }
-    
-    .btn-logout { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; background: transparent; border: 1px solid var(--c-border); border-radius: var(--radius-sm); color: var(--c-danger); font-weight: 600; cursor: pointer; transition: 0.2s; }
-    .btn-logout:hover { background: #FEF2F2; border-color: #FECACA; }
 
-    /* Mobile Nav */
-    .mobile-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: var(--c-surface); border-bottom: 1px solid var(--c-border); position: sticky; top: 0; z-index: 90; }
-    .user-profile-mobile { display: flex; align-items: center; gap: 12px; }
-    .points-badge { background: #EFF6FF; color: var(--c-accent); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-    .avatar-small { width: 32px; height: 32px; background: var(--c-bg); border: 1px solid var(--c-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
+    /* Sidebar Glass */
+    .sidebar { 
+      width: 280px; background: rgba(255, 255, 255, 0.4); 
+      backdrop-filter: blur(20px); border-right: 1px solid var(--zen-border);
+      display: flex; flex-direction: column; z-index: 100;
+    }
+    .sidebar-header { padding: 40px 24px; }
+    .user-logo { height: 40px; width: auto; filter: grayscale(1); }
     
-    .mobile-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: var(--c-surface); border-top: 1px solid var(--c-border); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-    .m-nav-item { padding: 8px 24px; color: var(--c-text-soft); border-radius: 12px; border: none; background: transparent; cursor: pointer; }
-    .m-nav-item.active { color: var(--c-brand); background: var(--c-bg); }
-    .text-danger { color: var(--c-danger); }
+    .nav-menu { flex: 1; padding: 0 16px; }
+    .nav-section { font-size: 10px; font-weight: 800; color: var(--zen-muted); padding: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .nav-item { 
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px; 
+      border-radius: 12px; color: var(--zen-muted); text-decoration: none; 
+      font-size: 14px; font-weight: 600; transition: all 0.3s;
+    }
+    .nav-item.active { background: white; color: var(--zen-text); box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid var(--zen-border); }
 
-    /* Main Area */
-    .main-content { flex: 1; overflow-y: auto; background: var(--c-bg); padding-bottom: 80px; }
-    .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
+    .sidebar-footer { padding: 24px; border-top: 1px solid var(--zen-border); }
+    .user-card { padding: 16px; border-radius: 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .avatar-large { width: 44px; height: 44px; border-radius: 50%; background: var(--zen-brand); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+    .u-name { font-weight: 800; font-size: 14px; display: block; }
+    .u-points { font-size: 11px; font-weight: 800; color: var(--zen-blue); }
     
-    @media (min-width: 768px) {
-      .sidebar { display: flex; }
-      .mobile-header, .mobile-nav { display: none; }
-      .main-content { padding-bottom: 0; }
-      .content-wrapper { padding: 40px 48px; }
+    .btn-logout-zen { 
+      width: 100%; display: flex; align-items: center; justify-content: center; 
+      gap: 10px; padding: 12px; background: transparent; border: 1px solid rgba(0,0,0,0.05); 
+      border-radius: 12px; color: var(--zen-muted); font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s;
     }
 
-    /* Typography & Core */
-    .welcome-section { margin-bottom: 32px; }
-    h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
-    .subtitle { color: var(--c-text-soft); font-size: 15px; }
+    /* Main Content */
+    .main-content { flex: 1; overflow-y: auto; }
+    .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+    
+    .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+    h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.04em; margin: 0; }
+    .date-badge { padding: 8px 16px; border-radius: 99px; font-weight: 700; font-size: 13px; background: white; }
 
-    /* Bento Grid */
-    .bento-grid { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: start; }
-    @media (min-width: 1024px) { .bento-grid { grid-template-columns: 4fr 5fr; } }
+    /* Bento User Grid */
+    .bento-grid-user { 
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; 
+    }
+    .bento-card { border-radius: 28px; padding: 28px; border: 1px solid var(--zen-border); }
     
-    .bento-card { background: var(--c-surface); border-radius: var(--radius-lg); border: 1px solid var(--c-border); padding: 24px; box-shadow: var(--shadow-sm); }
-    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .card-header h2 { font-size: 18px; font-weight: 700; }
-    .card-badge { background: var(--c-brand); color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .card-form { grid-column: span 2; grid-row: span 2; }
+    .card-stats { grid-column: span 1; display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .card-leaderboard { grid-column: span 1; }
+    .card-feed { grid-column: span 3; }
 
-    /* Forms */
-    .form-group { margin-bottom: 20px; }
-    label { display: block; font-size: 13px; font-weight: 600; color: var(--c-text); margin-bottom: 8px; }
-    
-    input[type="text"], textarea, .select-minimal { width: 100%; background: var(--c-bg); border: 1px solid var(--c-border); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 14px; transition: 0.2s; outline: none; resize: none; }
-    input:focus, textarea:focus, .select-minimal:focus { border-color: var(--c-brand); background: var(--c-surface); box-shadow: 0 0 0 3px rgba(15,23,42,0.05); }
+    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .card-head h3 { font-size: 16px; font-weight: 800; margin: 0; }
+    .head-hint { font-size: 11px; font-weight: 800; color: var(--zen-muted); text-transform: uppercase; letter-spacing: 0.05em; }
 
-    /* Chips */
-    .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip { padding: 8px 16px; background: var(--c-bg); border: 1px solid var(--c-border); border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--c-text-soft); cursor: pointer; transition: 0.2s; user-select: none; }
-    .chip:hover { border-color: var(--c-text-soft); }
-    .chip.active { background: var(--c-brand); color: white; border-color: var(--c-brand); }
-    .skeleton { width: 80px; height: 36px; background: #E2E8F0; animation: pulse 1.5s infinite; border: none; }
+    /* Zen Form Styling */
+    .zen-form { display: flex; flex-direction: column; gap: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .input-group label { display: block; font-size: 12px; font-weight: 800; color: var(--zen-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .chip-container { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 10px 18px; border-radius: 12px; background: white; border: 1px solid var(--zen-border); font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+    .chip.active { background: var(--zen-brand); color: white; border-color: var(--zen-brand); }
+    
+    textarea, input[type="text"] { 
+      width: 100%; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--zen-border); 
+      background: white; outline: none; font-size: 14px; font-weight: 500; transition: 0.3s;
+    }
+    textarea { min-height: 100px; resize: none; }
+    textarea:focus, input:focus { border-color: var(--zen-brand); box-shadow: 0 0 0 4px rgba(0,0,0,0.03); }
 
-    /* File Upload */
-    .upload-zone { border: 2px dashed var(--c-border); border-radius: var(--radius-md); padding: 32px 20px; text-align: center; cursor: pointer; transition: 0.2s; background: #FAFAFA; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--c-brand); background: #F8FAFC; }
-    .upload-icon { color: var(--c-text-soft); }
-    .upload-zone p { font-size: 14px; font-weight: 500; color: var(--c-text); }
-    .upload-link { color: var(--c-accent); font-weight: 600; }
-    .upload-hint { font-size: 12px !important; color: var(--c-text-soft) !important; }
-    
-    .preview-zone { position: relative; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--c-border); }
-    .preview-zone img { width: 100%; display: block; max-height: 200px; object-fit: contain; background: #F8FAFC; }
-    .btn-remove { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; border: none; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
+    .drop-zone { 
+      height: 100px; border: 2px dashed var(--zen-border); border-radius: 16px; 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; 
+      gap: 8px; cursor: pointer; background: white; transition: 0.3s;
+    }
+    .drop-zone.active { border-color: var(--zen-brand); background: rgba(0,0,0,0.02); }
+    .drop-icon { font-size: 20px; }
+    .drop-zone p { font-size: 12px; font-weight: 700; color: var(--zen-muted); margin: 0; }
 
-    /* Map */
-    .map-container { height: 180px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--c-border); }
-    #map { height: 100%; width: 100%; z-index: 1; }
-    .mt-2 { margin-top: 12px; }
+    .preview-box { position: relative; height: 100px; border-radius: 16px; overflow: hidden; }
+    .preview-box img { width: 100%; height: 100%; object-fit: cover; }
+    .btn-clear { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.5); color: white; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; }
 
-    /* Buttons */
-    .btn-primary { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--c-brand); color: white; border: none; padding: 14px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-    .btn-primary:hover { background: #1E293B; transform: translateY(-1px); box-shadow: var(--shadow-md); }
-    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+    .zen-map { height: 200px; border-radius: 16px; border: 1px solid var(--zen-border); margin-top: 12px; }
 
-    /* Feed & Stats */
-    .feed-column { display: flex; flex-direction: column; gap: 24px; }
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .stat-box { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius-md); padding: 16px; display: flex; flex-direction: column; gap: 4px; box-shadow: var(--shadow-sm); }
-    .stat-label { font-size: 11px; font-weight: 700; color: var(--c-text-soft); text-transform: uppercase; letter-spacing: 0.05em; }
-    .stat-value { font-size: 24px; font-weight: 800; line-height: 1; }
-    .text-warning { color: var(--c-warning); }
-    .text-success { color: var(--c-success); }
+    /* Stats Card */
+    .stat-item { padding: 20px; border-radius: 20px; background: white; border: 1px solid var(--zen-border); text-align: center; }
+    .s-label { font-size: 11px; font-weight: 800; color: var(--zen-muted); text-transform: uppercase; }
+    .stat-item h2 { font-size: 32px; font-weight: 800; margin: 8px 0 0; letter-spacing: -0.04em; }
+    .text-yellow { color: var(--zen-yellow); }
+    .text-green { color: var(--zen-green); }
 
-    .feed-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; height: 100%; max-height: calc(100vh - 120px); }
-    .feed-controls { padding: 20px 24px; border-bottom: 1px solid var(--c-border); display: flex; justify-content: space-between; align-items: center; background: #FAFAFA; }
-    .feed-controls h2 { font-size: 16px; font-weight: 700; margin: 0; }
-    .select-minimal { padding: 6px 32px 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    /* Leaderboard */
+    .leader-list { display: flex; flex-direction: column; gap: 12px; }
+    .leader-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; background: white; border: 1px solid var(--zen-border); }
+    .rank { font-size: 16px; width: 24px; text-align: center; }
+    .l-info { flex: 1; }
+    .l-info strong { font-size: 13px; font-weight: 800; display: block; }
+    .l-info span { font-size: 11px; font-weight: 800; color: var(--zen-blue); }
 
-    .feed-list { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
-    .feed-item { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius-md); overflow: hidden; transition: 0.2s; }
-    .feed-item.clickable:hover { border-color: #CBD5E1; box-shadow: var(--shadow-sm); cursor: pointer; }
-    .feed-item-header { display: flex; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--c-bg); }
-    .badge-cat { font-size: 11px; font-weight: 700; background: var(--c-bg); padding: 4px 8px; border-radius: 4px; color: var(--c-text); border: 1px solid var(--c-border); }
-    .badge-status { font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
-    .badge-status.pending { background: #FEF2F2; color: var(--c-danger); }
-    .badge-status.valid { background: #FEFCE8; color: #CA8A04; }
-    .badge-status.resolved { background: #ECFDF5; color: var(--c-success); }
-    
-    .feed-item-body { padding: 16px; display: flex; gap: 16px; align-items: flex-start; }
-    .feed-img { width: 80px; height: 80px; border-radius: 8px; border: 1px solid var(--c-border); overflow: hidden; flex-shrink: 0; cursor: pointer; }
-    .feed-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
-    .feed-img:hover img { transform: scale(1.05); }
-    .feed-info { flex: 1; }
-    .feed-desc { font-size: 14px; font-weight: 600; margin-bottom: 8px; line-height: 1.4; }
-    .feed-meta { font-size: 12px; color: var(--c-text-soft); margin-bottom: 4px; }
-    
-    .feed-item-actions { padding: 12px 16px; border-top: 1px solid var(--c-bg); display: flex; gap: 16px; background: #FAFAFA; }
-    .action-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; font-size: 12px; font-weight: 600; color: var(--c-text-soft); cursor: pointer; transition: 0.2s; }
-    .action-btn:hover { color: var(--c-brand); }
+    /* Feed Styling */
+    .zen-feed { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 24px; }
+    .feed-card-item { border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; }
+    .feed-card-item:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+    .f-img { height: 160px; overflow: hidden; }
+    .f-img img { width: 100%; height: 100%; object-fit: cover; }
+    .f-body { padding: 24px; }
+    .f-meta { display: flex; gap: 10px; margin-bottom: 12px; }
+    .cat { font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; background: var(--zen-bg); border: 1px solid var(--zen-border); }
+    .status { font-size: 10px; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; }
+    .status.pending { background: rgba(245, 158, 11, 0.1); color: var(--zen-yellow); }
+    .status.resolved { background: rgba(16, 185, 129, 0.1); color: var(--zen-green); }
 
-    /* Modals & Overlays */
-    .hidden { display: none !important; }
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.8); backdrop-filter: blur(4px); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    
-    .lightbox-wrapper { position: relative; max-width: 100%; max-height: 100%; z-index: 1000; }
-    #lightbox-img { max-width: 100%; max-height: 85vh; border-radius: 8px; box-shadow: var(--shadow-lg); }
-    
-    .modal-content { background: var(--c-surface); width: 100%; max-width: 480px; border-radius: var(--radius-lg); display: flex; flex-direction: column; max-height: 80vh; overflow: hidden; box-shadow: var(--shadow-lg); }
-    .large-modal { max-width: 900px; max-height: 90vh; }
-    .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--c-border); display: flex; justify-content: space-between; align-items: center; }
-    .modal-header h3 { font-size: 18px; font-weight: 700; margin: 0; }
-    .btn-close-modal { background: none; border: none; font-size: 28px; line-height: 1; color: var(--c-text-soft); cursor: pointer; padding: 0; position: absolute; right: 0; top: -40px; color: white; }
-    .modal-header .btn-close-modal { position: static; color: var(--c-text-soft); }
-    
-    /* Detail Layout */
-    .detail-layout { display: flex; flex-direction: column; height: 100%; }
-    @media (min-width: 768px) { .detail-layout { flex-direction: row; } }
-    
-    .detail-info { flex: 1; padding: 24px; border-bottom: 1px solid var(--c-border); overflow-y: auto; }
-    @media (min-width: 768px) { .detail-info { border-bottom: none; border-right: 1px solid var(--c-border); width: 60%; } }
-    
-    .detail-img-box { width: 100%; height: 240px; border-radius: 12px; overflow: hidden; margin-bottom: 20px; background: var(--c-bg); border: 1px solid var(--c-border); }
-    .detail-img-box img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
-    
-    .d-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-    .detail-text h2 { font-size: 20px; font-weight: 700; margin-bottom: 12px; line-height: 1.4; }
-    .d-location { font-size: 14px; color: var(--c-text-soft); margin-bottom: 20px; padding: 12px; background: var(--c-bg); border-radius: 8px; }
-    .d-stats { display: flex; gap: 12px; }
-    .stat-pill { font-size: 13px; font-weight: 600; padding: 8px 16px; background: var(--c-bg); border-radius: 8px; border: 1px solid var(--c-border); }
-    
-    .detail-comments { flex: 1; display: flex; flex-direction: column; background: #FAFAFA; }
-    @media (min-width: 768px) { .detail-comments { width: 40%; } }
-    .detail-comments h4 { padding: 20px 24px; margin: 0; font-size: 15px; border-bottom: 1px solid var(--c-border); background: var(--c-surface); }
-    .comments-container { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
-    
-    .comment-bubble { background: var(--c-surface); border: 1px solid var(--c-border); padding: 12px 16px; border-radius: 16px 16px 16px 0; box-shadow: var(--shadow-sm); }
-    .c-head { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 12px; }
-    .c-head strong { color: var(--c-brand); }
-    .c-head span { color: var(--c-text-soft); }
-    .c-body { font-size: 14px; color: var(--c-text); line-height: 1.5; }
-    
-    .comment-input-wrapper { padding: 16px 24px; border-top: 1px solid var(--c-border); background: var(--c-surface); }
-    .comment-input-group { display: flex; gap: 12px; }
-    .comment-input-group input { flex: 1; padding: 12px 16px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; }
-    .comment-input-group input:focus { border-color: var(--c-brand); }
-    .btn-send { background: var(--c-brand); color: white; border: none; width: 44px; height: 44px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
-    .btn-send:hover { background: var(--c-accent); }
+    .f-body h4 { font-size: 16px; font-weight: 800; margin: 0 0 8px; line-height: 1.4; }
+    .f-body p { font-size: 12px; color: var(--zen-muted); margin: 0; }
+    .f-footer { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--zen-border); display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; }
+    .vote-btn { background: none; border: none; font-weight: 800; cursor: pointer; color: var(--zen-text); }
 
     /* Utilities */
-    .scroll-slim::-webkit-scrollbar { width: 6px; }
-    .scroll-slim::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
-    .toast-notification { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--c-brand); color: white; padding: 12px 24px; border-radius: 100px; display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; z-index: 9999; opacity: 0; transition: 0.3s; box-shadow: var(--shadow-lg); }
-    .toast-notification:not(.hidden) { transform: translateX(-50%) translateY(0); opacity: 1; }
-    .toast-notification.error { background: var(--c-danger); }
-    #toast-icon { width: 20px; height: 20px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .glass { background: var(--zen-surface); backdrop-filter: blur(12px); border: 1px solid var(--zen-border); }
+    .glass-nav { background: rgba(255,255,255,0.6); backdrop-filter: blur(20px); }
+    .text-gradient { background: linear-gradient(90deg, #3B82F6, #10B981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .btn-zen-primary { padding: 16px; border-radius: 16px; background: var(--zen-brand); color: white; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .btn-zen-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    
+    .hidden { display: none !important; }
+    .animate-up { animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .empty-state { text-align: center; padding: 40px 20px; color: var(--c-text-soft); font-size: 14px; font-weight: 500; }
-    .feed-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; gap: 12px; color: var(--c-text-soft); font-size: 13px; }
+    /* Modal Styling */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .modal-card { width: 100%; max-width: 1000px; max-height: 90vh; border-radius: 32px; overflow: hidden; display: flex; flex-direction: column; }
+    .modal-head { padding: 24px 32px; border-bottom: 1px solid var(--zen-border); display: flex; justify-content: space-between; align-items: center; background: white; }
+    .btn-close { background: none; border: none; font-size: 32px; cursor: pointer; color: var(--zen-muted); }
+    .modal-body { background: var(--zen-bg); flex: 1; overflow-y: auto; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 380px; }
+    @media (max-width: 900px) { .modal-grid { grid-template-columns: 1fr; } }
+    .modal-info { padding: 32px; border-right: 1px solid var(--zen-border); }
+    .detail-img { height: 300px; border-radius: 20px; overflow: hidden; margin-bottom: 24px; cursor: zoom-in; }
+    .detail-img img { width: 100%; height: 100%; object-fit: cover; }
+    .cat-pill { font-size: 11px; font-weight: 800; background: white; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--zen-border); margin-right: 8px; }
+    .status-pill { font-size: 11px; font-weight: 900; padding: 6px 12px; border-radius: 8px; text-transform: uppercase; }
+    .status-pill.pending { background: #FEF3C7; color: #92400E; }
+    .status-pill.resolved { background: #D1FAE5; color: #065F46; }
     
-    .spinner { width: 24px; height: 24px; border: 3px solid #E2E8F0; border-top-color: var(--c-brand); border-radius: 50%; animation: spin 1s linear infinite; }
-    .spinner-small { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; }
-    
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-    
-    .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .loc-box { padding: 16px; border-radius: 16px; margin: 24px 0; background: white; font-size: 14px; }
+    .btn-vote { background: white; border: 1px solid var(--zen-border); padding: 12px 20px; border-radius: 14px; font-weight: 800; cursor: pointer; transition: 0.2s; }
+    .btn-vote:hover { transform: scale(1.05); }
 
+    .modal-comments { background: white; display: flex; flex-direction: column; }
+    .comments-header { padding: 24px; border-bottom: 1px solid var(--zen-border); font-weight: 800; font-size: 12px; text-transform: uppercase; }
+    .comments-feed { flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; height: 400px; }
+    .chat-bubble { padding: 16px; border-radius: 20px; background: var(--zen-bg); border: 1px solid var(--zen-border); max-width: 90%; }
+    .chat-bubble.admin { background: var(--zen-brand); color: white; align-self: flex-end; }
+    .chat-bubble p { margin: 0; font-size: 14px; line-height: 1.5; margin: 0; }
+
+    .comment-input { padding: 20px; display: flex; gap: 12px; border-top: 1px solid var(--zen-border); }
+    .comment-input input { flex: 1; border-radius: 12px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .bento-grid-user { grid-template-columns: 1fr; }
+      .card-form, .card-stats, .card-leaderboard, .card-feed { grid-column: span 1; }
+      .main-content { padding-bottom: 100px; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 769px) { .mobile-header, .mobile-nav { display: none; } }
   </style>
 </Layout>
