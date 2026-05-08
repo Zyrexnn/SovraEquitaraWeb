@@ -11,6 +11,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   
   <style is:global>
     /* Admin Dashboard Styles - Zen Minimalist */
@@ -163,7 +165,54 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     .detail-img-container { width: 100%; aspect-ratio: 1; background: #f5f5f5; border-radius: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #eee; }
     .detail-img-container img { max-width: 90%; max-height: 90%; object-fit: contain; }
     .detail-label { font-size: 11px; font-weight: 800; color: #999; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; display: block; }
-    .detail-text { font-size: 18px; font-weight: 600; color: #1a1a1a; line-height: 1.6; margin-bottom: 32px; }
+    .detail-text { font-size: 18px; font-weight: 600; color: #1a1a1a; line-height: 1.6; margin-bottom: 24px; }
+    .admin-modal-map { height: 250px; border-radius: 16px; border: 1px solid var(--zen-border); margin-top: 12px; margin-bottom: 24px; }
+    
+    .map-toggle-group { display: flex; gap: 10px; margin-top: 12px; margin-bottom: 16px; }
+    .btn-map-mode {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      background: white;
+      border: 1px solid var(--zen-border);
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--zen-text-primary);
+      text-decoration: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-map-mode:hover { border-color: var(--zen-accent); }
+    .btn-map-mode.active { background: #1a1a1a; color: white; border-color: #1a1a1a; }
+
+    .modal-vote-box {
+      background: #f8f9fa;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 24px;
+      border: 1px solid var(--zen-border);
+    }
+    .modal-vote-count { font-size: 32px; font-weight: 800; color: var(--zen-accent); }
+    .modal-vote-label { font-size: 11px; font-weight: 700; color: var(--zen-text-secondary); text-transform: uppercase; }
+
+    .modal-comments-section {
+      border-top: 1px solid var(--zen-border);
+      padding-top: 24px;
+      margin-top: 24px;
+    }
+    .comments-list { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .comment-item { padding: 12px 16px; background: #f9f9f9; border-radius: 14px; border: 1px solid var(--zen-border); font-size: 13px; }
+    .comment-item.admin { background: #1a1a1a; color: white; align-self: flex-end; }
+    .comment-author { font-weight: 800; font-size: 10px; opacity: 0.6; margin-bottom: 4px; display: block; }
+    
+    .comment-input-group { display: flex; gap: 8px; }
+    .modal-comment-input { flex: 1; padding: 12px 16px; border: 1px solid var(--zen-border); border-radius: 12px; font-size: 13px; font-weight: 600; outline: none; }
+    .btn-comment-send { padding: 0 16px; background: #1a1a1a; color: white; border: none; border-radius: 12px; cursor: pointer; }
 
     @media (max-width: 1024px) {
       .zen-sidebar { transform: translateX(-100%); }
@@ -188,7 +237,9 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     <!-- Zen Sidebar -->
     <aside class="zen-sidebar">
       <div class="sidebar-header">
-        <img src="/logo.svg" alt="SovraEquitara" class="logo-mark" />
+        <a href="/" class="block hover:opacity-80 transition-opacity">
+          <img src="/logo.svg" alt="SovraEquitara" class="logo-mark" />
+        </a>
       </div>
       
       <nav class="sidebar-nav">
@@ -308,13 +359,42 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             <img id="detail-img" src="/placeholder-report.png" alt="Report Image" />
           </div>
           <div class="detail-info">
+            <div class="modal-vote-box">
+              <div id="modal-vote-count" class="modal-vote-count">0</div>
+              <div class="modal-vote-label">Dukungan Warga</div>
+            </div>
+
             <div class="detail-section">
               <label class="detail-label">DESKRIPSI</label>
               <p id="detail-desc" class="detail-text"></p>
             </div>
             <div class="detail-section">
-              <label class="detail-label">LOKASI</label>
+              <label class="detail-label">LOKASI & PETA</label>
               <p id="detail-loc" class="detail-text"></p>
+              
+              <div class="map-toggle-group">
+                <button id="btn-toggle-map" class="btn-map-mode">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon></svg>
+                  Lihat Peta
+                </button>
+                <a id="gmaps-link" href="#" target="_blank" class="btn-map-mode">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+                  Google Maps
+                </a>
+              </div>
+
+              <div id="admin-map" class="admin-modal-map hidden"></div>
+            </div>
+
+            <div class="modal-comments-section">
+              <label class="detail-label">DISKUSI & KOMENTAR</label>
+              <div id="modal-comments-list" class="comments-list">
+                <!-- JS -->
+              </div>
+              <form id="modal-comment-form" class="comment-input-group">
+                <input type="text" id="modal-comment-input" class="modal-comment-input" placeholder="Tulis balasan..." required />
+                <button type="submit" class="btn-comment-send">Kirim</button>
+              </form>
             </div>
           </div>
         </div>
@@ -345,7 +425,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       document.getElementById('logout-btn')?.addEventListener('click', () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('user');
-        window.location.href = '/admin/login';
+        window.location.href = '/';
       });
 
       const filterInputs = ['search-input', 'category-filter', 'status-filter'];
@@ -463,7 +543,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       renderReports(filtered);
     }
 
-    window.openReportModal = (id) => {
+    window.openReportModal = async (id) => {
       const modal = document.getElementById('report-modal');
       const report = allReports.find(r => r.id === id);
       if (!report || !modal) return;
@@ -471,9 +551,80 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       modal.classList.add('active');
       document.getElementById('detail-desc').innerText = report.description;
       document.getElementById('detail-loc').innerText = report.location_detail;
+      document.getElementById('modal-vote-count').innerText = report.vote_count;
+      
       const img = document.getElementById('detail-img');
       if (img) img.src = report.image_url ? `${API_URL}${report.image_url}` : '';
+
+      const gmapsLink = document.getElementById('gmaps-link');
+      if (gmapsLink) gmapsLink.href = `https://www.google.com/maps?q=${report.latitude},${report.longitude}`;
+
+      // Reset Map
+      const mapContainer = document.getElementById('admin-map');
+      const toggleBtn = document.getElementById('btn-toggle-map');
+      mapContainer.classList.add('hidden');
+      toggleBtn.classList.remove('active');
+      toggleBtn.textContent = 'Lihat Peta';
+      
+      toggleBtn.onclick = () => {
+        const isHidden = mapContainer.classList.toggle('hidden');
+        toggleBtn.textContent = isHidden ? 'Lihat Peta' : 'Tutup Peta';
+        toggleBtn.classList.toggle('active', !isHidden);
+        if (!isHidden) {
+          setTimeout(() => {
+            if (window.adminMap) window.adminMap.remove();
+            window.adminMap = L.map('admin-map', { zoomControl: true }).setView([report.latitude, report.longitude], 16);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(window.adminMap);
+            L.marker([report.latitude, report.longitude]).addTo(window.adminMap);
+          }, 100);
+        }
+      };
+
+      // Comments Logic
+      await loadModalComments(id);
+      const commentForm = document.getElementById('modal-comment-form');
+      commentForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('modal-comment-input');
+        const content = input.value.trim();
+        if (!content) return;
+        
+        try {
+          const token = localStorage.getItem('access_token');
+          const res = await fetch(`${API_URL}/api/reports/${id}/comments`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ content })
+          });
+          if (res.ok) { input.value = ''; await loadModalComments(id); }
+        } catch (err) {}
+      };
     };
+
+    async function loadModalComments(reportId) {
+      const list = document.getElementById('modal-comments-list');
+      try {
+        const res = await fetch(`${API_URL}/api/reports/${reportId}/comments`);
+        const data = await res.json();
+        const comments = data.data || [];
+        
+        if (comments.length === 0) {
+          list.innerHTML = '<div style="font-size: 12px; color: #999; text-align: center; padding: 20px;">Belum ada komentar.</div>';
+          return;
+        }
+
+        list.innerHTML = comments.map(c => {
+          const isAdmin = c.user?.role?.toLowerCase() === 'admin';
+          return `
+            <div class="comment-item ${isAdmin ? 'admin' : ''}">
+              <span class="comment-author">${c.user?.full_name || 'User'}</span>
+              <div>${c.content}</div>
+            </div>
+          `;
+        }).join('');
+        list.scrollTop = list.scrollHeight;
+      } catch (err) {}
+    }
 
     window.closeModal = () => {
       document.getElementById('report-modal')?.classList.remove('active');

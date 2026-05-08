@@ -7,9 +7,9 @@ import Layout from '../layouts/Layout.astro';
     <!-- Desktop Sidebar -->
     <aside class="sidebar glass-nav">
       <div class="sidebar-header">
-        <div class="logo">
+        <a href="/" class="logo block hover:opacity-80 transition-opacity">
           <img src="/logo.svg" alt="SovraEquitara" class="user-logo" />
-        </div>
+        </a>
       </div>
       
       <nav class="nav-menu">
@@ -41,9 +41,9 @@ import Layout from '../layouts/Layout.astro';
 
     <!-- Mobile Header -->
     <header class="mobile-header glass-bright">
-      <div class="logo">
+      <a href="/" class="logo block hover:opacity-80 transition-opacity">
         <img src="/logo.svg" alt="Sovra" style="height: 32px; width: auto;" />
-      </div>
+      </a>
       <div class="user-pill glass">
         <span id="mobile-points">0 PTS</span>
         <div class="avatar-sm" id="mobile-avatar">U</div>
@@ -216,7 +216,7 @@ import Layout from '../layouts/Layout.astro';
     function setupListeners() {
       document.getElementById('form-profile').onsubmit = handleProfileUpdate;
       document.getElementById('btn-reset-pw').onclick = handleResetPassword;
-      const logout = () => { localStorage.clear(); window.location.href = '/login'; };
+      const logout = () => { localStorage.clear(); window.location.href = '/'; };
       document.getElementById('btn-logout-desktop').onclick = logout;
       document.getElementById('btn-logout-mobile').onclick = logout;
       document.getElementById('btn-logout-main').onclick = logout;

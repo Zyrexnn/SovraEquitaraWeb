@@ -3,45 +3,110 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="Admin Login — SovraEquitara">
-  <main class="auth-page">
-    <div class="auth-container glass animate-up">
-      <div class="auth-header">
-        <div class="logo-box admin-glow">
-          <img src="/logo.svg" alt="Logo" />
+  <main class="min-h-screen flex items-center justify-center bg-[#0A0A0B] p-6 relative overflow-hidden font-sans">
+    <!-- Sophisticated Background Accents -->
+    <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-accent/5 rounded-full blur-[140px] animate-pulse"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-red-600/5 rounded-full blur-[140px] animate-pulse" style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.02] pointer-events-none"></div>
+
+    <div class="w-full max-w-[460px] z-10 animate-fade-in">
+      <div class="glass-container p-8 md:p-12 rounded-[2.5rem] border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] backdrop-blur-3xl bg-white/[0.01]">
+        <div class="text-center mb-12">
+          <a href="/" class="inline-flex items-center justify-center p-5 rounded-[2rem] bg-white/5 border border-white/10 mb-8 group transition-all duration-700 hover:bg-white/10 hover:border-white/20">
+            <img src="/logo.svg" alt="SovraEquitara" class="h-14 w-auto filter brightness-0 invert opacity-80 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-105" />
+          </a>
+          <h1 class="text-4xl font-display font-extrabold text-white mb-3 tracking-tight leading-tight">
+            Admin <span class="text-accent drop-shadow-[0_0_15px_rgba(253,224,71,0.3)]">Portal</span>
+          </h1>
+          <p class="text-gray-400 font-medium text-lg">Pusat kendali infrastruktur kota.</p>
         </div>
-        <h1 class="display-text">Admin <span class="text-gradient">Portal</span></h1>
-        <p class="auth-subtitle">Masuk ke pusat kendali infrastruktur kota.</p>
+
+        <form id="form-admin-login" class="space-y-7">
+          <div class="space-y-2.5">
+            <label for="username" class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 ml-2">Identitas Admin</label>
+            <div class="relative group">
+              <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-gray-500 group-focus-within:text-accent transition-colors duration-300">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <input 
+                type="text" 
+                id="username" 
+                placeholder="Masukkan username" 
+                required 
+                class="w-full pl-14 pr-6 py-5 bg-white/[0.03] border border-white/10 rounded-2xl text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/40 transition-all duration-500 hover:bg-white/[0.05]"
+              />
+            </div>
+          </div>
+
+          <div class="space-y-2.5">
+            <label for="password" class="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 ml-2">Kata Sandi</label>
+            <div class="relative group">
+              <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-gray-500 group-focus-within:text-accent transition-colors duration-300">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+              <input 
+                type="password" 
+                id="password" 
+                placeholder="••••••••••••" 
+                required 
+                class="w-full pl-14 pr-6 py-5 bg-white/[0.03] border border-white/10 rounded-2xl text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/40 transition-all duration-500 hover:bg-white/[0.05]"
+              />
+            </div>
+          </div>
+
+          <div id="error-box" class="hidden p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold text-center animate-shake"></div>
+
+          <button type="submit" id="btn-submit" class="w-full py-5 bg-accent hover:bg-accent-light text-brand-dark font-extrabold rounded-2xl shadow-[0_10px_20px_-5px_rgba(253,224,71,0.3)] transform transition-all duration-500 hover:scale-[1.02] active:scale-[0.97] flex items-center justify-center gap-3 group overflow-hidden relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+            <span class="relative z-10">Masuk Sekarang</span>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" class="group-hover:translate-x-1.5 transition-transform duration-300 relative z-10"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+
+          <a href="/login" class="block text-center text-sm font-bold text-gray-500 hover:text-white transition-all duration-300 py-3 mt-2 border-t border-white/5 pt-6">
+            <span class="opacity-60">Bukan Admin?</span> Masuk sebagai Warga
+          </a>
+        </form>
       </div>
-
-      <form id="form-admin-login" class="auth-form">
-        <div class="input-group">
-          <label for="username">Username</label>
-          <div class="field-wrapper">
-            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            <input type="text" id="username" placeholder="admin_username" required />
-          </div>
-        </div>
-
-        <div class="input-group">
-          <label for="password">Kata Sandi</label>
-          <div class="field-wrapper">
-            <svg viewBox="0 0 24 24" class="field-icon" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            <input type="password" id="password" placeholder="••••••••" required />
-          </div>
-        </div>
-
-        <div id="error-box" class="error-box" style="display: none;"></div>
-
-        <button type="submit" id="btn-submit" class="btn btn-primary btn-full">
-          <span>Masuk Sekarang</span>
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
-
-        <a href="/login" class="link-secondary">Bukan Admin? Masuk sebagai Warga</a>
-      </form>
     </div>
   </main>
 </Layout>
+
+<style>
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+  .animate-shake {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .loader {
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(0,0,0,0.1);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.8s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px #121214 inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+</style>
 
 <script>
   const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
@@ -53,9 +118,10 @@ import Layout from '../../layouts/Layout.astro';
     e.preventDefault();
     if(!errorBox || !btnSubmit) return;
     
-    errorBox.style.display = 'none';
+    errorBox.classList.add('hidden');
+    const originalContent = btnSubmit.innerHTML;
     btnSubmit.innerHTML = '<span class="loader"></span>';
-    btnSubmit.classList.add('loading');
+    btnSubmit.setAttribute('disabled', 'true');
 
     const username = (document.getElementById('username') as HTMLInputElement).value;
     const password = (document.getElementById('password') as HTMLInputElement).value;
@@ -69,52 +135,29 @@ import Layout from '../../layouts/Layout.astro';
 
       const data = await res.json();
 
-      if (!res.ok) throw new Error(data.error || 'Login gagal');
+      if (!res.ok) throw new Error(data.error || 'Autentikasi gagal.');
 
       if (data.user.role !== 'admin' && data.user.role !== 'ADMIN') {
-        throw new Error('Akun ini tidak memiliki hak akses admin.');
+        throw new Error('Akses ditolak. Akun ini bukan administrator.');
       }
 
       localStorage.setItem('access_token', data.access_token);
       localStorage.setItem('user', JSON.stringify(data.user));
-      window.location.href = '/admin/dashboard';
+      
+      // Success animation before redirect
+      btnSubmit.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="4" class="animate-bounce"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+      btnSubmit.classList.replace('bg-accent', 'bg-green-500');
+      btnSubmit.classList.add('text-white');
+      
+      setTimeout(() => {
+        window.location.href = '/admin/dashboard';
+      }, 800);
     } catch (err: any) {
       errorBox.textContent = err.message;
-      errorBox.style.display = 'block';
-      btnSubmit.innerHTML = '<span>Masuk Sekarang</span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>';
-      btnSubmit.classList.remove('loading');
+      errorBox.classList.remove('hidden');
+      btnSubmit.innerHTML = originalContent;
+      btnSubmit.removeAttribute('disabled');
     }
   });
 </script>
 
-<style>
-  .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: var(--space-lg); }
-  .auth-container { width: 100%; max-width: 440px; padding: var(--space-2xl); border-radius: var(--radius-xl); text-align: center; }
-  
-  .auth-header { margin-bottom: var(--space-xl); }
-  .logo-box { height: auto; margin: 0 auto 32px; display: flex; align-items: center; justify-content: center; }
-  .logo-box img { height: 100px; width: auto; object-fit: contain; }
-  
-  .display-text { font-size: 32px; margin-bottom: 8px; }
-  .text-gradient { background: linear-gradient(to right, var(--color-danger), #fb7185); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .auth-subtitle { color: var(--color-text-muted); font-size: 14px; font-weight: 500; }
-
-  .auth-form { display: flex; flex-direction: column; gap: var(--space-lg); text-align: left; }
-  .input-group label { display: block; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 8px; letter-spacing: 0.05em; }
-  
-  .field-wrapper { position: relative; display: flex; align-items: center; }
-  .field-icon { position: absolute; left: 16px; width: 18px; height: 18px; color: var(--color-text-muted); }
-  .field-wrapper input { width: 100%; padding: 14px 16px 14px 48px; background: rgba(44, 62, 80, 0.05); border: 1px solid var(--color-border); border-radius: 12px; color: var(--color-text-title); font-family: inherit; font-size: 15px; transition: all 0.3s; }
-  .field-wrapper input:focus { border-color: var(--color-danger); background: rgba(44, 62, 80, 0.08); outline: none; box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.1); }
-
-  .btn-full { width: 100%; display: flex; justify-content: center; align-items: center; gap: 12px; padding: 16px; }
-  .btn-primary { background: linear-gradient(to right, var(--color-danger), #be123c); }
-  
-  .link-secondary { margin-top: 8px; font-size: 13px; color: var(--color-text-muted); text-decoration: none; font-weight: 600; display: inline-block; width: 100%; text-align: center; }
-  .link-secondary:hover { color: var(--color-danger); }
-
-  .error-box { padding: 12px; border-radius: 10px; background: rgba(244, 63, 94, 0.1); color: var(--color-danger); font-size: 13px; font-weight: 700; border: 1px solid rgba(244, 63, 94, 0.2); }
-
-  .loader { width: 20px; height: 20px; border: 3px solid rgba(44, 62, 80, 0.3); border-top-color: var(--color-brand); border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-</style>

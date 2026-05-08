@@ -9,9 +9,9 @@ import Layout from '../layouts/Layout.astro';
     <!-- Desktop Sidebar -->
     <aside class="sidebar glass-nav">
       <div class="sidebar-header">
-        <div class="logo">
+        <a href="/" class="logo block hover:opacity-80 transition-opacity">
           <img src="/logo.svg" alt="SovraEquitara" class="user-logo" />
-        </div>
+        </a>
       </div>
       
       <nav class="nav-menu">
@@ -43,9 +43,9 @@ import Layout from '../layouts/Layout.astro';
 
     <!-- Mobile Header -->
     <header class="mobile-header glass-bright">
-      <div class="logo">
+      <a href="/" class="logo block hover:opacity-80 transition-opacity">
         <img src="/logo.svg" alt="Sovra" style="height: 32px; width: auto;" />
-      </div>
+      </a>
       <div class="user-pill glass">
         <span id="mobile-points">0 PTS</span>
         <div class="avatar-sm" id="mobile-avatar">U</div>
@@ -107,7 +107,13 @@ import Layout from '../layouts/Layout.astro';
               <div class="input-group">
                 <label>Lokasi Kejadian</label>
                 <div class="loc-input-wrap">
-                  <input type="text" id="location_detail" placeholder="Contoh: Jl. Sudirman Blok B (Depan Halte)" required />
+                  <div class="search-loc-group">
+                    <input type="text" id="location_detail" placeholder="Detail Lokasi (Contoh: Depan Halte)" required />
+                    <div class="search-box">
+                      <input type="text" id="search-address" placeholder="Cari Alamat atau Area..." />
+                      <button type="button" id="btn-search-loc" class="btn-search-icon">🔍</button>
+                    </div>
+                  </div>
                   <div id="map" class="zen-map"></div>
                 </div>
                 <input type="hidden" id="lat" /><input type="hidden" id="lng" />
@@ -201,7 +207,14 @@ import Layout from '../layouts/Layout.astro';
                 </div>
                 <h2 id="detail-desc" class="font-display"></h2>
                 <div class="loc-box glass">
-                  📍 <span id="detail-loc"></span>
+                  <div class="loc-header">
+                    <span>📍 <span id="detail-loc"></span></span>
+                    <div class="loc-actions">
+                      <button id="btn-view-map-modal" class="btn-sm-outline">Lihat Peta</button>
+                      <a id="btn-gmaps-modal" href="#" target="_blank" class="btn-sm-outline">Google Maps</a>
+                    </div>
+                  </div>
+                  <div id="modal-map" class="modal-map hidden"></div>
                 </div>
                 <div class="meta-row">
                   <span id="detail-date"></span>
@@ -301,6 +314,33 @@ import Layout from '../layouts/Layout.astro';
       setCoords(def);
       marker.on('dragend', (e) => setCoords(e.target.getLatLng()));
       map.on('click', (e) => { marker.setLatLng(e.latlng); setCoords(e.latlng); });
+
+      // Search Location Logic
+      const searchBtn = document.getElementById('btn-search-loc');
+      const searchInput = document.getElementById('search-address');
+      
+      const doSearch = async () => {
+        const query = searchInput.value;
+        if(!query) return;
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+          const data = await res.json();
+          if(data.length > 0) {
+            const first = data[0];
+            const ll = { lat: parseFloat(first.lat), lng: parseFloat(first.lon) };
+            map.setView(ll, 16);
+            marker.setLatLng(ll);
+            setCoords(ll);
+          } else {
+            showToast('Lokasi tidak ditemukan', 'error');
+          }
+        } catch(e) {
+          showToast('Gagal mencari lokasi', 'error');
+        }
+      };
+
+      searchBtn.onclick = doSearch;
+      searchInput.onkeydown = (e) => { if(e.key === 'Enter') { e.preventDefault(); doSearch(); } };
 
       if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(p => {
@@ -428,7 +468,7 @@ import Layout from '../layouts/Layout.astro';
       document.getElementById('btn-logout-mobile').onclick = logout;
     }
 
-    function logout() { localStorage.clear(); window.location.href = '/login'; }
+    function logout() { localStorage.clear(); window.location.href = '/'; }
 
     async function handleReportSubmit(e) {
       e.preventDefault();
@@ -480,7 +520,31 @@ import Layout from '../layouts/Layout.astro';
       document.getElementById('detail-status').textContent = r.status;
       document.getElementById('detail-status').className = `status-pill ${r.status.toLowerCase()}`;
       document.getElementById('detail-votes').textContent = r.vote_count;
+      document.getElementById('detail-votes').textContent = r.vote_count;
       document.getElementById('btn-vote-modal').onclick = () => window.doVote(id);
+
+      // Google Maps Link
+      const gLink = document.getElementById('btn-gmaps-modal');
+      gLink.href = `https://www.google.com/maps?q=${r.latitude},${r.longitude}`;
+
+      // Modal Map
+      const modalMapContainer = document.getElementById('modal-map');
+      const viewMapBtn = document.getElementById('btn-view-map-modal');
+      modalMapContainer.classList.add('hidden');
+      viewMapBtn.textContent = 'Lihat Peta';
+      
+      viewMapBtn.onclick = () => {
+        const isHidden = modalMapContainer.classList.toggle('hidden');
+        viewMapBtn.textContent = isHidden ? 'Lihat Peta' : 'Tutup Peta';
+        if (!isHidden) {
+          setTimeout(() => {
+            if (window.mMap) window.mMap.remove();
+            window.mMap = L.map('modal-map', { zoomControl: true }).setView([r.latitude, r.longitude], 16);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(window.mMap);
+            L.marker([r.latitude, r.longitude]).addTo(window.mMap);
+          }, 100);
+        }
+      };
 
       document.getElementById('detail-modal').classList.remove('hidden');
       loadComments(id);
@@ -660,7 +724,13 @@ import Layout from '../layouts/Layout.astro';
     .preview-box img { width: 100%; height: 100%; object-fit: cover; }
     .btn-clear { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.5); color: white; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; }
 
-    .zen-map { height: 200px; border-radius: 16px; border: 1px solid var(--zen-border); margin-top: 12px; }
+    .zen-map { height: 250px; border-radius: 16px; border: 1px solid var(--zen-border); margin-top: 12px; z-index: 10; }
+    
+    .search-loc-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+    .search-box { display: flex; gap: 8px; }
+    .search-box input { flex: 1; }
+    .btn-search-icon { padding: 0 16px; background: white; border: 1px solid var(--zen-border); border-radius: 12px; cursor: pointer; transition: 0.2s; }
+    .btn-search-icon:hover { border-color: var(--zen-brand); }
 
     /* Stats Card */
     .stat-item { padding: 20px; border-radius: 20px; background: white; border: 1px solid var(--zen-border); text-align: center; }
@@ -723,6 +793,11 @@ import Layout from '../layouts/Layout.astro';
     .status-pill.resolved { background: #D1FAE5; color: #065F46; }
     
     .loc-box { padding: 16px; border-radius: 16px; margin: 24px 0; background: white; font-size: 14px; }
+    .loc-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .loc-actions { display: flex; gap: 8px; }
+    .btn-sm-outline { padding: 6px 12px; font-size: 11px; font-weight: 800; border: 1px solid var(--zen-border); border-radius: 8px; background: white; cursor: pointer; transition: 0.2s; text-decoration: none; color: inherit; display: inline-flex; align-items: center; }
+    .btn-sm-outline:hover { background: #fafafa; border-color: var(--zen-brand); }
+    .modal-map { height: 200px; border-radius: 12px; margin-top: 12px; border: 1px solid var(--zen-border); }
     .btn-vote { background: white; border: 1px solid var(--zen-border); padding: 12px 20px; border-radius: 14px; font-weight: 800; cursor: pointer; transition: 0.2s; }
     .btn-vote:hover { transform: scale(1.05); }
 

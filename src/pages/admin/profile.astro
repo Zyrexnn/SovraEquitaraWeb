@@ -28,7 +28,9 @@
     <!-- Zen Sidebar -->
     <aside class="zen-sidebar">
       <div class="sidebar-header">
-        <img src="/logo.svg" alt="SovraEquitara" class="logo-mark" />
+        <a href="/" class="block hover:opacity-80 transition-opacity">
+          <img src="/logo.svg" alt="SovraEquitara" class="logo-mark" />
+        </a>
       </div>
       
       <nav class="sidebar-nav">
@@ -212,7 +214,7 @@
     function setupEventListeners() {
       document.getElementById('logout-btn').addEventListener('click', () => {
         localStorage.clear();
-        window.location.href = '/admin/login';
+        window.location.href = '/';
       });
 
       // Mobile menu toggle
