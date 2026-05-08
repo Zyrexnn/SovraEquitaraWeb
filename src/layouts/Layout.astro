@@ -21,15 +21,31 @@ const {
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+    
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+      window.localStorage.setItem('theme', theme);
+    </script>
   </head>
-  <body class="min-h-screen bg-[#010101] text-white antialiased">
+  <body class="min-h-screen bg-stone-50 dark:bg-[#010101] text-gray-900 dark:text-white antialiased transition-colors duration-300">
     <slot />
   </body>
 </html>
 
 <style is:global>
   @import '../styles/tailwind.css';
-  body {
-    @apply bg-[#010101] text-white antialiased;
-  }
 </style>
