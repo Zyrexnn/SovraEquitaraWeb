@@ -1,231 +1,18 @@
 ---
+import Layout from '../../layouts/Layout.astro';
+import { ThemeToggle } from '../../components/ThemeToggle';
 const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 ---
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard — SovraEquitara</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<Layout title="Admin Dashboard — SovraEquitara">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  
-  <style is:global>
-    /* Admin Dashboard Styles - Zen Minimalist */
-    :root {
-      --zen-bg: #fbfbfb;
-      --zen-sidebar-bg: #ffffff;
-      --zen-card-bg: #ffffff;
-      --zen-border: #f0f0f0;
-      --zen-text-primary: #1a1a1a;
-      --zen-text-secondary: #777777;
-      --zen-accent: #000000;
-      --zen-radius: 20px;
-    }
+  <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script is:inline define:vars={{ API_URL }}>
+    window.API_URL = API_URL;
+  </script>
 
-    body {
-      margin: 0;
-      font-family: 'DM Sans', sans-serif;
-      background: var(--zen-bg);
-      color: var(--zen-text-primary);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .zen-admin-root { display: flex; min-height: 100vh; }
-
-    /* Sidebar */
-    .zen-sidebar {
-      width: 280px;
-      background: var(--zen-sidebar-bg);
-      border-right: 1px solid var(--zen-border);
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      height: 100vh;
-      z-index: 100;
-    }
-
-    .sidebar-header { padding: 40px 32px; display: flex; justify-content: flex-start; }
-    .logo-mark { height: 32px; }
-
-    .sidebar-nav { padding: 0 16px; flex: 1; }
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      text-decoration: none;
-      color: var(--zen-text-secondary);
-      font-weight: 600;
-      font-size: 14px;
-      border-radius: 14px;
-      margin-bottom: 6px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .nav-item:hover { background: #f5f5f5; color: var(--zen-text-primary); }
-    .nav-item.active { background: #1a1a1a; color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-
-    .sidebar-footer { padding: 24px; border-top: 1px solid var(--zen-border); }
-    .admin-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding: 12px; background: #fafafa; border-radius: 16px; }
-    .profile-avatar { width: 40px; height: 40px; background: #eee; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
-    .profile-info { flex: 1; }
-    .profile-name { font-size: 14px; font-weight: 700; color: #1a1a1a; }
-    .profile-status { font-size: 11px; color: #10b981; font-weight: 700; text-transform: uppercase; }
-
-    .logout-btn {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--zen-border);
-      background: white;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 13px;
-      transition: 0.2s;
-    }
-    .logout-btn:hover { background: #fff5f5; border-color: #feb2b2; color: #e53e3e; }
-
-    /* Main Content */
-    .zen-main { flex: 1; margin-left: 280px; padding: 60px; }
-    .main-container { max-width: 1100px; margin: 0 auto; }
-
-    .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; }
-    .page-title { font-size: 36px; font-weight: 800; margin: 0 0 8px 0; letter-spacing: -0.02em; }
-    .page-subtitle { color: var(--zen-text-secondary); font-size: 16px; font-weight: 500; }
-
-    .time-display {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      font-weight: 700;
-      background: #1a1a1a;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 99px;
-    }
-
-    /* Stats */
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 48px; }
-    .stat-card { background: white; border: 1px solid var(--zen-border); border-radius: var(--zen-radius); padding: 32px; transition: 0.3s; }
-    .stat-card:hover { border-color: #1a1a1a; transform: translateY(-4px); }
-    .stat-label { font-size: 11px; font-weight: 800; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
-    .stat-value { font-size: 40px; font-weight: 800; margin-bottom: 4px; line-height: 1; }
-    
-    .stat-pending .stat-value { color: #d97706; }
-    .stat-verified .stat-value { color: #2563eb; }
-    .stat-resolved .stat-value { color: #16a34a; }
-
-    /* Data Table */
-    .data-table-container { background: white; border: 1px solid var(--zen-border); border-radius: var(--zen-radius); overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.03); }
-    .table-controls { padding: 24px; border-bottom: 1px solid var(--zen-border); display: flex; gap: 20px; align-items: center; background: #fafafa; }
-    
-    .search-input-wrapper { flex: 1; position: relative; }
-    .search-input-wrapper svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999; }
-    .search-input-wrapper input {
-      width: 100%; padding: 14px 16px 14px 48px; border: 1px solid var(--zen-border);
-      border-radius: 14px; font-size: 14px; font-weight: 500; outline: none; transition: 0.2s;
-    }
-    .search-input-wrapper input:focus { border-color: #1a1a1a; background: white; box-shadow: 0 0 0 4px rgba(0,0,0,0.03); }
-
-    .filter-select { padding: 14px 20px; border: 1px solid var(--zen-border); border-radius: 14px; font-size: 14px; font-weight: 600; background: white; cursor: pointer; outline: none; }
-
-    .zen-table { width: 100%; border-collapse: collapse; }
-    .zen-table th { text-align: left; padding: 20px 24px; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #999; letter-spacing: 0.1em; border-bottom: 1px solid var(--zen-border); }
-    .zen-table td { padding: 24px; border-bottom: 1px solid var(--zen-border); vertical-align: middle; }
-    .zen-table tr { transition: 0.2s; cursor: pointer; }
-    .zen-table tr:hover { background: #fafafa; }
-
-    .thumb-preview { width: 56px; height: 56px; background: #f0f0f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #eee; }
-    .thumb-preview img { width: 100%; height: 100%; object-fit: contain; }
-
-    .report-desc { display: block; font-weight: 700; font-size: 16px; margin-bottom: 6px; color: #1a1a1a; }
-    .report-meta { display: flex; align-items: center; gap: 16px; font-size: 12px; color: #999; font-weight: 500; }
-    .zen-cat-tag { color: #1a1a1a; font-weight: 700; text-transform: uppercase; font-size: 10px; padding: 2px 8px; background: #eee; border-radius: 4px; }
-
-    .zen-status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 99px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-    .status-pending { background: #fffbeb; color: #d97706; }
-    .status-valid { background: #eff6ff; color: #2563eb; }
-    .status-resolved { background: #f0fdf4; color: #16a34a; }
-
-    .vote-badge { padding: 6px 12px; background: #f0f0f0; border-radius: 8px; font-size: 14px; font-weight: 800; }
-
-    /* Modal */
-    .modal { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 40px; }
-    .modal.active { display: flex; }
-    .modal-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); }
-    .modal-dialog { position: relative; width: 100%; max-width: 1000px; max-height: 90vh; background: white; border-radius: 32px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.3); }
-    .modal-header { padding: 32px; border-bottom: 1px solid var(--zen-border); display: flex; justify-content: space-between; align-items: center; }
-    .modal-body { flex: 1; overflow-y: auto; padding: 40px; }
-    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
-    .detail-img-container { width: 100%; aspect-ratio: 1; background: #f5f5f5; border-radius: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #eee; }
-    .detail-img-container img { max-width: 90%; max-height: 90%; object-fit: contain; }
-    .detail-label { font-size: 11px; font-weight: 800; color: #999; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; display: block; }
-    .detail-text { font-size: 18px; font-weight: 600; color: #1a1a1a; line-height: 1.6; margin-bottom: 24px; }
-    .admin-modal-map { height: 250px; border-radius: 16px; border: 1px solid var(--zen-border); margin-top: 12px; margin-bottom: 24px; }
-    
-    .map-toggle-group { display: flex; gap: 10px; margin-top: 12px; margin-bottom: 16px; }
-    .btn-map-mode {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px;
-      background: white;
-      border: 1px solid var(--zen-border);
-      border-radius: 12px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--zen-text-primary);
-      text-decoration: none;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .btn-map-mode:hover { border-color: var(--zen-accent); }
-    .btn-map-mode.active { background: #1a1a1a; color: white; border-color: #1a1a1a; }
-
-    .modal-vote-box {
-      background: #f8f9fa;
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      margin-bottom: 24px;
-      border: 1px solid var(--zen-border);
-    }
-    .modal-vote-count { font-size: 32px; font-weight: 800; color: var(--zen-accent); }
-    .modal-vote-label { font-size: 11px; font-weight: 700; color: var(--zen-text-secondary); text-transform: uppercase; }
-
-    .modal-comments-section {
-      border-top: 1px solid var(--zen-border);
-      padding-top: 24px;
-      margin-top: 24px;
-    }
-    .comments-list { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
-    .comment-item { padding: 12px 16px; background: #f9f9f9; border-radius: 14px; border: 1px solid var(--zen-border); font-size: 13px; }
-    .comment-item.admin { background: #1a1a1a; color: white; align-self: flex-end; }
-    .comment-author { font-weight: 800; font-size: 10px; opacity: 0.6; margin-bottom: 4px; display: block; }
-    
-    .comment-input-group { display: flex; gap: 8px; }
-    .modal-comment-input { flex: 1; padding: 12px 16px; border: 1px solid var(--zen-border); border-radius: 12px; font-size: 13px; font-weight: 600; outline: none; }
-    .btn-comment-send { padding: 0 16px; background: #1a1a1a; color: white; border: none; border-radius: 12px; cursor: pointer; }
-
-    @media (max-width: 1024px) {
-      .zen-sidebar { transform: translateX(-100%); }
-      .zen-sidebar.mobile-open { transform: translateX(0); }
-      .zen-main { margin-left: 0; padding: 32px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-  </style>
-</head>
-<body>
   <div class="zen-admin-root" id="admin-root" data-api-url={API_URL}>
-    
-    <!-- Mobile Menu Button -->
     <button id="mobile-menu-btn" class="mobile-menu-btn">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -234,12 +21,10 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       </svg>
     </button>
 
-    <!-- Zen Sidebar -->
-    <aside class="zen-sidebar">
+    <aside class="zen-sidebar" id="sidebar">
       <div class="sidebar-header">
-        <a href="/" class="block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="logo-mark" />
-        </a>
+        <img src="/logo.svg" alt="Sovra" class="logo-mark dark:brightness-0 dark:invert">
+        <ThemeToggle client:load />
       </div>
       
       <nav class="sidebar-nav">
@@ -251,6 +36,15 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             <rect x="3" y="14" width="7" height="7" rx="1"></rect>
           </svg>
           <span>Dashboard</span>
+        </a>
+        <a href="/admin/leaderboard" class="nav-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Peringkat Warga</span>
         </a>
         <a href="/admin/profile" class="nav-item">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -265,136 +59,167 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         <div class="admin-profile">
           <div class="profile-avatar">A</div>
           <div class="profile-info">
-            <div class="profile-name">Admin</div>
+            <div class="profile-name" id="admin-name-sidebar">Administrator</div>
             <div class="profile-status">Online</div>
           </div>
         </div>
-        <button id="logout-btn" class="logout-btn">Logout</button>
+        <button id="logout-btn" class="logout-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout Portal</span>
+        </button>
       </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="zen-main">
       <div class="main-container">
-        
         <header class="page-header">
           <div>
-            <h1 class="page-title">Dashboard</h1>
+            <h1 class="page-title">Admin Console</h1>
             <p class="page-subtitle">Pusat Kendali Pelaporan Kota</p>
           </div>
           <div id="live-time" class="time-display">--:--:-- WIB</div>
         </header>
 
-        <div class="stats-grid">
+        <div class="stats-row">
           <div class="stat-card">
             <div class="stat-label">TOTAL REPORTS</div>
             <div id="stat-total" class="stat-value">0</div>
           </div>
-          <div class="stat-card stat-pending">
+          <div class="stat-card">
             <div class="stat-label">PENDING REVIEW</div>
             <div id="stat-pending" class="stat-value">0</div>
           </div>
-          <div class="stat-card stat-verified">
+          <div class="stat-card">
             <div class="stat-label">VERIFIED</div>
             <div id="stat-verified" class="stat-value">0</div>
           </div>
-          <div class="stat-card stat-resolved">
+          <div class="stat-card">
             <div class="stat-label">RESOLVED</div>
             <div id="stat-resolved" class="stat-value">0</div>
           </div>
         </div>
 
-        <div class="data-table-container">
-          <div class="table-controls">
-            <div class="search-input-wrapper">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-              <input type="text" id="search-input" placeholder="Cari laporan berdasarkan deskripsi atau lokasi..." />
+            <div class="chart-section">
+              <div class="chart-card">
+                <div class="card-header">
+                  <h3>Distribusi Laporan</h3>
+                  <p>Berdasarkan Kategori</p>
+                </div>
+                <div class="chart-container">
+                  <canvas id="categoryChart"></canvas>
+                </div>
+              </div>
             </div>
-            <div class="filter-group">
-              <select id="category-filter" class="filter-select">
-                <option value="">Semua Kategori</option>
-              </select>
-              <select id="status-filter" class="filter-select">
-                <option value="">Semua Status</option>
-                <option value="PENDING">Pending</option>
-                <option value="VALID">Verified</option>
-                <option value="RESOLVED">Resolved</option>
-              </select>
-            </div>
-          </div>
 
-          <table class="zen-table">
-            <thead>
-              <tr>
-                <th>Prev</th>
-                <th>Laporan & Lokasi</th>
-                <th>Status</th>
-                <th>Dukungan</th>
-                <th style="text-align: right;">Tanggal</th>
-              </tr>
-            </thead>
-            <tbody id="reports-tbody">
-              <!-- Rendered by JS -->
-            </tbody>
-          </table>
-        </div>
+            <div class="data-table-container">
+              <div class="table-controls">
+                <div class="search-input-wrapper">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input type="text" id="search-input" placeholder="Cari laporan berdasarkan deskripsi atau lokasi..." />
+                </div>
+                <div class="filter-group">
+                  <select id="category-filter" class="filter-select">
+                    <option value="">Semua Kategori</option>
+                  </select>
+                  <select id="status-filter" class="filter-select">
+                    <option value="">Semua Status</option>
+                    <option value="PENDING">Pending</option>
+                    <option value="VALID">Verified</option>
+                    <option value="RESOLVED">Resolved</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="zen-table">
+                  <thead>
+                    <tr>
+                      <th width="80">Prev</th>
+                      <th>Laporan & Lokasi</th>
+                      <th width="120">Status</th>
+                      <th width="100">Dukungan</th>
+                      <th width="150" style="text-align: right;">Tanggal</th>
+                    </tr>
+                  </thead>
+                  <tbody id="reports-tbody">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
       </div>
     </main>
   </div>
 
-  <!-- Report Modal -->
+  <!-- POPUP DETAIL REPORT -->
   <div id="report-modal" class="modal">
-    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-backdrop" onclick="window.closeModal()"></div>
     <div class="modal-dialog">
       <div class="modal-header">
-        <h3 id="modal-title" class="modal-title">Detail Laporan</h3>
-        <button class="modal-close" onclick="closeModal()">×</button>
+        <h3 class="modal-title">Detail Laporan Warga</h3>
+        <button class="modal-close-btn" onclick="window.closeModal()">&times;</button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body scrollbar-thin">
         <div class="modal-grid">
-          <div class="detail-img-container">
-            <img id="detail-img" src="/placeholder-report.png" alt="Report Image" />
+          <div class="modal-left">
+            <div class="detail-img-wrapper">
+              <img id="detail-img" src="" alt="Laporan" />
+            </div>
+            <div id="admin-map" class="modal-map hidden"></div>
           </div>
-          <div class="detail-info">
-            <div class="modal-vote-box">
-              <div id="modal-vote-count" class="modal-vote-count">0</div>
-              <div class="modal-vote-label">Dukungan Warga</div>
+          
+          <div class="modal-right">
+            <div class="info-row">
+              <div class="info-item">
+                <label>VOTES</label>
+                <div class="vote-badge">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                  <span id="modal-vote-count">0</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <label>STATUS</label>
+                <div id="modal-status-badge" class="badge">PENDING</div>
+              </div>
             </div>
 
             <div class="detail-section">
-              <label class="detail-label">DESKRIPSI</label>
-              <p id="detail-desc" class="detail-text"></p>
+              <label>DESKRIPSI LAPORAN</label>
+              <p id="detail-desc" class="desc-text"></p>
             </div>
+
             <div class="detail-section">
-              <label class="detail-label">LOKASI & PETA</label>
-              <p id="detail-loc" class="detail-text"></p>
-              
-              <div class="map-toggle-group">
-                <button id="btn-toggle-map" class="btn-map-mode">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon></svg>
-                  Lihat Peta
-                </button>
-                <a id="gmaps-link" href="#" target="_blank" class="btn-map-mode">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
-                  Google Maps
-                </a>
+              <label>LOKASI KEJADIAN</label>
+              <div class="location-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span id="detail-loc"></span>
               </div>
-
-              <div id="admin-map" class="admin-modal-map hidden"></div>
             </div>
 
-            <div class="modal-comments-section">
-              <label class="detail-label">DISKUSI & KOMENTAR</label>
-              <div id="modal-comments-list" class="comments-list">
-                <!-- JS -->
+            <div class="modal-actions-row">
+              <button id="btn-toggle-map" class="btn-action-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon></svg>
+                <span>Lihat Peta</span>
+              </button>
+              <a id="gmaps-link" href="#" target="_blank" class="btn-action-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <span>Google Maps</span>
+              </a>
+            </div>
+
+            <div class="admin-control-section">
+              <label>MODERASI LAPORAN</label>
+              <div class="moderation-btns">
+                <button id="btn-verify" class="btn-verify-primary">Setujui Laporan</button>
+                <button id="btn-resolve" class="btn-resolve-outline">Selesaikan</button>
               </div>
-              <form id="modal-comment-form" class="comment-input-group">
-                <input type="text" id="modal-comment-input" class="modal-comment-input" placeholder="Tulis balasan..." required />
-                <button type="submit" class="btn-comment-send">Kirim</button>
-              </form>
             </div>
           </div>
         </div>
@@ -402,237 +227,341 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     </div>
   </div>
 
-  <script is:inline>
-    let API_URL = '';
-    let allReports = [];
-    let categories = [];
-
-    async function initDashboard(apiUrl) {
-      API_URL = apiUrl;
-      
-      // Initial fetch
-      await loadData();
-      
-      // UI Updates
-      updateTime();
-      setInterval(updateTime, 1000);
-
-      // Event Listeners
-      document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
-        document.querySelector('.zen-sidebar')?.classList.toggle('mobile-open');
-      });
-
-      document.getElementById('logout-btn')?.addEventListener('click', () => {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('user');
-        window.location.href = '/';
-      });
-
-      const filterInputs = ['search-input', 'category-filter', 'status-filter'];
-      filterInputs.forEach(id => {
-        document.getElementById(id)?.addEventListener('input', filterReports);
-      });
+  <style is:global>
+    :root {
+      --zen-bg: #fbfbfb;
+      --zen-sidebar-bg: #ffffff;
+      --zen-card-bg: #ffffff;
+      --zen-border: #f0f0f0;
+      --zen-text-primary: #1a1a1a;
+      --zen-text-secondary: #777777;
+      --zen-accent: #000000;
+      --zen-radius: 20px;
     }
 
+    .dark {
+      --zen-bg: #010101;
+      --zen-sidebar-bg: #0B0B0F;
+      --zen-card-bg: #0B0B0F;
+      --zen-border: #1E293B;
+      --zen-text-primary: #ffffff;
+      --zen-text-secondary: #94A3B8;
+      --zen-accent: #ffffff;
+    }
+
+    /* Layout & Sidebar */
+    .zen-admin-root { display: flex; min-height: 100vh; background: var(--zen-bg); color: var(--zen-text-primary); transition: background 0.3s; }
+    
+    .zen-sidebar { 
+      width: 280px; background: var(--zen-sidebar-bg); border-right: 1px solid var(--zen-border); 
+      position: fixed; height: 100vh; z-index: 100; display: flex; flex-direction: column; transition: 0.3s;
+    }
+    .sidebar-header { padding: 32px; display: flex; align-items: center; justify-content: space-between; }
+    .logo-mark { height: 28px; }
+    .sidebar-nav { padding: 8px 16px; flex: 1; }
+    .nav-item { 
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px; text-decoration: none; 
+      color: var(--zen-text-secondary); font-weight: 600; font-size: 14px; border-radius: 14px; 
+      margin-bottom: 4px; transition: 0.2s;
+    }
+    .nav-item.active { background: var(--zen-accent); color: var(--zen-sidebar-bg); }
+    .nav-item:hover:not(.active) { background: var(--zen-bg); }
+
+    .sidebar-footer { padding: 24px; border-top: 1px solid var(--zen-border); }
+    .admin-profile { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--zen-bg); border-radius: 16px; margin-bottom: 16px; border: 1px solid var(--zen-border); }
+    .profile-avatar { width: 36px; height: 36px; background: var(--zen-border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; }
+    .profile-info { flex: 1; min-width: 0; }
+    .profile-name { font-size: 13px; font-weight: 700; color: var(--zen-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .profile-status { font-size: 10px; color: #10b981; font-weight: 700; text-transform: uppercase; }
+    
+    .logout-btn { 
+      width: 100%; padding: 12px; background: transparent; border: 1px solid var(--zen-border); border-radius: 12px; 
+      font-size: 13px; font-weight: 700; color: var(--zen-text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
+    }
+    .logout-btn:hover { background: #fee2e2; color: #ef4444; border-color: #ef4444; }
+
+    /* Main Console */
+    .zen-main { flex: 1; margin-left: 280px; padding: 48px; }
+    .main-container { max-width: 1200px; margin: 0 auto; }
+    .page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+    .page-title { font-size: 32px; font-weight: 800; margin: 0 0 4px 0; letter-spacing: -0.02em; }
+    .page-subtitle { color: var(--zen-text-secondary); font-size: 15px; font-weight: 500; }
+    .time-display { font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 700; background: var(--zen-accent); color: var(--zen-sidebar-bg); padding: 8px 16px; border-radius: 99px; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 32px; }
+    @media (max-width: 1200px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .stats-row { grid-template-columns: 1fr; } }
+
+    .stat-card { background: var(--zen-card); border: 1px solid var(--zen-border); border-radius: 20px; padding: 20px; transition: 0.3s; }
+    .stat-label { font-size: 10px; font-weight: 800; color: var(--zen-text-secondary); letter-spacing: 0.1em; margin-bottom: 8px; }
+    .stat-value { font-size: 28px; font-weight: 800; color: var(--zen-text); letter-spacing: -0.02em; }
+
+    /* Chart Styling */
+    .chart-section { margin-bottom: 32px; }
+    .chart-card { background: var(--zen-card); border: 1px solid var(--zen-border); border-radius: 24px; padding: 24px; }
+    .chart-container { height: 300px; position: relative; margin-top: 20px; }
+    .card-header h3 { font-size: 16px; font-weight: 800; color: var(--zen-text); margin: 0; }
+    .card-header p { font-size: 13px; color: var(--zen-text-secondary); margin: 4px 0 0 0; }
+
+    
+    .leader-avatar { width: 40px; height: 40px; border-radius: 12px; background: var(--zen-accent); color: var(--zen-sidebar-bg); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; }
+    .leader-info { flex: 1; min-width: 0; }
+    .leader-name { font-size: 14px; font-weight: 700; color: var(--zen-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .leader-points { font-size: 11px; font-weight: 800; color: #3b82f6; display: flex; align-items: center; gap: 4px; }
+    .leaderboard-footer { padding: 20px 32px; background: var(--zen-bg); border-top: 1px solid var(--zen-border); }
+    .leaderboard-footer p { font-size: 11px; color: var(--zen-text-secondary); margin: 0; font-weight: 500; line-height: 1.4; }
+
+    .leader-skeleton { height: 60px; background: var(--zen-bg); border-radius: 16px; margin-bottom: 8px; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+
+    /* Data Table */
+    .data-table-container { background: var(--zen-card-bg); border: 1px solid var(--zen-border); border-radius: var(--zen-radius); overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    .table-controls { padding: 20px 24px; border-bottom: 1px solid var(--zen-border); display: flex; gap: 16px; align-items: center; background: var(--zen-sidebar-bg); }
+    .search-input-wrapper { flex: 1; position: relative; }
+    .search-input-wrapper svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--zen-text-secondary); }
+    .search-input-wrapper input { 
+      width: 100%; padding: 12px 16px 12px 44px; background: var(--zen-bg); border: 1px solid var(--zen-border); border-radius: 12px; 
+      font-size: 14px; outline: none; transition: 0.2s; color: var(--zen-text-primary);
+    }
+    .filter-group { display: flex; gap: 8px; }
+    .filter-select { padding: 10px 16px; background: var(--zen-bg); border: 1px solid var(--zen-border); border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--zen-text-primary); }
+
+    .zen-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+    .zen-table th { text-align: left; padding: 16px 24px; font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--zen-text-secondary); background: var(--zen-bg); border-bottom: 1px solid var(--zen-border); }
+    .zen-table td { padding: 16px 24px; border-bottom: 1px solid var(--zen-border); vertical-align: middle; }
+    .zen-table tr:hover { background: var(--zen-bg); cursor: pointer; }
+    .thumb-preview { width: 48px; height: 48px; background: var(--zen-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--zen-border); }
+    
+    /* POPUP MODAL STYLES */
+    .modal { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; }
+    .modal.active { display: flex; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); }
+    .modal-dialog { position: relative; width: 100%; max-width: 1000px; background: var(--zen-card-bg); border-radius: 32px; overflow: hidden; border: 1px solid var(--zen-border); display: flex; flex-direction: column; max-height: 90vh; box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5); }
+    .modal-header { padding: 24px 32px; border-bottom: 1px solid var(--zen-border); display: flex; justify-content: space-between; align-items: center; }
+    .modal-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+    .modal-close-btn { background: none; border: none; font-size: 32px; cursor: pointer; color: var(--zen-text-secondary); transition: 0.2s; }
+    .modal-close-btn:hover { color: var(--zen-text-primary); transform: rotate(90deg); }
+    
+    .modal-body { padding: 40px; overflow-y: auto; }
+    .modal-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; }
+    
+    /* Modal Left */
+    .detail-img-wrapper { border-radius: 24px; overflow: hidden; background: var(--zen-bg); border: 1px solid var(--zen-border); aspect-ratio: 16/10; margin-bottom: 24px; }
+    .detail-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-map { border-radius: 24px; overflow: hidden; height: 300px; border: 1px solid var(--zen-border); }
+
+    /* Modal Right */
+    .info-row { display: flex; gap: 32px; margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--zen-border); }
+    .info-item label { display: block; font-size: 10px; font-weight: 800; color: var(--zen-text-secondary); margin-bottom: 12px; letter-spacing: 0.05em; }
+    .vote-badge { display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: 800; color: var(--zen-text-primary); }
+    
+    .detail-section { margin-bottom: 32px; }
+    .detail-section label { display: block; font-size: 10px; font-weight: 800; color: var(--zen-text-secondary); margin-bottom: 12px; letter-spacing: 0.05em; }
+    .desc-text { font-size: 16px; font-weight: 600; line-height: 1.6; color: var(--zen-text-primary); margin: 0; }
+    
+    .location-box { display: flex; gap: 12px; padding: 16px; background: var(--zen-bg); border: 1px solid var(--zen-border); border-radius: 16px; font-size: 14px; font-weight: 600; color: var(--zen-text-primary); }
+    
+    .modal-actions-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 40px; }
+    .btn-action-outline { 
+      display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px; 
+      background: transparent; border: 1.5px solid var(--zen-border); border-radius: 14px; 
+      font-size: 13px; font-weight: 700; color: var(--zen-text-primary); cursor: pointer; transition: 0.2s; text-decoration: none;
+    }
+    .btn-action-outline:hover { background: var(--zen-bg); border-color: var(--zen-accent); }
+
+    .admin-control-section { padding: 24px; background: var(--zen-bg); border-radius: 20px; border: 1px solid var(--zen-border); }
+    .admin-control-section label { display: block; font-size: 10px; font-weight: 800; color: var(--zen-text-secondary); margin-bottom: 16px; letter-spacing: 0.1em; }
+    .moderation-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    
+    .btn-verify-primary { padding: 14px; background: #000000; color: #ffffff; border: none; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; }
+    .dark .btn-verify-primary { background: #ffffff; color: #000000; }
+    .btn-verify-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    
+    .btn-resolve-outline { padding: 14px; background: transparent; border: 1.5px solid #10b981; color: #10b981; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; }
+    .btn-resolve-outline:hover { background: #10b981; color: #ffffff; }
+
+    /* Badges */
+    .badge { display: inline-flex; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+    .badge-pending { background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
+    .badge-valid { background: #f0f9ff; color: #0369a1; border: 1px solid #e0f2fe; }
+    .badge-resolved { background: #f0fdf4; color: #15803d; border: 1px solid #dcfce7; }
+    .dark .badge-pending { background: rgba(234, 88, 12, 0.1); color: #fb923c; border: 1px solid rgba(234, 88, 12, 0.2); }
+    .dark .badge-valid { background: rgba(14, 165, 233, 0.1); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.2); }
+    .dark .badge-resolved { background: rgba(34, 197, 94, 0.1); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.2); }
+
+    @media (max-width: 1024px) {
+      .zen-sidebar { transform: translateX(-100%); }
+      .zen-sidebar.mobile-open { transform: translateX(0); box-shadow: 20px 0 50px rgba(0,0,0,0.1); }
+      .zen-main { margin-left: 0; padding: 24px; padding-top: 80px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .modal-grid { grid-template-columns: 1fr; gap: 32px; }
+      .mobile-menu-btn { display: flex; }
+    }
+  </style>
+
+  <script>
+    const root = document.getElementById("admin-root");
+    const API_URL = root?.dataset.apiUrl || "http://localhost:3000";
+    let reportsData = [];
+    let categoriesData = [];
+    let currentReportId = null;
+
     function updateTime() {
-      const el = document.getElementById('live-time');
-      if (el) {
-        el.innerText = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' WIB';
-      }
+      const el = document.getElementById("live-time");
+      if (el) el.innerText = new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" }) + " WIB";
     }
 
     async function loadData() {
-      try {
-        const token = localStorage.getItem('access_token');
-        if (!token) {
-          window.location.href = '/admin/login';
-          return;
-        }
+      const token = localStorage.getItem("access_token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      if (!token || user.role !== "admin") return window.location.href = "/admin/login";
+      
+      const adminNameEl = document.getElementById("admin-name-sidebar");
+      if(adminNameEl) adminNameEl.innerText = user.full_name || "Admin";
 
+      try {
         const [catRes, reportRes] = await Promise.all([
           fetch(`${API_URL}/api/categories`),
-          fetch(`${API_URL}/api/admin/reports`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          })
+          fetch(`${API_URL}/api/admin/reports`, { headers: { "Authorization": `Bearer ${token}` } })
         ]);
-
         const catData = await catRes.json();
         const reportData = await reportRes.json();
-
-        categories = catData.data || [];
-        allReports = reportData.data || [];
-
+        
+        categoriesData = catData.data || [];
+        reportsData = reportData.data || [];
+        
         renderCategories();
         renderStats();
-        renderReports(allReports);
+        renderReports(reportsData);
+        renderCharts();
       } catch (err) {
-        console.error('Data load error:', err);
+        console.error("Gagal memuat data admin:", err);
+        alert("Gagal memuat data dari server. Pastikan backend berjalan di " + API_URL);
       }
     }
 
+    let categoryChart = null;
+    function renderCharts() {
+      const ctx = document.getElementById('categoryChart') as HTMLCanvasElement;
+      if (!ctx) return;
+      
+      const categoryCounts = {};
+      reportsData.forEach(r => {
+        const catName = categoriesData.find(c => c.id === r.category_id)?.name || "Lainnya";
+        categoryCounts[catName] = (categoryCounts[catName] || 0) + 1;
+      });
+
+      if (categoryChart) categoryChart.destroy();
+      
+      categoryChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(categoryCounts),
+          datasets: [{
+            data: Object.values(categoryCounts),
+            backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '70%',
+          plugins: {
+            legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20, font: { family: 'Plus Jakarta Sans', weight: 'bold' } } }
+          }
+        }
+      });
+    }
+
+    /* Leaderboard moved to dedicated page */
+
     function renderCategories() {
-      const filter = document.getElementById('category-filter');
-      if (filter) {
-        filter.innerHTML = '<option value="">Semua Kategori</option>' + 
-          categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-      }
+      const f = document.getElementById("category-filter");
+      if (f) f.innerHTML = '<option value="">Semua Kategori</option>' + categoriesData.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
     }
 
     function renderStats() {
-      document.getElementById('stat-total').innerText = allReports.length;
-      document.getElementById('stat-pending').innerText = allReports.filter(r => r.status === 'PENDING').length;
-      document.getElementById('stat-verified').innerText = allReports.filter(r => r.status === 'VALID').length;
-      document.getElementById('stat-resolved').innerText = allReports.filter(r => r.status === 'RESOLVED').length;
+      const set = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val; };
+      set("stat-total", reportsData.length);
+      set("stat-pending", reportsData.filter(r => r.status === "PENDING").length);
+      set("stat-verified", reportsData.filter(r => r.status === "VALID").length);
+      set("stat-resolved", reportsData.filter(r => r.status === "RESOLVED").length);
     }
 
     function renderReports(reports) {
-      const tbody = document.getElementById('reports-tbody');
+      const tbody = document.getElementById("reports-tbody");
       if (!tbody) return;
+      tbody.innerHTML = reports.map(r => `
+        <tr onclick="window.openReportModal('${r.id}')">
+          <td><div class="thumb-preview">${r.image_url ? `<img src="${API_URL}${r.image_url}" style="width:100%;height:100%;object-fit:cover"/>` : "🖼️"}</div></td>
+          <td>
+            <div style="font-weight:700;color:var(--zen-text-primary);font-size:14px;margin-bottom:2px">${r.description}</div>
+            <div style="font-size:12px;color:var(--zen-text-secondary);font-weight:500">${r.location_detail}</div>
+          </td>
+          <td><span class="badge badge-${r.status.toLowerCase()}">${r.status}</span></td>
+          <td><div style="font-weight:800;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg> ${r.vote_count}</div></td>
+          <td align="right" style="font-size:13px;font-weight:700;color:var(--zen-text-secondary)">${new Date(r.created_at).toLocaleDateString("id-ID")}</td>
+        </tr>
+      `).join("");
+    }
 
-      if (reports.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 60px; color: #999; font-weight: 600;">Belum ada laporan masuk</td></tr>';
-        return;
+    window.openReportModal = (id) => {
+      currentReportId = id;
+      const r = reportsData.find(x => x.id === id);
+      if(!r) return;
+      document.getElementById("report-modal")?.classList.add("active");
+      document.getElementById("detail-img").src = r.image_url ? `${API_URL}${r.image_url}` : "";
+      
+      const badge = document.getElementById("modal-status-badge");
+      if(badge) {
+        badge.innerText = r.status;
+        badge.className = `badge badge-${r.status.toLowerCase()}`;
       }
-
-      tbody.innerHTML = reports.map(report => {
-        const cat = categories.find(c => c.id === report.category_id);
-        const catName = cat ? cat.name : 'Umum';
-        const statusClass = report.status.toLowerCase();
-        const date = new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
-        const imageUrl = report.image_url ? `${API_URL}${report.image_url}` : null;
-
-        return `
-          <tr onclick="openReportModal('${report.id}')">
-            <td>
-              <div class="thumb-preview">
-                ${imageUrl ? `<img src="${imageUrl}" alt="Preview" onerror="this.style.display='none'; this.parentElement.innerHTML='🖼️'" />` : '🖼️'}
-              </div>
-            </td>
-            <td>
-              <span class="report-desc">${report.description}</span>
-              <div class="report-meta">
-                <span class="zen-cat-tag">${catName}</span>
-                <span>${report.location_detail}</span>
-              </div>
-            </td>
-            <td>
-              <div class="zen-status-pill status-${statusClass}">
-                <span class="status-dot"></span>
-                ${report.status}
-              </div>
-            </td>
-            <td><div class="vote-badge">${report.vote_count}</div></td>
-            <td style="text-align: right; color: #bbb; font-weight: 600;">${date}</td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function filterReports() {
-      const searchTerm = document.getElementById('search-input').value.toLowerCase();
-      const categoryId = document.getElementById('category-filter').value;
-      const status = document.getElementById('status-filter').value;
-
-      const filtered = allReports.filter(report => {
-        const matchSearch = report.description.toLowerCase().includes(searchTerm) || report.location_detail.toLowerCase().includes(searchTerm);
-        const matchCategory = !categoryId || String(report.category_id) === categoryId;
-        const matchStatus = !status || report.status === status;
-        return matchSearch && matchCategory && matchStatus;
-      });
-
-      renderReports(filtered);
-    }
-
-    window.openReportModal = async (id) => {
-      const modal = document.getElementById('report-modal');
-      const report = allReports.find(r => r.id === id);
-      if (!report || !modal) return;
       
-      modal.classList.add('active');
-      document.getElementById('detail-desc').innerText = report.description;
-      document.getElementById('detail-loc').innerText = report.location_detail;
-      document.getElementById('modal-vote-count').innerText = report.vote_count;
-      
-      const img = document.getElementById('detail-img');
-      if (img) img.src = report.image_url ? `${API_URL}${report.image_url}` : '';
-
-      const gmapsLink = document.getElementById('gmaps-link');
-      if (gmapsLink) gmapsLink.href = `https://www.google.com/maps?q=${report.latitude},${report.longitude}`;
-
-      // Reset Map
-      const mapContainer = document.getElementById('admin-map');
-      const toggleBtn = document.getElementById('btn-toggle-map');
-      mapContainer.classList.add('hidden');
-      toggleBtn.classList.remove('active');
-      toggleBtn.textContent = 'Lihat Peta';
-      
-      toggleBtn.onclick = () => {
-        const isHidden = mapContainer.classList.toggle('hidden');
-        toggleBtn.textContent = isHidden ? 'Lihat Peta' : 'Tutup Peta';
-        toggleBtn.classList.toggle('active', !isHidden);
-        if (!isHidden) {
-          setTimeout(() => {
-            if (window.adminMap) window.adminMap.remove();
-            window.adminMap = L.map('admin-map', { zoomControl: true }).setView([report.latitude, report.longitude], 16);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(window.adminMap);
-            L.marker([report.latitude, report.longitude]).addTo(window.adminMap);
-          }, 100);
-        }
-      };
-
-      // Comments Logic
-      await loadModalComments(id);
-      const commentForm = document.getElementById('modal-comment-form');
-      commentForm.onsubmit = async (e) => {
-        e.preventDefault();
-        const input = document.getElementById('modal-comment-input');
-        const content = input.value.trim();
-        if (!content) return;
-        
-        try {
-          const token = localStorage.getItem('access_token');
-          const res = await fetch(`${API_URL}/api/reports/${id}/comments`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({ content })
-          });
-          if (res.ok) { input.value = ''; await loadModalComments(id); }
-        } catch (err) {}
-      };
+      const gLink = document.getElementById("gmaps-link") as HTMLAnchorElement;
+      if(gLink) gLink.href = `https://www.google.com/maps?q=${r.latitude},${r.longitude}`;
     };
 
-    async function loadModalComments(reportId) {
-      const list = document.getElementById('modal-comments-list');
+    window.closeModal = () => document.getElementById("report-modal")?.classList.remove("active");
+
+    window.verifyReport = async (status) => {
+      if(!currentReportId) return;
+      const token = localStorage.getItem("access_token");
       try {
-        const res = await fetch(`${API_URL}/api/reports/${reportId}/comments`);
-        const data = await res.json();
-        const comments = data.data || [];
-        
-        if (comments.length === 0) {
-          list.innerHTML = '<div style="font-size: 12px; color: #999; text-align: center; padding: 20px;">Belum ada komentar.</div>';
-          return;
+        const route = status === "VALID" ? "verify" : "resolve";
+        const res = await fetch(`${API_URL}/api/admin/reports/${currentReportId}/${route}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }
+        });
+        if(res.ok) {
+          alert(`Laporan berhasil diubah ke ${status}`);
+          (window as any).closeModal();
+          loadData();
         }
-
-        list.innerHTML = comments.map(c => {
-          const isAdmin = c.user?.role?.toLowerCase() === 'admin';
-          return `
-            <div class="comment-item ${isAdmin ? 'admin' : ''}">
-              <span class="comment-author">${c.user?.full_name || 'User'}</span>
-              <div>${c.content}</div>
-            </div>
-          `;
-        }).join('');
-        list.scrollTop = list.scrollHeight;
-      } catch (err) {}
-    }
-
-    window.closeModal = () => {
-      document.getElementById('report-modal')?.classList.remove('active');
+      } catch (err) { alert("Gagal memperbarui status"); }
     };
-  </script>
 
-  <script define:vars={{ API_URL }}>
-    initDashboard(API_URL);
+    document.getElementById("btn-verify")?.addEventListener("click", () => window.verifyReport("VALID"));
+    document.getElementById("btn-resolve")?.addEventListener("click", () => window.verifyReport("RESOLVED"));
+
+    updateTime();
+    setInterval(updateTime, 1000);
+    loadData();
+
+    document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar")?.classList.toggle("mobile-open"));
+    document.getElementById("logout-btn")?.addEventListener("click", () => { localStorage.clear(); window.location.href = "/admin/login"; });
+    
+    ["search-input", "category-filter", "status-filter"].forEach(id => {
+      document.getElementById(id)?.addEventListener("input", () => {
+        const search = (document.getElementById("search-input") as HTMLInputElement).value.toLowerCase();
+        const cat = (document.getElementById("category-filter") as HTMLSelectElement).value;
+        const status = (document.getElementById("status-filter") as HTMLSelectElement).value;
+        const filtered = reportsData.filter(r => 
+          (r.description.toLowerCase().includes(search) || r.location_detail.toLowerCase().includes(search)) &&
+          (!cat || String(r.category_id) === cat) &&
+          (!status || r.status === status)
+        );
+        renderReports(filtered);
+      });
+    });
   </script>
-</body>
-</html>
+</Layout>
