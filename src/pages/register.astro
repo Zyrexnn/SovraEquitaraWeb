@@ -1,184 +1,118 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { ThemeToggle } from '../components/ThemeToggle';
 ---
 
-<Layout title="Daftar Warga — SovraEquitara">
-  <main class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+<Layout title="Daftar — SovraEquitara">
+  <div class="fixed top-6 right-6 z-50">
+    <ThemeToggle client:load />
+  </div>
+
+  <main class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-stone-50 dark:bg-[#010101] transition-colors duration-300">
     <div class="w-full max-w-md animate-fade-in">
       <!-- Logo -->
       <div class="text-center mb-8">
         <a href="/" class="inline-block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="h-12 sm:h-14 mx-auto mb-6" />
+          <img src="/logo.svg" alt="SovraEquitara" class="h-12 sm:h-14 mx-auto mb-6 dark:brightness-0 dark:invert" />
         </a>
-        <h1 id="page-title" class="text-2xl sm:text-3xl font-display font-bold mb-2">Buat Akun Warga</h1>
-        <p id="page-subtitle" class="text-sm sm:text-base text-gray-600">Daftarkan diri untuk mulai berkontribusi</p>
+        <h1 class="text-3xl sm:text-4xl font-display font-bold mb-2 text-stone-900 dark:text-white">Buat Akun</h1>
+        <p class="text-base text-stone-600 dark:text-gray-400 font-medium">Langkah pertama untuk kota yang lebih baik</p>
       </div>
 
       <!-- Form Card -->
-      <div class="card">
-        <!-- Step 1: Registration -->
-        <div id="step-register" class="space-y-5">
-          <form id="form-register" class="space-y-5">
-            <div>
-              <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
-                Nama Lengkap
-              </label>
-              <input
-                type="text"
-                id="name"
-                placeholder="Nama Lengkap Anda"
-                required
-                class="input"
-              />
-            </div>
-
-            <div>
-              <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                placeholder="nama@email.com"
-                required
-                class="input"
-              />
-            </div>
-
-            <div>
-              <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
-                Kata Sandi
-              </label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Minimal 6 karakter"
-                minlength="6"
-                required
-                class="input"
-              />
-            </div>
-
-            <div id="error-message" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700"></div>
-
-            <button type="submit" id="btn-register" class="btn-primary w-full">
-              <span>Lanjutkan Verifikasi</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-            </button>
-          </form>
-
-          <div class="relative my-6">
-            <div class="absolute inset-0 flex items-center">
-              <div class="w-full border-t border-stone-200"></div>
-            </div>
-            <div class="relative flex justify-center text-xs">
-              <span class="px-3 bg-white text-gray-500 font-medium">ATAU</span>
-            </div>
+      <div class="card shadow-xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+        <form id="form-register" class="space-y-5">
+          <!-- Name -->
+          <div>
+            <label for="name" class="block text-sm font-bold text-stone-700 dark:text-gray-300 mb-2 uppercase tracking-widest">
+              Nama Lengkap
+            </label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Masukkan nama lengkap"
+              required
+              class="input"
+            />
           </div>
 
-          <p class="text-center text-sm text-gray-600">
-            Sudah punya akun?
-            <a href="/login" class="font-bold text-brand hover:text-brand-light">
-              Masuk
-            </a>
-          </p>
-        </div>
-
-        <!-- Step 2: OTP Verification -->
-        <div id="step-otp" class="hidden space-y-5">
-          <div class="text-center p-4 bg-accent-light/20 rounded-2xl border border-accent/30">
-            <p class="text-sm text-gray-700 mb-1">Kode OTP telah dikirim ke:</p>
-            <p id="display-email" class="font-bold text-brand"></p>
+          <!-- Email -->
+          <div>
+            <label for="email" class="block text-sm font-bold text-stone-700 dark:text-gray-300 mb-2 uppercase tracking-widest">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="nama@email.com"
+              required
+              class="input"
+            />
           </div>
 
-          <form id="form-otp" class="space-y-5">
-            <div>
-              <label for="otp-code" class="block text-sm font-semibold text-gray-700 mb-2">
-                Kode OTP (6 Digit)
-              </label>
-              <input
-                type="text"
-                id="otp-code"
-                placeholder="000000"
-                maxlength="6"
-                inputmode="numeric"
-                required
-                class="input text-center text-2xl font-bold tracking-widest"
-              />
-            </div>
+          <!-- Password -->
+          <div>
+            <label for="password" class="block text-sm font-bold text-stone-700 dark:text-gray-300 mb-2 uppercase tracking-widest">
+              Kata Sandi
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Minimal 6 karakter"
+              required
+              minlength="6"
+              class="input"
+            />
+          </div>
 
-            <div id="otp-error" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700"></div>
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            id="btn-submit"
+            class="btn-primary w-full py-4 text-lg mt-4"
+          >
+            Daftar Sekarang
+          </button>
+        </form>
 
-            <button type="submit" id="btn-verify" class="btn-primary w-full">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-              </svg>
-              <span>Verifikasi & Masuk</span>
-            </button>
-
-            <button type="button" id="btn-back" class="btn-secondary w-full">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-              </svg>
-              <span>Kembali</span>
-            </button>
-          </form>
+        <!-- Divider -->
+        <div class="relative my-8">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-stone-200 dark:border-white/10"></div>
+          </div>
+          <div class="relative flex justify-center text-xs uppercase tracking-widest font-bold">
+            <span class="bg-white dark:bg-[#111] px-4 text-stone-400 dark:text-gray-500 rounded-full">Atau</span>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Toast -->
-    <div id="toast" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 transform translate-x-[200%] transition-transform duration-300 ease-out">
-      <div class="bg-brand text-white px-5 py-3 rounded-2xl shadow-large flex items-center gap-3 min-w-[280px]">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-        </svg>
-        <span id="toast-message" class="text-sm font-semibold"></span>
+        <!-- Login Link -->
+        <p class="text-center text-sm font-medium text-stone-600 dark:text-gray-400">
+          Sudah punya akun?
+          <a href="/login" class="text-stone-900 dark:text-white font-bold hover:underline ml-1">Masuk di sini</a>
+        </p>
       </div>
+
+      <!-- Footer Info -->
+      <p class="text-center mt-12 text-xs font-bold text-stone-400 dark:text-gray-600 tracking-widest uppercase">
+        &copy; 2026 SovraEquitara &bull; Aman & Transparan
+      </p>
     </div>
   </main>
 
   <script>
-    const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
-    
-    if (localStorage.getItem('access_token')) {
-      window.location.href = '/dashboard';
-    }
+    const API_URL = 'http://localhost:3000';
+    const form = document.getElementById('form-register') as HTMLFormElement;
+    const btnSubmit = document.getElementById('btn-submit') as HTMLButtonElement;
 
-    const stepRegister = document.getElementById('step-register')!;
-    const stepOtp = document.getElementById('step-otp')!;
-    const pageTitle = document.getElementById('page-title')!;
-    const pageSubtitle = document.getElementById('page-subtitle')!;
-    
-    const formRegister = document.getElementById('form-register') as HTMLFormElement;
-    const formOtp = document.getElementById('form-otp') as HTMLFormElement;
-    
-    const otpInput = document.getElementById('otp-code') as HTMLInputElement;
-    const displayEmail = document.getElementById('display-email')!;
-    
-    let registeredEmail = '';
-
-    // Step 1: Register
-    formRegister.addEventListener('submit', async (e) => {
+    form?.addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const name = (document.getElementById('name') as HTMLInputElement).value;
       const email = (document.getElementById('email') as HTMLInputElement).value;
       const password = (document.getElementById('password') as HTMLInputElement).value;
-      const btn = document.getElementById('btn-register') as HTMLButtonElement;
-      const errorDiv = document.getElementById('error-message')!;
 
-      errorDiv.classList.add('hidden');
-      btn.disabled = true;
-      btn.innerHTML = `
-        <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        <span>Mendaftarkan...</span>
-      `;
+      btnSubmit.disabled = true;
+      btnSubmit.innerText = 'Memproses...';
 
       try {
         const res = await fetch(`${API_URL}/api/auth/register`, {
@@ -188,105 +122,20 @@ import Layout from '../layouts/Layout.astro';
         });
 
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Pendaftaran gagal');
 
-        registeredEmail = email;
-        displayEmail.textContent = registeredEmail;
-        
-        // Transition to OTP step
-        stepRegister.classList.add('hidden');
-        stepOtp.classList.remove('hidden');
-        pageTitle.textContent = 'Verifikasi Akun';
-        pageSubtitle.textContent = 'Masukkan kode OTP yang dikirim ke email Anda';
-        
-        showToast('OTP telah dikirim ke email Anda!');
-
-      } catch (err: any) {
-        errorDiv.textContent = err.message;
-        errorDiv.classList.remove('hidden');
-        
-        btn.disabled = false;
-        btn.innerHTML = `
-          <span>Lanjutkan Verifikasi</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-          </svg>
-        `;
+        if (res.ok) {
+          alert('Pendaftaran berhasil! Silakan masuk ke akun Anda.');
+          window.location.href = '/login';
+        } else {
+          alert(data.message || 'Pendaftaran gagal. Email mungkin sudah terdaftar.');
+        }
+      } catch (err) {
+        console.error('Register error:', err);
+        alert('Terjadi kesalahan koneksi. Pastikan server backend berjalan.');
+      } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.innerText = 'Daftar Sekarang';
       }
     });
-
-    // Step 2: Verify OTP
-    formOtp.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const token = otpInput.value;
-      const btn = document.getElementById('btn-verify') as HTMLButtonElement;
-      const errorDiv = document.getElementById('otp-error')!;
-
-      errorDiv.classList.add('hidden');
-      btn.disabled = true;
-      btn.innerHTML = `
-        <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        <span>Memverifikasi...</span>
-      `;
-
-      try {
-        const res = await fetch(`${API_URL}/api/auth/verify`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: registeredEmail, token })
-        });
-
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'OTP salah atau kadaluarsa');
-
-        localStorage.setItem('access_token', data.access_token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        
-        showToast('Verifikasi Berhasil! Mengalihkan...');
-        setTimeout(() => window.location.href = '/dashboard', 1000);
-
-      } catch (err: any) {
-        errorDiv.textContent = err.message;
-        errorDiv.classList.remove('hidden');
-        
-        btn.disabled = false;
-        btn.innerHTML = `
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-          </svg>
-          <span>Verifikasi & Masuk</span>
-        `;
-        otpInput.value = '';
-      }
-    });
-
-    // Back button
-    document.getElementById('btn-back')?.addEventListener('click', () => {
-      stepOtp.classList.add('hidden');
-      stepRegister.classList.remove('hidden');
-      pageTitle.textContent = 'Buat Akun Warga';
-      pageSubtitle.textContent = 'Daftarkan diri untuk mulai berkontribusi';
-    });
-
-    // Format OTP input
-    otpInput.addEventListener('input', () => {
-      otpInput.value = otpInput.value.replace(/\D/g, '').slice(0, 6);
-    });
-
-    function showToast(message: string) {
-      const toast = document.getElementById('toast') as HTMLDivElement;
-      const toastMessage = document.getElementById('toast-message') as HTMLSpanElement;
-      
-      toastMessage.textContent = message;
-      toast.style.transform = 'translateX(0)';
-      
-      setTimeout(() => {
-        toast.style.transform = 'translateX(200%)';
-      }, 3000);
-    }
   </script>
 </Layout>
