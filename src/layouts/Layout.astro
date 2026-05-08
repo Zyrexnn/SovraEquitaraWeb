@@ -11,68 +11,22 @@ const {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="id" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#F4F1EA" />
+    <meta name="theme-color" content="#1A1A1A" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class="min-h-screen bg-stone-50 text-gray-900 antialiased">
     <slot />
   </body>
 </html>
 
 <style is:global>
-  @import '../styles/global.css';
-</style>
-
-<style>
-  body {
-    position: relative;
-    background: var(--color-bg);
-  }
-
-  .ambient-bg {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  .ambient-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(140px);
-    opacity: 0.4;
-    animation: float 20s ease-in-out infinite;
-  }
-
-  .ambient-orb--brand {
-    width: 500px;
-    height: 500px;
-    background: var(--color-brand);
-    top: -100px;
-    right: -100px;
-  }
-
-  .ambient-orb--secondary {
-    width: 400px;
-    height: 400px;
-    background: var(--color-text-muted);
-    bottom: -50px;
-    left: -50px;
-    animation-delay: -10s;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(30px, -20px); }
-    66% { transform: translate(-20px, 40px); }
-  }
+  @import '../styles/tailwind.css';
 </style>
