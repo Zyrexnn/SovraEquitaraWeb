@@ -1,18 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { DashboardShowcase } from '../components/DashboardShowcase';
+import { HeroTitle } from '../components/HeroTitle';
 ---
 
 <Layout title="SovraEquitara — Civic Tech for Future Cities">
   <!-- Navigation -->
-  <nav class="fixed top-0 left-0 right-0 z-50 glass">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 sm:h-20">
-        <img src="/logo.svg" alt="SovraEquitara" class="h-8 sm:h-10" />
+  <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl z-50 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] transition-all duration-300">
+    <div class="px-4 sm:px-8">
+      <div class="flex items-center justify-between h-14 sm:h-16">
+        <a href="/" class="block hover:opacity-80 transition-opacity">
+          <img src="/logo.svg" alt="SovraEquitara" class="h-6 sm:h-8 brightness-0 invert" />
+        </a>
         
         <div class="hidden md:flex items-center gap-8">
-          <a href="#features" class="text-sm font-semibold text-gray-700 hover:text-brand transition-colors">Fitur</a>
-          <a href="#how" class="text-sm font-semibold text-gray-700 hover:text-brand transition-colors">Cara Kerja</a>
-          <a href="#stats" class="text-sm font-semibold text-gray-700 hover:text-brand transition-colors">Dampak</a>
+          <a href="#features" class="text-xs font-bold text-white/50 hover:text-white transition-colors uppercase tracking-widest">Fitur</a>
+          <a href="#how" class="text-xs font-bold text-white/50 hover:text-white transition-colors uppercase tracking-widest">Cara Kerja</a>
+          <a href="#stats" class="text-xs font-bold text-white/50 hover:text-white transition-colors uppercase tracking-widest">Dampak</a>
         </div>
         
         <div id="nav-cta" class="flex items-center gap-3">
@@ -23,151 +27,117 @@ import Layout from '../layouts/Layout.astro';
   </nav>
 
   <!-- Hero Section -->
-  <section class="pt-32 sm:pt-40 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8">
+  <section class="pt-32 sm:pt-40 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden relative bg-[#010101]">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none -z-10">
+      <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-amber-500/10 blur-[150px] rounded-full"></div>
+      <div class="absolute bottom-[0%] right-[-10%] w-[50%] h-[50%] bg-brand/10 blur-[150px] rounded-full"></div>
+    </div>
+
     <div class="max-w-7xl mx-auto">
-      <div class="text-center max-w-4xl mx-auto animate-fade-in">
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-accent-light/30 border border-accent/30 rounded-full mb-8">
-          <span class="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
-          <span class="text-xs sm:text-sm font-bold text-gray-900">Civic Tech Innovation 2026</span>
+      <div class="text-center max-w-4xl mx-auto animate-fade-in relative z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full mb-8 backdrop-blur-md">
+          <span class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+          <span class="text-xs sm:text-sm font-bold text-gray-400">Civic Tech Innovation 2026</span>
         </div>
         
-        <h1 class="text-4xl sm:text-5xl lg:text-7xl font-display font-bold mb-6 leading-tight">
-          Suarakan Perubahan,<br/>
-          <span class="bg-gradient-to-r from-brand to-gray-600 bg-clip-text text-transparent">
-            Bangun Kota Masa Depan
-          </span>
-        </h1>
+        <HeroTitle client:load />
         
-        <p class="text-base sm:text-lg lg:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-          Platform yang menghubungkan warga dengan pembuat kebijakan melalui pelaporan infrastruktur berbasis AI yang transparan dan terverifikasi
+        <p class="text-lg sm:text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+          Platform yang menghubungkan warga dengan pembuat kebijakan melalui pelaporan infrastruktur berbasis AI yang transparan dan terverifikasi.
         </p>
         
-        <div id="hero-cta" class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div id="hero-cta" class="flex flex-col sm:flex-row items-center justify-center gap-5">
           <!-- Injected by JS -->
-        </div>
-      </div>
-
-      <!-- Hero Image -->
-      <div class="mt-16 sm:mt-20 relative">
-        <div class="card p-4 sm:p-6 max-w-5xl mx-auto">
-          <img src="/dashboard.svg" alt="Dashboard Preview" class="w-full rounded-2xl" />
-          
-          <!-- Floating Cards -->
-          <div class="hidden lg:block absolute -left-8 top-1/4 card p-4 shadow-large animate-float">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <div>
-                <p class="text-xs font-semibold text-gray-500">AI Verified</p>
-                <p class="text-sm font-bold">Real-time</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="hidden lg:block absolute -right-8 bottom-1/4 card p-4 shadow-large animate-float" style="animation-delay: 1s;">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-              </div>
-              <div>
-                <p class="text-xs font-semibold text-gray-500">Geo Location</p>
-                <p class="text-sm font-bold">Presisi Tinggi</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Dashboard Showcase Section -->
+  <DashboardShowcase client:load />
+
   <!-- Trust Bar -->
-  <section class="py-12 border-y border-stone-200">
+  <section class="py-12 bg-black border-y border-white/5">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-center text-xs font-bold text-gray-400 tracking-widest mb-8">DIPERCAYA OLEH</p>
+      <p class="text-center text-xs font-bold text-gray-500 tracking-widest mb-8">DIPERCAYA OLEH</p>
       <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-        <div class="text-lg sm:text-xl font-bold text-gray-300">Dinas PUPR</div>
-        <div class="text-lg sm:text-xl font-bold text-gray-300">Forum Warga</div>
-        <div class="text-lg sm:text-xl font-bold text-gray-300">Smart City ID</div>
-        <div class="text-lg sm:text-xl font-bold text-gray-300">Urban Future</div>
+        <div class="text-lg sm:text-xl font-bold text-gray-600">Dinas PUPR</div>
+        <div class="text-lg sm:text-xl font-bold text-gray-600">Forum Warga</div>
+        <div class="text-lg sm:text-xl font-bold text-gray-600">Smart City ID</div>
+        <div class="text-lg sm:text-xl font-bold text-gray-600">Urban Future</div>
       </div>
     </div>
   </section>
 
   <!-- Features -->
-  <section id="features" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+  <section id="features" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#010101]">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-16">
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mb-4">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-white">
           Solusi Cerdas untuk Kota Pintar
         </h2>
-        <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+        <p class="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto font-medium">
           Platform yang dirancang untuk efisiensi, akurasi, dan transparansi
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Feature 1 -->
-        <div class="card group hover:shadow-large transition-all">
-          <div class="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="p-8 rounded-3xl bg-white/5 border border-white/10 group hover:bg-white/10 transition-all">
+          <div class="w-12 h-12 bg-amber-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
             </svg>
           </div>
-          <h3 class="text-xl font-bold mb-2">Presisi Geospasial</h3>
-          <p class="text-sm text-gray-600">Deteksi lokasi otomatis dengan akurasi tinggi menggunakan teknologi satelit</p>
+          <h3 class="text-xl font-bold mb-3 text-white">Presisi Geospasial</h3>
+          <p class="text-sm text-gray-400 leading-relaxed">Deteksi lokasi otomatis dengan akurasi tinggi menggunakan teknologi satelit</p>
         </div>
 
         <!-- Feature 2 -->
-        <div class="card group hover:shadow-large transition-all">
-          <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="p-8 rounded-3xl bg-white/5 border border-white/10 group hover:bg-white/10 transition-all">
+          <div class="w-12 h-12 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
           </div>
-          <h3 class="text-xl font-bold mb-2">Validasi AI</h3>
-          <p class="text-sm text-gray-600">Verifikasi gambar otomatis untuk mencegah laporan duplikat dan spam</p>
+          <h3 class="text-xl font-bold mb-3 text-white">Validasi AI</h3>
+          <p class="text-sm text-gray-400 leading-relaxed">Verifikasi gambar otomatis untuk mencegah laporan duplikat dan spam</p>
         </div>
 
         <!-- Feature 3 -->
-        <div class="card group hover:shadow-large transition-all">
-          <div class="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="p-8 rounded-3xl bg-white/5 border border-white/10 group hover:bg-white/10 transition-all">
+          <div class="w-12 h-12 bg-green-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
             </svg>
           </div>
-          <h3 class="text-xl font-bold mb-2">Sistem Gamifikasi</h3>
-          <p class="text-sm text-gray-600">Dapatkan poin dan lencana untuk setiap kontribusi nyata bagi kota</p>
+          <h3 class="text-xl font-bold mb-3 text-white">Sistem Gamifikasi</h3>
+          <p class="text-sm text-gray-400 leading-relaxed">Dapatkan poin dan lencana untuk setiap kontribusi nyata bagi kota</p>
         </div>
 
         <!-- Feature 4 -->
-        <div class="card group hover:shadow-large transition-all md:col-span-2 lg:col-span-3">
-          <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-            <div class="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="p-8 rounded-3xl bg-white/5 border border-white/10 group hover:bg-white/10 transition-all md:col-span-2 lg:col-span-3">
+          <div class="flex flex-col md:flex-row items-start md:items-center gap-8">
+            <div class="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
               </svg>
             </div>
             <div class="flex-1">
-              <h3 class="text-xl font-bold mb-2">Transparansi Real-time</h3>
-              <p class="text-sm text-gray-600">Pantau setiap tahapan perbaikan dari verifikasi hingga penyelesaian langsung di dashboard Anda</p>
+              <h3 class="text-2xl font-bold mb-3 text-white">Transparansi Real-time</h3>
+              <p class="text-base text-gray-400 leading-relaxed">Pantau setiap tahapan perbaikan dari verifikasi hingga penyelesaian langsung di dashboard Anda</p>
             </div>
-            <div class="flex items-center gap-2">
-              <div class="px-3 py-1.5 bg-accent rounded-full text-xs font-bold">Lapor</div>
-              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex items-center gap-3">
+              <div class="px-4 py-2 bg-amber-500/10 border border-amber-500/20 rounded-full text-xs font-bold text-amber-500">Lapor</div>
+              <svg class="w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
               </svg>
-              <div class="px-3 py-1.5 bg-blue-100 rounded-full text-xs font-bold text-blue-700">Proses</div>
-              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-xs font-bold text-blue-500">Proses</div>
+              <svg class="w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
               </svg>
-              <div class="px-3 py-1.5 bg-green-100 rounded-full text-xs font-bold text-green-700">Selesai</div>
+              <div class="px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full text-xs font-bold text-green-500">Selesai</div>
             </div>
           </div>
         </div>
@@ -176,36 +146,37 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- Stats -->
-  <section id="stats" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-brand text-white">
+  <section id="stats" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-brand/10 border-y border-white/5 text-white">
     <div class="max-w-7xl mx-auto">
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
         <div class="text-center">
-          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2">14.8k+</div>
-          <div class="text-sm sm:text-base text-gray-300 font-semibold">Laporan Tuntas</div>
+          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 text-brand">14.8k+</div>
+          <div class="text-sm sm:text-base text-gray-400 font-bold uppercase tracking-widest">Laporan Tuntas</div>
         </div>
         <div class="text-center">
-          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2">25+</div>
-          <div class="text-sm sm:text-base text-gray-300 font-semibold">Wilayah Tercover</div>
+          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 text-amber-500">25+</div>
+          <div class="text-sm sm:text-base text-gray-400 font-bold uppercase tracking-widest">Wilayah Tercover</div>
         </div>
         <div class="text-center">
-          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2">200k+</div>
-          <div class="text-sm sm:text-base text-gray-300 font-semibold">Poin Diberikan</div>
+          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 text-brand">200k+</div>
+          <div class="text-sm sm:text-base text-gray-400 font-bold uppercase tracking-widest">Poin Diberikan</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- CTA -->
-  <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+  <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-black">
     <div class="max-w-4xl mx-auto">
-      <div class="card text-center p-8 sm:p-12 bg-gradient-to-br from-accent-light/30 to-white">
-        <h2 class="text-3xl sm:text-4xl font-display font-bold mb-4">
+      <div class="p-12 rounded-[3rem] text-center bg-gradient-to-br from-white/5 to-transparent border border-white/10 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-brand/5 blur-[100px] -z-10"></div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-white">
           Siap Menjadi Pahlawan Warga?
         </h2>
-        <p class="text-base sm:text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+        <p class="text-base sm:text-lg text-gray-400 mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
           Bergabunglah dengan ribuan warga lainnya dalam membangun infrastruktur kota yang lebih baik
         </p>
-        <div id="cta-buttons" class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div id="cta-buttons" class="flex flex-col sm:flex-row items-center justify-center gap-6">
           <!-- Injected by JS -->
         </div>
       </div>
@@ -213,32 +184,34 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- Footer -->
-  <footer class="border-t border-stone-200 py-12 px-4 sm:px-6 lg:px-8">
+  <footer class="bg-black border-t border-white/5 py-16 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         <div class="md:col-span-2">
-          <img src="/logo.svg" alt="SovraEquitara" class="h-10 mb-4" />
-          <p class="text-sm text-gray-600 max-w-sm">
-            Civic Tech Innovation untuk masa depan kota yang lebih baik
+          <a href="/" class="block hover:opacity-80 transition-opacity">
+            <img src="/logo.svg" alt="SovraEquitara" class="h-8 mb-6 brightness-0 invert" />
+          </a>
+          <p class="text-base text-gray-500 max-w-sm leading-relaxed">
+            Civic Tech Innovation untuk masa depan kota yang lebih baik. <br/> Mengubah setiap laporan menjadi aksi nyata.
           </p>
         </div>
         <div>
-          <h4 class="font-bold mb-4">Produk</h4>
-          <ul class="space-y-2 text-sm text-gray-600">
-            <li><a href="#features" class="hover:text-brand transition-colors">Fitur</a></li>
-            <li><a href="#stats" class="hover:text-brand transition-colors">Dampak</a></li>
+          <h4 class="font-bold text-white mb-6 uppercase tracking-widest text-xs">Produk</h4>
+          <ul class="space-y-3 text-sm text-gray-500">
+            <li><a href="#features" class="hover:text-white transition-colors">Fitur Utama</a></li>
+            <li><a href="#stats" class="hover:text-white transition-colors">Dampak Sosial</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-bold mb-4">Komunitas</h4>
-          <ul class="space-y-2 text-sm text-gray-600">
-            <li><a href="/dashboard" class="hover:text-brand transition-colors">Leaderboard</a></li>
-            <li><a href="#" class="hover:text-brand transition-colors">FAQ</a></li>
+          <h4 class="font-bold text-white mb-6 uppercase tracking-widest text-xs">Komunitas</h4>
+          <ul class="space-y-3 text-sm text-gray-500">
+            <li><a href="/dashboard" class="hover:text-white transition-colors">Leaderboard</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Pusat Bantuan</a></li>
           </ul>
         </div>
       </div>
-      <div class="pt-8 border-t border-stone-200 text-center text-sm text-gray-500">
-        <p>&copy; 2026 SovraEquitara. Built with purpose.</p>
+      <div class="pt-12 border-t border-white/5 text-center text-xs font-bold text-gray-600 tracking-widest">
+        <p>&copy; 2026 SOVRAEQUITARA. ALL RIGHTS RESERVED.</p>
       </div>
     </div>
   </footer>
@@ -258,45 +231,34 @@ import Layout from '../layouts/Layout.astro';
         const dashLink = isAdmin ? '/admin/dashboard' : '/dashboard';
 
         if (navCta) {
-          navCta.innerHTML = `<a href="${dashLink}" class="btn-primary text-sm">Buka Dashboard</a>`;
+          navCta.innerHTML = `<a href="${dashLink}" class="bg-white text-black px-6 py-2 rounded-xl text-xs font-bold hover:bg-gray-200 transition-colors">Buka Dashboard</a>`;
         }
         if (heroCta) {
-          heroCta.innerHTML = `<a href="${dashLink}" class="btn-primary text-base sm:text-lg px-8 py-4">Lanjutkan ke Dashboard</a>`;
+          heroCta.innerHTML = `<a href="${dashLink}" class="bg-white text-black px-10 py-4 rounded-2xl text-lg font-bold hover:bg-gray-200 transition-colors">Lanjutkan ke Dashboard</a>`;
         }
         if (ctaButtons) {
-          ctaButtons.innerHTML = `<a href="${dashLink}" class="btn-primary text-base sm:text-lg px-8 py-4">Lanjutkan ke Dashboard</a>`;
+          ctaButtons.innerHTML = `<a href="${dashLink}" class="bg-white text-black px-10 py-4 rounded-2xl text-lg font-bold hover:bg-gray-200 transition-colors">Lanjutkan ke Dashboard</a>`;
         }
       } else {
         if (navCta) {
           navCta.innerHTML = `
-            <a href="/login" class="text-sm font-semibold text-gray-700 hover:text-brand transition-colors">Masuk</a>
-            <a href="/register" class="btn-primary text-sm">Gabung Sekarang</a>
+            <a href="/login" class="text-xs font-bold text-white/70 hover:text-white transition-colors uppercase tracking-widest mr-4">Masuk</a>
+            <a href="/register" class="bg-white text-black px-6 py-2 rounded-xl text-xs font-bold hover:bg-gray-200 transition-colors">Gabung</a>
           `;
         }
         if (heroCta) {
           heroCta.innerHTML = `
-            <a href="/register" class="btn-primary text-base sm:text-lg px-8 py-4">Mulai Lapor Gratis</a>
-            <a href="#features" class="btn-secondary text-base sm:text-lg px-8 py-4">Lihat Cara Kerja</a>
+            <a href="/register" class="bg-white text-black px-10 py-4 rounded-2xl text-lg font-bold hover:bg-gray-200 transition-colors">Mulai Lapor Gratis</a>
+            <a href="#features" class="bg-white/10 text-white border border-white/20 px-10 py-4 rounded-2xl text-lg font-bold hover:bg-white/20 transition-colors">Lihat Cara Kerja</a>
           `;
         }
         if (ctaButtons) {
           ctaButtons.innerHTML = `
-            <a href="/register" class="btn-primary text-base sm:text-lg px-8 py-4">Daftar Sekarang</a>
-            <a href="/login" class="btn-secondary text-base sm:text-lg px-8 py-4">Masuk</a>
+            <a href="/register" class="bg-white text-black px-10 py-4 rounded-2xl text-lg font-bold hover:bg-gray-200 transition-colors">Daftar Sekarang</a>
+            <a href="/login" class="bg-white/10 text-white border border-white/20 px-10 py-4 rounded-2xl text-lg font-bold hover:bg-white/20 transition-colors">Masuk</a>
           `;
         }
       }
     });
   </script>
-
-  <style>
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    
-    .animate-float {
-      animation: float 6s ease-in-out infinite;
-    }
-  </style>
 </Layout>
