@@ -3,82 +3,140 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Daftar Warga — SovraEquitara">
-  <div class="auth-viewport">
-    <div class="auth-container animate-up">
-      <header class="auth-header">
-        <div class="logo-pill">
-          <img src="/logo.svg" alt="Sovra" />
-        </div>
-        <h1 id="header-title">Buat Akun Warga</h1>
-        <p id="header-desc">Daftarkan diri Anda untuk mulai berkontribusi.</p>
-      </header>
+  <main class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div class="w-full max-w-md animate-fade-in">
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <img src="/logo.svg" alt="SovraEquitara" class="h-12 sm:h-14 mx-auto mb-6" />
+        <h1 id="page-title" class="text-2xl sm:text-3xl font-display font-bold mb-2">Buat Akun Warga</h1>
+        <p id="page-subtitle" class="text-sm sm:text-base text-gray-600">Daftarkan diri untuk mulai berkontribusi</p>
+      </div>
 
-      <div class="auth-card glass">
-        <!-- Step 1: Registration Form -->
-        <div id="step-register" class="step-view active">
-          <form id="form-register" class="auth-form">
-            <div class="field-group">
-              <label for="name">Nama Lengkap</label>
-              <div class="input-wrapper">
-                <input type="text" id="name" placeholder="Nama Lengkap Anda" required />
-              </div>
+      <!-- Form Card -->
+      <div class="card">
+        <!-- Step 1: Registration -->
+        <div id="step-register" class="space-y-5">
+          <form id="form-register" class="space-y-5">
+            <div>
+              <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
+                Nama Lengkap
+              </label>
+              <input
+                type="text"
+                id="name"
+                placeholder="Nama Lengkap Anda"
+                required
+                class="input"
+              />
             </div>
 
-            <div class="field-group">
-              <label for="email">Alamat Email</label>
-              <div class="input-wrapper">
-                <input type="email" id="email" placeholder="nama@email.com" required />
-              </div>
+            <div>
+              <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                placeholder="nama@email.com"
+                required
+                class="input"
+              />
             </div>
 
-            <div class="field-group">
-              <label for="password">Kata Sandi</label>
-              <div class="input-wrapper">
-                <input type="password" id="password" placeholder="Minimal 6 karakter" minlength="6" required />
-              </div>
+            <div>
+              <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
+                Kata Sandi
+              </label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Minimal 6 karakter"
+                minlength="6"
+                required
+                class="input"
+              />
             </div>
 
-            <button type="submit" id="btn-register" class="btn btn-primary w-full">
-              Lanjutkan Verifikasi
+            <div id="error-message" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700"></div>
+
+            <button type="submit" id="btn-register" class="btn-primary w-full">
+              <span>Lanjutkan Verifikasi</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
             </button>
           </form>
 
-          <div class="auth-divider"><span>atau</span></div>
-
-          <div class="auth-footer">
-            <p>Sudah punya akun? <a href="/login">Masuk</a></p>
+          <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-stone-200"></div>
+            </div>
+            <div class="relative flex justify-center text-xs">
+              <span class="px-3 bg-white text-gray-500 font-medium">ATAU</span>
+            </div>
           </div>
+
+          <p class="text-center text-sm text-gray-600">
+            Sudah punya akun?
+            <a href="/login" class="font-bold text-brand hover:text-brand-light">
+              Masuk
+            </a>
+          </p>
         </div>
 
         <!-- Step 2: OTP Verification -->
-        <div id="step-otp" class="step-view">
-          <div class="otp-instruction">
-            <p>Kode OTP 6-digit telah dikirim ke:</p>
-            <strong id="display-email"></strong>
+        <div id="step-otp" class="hidden space-y-5">
+          <div class="text-center p-4 bg-accent-light/20 rounded-2xl border border-accent/30">
+            <p class="text-sm text-gray-700 mb-1">Kode OTP telah dikirim ke:</p>
+            <p id="display-email" class="font-bold text-brand"></p>
           </div>
 
-          <form id="form-otp" class="auth-form">
-            <div class="field-group">
-              <label for="otp-code">Masukkan Kode OTP</label>
-              <div class="input-wrapper">
-                <input type="text" id="otp-code" placeholder="000000" maxlength="6" inputmode="numeric" required class="otp-input" />
-              </div>
+          <form id="form-otp" class="space-y-5">
+            <div>
+              <label for="otp-code" class="block text-sm font-semibold text-gray-700 mb-2">
+                Kode OTP (6 Digit)
+              </label>
+              <input
+                type="text"
+                id="otp-code"
+                placeholder="000000"
+                maxlength="6"
+                inputmode="numeric"
+                required
+                class="input text-center text-2xl font-bold tracking-widest"
+              />
             </div>
 
-            <button type="submit" id="btn-verify" class="btn btn-primary w-full">
-              Verifikasi & Masuk
+            <div id="otp-error" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700"></div>
+
+            <button type="submit" id="btn-verify" class="btn-primary w-full">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span>Verifikasi & Masuk</span>
             </button>
 
-            <button type="button" id="btn-back" class="btn btn-glass w-full">
-              Kembali ke Pendaftaran
+            <button type="button" id="btn-back" class="btn-secondary w-full">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+              <span>Kembali</span>
             </button>
           </form>
         </div>
       </div>
     </div>
 
-    <div id="toast" class="toast-bento"></div>
-  </div>
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 transform translate-x-[200%] transition-transform duration-300 ease-out">
+      <div class="bg-brand text-white px-5 py-3 rounded-2xl shadow-large flex items-center gap-3 min-w-[280px]">
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span id="toast-message" class="text-sm font-semibold"></span>
+      </div>
+    </div>
+  </main>
 
   <script>
     const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
@@ -89,27 +147,36 @@ import Layout from '../layouts/Layout.astro';
 
     const stepRegister = document.getElementById('step-register')!;
     const stepOtp = document.getElementById('step-otp')!;
-    const headerTitle = document.getElementById('header-title')!;
-    const headerDesc = document.getElementById('header-desc')!;
+    const pageTitle = document.getElementById('page-title')!;
+    const pageSubtitle = document.getElementById('page-subtitle')!;
     
-    const formRegister = document.getElementById('form-register')!;
-    const formOtp = document.getElementById('form-otp')!;
+    const formRegister = document.getElementById('form-register') as HTMLFormElement;
+    const formOtp = document.getElementById('form-otp') as HTMLFormElement;
     
     const otpInput = document.getElementById('otp-code') as HTMLInputElement;
     const displayEmail = document.getElementById('display-email')!;
     
     let registeredEmail = '';
 
-    // Step 1 Submit
+    // Step 1: Register
     formRegister.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
       const name = (document.getElementById('name') as HTMLInputElement).value;
       const email = (document.getElementById('email') as HTMLInputElement).value;
       const password = (document.getElementById('password') as HTMLInputElement).value;
       const btn = document.getElementById('btn-register') as HTMLButtonElement;
+      const errorDiv = document.getElementById('error-message')!;
 
+      errorDiv.classList.add('hidden');
       btn.disabled = true;
-      btn.textContent = 'Mendaftarkan...';
+      btn.innerHTML = `
+        <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Mendaftarkan...</span>
+      `;
 
       try {
         const res = await fetch(`${API_URL}/api/auth/register`, {
@@ -124,30 +191,45 @@ import Layout from '../layouts/Layout.astro';
         registeredEmail = email;
         displayEmail.textContent = registeredEmail;
         
-        // UI Transition
-        stepRegister.classList.remove('active');
-        setTimeout(() => {
-          stepOtp.classList.add('active');
-          headerTitle.textContent = 'Verifikasi Akun';
-          headerDesc.textContent = 'Buka email Anda untuk mendapatkan kode OTP.';
-          showToast('OTP telah dikirim!');
-        }, 300);
+        // Transition to OTP step
+        stepRegister.classList.add('hidden');
+        stepOtp.classList.remove('hidden');
+        pageTitle.textContent = 'Verifikasi Akun';
+        pageSubtitle.textContent = 'Masukkan kode OTP yang dikirim ke email Anda';
+        
+        showToast('OTP telah dikirim ke email Anda!');
 
       } catch (err: any) {
-        showToast(err.message, 'error');
+        errorDiv.textContent = err.message;
+        errorDiv.classList.remove('hidden');
+        
         btn.disabled = false;
-        btn.textContent = 'Lanjutkan Verifikasi';
+        btn.innerHTML = `
+          <span>Lanjutkan Verifikasi</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        `;
       }
     });
 
-    // Step 2 Submit
+    // Step 2: Verify OTP
     formOtp.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
       const token = otpInput.value;
       const btn = document.getElementById('btn-verify') as HTMLButtonElement;
+      const errorDiv = document.getElementById('otp-error')!;
 
+      errorDiv.classList.add('hidden');
       btn.disabled = true;
-      btn.textContent = 'Memverifikasi...';
+      btn.innerHTML = `
+        <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Memverifikasi...</span>
+      `;
 
       try {
         const res = await fetch(`${API_URL}/api/auth/verify`, {
@@ -162,123 +244,47 @@ import Layout from '../layouts/Layout.astro';
         localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('user', JSON.stringify(data.user));
         
-        showToast('Verifikasi Berhasil!');
+        showToast('Verifikasi Berhasil! Mengalihkan...');
         setTimeout(() => window.location.href = '/dashboard', 1000);
 
       } catch (err: any) {
-        showToast(err.message, 'error');
+        errorDiv.textContent = err.message;
+        errorDiv.classList.remove('hidden');
+        
         btn.disabled = false;
-        btn.textContent = 'Verifikasi & Masuk';
+        btn.innerHTML = `
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <span>Verifikasi & Masuk</span>
+        `;
         otpInput.value = '';
       }
     });
 
-    // Back Logic
+    // Back button
     document.getElementById('btn-back')?.addEventListener('click', () => {
-      stepOtp.classList.remove('active');
-      setTimeout(() => {
-        stepRegister.classList.add('active');
-        headerTitle.textContent = 'Buat Akun Warga';
-        headerDesc.textContent = 'Daftarkan diri Anda untuk mulai berkontribusi.';
-      }, 300);
+      stepOtp.classList.add('hidden');
+      stepRegister.classList.remove('hidden');
+      pageTitle.textContent = 'Buat Akun Warga';
+      pageSubtitle.textContent = 'Daftarkan diri untuk mulai berkontribusi';
     });
 
-    // Formatting
+    // Format OTP input
     otpInput.addEventListener('input', () => {
       otpInput.value = otpInput.value.replace(/\D/g, '').slice(0, 6);
     });
 
-    function showToast(msg: string, type = 'success') {
-      const toast = document.getElementById('toast');
-      if (!toast) return;
-      toast.textContent = msg;
-      toast.className = `toast-bento show ${type}`;
-      setTimeout(() => toast.className = 'toast-bento', 3000);
+    function showToast(message: string) {
+      const toast = document.getElementById('toast') as HTMLDivElement;
+      const toastMessage = document.getElementById('toast-message') as HTMLSpanElement;
+      
+      toastMessage.textContent = message;
+      toast.style.transform = 'translateX(0)';
+      
+      setTimeout(() => {
+        toast.style.transform = 'translateX(200%)';
+      }, 3000);
     }
   </script>
 </Layout>
-
-<style>
-  .auth-viewport {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-xl);
-    background: var(--color-bg);
-  }
-
-  .auth-container { width: 100%; max-width: 440px; }
-
-  .auth-header { text-align: center; margin-bottom: var(--space-2xl); }
-  .logo-pill {
-    width: 120px; height: auto;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 32px;
-  }
-  .logo-pill img { width: 100%; height: auto; object-fit: contain; }
-
-  .auth-header h1 { font-size: 32px; font-weight: 800; color: var(--color-text-title); margin-bottom: 8px; transition: all 0.3s; }
-  .auth-header p { font-size: 15px; color: var(--color-text-muted); font-weight: 500; transition: all 0.3s; }
-
-  .auth-card { padding: var(--space-2xl); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-premium); overflow: hidden; position: relative; min-height: 400px; }
-
-  .step-view {
-    display: none; opacity: 0; transform: translateX(20px); transition: all 0.4s var(--transition-smooth);
-  }
-  .step-view.active { display: flex; flex-direction: column; opacity: 1; transform: translateX(0); }
-
-  .auth-form { display: flex; flex-direction: column; gap: var(--space-xl); }
-  .field-group { display: flex; flex-direction: column; gap: 8px; }
-  .field-group label { font-size: 13px; font-weight: 800; color: var(--color-text-title); }
-
-  .input-wrapper input {
-    width: 100%;
-    background: #F9FAFB;
-    border: 1.5px solid var(--color-border);
-    border-radius: 16px;
-    padding: 16px 20px;
-    color: var(--color-text-title);
-    font-family: inherit;
-    font-size: 15px;
-    transition: all 0.2s;
-  }
-  .input-wrapper input:focus {
-    outline: none;
-    border-color: var(--color-accent);
-    background: white;
-    box-shadow: 0 0 0 4px rgba(253, 224, 71, 0.1);
-  }
-
-  .otp-input { text-align: center; font-size: 24px !important; letter-spacing: 0.5em; font-weight: 900; }
-  .otp-instruction { text-align: center; margin-bottom: var(--space-2xl); }
-  .otp-instruction p { font-size: 14px; color: var(--color-text-muted); }
-  .otp-instruction strong { font-size: 16px; color: var(--color-brand); display: block; margin-top: 4px; }
-
-  .auth-divider { text-align: center; position: relative; margin: var(--space-2xl) 0; }
-  .auth-divider::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--color-border); z-index: 1; }
-  .auth-divider span { position: relative; z-index: 2; background: var(--color-surface); padding: 0 16px; font-size: 11px; font-weight: 900; color: var(--color-text-muted); text-transform: uppercase; }
-
-  .auth-footer { text-align: center; }
-  .auth-footer p { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-  .auth-footer a { color: var(--color-brand); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--color-accent); }
-
-  .w-full { width: 100%; }
-
-  /* Toast Notification */
-  .toast-bento {
-    position: fixed; top: 32px; right: 32px; padding: 16px 32px; border-radius: 20px;
-    background: var(--color-brand); color: #fff; font-weight: 700; font-size: 15px;
-    transform: translateX(120%); opacity: 0; transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    z-index: 1000; box-shadow: 0 15px 35px rgba(26, 26, 26, 0.2);
-  }
-  .toast-bento.show { transform: translateX(0); opacity: 1; }
-  .toast-bento.error { background: var(--color-danger); }
-
-  @media (max-width: 768px) {
-    .auth-viewport { padding: var(--space-lg); }
-    .auth-card { padding: var(--space-xl); }
-    .toast-bento { left: 24px; right: 24px; top: 24px; transform: translateY(-150%); text-align: center; }
-    .toast-bento.show { transform: translateY(0); }
-  }
-</style>

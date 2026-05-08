@@ -3,72 +3,124 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Masuk — SovraEquitara">
-  <div class="auth-viewport">
-    <div class="auth-container animate-up">
-      <header class="auth-header">
-        <div class="logo-pill">
-          <img src="/logo.svg" alt="Sovra" />
-        </div>
-        <h1>Selamat Datang</h1>
-        <p>Silakan masuk untuk melanjutkan kontribusi Anda.</p>
-      </header>
+  <main class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div class="w-full max-w-md animate-fade-in">
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <img src="/logo.svg" alt="SovraEquitara" class="h-12 sm:h-14 mx-auto mb-6" />
+        <h1 class="text-2xl sm:text-3xl font-display font-bold mb-2">Selamat Datang</h1>
+        <p class="text-sm sm:text-base text-gray-600">Masuk untuk melanjutkan kontribusi Anda</p>
+      </div>
 
-      <div class="auth-card glass">
-        <form id="form-login" class="auth-form">
-          <div class="field-group">
-            <label for="email">Alamat Email</label>
-            <div class="input-wrapper">
-              <input type="email" id="email" placeholder="nama@email.com" required />
-            </div>
+      <!-- Form Card -->
+      <div class="card">
+        <form id="form-login" class="space-y-5">
+          <!-- Email -->
+          <div>
+            <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="nama@email.com"
+              required
+              class="input"
+            />
           </div>
 
-          <div class="field-group">
-            <div class="label-row">
-              <label for="password">Kata Sandi</label>
-              <a href="/forgot-password" class="forgot-link">Lupa?</a>
+          <!-- Password -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label for="password" class="block text-sm font-semibold text-gray-700">
+                Kata Sandi
+              </label>
+              <a href="/forgot-password" class="text-xs font-semibold text-brand hover:text-brand-light">
+                Lupa?
+              </a>
             </div>
-            <div class="input-wrapper">
-              <input type="password" id="password" placeholder="••••••••" required />
-            </div>
+            <input
+              type="password"
+              id="password"
+              placeholder="••••••••"
+              required
+              class="input"
+            />
           </div>
 
-          <button type="submit" id="btn-login" class="btn btn-primary w-full">
-            Masuk Sekarang
+          <!-- Error Message -->
+          <div id="error-message" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700"></div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="btn-login" class="btn-primary w-full">
+            <span>Masuk Sekarang</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
           </button>
         </form>
 
-        <div class="auth-divider">
-          <span>atau</span>
+        <!-- Divider -->
+        <div class="relative my-6">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-stone-200"></div>
+          </div>
+          <div class="relative flex justify-center text-xs">
+            <span class="px-3 bg-white text-gray-500 font-medium">ATAU</span>
+          </div>
         </div>
 
-        <div class="auth-footer">
-          <p>Belum punya akun? <a href="/register">Daftar Warga</a></p>
-        </div>
+        <!-- Register Link -->
+        <p class="text-center text-sm text-gray-600">
+          Belum punya akun?
+          <a href="/register" class="font-bold text-brand hover:text-brand-light">
+            Daftar Warga
+          </a>
+        </p>
       </div>
     </div>
 
-    <div id="toast" class="toast-bento"></div>
-  </div>
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 transform translate-x-[200%] transition-transform duration-300 ease-out">
+      <div class="bg-brand text-white px-5 py-3 rounded-2xl shadow-large flex items-center gap-3 min-w-[280px]">
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span id="toast-message" class="text-sm font-semibold"></span>
+      </div>
+    </div>
+  </main>
 
   <script>
     const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     
+    // Redirect if already logged in
     if (localStorage.getItem('access_token')) {
       window.location.href = '/dashboard';
     }
 
-    const form = document.getElementById('form-login');
-    const btn = document.getElementById('btn-login');
+    const form = document.getElementById('form-login') as HTMLFormElement;
+    const btn = document.getElementById('btn-login') as HTMLButtonElement;
+    const errorDiv = document.getElementById('error-message') as HTMLDivElement;
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
       const email = (document.getElementById('email') as HTMLInputElement).value;
       const password = (document.getElementById('password') as HTMLInputElement).value;
 
-      if (btn) {
-        btn.textContent = 'Memproses...';
-        (btn as HTMLButtonElement).disabled = true;
-      }
+      // Hide previous errors
+      errorDiv.classList.add('hidden');
+      
+      // Loading state
+      btn.disabled = true;
+      btn.innerHTML = `
+        <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Memproses...</span>
+      `;
 
       try {
         const res = await fetch(`${API_URL}/api/auth/login`, {
@@ -81,139 +133,44 @@ import Layout from '../layouts/Layout.astro';
 
         if (!res.ok) throw new Error(data.error || 'Login gagal');
 
+        // Save to localStorage
         localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('user', JSON.stringify(data.user));
         
+        // Show success toast
         showToast('Login berhasil! Mengalihkan...');
+        
+        // Redirect based on role
         setTimeout(() => {
           const role = (data.user.role || '').toUpperCase();
-          window.location.href = (role === 'ADMIN') 
-            ? '/admin/dashboard' 
-            : '/dashboard';
+          window.location.href = role === 'ADMIN' ? '/admin/dashboard' : '/dashboard';
         }, 1000);
 
       } catch (err: any) {
-        showToast(err.message, 'error');
-        if (btn) {
-          btn.textContent = 'Masuk Sekarang';
-          (btn as HTMLButtonElement).disabled = false;
-        }
+        errorDiv.textContent = err.message;
+        errorDiv.classList.remove('hidden');
+        
+        // Reset button
+        btn.disabled = false;
+        btn.innerHTML = `
+          <span>Masuk Sekarang</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        `;
       }
     });
 
-    function showToast(msg: string, type = 'success') {
-      const toast = document.getElementById('toast');
-      if (!toast) return;
-      toast.textContent = msg;
-      toast.className = `toast-bento show ${type}`;
-      setTimeout(() => toast.className = 'toast-bento', 3000);
+    function showToast(message: string) {
+      const toast = document.getElementById('toast') as HTMLDivElement;
+      const toastMessage = document.getElementById('toast-message') as HTMLSpanElement;
+      
+      toastMessage.textContent = message;
+      toast.style.transform = 'translateX(0)';
+      
+      setTimeout(() => {
+        toast.style.transform = 'translateX(200%)';
+      }, 3000);
     }
   </script>
 </Layout>
-
-<style>
-  .auth-viewport {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-xl);
-    background: var(--color-bg);
-  }
-
-  .auth-container {
-    width: 100%;
-    max-width: 440px;
-  }
-
-  .auth-header {
-    text-align: center;
-    margin-bottom: var(--space-2xl);
-  }
-
-  .logo-pill {
-    width: 120px; height: auto;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 32px;
-  }
-  .logo-pill img { width: 100%; height: auto; object-fit: contain; }
-
-  .auth-header h1 { font-size: 32px; font-weight: 800; color: var(--color-text-title); margin-bottom: 8px; }
-  .auth-header p { font-size: 15px; color: var(--color-text-muted); font-weight: 500; }
-
-  .auth-card {
-    padding: var(--space-2xl);
-    border-radius: var(--radius-lg);
-    background: var(--color-surface);
-    box-shadow: var(--shadow-premium);
-  }
-
-  .auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
-  }
-
-  .field-group { display: flex; flex-direction: column; gap: 8px; }
-  .label-row { display: flex; justify-content: space-between; align-items: center; }
-  .field-group label { font-size: 13px; font-weight: 800; color: var(--color-text-title); }
-  .forgot-link { font-size: 12px; font-weight: 800; color: var(--color-brand); text-decoration: none; }
-
-  .input-wrapper input {
-    width: 100%;
-    background: #F9FAFB;
-    border: 1.5px solid var(--color-border);
-    border-radius: 16px;
-    padding: 16px 20px;
-    color: var(--color-text-title);
-    font-family: inherit;
-    font-size: 15px;
-    transition: all 0.2s;
-  }
-  .input-wrapper input:focus {
-    outline: none;
-    border-color: var(--color-accent);
-    background: white;
-    box-shadow: 0 0 0 4px rgba(253, 224, 71, 0.1);
-  }
-
-  .auth-divider {
-    text-align: center;
-    position: relative;
-    margin: var(--space-2xl) 0;
-  }
-  .auth-divider::before {
-    content: ""; position: absolute; top: 50%; left: 0; right: 0;
-    height: 1px; background: var(--color-border); z-index: 1;
-  }
-  .auth-divider span {
-    position: relative; z-index: 2;
-    background: var(--color-surface);
-    padding: 0 16px;
-    font-size: 11px; font-weight: 900; color: var(--color-text-muted);
-    text-transform: uppercase; letter-spacing: 0.1em;
-  }
-
-  .auth-footer { text-align: center; }
-  .auth-footer p { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-  .auth-footer a { color: var(--color-brand); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--color-accent); }
-
-  .w-full { width: 100%; }
-
-  /* Toast Re-use from Shared */
-  .toast-bento {
-    position: fixed; top: 32px; right: 32px; padding: 16px 32px; border-radius: 20px;
-    background: var(--color-brand); color: #fff; font-weight: 700; font-size: 15px;
-    transform: translateX(120%); opacity: 0; transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    z-index: 1000; box-shadow: 0 15px 35px rgba(26, 26, 26, 0.2);
-  }
-  .toast-bento.show { transform: translateX(0); opacity: 1; }
-  .toast-bento.error { background: var(--color-danger); }
-
-  @media (max-width: 768px) {
-    .auth-viewport { padding: var(--space-lg); }
-    .auth-card { padding: var(--space-xl); }
-    .toast-bento { left: 24px; right: 24px; top: 24px; transform: translateY(-150%); text-align: center; }
-    .toast-bento.show { transform: translateY(0); }
-  }
-</style>
