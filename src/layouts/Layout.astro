@@ -22,11 +22,14 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen bg-stone-50 text-gray-900 antialiased">
+  <body class="min-h-screen bg-[#010101] text-white antialiased">
     <slot />
   </body>
 </html>
 
 <style is:global>
   @import '../styles/tailwind.css';
+  body {
+    @apply bg-[#010101] text-white antialiased;
+  }
 </style>
