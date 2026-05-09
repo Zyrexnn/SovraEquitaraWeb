@@ -104,28 +104,52 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           ))}
         </div>
 
-        <!-- Bento Grid: Charts & Table -->
+        <!-- Analytics Row -->
         <div class="grid lg:grid-cols-12 gap-8">
-          <!-- Chart Card -->
-          <div class="lg:col-span-5 bg-zen-card dark:bg-zen-card-dark p-8 lg:p-10 rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen flex flex-col min-h-[500px]">
-            <div class="mb-10">
-              <h3 class="text-xl font-black text-zen-text dark:text-zen-text-dark">Distribusi Laporan</h3>
-              <p class="text-sm font-bold text-stone-400 mt-1">Berdasarkan Kategori</p>
+          <!-- Trend Chart -->
+          <div class="lg:col-span-8 bg-zen-card dark:bg-zen-card-dark p-8 lg:p-10 rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen flex flex-col min-h-[400px]">
+            <div class="mb-8">
+              <h3 class="text-xl font-black text-zen-text dark:text-zen-text-dark">Tren Laporan</h3>
+              <p class="text-sm font-bold text-stone-400 mt-1">Aktivitas pelaporan dalam 7 hari terakhir</p>
             </div>
-            <div class="flex-1 flex items-center justify-center relative">
-              <canvas id="categoryChart" class="max-w-[280px] lg:max-w-full"></canvas>
+            <div class="flex-1 min-h-[300px]">
+              <canvas id="trendChart"></canvas>
             </div>
           </div>
 
+          <!-- Top Locations Chart -->
+          <div class="lg:col-span-4 bg-zen-card dark:bg-zen-card-dark p-8 lg:p-10 rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen flex flex-col min-h-[400px]">
+            <div class="mb-8">
+              <h3 class="text-xl font-black text-zen-text dark:text-zen-text-dark">Titik Terpadat</h3>
+              <p class="text-sm font-bold text-stone-400 mt-1">Lokasi paling aktif</p>
+            </div>
+            <div class="flex-1">
+              <canvas id="locationChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Operations Row -->
+        <div class="grid lg:grid-cols-12 gap-8">
           <!-- Table Card -->
-          <div class="lg:col-span-7 bg-zen-card dark:bg-zen-card-dark rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen overflow-hidden flex flex-col">
-            <div class="p-8 lg:p-10 border-b border-zen-border dark:border-zen-border-dark flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div>
-                <h3 class="text-xl font-black text-zen-text dark:text-zen-text-dark">Laporan Masuk</h3>
-                <p class="text-sm font-bold text-stone-400 mt-1">Kelola aduan warga secara real-time</p>
+          <div class="lg:col-span-8 bg-zen-card dark:bg-zen-card-dark rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen overflow-hidden flex flex-col">
+            <div class="p-8 lg:p-10 border-b border-zen-border dark:border-zen-border-dark flex flex-col gap-8">
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                  <h3 class="text-xl font-black text-zen-text dark:text-zen-text-dark">Laporan Masuk</h3>
+                  <p class="text-sm font-bold text-stone-400 mt-1">Daftar aduan terbaru dari warga</p>
+                </div>
               </div>
-              <div class="flex flex-wrap gap-3">
-                <select id="status-filter" class="px-4 py-2 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand/20 dark:focus:ring-white/20 appearance-none">
+              
+              <div class="flex flex-wrap gap-4">
+                <div class="relative flex-1 min-w-[240px]">
+                  <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <input type="text" id="search-input" placeholder="Cari laporan..." class="w-full pl-11 pr-4 py-3 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-2xl text-xs font-bold outline-none focus:ring-4 focus:ring-blue-500/10 transition-all appearance-none" />
+                </div>
+                <select id="category-filter" class="px-4 py-3 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-2xl text-xs font-bold outline-none focus:ring-4 focus:ring-blue-500/10 appearance-none min-w-[140px]">
+                  <option value="">Semua Kategori</option>
+                </select>
+                <select id="status-filter" class="px-4 py-3 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-2xl text-xs font-bold outline-none focus:ring-4 focus:ring-blue-500/10 appearance-none min-w-[140px]">
                   <option value="">Semua Status</option>
                   <option value="PENDING">Pending</option>
                   <option value="VALID">Verified</option>
@@ -141,13 +165,24 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
                     <th class="px-10 py-6">Media</th>
                     <th class="px-6 py-6">Aduan</th>
                     <th class="px-6 py-6">Status</th>
-                    <th class="px-6 py-6 text-right">Tanggal</th>
+                    <th class="px-6 py-6 text-right pr-10">Tanggal</th>
                   </tr>
                 </thead>
                 <tbody id="reports-tbody" class="divide-y divide-zen-border dark:divide-zen-border-dark">
                   <!-- JS Render -->
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          <!-- Category Chart Card -->
+          <div class="lg:col-span-4 bg-zen-card dark:bg-zen-card-dark p-8 lg:p-10 rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen flex flex-col">
+            <div class="mb-8">
+              <h3 class="text-xl font-black text-zen-text dark:text-zen-text-dark">Kategori</h3>
+              <p class="text-sm font-bold text-stone-400 mt-1">Distribusi per topik</p>
+            </div>
+            <div class="flex-1 flex items-center justify-center relative min-h-[300px]">
+              <canvas id="categoryChart"></canvas>
             </div>
           </div>
         </div>
@@ -208,7 +243,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             <div class="flex gap-4">
               <button id="btn-toggle-map" class="flex-1 flex items-center justify-center gap-3 px-6 py-5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl font-black text-xs tracking-widest shadow-sm hover:shadow-xl transition-all duration-300">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon></svg>
-                <span>LIHAT PETA</span>
+                <span id="btn-toggle-map-text">LIHAT PETA</span>
               </button>
               <a id="gmaps-link" href="#" target="_blank" class="flex-1 flex items-center justify-center gap-3 px-6 py-5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl font-black text-xs tracking-widest shadow-sm hover:shadow-xl transition-all duration-300">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
@@ -301,35 +336,123 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     }
 
     let categoryChart = null;
-    function renderCharts() {
-      const ctx = document.getElementById('categoryChart') as HTMLCanvasElement;
-      if (!ctx) return;
-      
-      const categoryCounts = {};
-      reportsData.forEach(r => {
-        const catName = categoriesData.find(c => c.id === r.category_id)?.name || "Lainnya";
-        categoryCounts[catName] = (categoryCounts[catName] || 0) + 1;
-      });
+    let trendChart = null;
+    let locationChart = null;
 
-      if (categoryChart) categoryChart.destroy();
-      
-      categoryChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: Object.keys(categoryCounts),
-          datasets: [{
-            data: Object.values(categoryCounts),
-            backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          cutout: '70%',
-          plugins: {
-            legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20, font: { family: 'Plus Jakarta Sans', weight: 'bold' } } }
+    function renderCharts() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const textColor = isDark ? '#a8a29e' : '#78716c';
+      const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+
+      // 1. Category Chart
+      const catCtx = document.getElementById('categoryChart') as HTMLCanvasElement;
+      if (catCtx) {
+        const categoryCounts = {};
+        reportsData.forEach(r => {
+          const catName = categoriesData.find(c => c.id === r.category_id)?.name || "Lainnya";
+          categoryCounts[catName] = (categoryCounts[catName] || 0) + 1;
+        });
+
+        if (categoryChart) categoryChart.destroy();
+        categoryChart = new Chart(catCtx, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(categoryCounts),
+            datasets: [{
+              data: Object.values(categoryCounts),
+              backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'],
+              hoverOffset: 20,
+              borderRadius: 10,
+              borderWidth: 0
+            }]
+          },
+          options: {
+            cutout: '75%',
+            plugins: {
+              legend: { position: 'bottom', labels: { color: textColor, usePointStyle: true, padding: 25, font: { family: 'Plus Jakarta Sans', weight: 'bold', size: 11 } } }
+            }
           }
-        }
-      });
+        });
+      }
+
+      // 2. Trend Chart (Last 7 Days)
+      const trendCtx = document.getElementById('trendChart') as HTMLCanvasElement;
+      if (trendCtx) {
+        const last7Days = [...Array(7)].map((_, i) => {
+          const d = new Date();
+          d.setDate(d.getDate() - i);
+          return d.toISOString().split('T')[0];
+        }).reverse();
+
+        const dailyCounts = last7Days.map(date => 
+          reportsData.filter(r => r.created_at.startsWith(date)).length
+        );
+
+        if (trendChart) trendChart.destroy();
+        trendChart = new Chart(trendCtx, {
+          type: 'line',
+          data: {
+            labels: last7Days.map(d => new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })),
+            datasets: [{
+              label: 'Laporan',
+              data: dailyCounts,
+              borderColor: '#3B82F6',
+              backgroundColor: 'rgba(59, 130, 246, 0.1)',
+              fill: true,
+              tension: 0.4,
+              pointRadius: 4,
+              pointBackgroundColor: '#3B82F6'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor, stepSize: 1, font: { weight: 'bold' } } },
+              x: { grid: { display: false }, ticks: { color: textColor, font: { weight: 'bold' } } }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+      }
+
+      // 3. Location Chart (Top 5)
+      const locCtx = document.getElementById('locationChart') as HTMLCanvasElement;
+      if (locCtx) {
+        const locCounts = {};
+        reportsData.forEach(r => {
+          const loc = r.location_detail.split(',')[0].trim();
+          locCounts[loc] = (locCounts[loc] || 0) + 1;
+        });
+
+        const topLocs = Object.entries(locCounts)
+          .sort((a: any, b: any) => b[1] - a[1])
+          .slice(0, 5);
+
+        if (locationChart) locationChart.destroy();
+        locationChart = new Chart(locCtx, {
+          type: 'bar',
+          data: {
+            labels: topLocs.map(x => x[0]),
+            datasets: [{
+              data: topLocs.map(x => x[1]),
+              backgroundColor: '#8B5CF6',
+              borderRadius: 8,
+              barThickness: 24
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor, stepSize: 1, font: { weight: 'bold' } } },
+              y: { grid: { display: false }, ticks: { color: textColor, font: { weight: 'bold' } } }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+      }
     }
 
     /* Leaderboard moved to dedicated page */
@@ -370,7 +493,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
               ${r.status}
             </span>
           </td>
-          <td class="px-6 py-6 text-right font-black text-stone-400 text-xs">
+          <td class="px-6 py-6 text-right pr-10 font-black text-stone-400 text-xs">
             ${new Date(r.created_at).toLocaleDateString("id-ID", { day: 'numeric', month: 'short' })}
           </td>
         </tr>
@@ -507,23 +630,41 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     updateTime();
     setInterval(updateTime, 1000);
     loadData();
-    setInterval(loadData, 5000);
+
+    // Theme Observer for Charts
+    const observer = new MutationObserver(() => renderCharts());
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    // Live Filters Initialization
+    function setupFilters() {
+      const inputs = ["search-input", "category-filter", "status-filter"];
+      inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", () => {
+            const search = (document.getElementById("search-input") as HTMLInputElement)?.value.toLowerCase() || "";
+            const cat = (document.getElementById("category-filter") as HTMLSelectElement)?.value || "";
+            const status = (document.getElementById("status-filter") as HTMLSelectElement)?.value || "";
+            
+            const filtered = reportsData.filter(r => {
+              const matchesSearch = r.description.toLowerCase().includes(search) || 
+                                   r.location_detail.toLowerCase().includes(search);
+              const matchesCat = !cat || String(r.category_id) === cat;
+              const matchesStatus = !status || r.status === status;
+              return matchesSearch && matchesCat && matchesStatus;
+            });
+            
+            renderReports(filtered);
+          });
+        }
+      });
+    }
+
+    // Initial setup
+    setInterval(loadData, 10000); // Reload every 10s
+    setupFilters();
 
     document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar")?.classList.toggle("-translate-x-full"));
     document.getElementById("logout-btn")?.addEventListener("click", () => { localStorage.clear(); window.location.href = "/admin/login"; });
-    
-    ["search-input", "category-filter", "status-filter"].forEach(id => {
-      document.getElementById(id)?.addEventListener("input", () => {
-        const search = (document.getElementById("search-input") as HTMLInputElement).value.toLowerCase();
-        const cat = (document.getElementById("category-filter") as HTMLSelectElement).value;
-        const status = (document.getElementById("status-filter") as HTMLSelectElement).value;
-        const filtered = reportsData.filter(r => 
-          (r.description.toLowerCase().includes(search) || r.location_detail.toLowerCase().includes(search)) &&
-          (!cat || String(r.category_id) === cat) &&
-          (!status || r.status === status)
-        );
-        renderReports(filtered);
-      });
-    });
   </script>
 </Layout>
