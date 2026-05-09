@@ -3,123 +3,123 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Profil Saya — SovraEquitara">
-  <div class="saas-layout">
+  <div class="flex h-screen overflow-hidden bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display">
     <!-- Desktop Sidebar -->
-    <aside class="sidebar glass-nav">
-      <div class="sidebar-header">
-        <a href="/" class="logo block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="user-logo" />
+    <aside class="hidden md:flex w-[280px] bg-zen-card/40 dark:bg-zen-card-dark/40 backdrop-blur-xl border-r border-zen-border dark:border-zen-border-dark flex-col z-[100]">
+      <div class="p-10 pb-6">
+        <a href="/" class="block hover:opacity-80 transition-opacity">
+          <img src="/logo.svg" alt="SovraEquitara" class="h-10 w-auto dark:brightness-0 dark:invert" />
         </a>
       </div>
       
-      <nav class="nav-menu">
-        <div class="nav-section" id="nav-section-title">NAVIGASI</div>
-        <a href="/dashboard" class="nav-item" id="nav-dashboard-link">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+      <nav class="flex-1 px-4 flex flex-col gap-1">
+        <div id="nav-section-title" class="text-[10px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark px-3 py-3 tracking-widest uppercase">NAVIGASI</div>
+        <a href="/dashboard" id="nav-dashboard-link" class="flex items-center gap-3 p-3 rounded-xl text-zen-text-secondary dark:text-zen-text-secondary-dark hover:bg-zen-bg hover:text-zen-text dark:hover:bg-zen-bg-dark dark:hover:text-zen-text-dark font-semibold text-sm transition-colors no-underline">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
           <span id="nav-dashboard-text">Dashboard Warga</span>
         </a>
-        <a href="/profile" class="nav-item active">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <a href="/profile" class="flex items-center gap-3 p-3 rounded-xl text-blue-500 bg-blue-50 dark:bg-blue-500/10 border border-zen-border dark:border-zen-border-dark shadow-sm font-bold text-sm transition-colors no-underline">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Profil Saya
         </a>
       </nav>
 
-      <div class="sidebar-footer">
-        <div class="user-card glass">
-          <div class="avatar-large" id="sidebar-avatar">U</div>
-          <div class="user-details">
-            <span class="u-name" id="sidebar-name">Memuat...</span>
-            <span class="u-points" id="sidebar-points">0 PTS</span>
+      <div class="p-6 border-t border-zen-border dark:border-zen-border-dark">
+        <div class="p-4 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark backdrop-blur-md border border-zen-border dark:border-zen-border-dark flex items-center gap-3 mb-4">
+          <div class="w-11 h-11 rounded-full bg-zen-text dark:bg-zen-text-dark text-zen-bg dark:text-zen-bg-dark flex items-center justify-center font-extrabold" id="sidebar-avatar">U</div>
+          <div class="flex flex-col">
+            <span class="font-extrabold text-sm" id="sidebar-name">Memuat...</span>
+            <span class="text-[11px] font-extrabold text-blue-500" id="sidebar-points">0 PTS</span>
           </div>
         </div>
-        <button id="btn-logout-desktop" class="btn-logout-zen">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
+        <button id="btn-logout-desktop" class="w-full flex items-center justify-center gap-2.5 p-3 bg-transparent border border-zen-border dark:border-zen-border-dark rounded-xl text-zen-text-secondary dark:text-zen-text-secondary-dark font-bold text-[13px] cursor-pointer transition-colors hover:bg-zen-bg dark:hover:bg-zen-bg-dark">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
           Keluar Sesi
         </button>
       </div>
     </aside>
 
     <!-- Mobile Header -->
-    <header class="mobile-header glass-bright">
-      <a href="/" class="logo block hover:opacity-80 transition-opacity">
-        <img src="/logo.svg" alt="Sovra" style="height: 32px; width: auto;" />
+    <header class="md:hidden flex justify-between items-center p-4 px-5 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-zen-border dark:border-zen-border-dark sticky top-0 z-[1000]">
+      <a href="/" class="block hover:opacity-80 transition-opacity">
+        <img src="/logo.svg" alt="SovraEquitara" class="h-8 w-auto dark:brightness-0 dark:invert" />
       </a>
-      <div class="user-pill glass">
+      <div class="flex items-center gap-2.5 px-3 py-1 bg-white dark:bg-black rounded-full font-extrabold text-xs text-blue-500 shadow-sm border border-zen-border dark:border-zen-border-dark">
         <span id="mobile-points">0 PTS</span>
-        <div class="avatar-sm" id="mobile-avatar">U</div>
+        <div class="w-8 h-8 rounded-full bg-zen-text dark:bg-zen-text-dark text-white flex items-center justify-center text-xs" id="mobile-avatar">U</div>
       </div>
     </header>
 
     <!-- Main Content -->
-    <main class="main-content scroll-slim">
-      <div class="content-wrapper">
+    <main class="flex-1 overflow-y-auto pb-24 md:pb-0">
+      <div class="max-w-[1200px] mx-auto p-6 md:p-10 lg:p-12">
         
-        <header class="page-header fade-in">
-          <div class="header-left">
-            <h1 class="font-display">Pengaturan <span class="text-gradient">Profil</span></h1>
-            <p class="subtitle">Kelola identitas dan keamanan akun Anda.</p>
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 animate-up">
+          <div>
+            <h1 class="text-[32px] font-extrabold tracking-tight mb-1">Pengaturan <span class="bg-gradient-to-r from-blue-500 to-emerald-500 text-transparent bg-clip-text">Profil</span></h1>
+            <p class="text-[15px] text-zen-text-secondary dark:text-zen-text-secondary-dark">Kelola identitas dan keamanan akun Anda.</p>
           </div>
-          <div class="header-right">
-             <div class="role-badge-large glass" id="hero-role">Warga</div>
+          <div>
+             <div class="px-4 py-2 rounded-full font-extrabold text-xs bg-white dark:bg-black text-zen-text dark:text-zen-text-dark uppercase tracking-wide border border-zen-border dark:border-zen-border-dark" id="hero-role">Warga</div>
           </div>
         </header>
 
-        <div class="bento-grid-profile">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           <!-- Hero Profile Info -->
-          <div class="bento-card card-hero glass animate-up" style="animation-delay: 0.1s;">
-            <div class="profile-hero-content">
-              <div class="avatar-giant" id="avatar-circle">U</div>
-              <div class="hero-text">
-                <h2 id="display-name-hero" class="font-display">Memuat...</h2>
-                <p id="display-email-hero">email@example.com</p>
+          <div class="md:col-span-2 bg-zen-surface dark:bg-zen-surface-dark backdrop-blur-md border border-zen-border dark:border-zen-border-dark rounded-[28px] p-8 shadow-zen animate-up" style="animation-delay: 0.1s;">
+            <div class="flex items-center gap-8">
+              <div class="w-[80px] h-[80px] md:w-[120px] md:h-[120px] rounded-[28px] bg-zen-text dark:bg-zen-text-dark text-zen-bg dark:text-zen-bg-dark flex items-center justify-center text-3xl md:text-5xl font-black shadow-lg" id="avatar-circle">U</div>
+              <div>
+                <h2 id="display-name-hero" class="text-2xl md:text-4xl font-black tracking-tight m-0">Memuat...</h2>
+                <p id="display-email-hero" class="text-lg font-medium text-zen-text-secondary dark:text-zen-text-secondary-dark mt-1">email@example.com</p>
               </div>
             </div>
           </div>
 
           <!-- Public Info Form -->
-          <div class="bento-card card-info glass animate-up" style="animation-delay: 0.15s;">
-            <div class="card-head">
-              <h3>Informasi Publik</h3>
-              <span class="head-hint">Identitas Warga</span>
+          <div class="bg-zen-surface dark:bg-zen-surface-dark backdrop-blur-md border border-zen-border dark:border-zen-border-dark rounded-[28px] p-8 shadow-zen animate-up" style="animation-delay: 0.15s;">
+            <div class="flex justify-between items-center mb-8">
+              <h3 class="text-base font-extrabold m-0">Informasi Publik</h3>
+              <span class="text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase tracking-wide">Identitas Warga</span>
             </div>
-            <form id="form-profile" class="zen-form">
-              <div class="input-group">
-                <label>Nama Lengkap / Nickname</label>
-                <input type="text" id="full_name" placeholder="Contoh: Budi Santoso" required />
-                <p class="hint">Nama ini akan terlihat pada laporan dan diskusi publik.</p>
+            <form id="form-profile" class="flex flex-col gap-6">
+              <div>
+                <label class="block text-xs font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark mb-2.5 uppercase tracking-wide">Nama Lengkap / Nickname</label>
+                <input type="text" id="full_name" placeholder="Contoh: Budi Santoso" required class="w-full p-3.5 px-4 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-white dark:bg-black text-sm font-medium outline-none focus:border-zen-text dark:focus:border-zen-text-dark focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5 transition-all" />
+                <p class="text-[11px] font-semibold text-zen-text-secondary dark:text-zen-text-secondary-dark mt-2">Nama ini akan terlihat pada laporan dan diskusi publik.</p>
               </div>
-              <div class="input-group">
-                <label>Nomor WhatsApp</label>
-                <input type="tel" id="phone" placeholder="08xxxxxxxxxx" />
+              <div>
+                <label class="block text-xs font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark mb-2.5 uppercase tracking-wide">Nomor WhatsApp</label>
+                <input type="tel" id="phone" placeholder="08xxxxxxxxxx" class="w-full p-3.5 px-4 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-white dark:bg-black text-sm font-medium outline-none focus:border-zen-text dark:focus:border-zen-text-dark focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5 transition-all" />
               </div>
-              <button type="submit" id="btn-save" class="btn-zen-primary w-full">
+              <button type="submit" id="btn-save" class="w-full p-4 rounded-2xl bg-zen-text dark:bg-zen-text-dark text-zen-bg dark:text-zen-bg-dark font-extrabold flex items-center justify-center gap-2.5 hover:-translate-y-0.5 hover:shadow-lg transition-all cursor-pointer border-none">
                 Simpan Perubahan
-                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </button>
             </form>
           </div>
 
           <!-- Security Settings -->
-          <div class="bento-card card-security glass animate-up" style="animation-delay: 0.2s;">
-            <div class="card-head">
-              <h3>Keamanan Akun</h3>
-              <span class="head-hint">Akses & Privasi</span>
+          <div class="bg-zen-surface dark:bg-zen-surface-dark backdrop-blur-md border border-zen-border dark:border-zen-border-dark rounded-[28px] p-8 shadow-zen animate-up" style="animation-delay: 0.2s;">
+            <div class="flex justify-between items-center mb-8">
+              <h3 class="text-base font-extrabold m-0">Keamanan Akun</h3>
+              <span class="text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase tracking-wide">Akses & Privasi</span>
             </div>
-            <div class="security-options">
-              <div class="sec-item glass-lite">
-                <div class="sec-text">
-                  <h4>Ganti Kata Sandi</h4>
-                  <p>Kirim instruksi reset ke email terdaftar.</p>
+            <div class="flex flex-col gap-4">
+              <div class="p-6 rounded-2xl bg-white/40 dark:bg-black/40 border border-zen-border dark:border-zen-border-dark flex flex-col gap-4">
+                <div>
+                  <h4 class="text-[15px] font-extrabold m-0">Ganti Kata Sandi</h4>
+                  <p class="text-[13px] font-medium text-zen-text-secondary dark:text-zen-text-secondary-dark mt-1 mb-0 leading-relaxed">Kirim instruksi reset ke email terdaftar.</p>
                 </div>
-                <button id="btn-reset-pw" class="btn-zen-outline">Reset via Email</button>
+                <button id="btn-reset-pw" class="w-full p-3 rounded-xl bg-white dark:bg-black border border-zen-border dark:border-zen-border-dark font-bold text-[13px] cursor-pointer hover:-translate-y-0.5 hover:shadow-sm transition-all">Reset via Email</button>
               </div>
-              <div class="sec-item danger glass-lite">
-                <div class="sec-text">
-                  <h4>Hapus Sesi</h4>
-                  <p>Keluar dari akun Anda pada perangkat ini.</p>
+              <div class="p-6 rounded-2xl bg-white/40 dark:bg-black/40 border border-zen-border dark:border-zen-border-dark flex flex-col gap-4">
+                <div>
+                  <h4 class="text-[15px] font-extrabold m-0">Hapus Sesi</h4>
+                  <p class="text-[13px] font-medium text-zen-text-secondary dark:text-zen-text-secondary-dark mt-1 mb-0 leading-relaxed">Keluar dari akun Anda pada perangkat ini.</p>
                 </div>
-                <button id="btn-logout-main" class="btn-zen-danger">Keluar Sesi</button>
+                <button id="btn-logout-main" class="w-full p-3 rounded-xl bg-red-50 dark:bg-red-500/10 text-red-500 border border-red-200 dark:border-red-500/20 font-bold text-[13px] cursor-pointer hover:bg-red-500 hover:text-white transition-all">Keluar Sesi</button>
               </div>
             </div>
           </div>
@@ -129,20 +129,20 @@ import Layout from '../layouts/Layout.astro';
     </main>
 
     <!-- Mobile Nav -->
-    <nav class="mobile-nav glass-bright">
-      <a href="/dashboard" class="m-item" id="mob-dashboard-link">
-        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+    <nav class="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 h-[72px] bg-white/80 dark:bg-black/80 backdrop-blur-md border-t border-zen-border dark:border-zen-border-dark z-[1000] pb-safe">
+      <a href="/dashboard" class="p-3 rounded-xl text-zen-text-secondary dark:text-zen-text-secondary-dark" id="mob-dashboard-link">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
       </a>
-      <a href="/profile" class="m-item active">
-        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      <a href="/profile" class="p-3 rounded-xl text-zen-text dark:text-zen-text-dark bg-black/5 dark:bg-white/5">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       </a>
-      <button id="btn-logout-mobile" class="m-item text-danger">
-        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
+      <button id="btn-logout-mobile" class="p-3 rounded-xl text-red-500 bg-transparent border-none cursor-pointer">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
       </button>
     </nav>
 
     <!-- Zen Toast -->
-    <div id="toast" class="zen-toast hidden">
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-zen-text dark:bg-zen-text-dark text-white px-6 py-3 rounded-full font-extrabold text-[13px] z-[2000] shadow-2xl transition-all duration-300 hidden">
       <span id="toast-msg">Notifikasi</span>
     </div>
   </div>
@@ -177,7 +177,9 @@ import Layout from '../layouts/Layout.astro';
         document.getElementById('nav-dashboard-text').textContent = 'Dashboard Admin';
         document.getElementById('mob-dashboard-link').href = '/admin/dashboard';
         document.getElementById('hero-role').textContent = 'Administrator';
-        document.getElementById('hero-role').classList.add('admin-role');
+        const roleEl = document.getElementById('hero-role');
+        roleEl.classList.remove('bg-white', 'dark:bg-black', 'text-zen-text', 'dark:text-zen-text-dark');
+        roleEl.classList.add('bg-zen-text', 'dark:bg-zen-text-dark', 'text-white');
       }
 
       document.getElementById('sidebar-name').textContent = user.name || 'Warga';
@@ -272,148 +274,5 @@ import Layout from '../layouts/Layout.astro';
     }
   </script>
 
-  <style is:global>
-    /* =========================================
-       Zen Minimalist SaaS System (Profile)
-       ========================================= */
-    
-    :root {
-      --zen-bg: #F5F2ED;
-      --zen-surface: rgba(255, 255, 255, 0.7);
-      --zen-text: #1A1A1A;
-      --zen-muted: #71717A;
-      --zen-border: rgba(26, 26, 26, 0.08);
-      --zen-brand: #1A1A1A;
-      --zen-blue: #3B82F6;
-      --zen-green: #10B981;
-      --zen-danger: #EF4444;
-      
-      --font-display: 'Plus Jakarta Sans', sans-serif;
-      --font-sans: 'Inter', sans-serif;
-    }
 
-    body { 
-      background-color: var(--zen-bg); 
-      color: var(--zen-text); 
-      font-family: var(--font-sans);
-      margin: 0;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .saas-layout { display: flex; height: 100vh; overflow: hidden; }
-
-    /* Sidebar Glass */
-    .sidebar { 
-      width: 280px; background: rgba(255, 255, 255, 0.4); 
-      backdrop-filter: blur(20px); border-right: 1px solid var(--zen-border);
-      display: flex; flex-direction: column; z-index: 100;
-    }
-    .sidebar-header { padding: 40px 24px; }
-    .user-logo { height: 40px; width: auto; filter: grayscale(1); }
-    
-    .nav-menu { flex: 1; padding: 0 16px; }
-    .nav-section { font-size: 10px; font-weight: 800; color: var(--zen-muted); padding: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
-    .nav-item { 
-      display: flex; align-items: center; gap: 12px; padding: 12px 16px; 
-      border-radius: 12px; color: var(--zen-muted); text-decoration: none; 
-      font-size: 14px; font-weight: 600; transition: all 0.3s;
-    }
-    .nav-item.active { background: white; color: var(--zen-text); box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid var(--zen-border); }
-
-    .sidebar-footer { padding: 24px; border-top: 1px solid var(--zen-border); }
-    .user-card { padding: 16px; border-radius: 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-    .avatar-large { width: 44px; height: 44px; border-radius: 50%; background: var(--zen-brand); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; }
-    .u-name { font-weight: 800; font-size: 14px; display: block; }
-    .u-points { font-size: 11px; font-weight: 800; color: var(--zen-blue); }
-    
-    .btn-logout-zen { 
-      width: 100%; display: flex; align-items: center; justify-content: center; 
-      gap: 10px; padding: 12px; background: transparent; border: 1px solid rgba(0,0,0,0.05); 
-      border-radius: 12px; color: var(--zen-muted); font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s;
-    }
-
-    /* Main Content */
-    .main-content { flex: 1; overflow-y: auto; }
-    .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
-    
-    .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
-    h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.04em; margin: 0; }
-    .role-badge-large { padding: 8px 16px; border-radius: 99px; font-weight: 800; font-size: 12px; background: white; text-transform: uppercase; letter-spacing: 0.05em; }
-    .role-badge-large.admin-role { background: var(--zen-brand); color: white; }
-
-    /* Bento Profile Grid */
-    .bento-grid-profile { 
-      display: grid; grid-template-columns: 1fr 1fr; gap: 24px; 
-    }
-    .bento-card { border-radius: 28px; padding: 32px; border: 1px solid var(--zen-border); }
-    
-    .card-hero { grid-column: span 2; }
-    .card-info { grid-column: span 1; }
-    .card-security { grid-column: span 1; }
-
-    .profile-hero-content { display: flex; align-items: center; gap: 32px; }
-    .avatar-giant { width: 120px; height: 120px; border-radius: 40px; background: var(--zen-brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 900; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-    .hero-text h2 { font-size: 36px; font-weight: 900; margin: 0; letter-spacing: -0.04em; }
-    .hero-text p { color: var(--zen-muted); font-size: 18px; margin-top: 4px; font-weight: 500; }
-
-    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
-    .card-head h3 { font-size: 16px; font-weight: 800; margin: 0; }
-    .head-hint { font-size: 11px; font-weight: 800; color: var(--zen-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-
-    /* Zen Form */
-    .zen-form { display: flex; flex-direction: column; gap: 24px; }
-    .input-group label { display: block; font-size: 12px; font-weight: 800; color: var(--zen-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .input-group input { 
-      width: 100%; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--zen-border); 
-      background: white; outline: none; font-size: 14px; font-weight: 500; transition: 0.3s;
-    }
-    .input-group input:focus { border-color: var(--zen-brand); box-shadow: 0 0 0 4px rgba(0,0,0,0.03); }
-    .hint { font-size: 11px; color: var(--zen-muted); margin-top: 8px; font-weight: 600; }
-
-    /* Security */
-    .security-options { display: flex; flex-direction: column; gap: 16px; }
-    .sec-item { padding: 24px; border-radius: 20px; display: flex; flex-direction: column; gap: 16px; }
-    .glass-lite { background: rgba(255,255,255,0.4); border: 1px solid var(--zen-border); }
-    .sec-text h4 { font-size: 15px; font-weight: 800; margin: 0; }
-    .sec-text p { font-size: 13px; color: var(--zen-muted); margin: 4px 0 0; line-height: 1.4; }
-
-    /* Buttons */
-    .btn-zen-primary { padding: 16px; border-radius: 16px; background: var(--zen-brand); color: white; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .btn-zen-outline { padding: 12px; border-radius: 12px; background: white; border: 1px solid var(--zen-border); font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; }
-    .btn-zen-danger { padding: 12px; border-radius: 12px; background: rgba(239, 68, 68, 0.1); color: var(--zen-danger); border: 1px solid rgba(239, 68, 68, 0.2); font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; }
-    
-    .btn-zen-primary:hover, .btn-zen-outline:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .btn-zen-danger:hover { background: var(--zen-danger); color: white; }
-
-    /* Utilities */
-    .glass { background: var(--zen-surface); backdrop-filter: blur(12px); border: 1px solid var(--zen-border); }
-    .glass-nav { background: rgba(255,255,255,0.6); backdrop-filter: blur(20px); }
-    .text-gradient { background: linear-gradient(90deg, #3B82F6, #10B981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hidden { display: none !important; }
-    .w-full { width: 100%; }
-    .animate-up { animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Mobile Headers */
-    .mobile-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--zen-border); position: sticky; top: 0; z-index: 1000; }
-    .user-pill { display: flex; align-items: center; gap: 10px; padding: 4px 6px 4px 12px; border-radius: 99px; background: white; font-weight: 800; font-size: 12px; color: var(--zen-blue); }
-    .avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: var(--zen-brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-
-    .mobile-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; right: 0; height: 72px; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-top: 1px solid var(--zen-border); z-index: 1000; padding-bottom: env(safe-area-inset-bottom); }
-    .m-item { color: var(--zen-muted); text-decoration: none; padding: 12px; border-radius: 12px; }
-    .m-item.active { color: var(--zen-brand); background: rgba(0,0,0,0.05); }
-
-    .zen-toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--zen-brand); color: white; padding: 12px 24px; border-radius: 99px; font-weight: 800; font-size: 13px; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .sidebar { display: none; }
-      .bento-grid-profile { grid-template-columns: 1fr; }
-      .card-hero, .card-info, .card-security { grid-column: span 1; }
-      .avatar-giant { width: 80px; height: 80px; font-size: 32px; border-radius: 28px; }
-      .hero-text h2 { font-size: 24px; }
-      .main-content { padding-bottom: 100px; }
-    }
-    @media (min-width: 769px) { .mobile-header, .mobile-nav { display: none; } }
-  </style>
 </Layout>
