@@ -25,25 +25,34 @@ const {
     <title>{title}</title>
 
     <script is:inline>
-      const theme = (() => {
+      const getTheme = () => {
         if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
           return localStorage.getItem('theme');
         }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+
+      const applyTheme = (theme) => {
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
         }
-        return 'light';
-      })();
-    
-      if (theme === 'light') {
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.classList.add('dark');
-      }
-      window.localStorage.setItem('theme', theme);
+      };
+
+      // Initial apply
+      const currentTheme = getTheme();
+      applyTheme(currentTheme);
+
+      // Listen for local storage changes from other tabs
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          applyTheme(e.newValue);
+        }
+      });
     </script>
   </head>
-  <body class="min-h-screen bg-stone-50 dark:bg-[#010101] text-gray-900 dark:text-white antialiased transition-colors duration-300">
+  <body class="min-h-screen bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark antialiased transition-colors duration-300">
     <slot />
   </body>
 </html>

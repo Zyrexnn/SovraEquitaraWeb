@@ -16,6 +16,15 @@ export const ThemeToggle = () => {
     } else {
       document.documentElement.classList.remove("dark");
     }
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "theme" && (e.newValue === "light" || e.newValue === "dark")) {
+        setTheme(e.newValue);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   const toggleTheme = () => {
