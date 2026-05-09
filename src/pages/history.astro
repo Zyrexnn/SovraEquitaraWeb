@@ -186,7 +186,7 @@ import Layout from '../layouts/Layout.astro';
       try {
         user = JSON.parse(userRaw);
         const initial = (user.name || 'U')[0].toUpperCase();
-        
+
         document.getElementById('sidebar-name').textContent = user.name;
         document.getElementById('sidebar-avatar').textContent = initial;
         document.getElementById('mobile-avatar').textContent = initial;
@@ -203,11 +203,23 @@ import Layout from '../layouts/Layout.astro';
         document.getElementById('btn-logout-desktop').addEventListener('click', doLogout);
         document.getElementById('btn-logout-mobile2').addEventListener('click', doLogout);
 
+        setInterval(() => {
+          if(!token) return;
+          fetchHistory(true);
+          const activeReportId = document.getElementById('comment-report-id').value;
+          if(activeReportId && !document.getElementById('detail-modal').classList.contains('hidden')) {
+             const r = allReportsList.find(x => x.id === activeReportId);
+             if(r) {
+               document.getElementById('detail-votes').textContent = r.vote_count;
+               loadComments(activeReportId, true);
+             }
+          }
+        }, 5000);
+
       } catch(e) {
         console.error("History Init Error: ", e);
       }
     }
-
     async function loadCategories() {
       try {
         const res = await fetch(`${API_URL}/api/categories`);
@@ -230,20 +242,19 @@ import Layout from '../layouts/Layout.astro';
       return cat ? cat.name : 'Umum';
     }
 
-    async function fetchHistory() {
+    async function fetchHistory(silent = false) {
       const list = document.getElementById('history-list');
       try {
         const res = await fetch(`${API_URL}/api/my-reports`, { headers: { 'Authorization': `Bearer ${token}` }});
         const data = await res.json();
         allReportsList = data.data || [];
-        
+
         document.getElementById('stat-total').textContent = allReportsList.length;
         renderHistory(allReportsList);
       } catch(e) {
-        list.innerHTML = '<div class="empty-state text-danger">Gagal memuat riwayat.</div>';
+        if(!silent) list.innerHTML = '<div class="empty-state text-danger">Gagal memuat riwayat.</div>';
       }
     }
-
     function renderHistory(items) {
       const list = document.getElementById('history-list');
       if (items.length === 0) {
@@ -324,9 +335,9 @@ import Layout from '../layouts/Layout.astro';
       document.getElementById('lightbox').classList.remove('hidden');
     };
 
-    async function loadComments(id) {
+    async function loadComments(id, silent = false) {
       const list = document.getElementById('comments-list');
-      list.innerHTML = '<div class="feed-loading"><div class="spinner"></div></div>';
+      if(!silent) list.innerHTML = '<div class="feed-loading"><div class="spinner"></div></div>';
       try {
         const res = await fetch(`${API_URL}/api/reports/${id}/comments`);
         const data = await res.json();
@@ -338,18 +349,17 @@ import Layout from '../layouts/Layout.astro';
         list.innerHTML = comments.map(c => `
           <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark p-3 px-4 rounded-2xl rounded-tr-none shadow-sm">
             <div class="flex justify-between mb-1 text-xs">
-              <strong class="text-zen-text dark:text-zen-text-dark">${c.user?.full_name || (c.user?.role === 'admin' ? 'Admin' : 'Warga')}</strong> 
+              <strong class="text-zen-text dark:text-zen-text-dark">${c.user?.full_name || (c.user?.role === 'admin' ? 'Admin' : 'Warga')}</strong>
               <span class="text-zen-text-secondary dark:text-zen-text-secondary-dark">${new Date(c.created_at).toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}</span>
             </div>
             <div class="text-sm text-zen-text dark:text-zen-text-dark leading-relaxed">${c.content}</div>
           </div>
         `).join('');
-        list.scrollTop = list.scrollHeight;
+        if(!silent) list.scrollTop = list.scrollHeight;
       } catch(e) {
-        list.innerHTML = '<div class="empty-state text-danger">Gagal memuat diskusi.</div>';
+        if(!silent) list.innerHTML = '<div class="empty-state text-danger">Gagal memuat diskusi.</div>';
       }
     }
-
     async function handleCommentSubmit(e) {
       e.preventDefault();
       const id = document.getElementById('comment-report-id').value;

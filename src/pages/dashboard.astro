@@ -6,37 +6,37 @@ import { ThemeToggle } from '../components/ThemeToggle';
 <Layout title="Dashboard Warga — SovraEquitara">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   
-  <div class="min-h-screen bg-zen-bg text-zen-text font-sans flex transition-colors duration-300">
+  <div class="flex transition-colors duration-300">
     <!-- Desktop Sidebar -->
-    <aside class="fixed left-0 top-0 w-[280px] h-screen bg-zen-sidebar border-r border-zen-border flex flex-col z-50 transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] max-lg:-translate-x-full lg:translate-x-0 backdrop-blur-xl shadow-lg" id="sidebar">
+    <aside class="fixed left-0 top-0 w-[280px] h-screen bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col z-50 transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] max-lg:-translate-x-full lg:translate-x-0 backdrop-blur-xl shadow-lg" id="sidebar">
       <div class="p-6 lg:py-10 flex items-center justify-between">
         <a href="/" class="block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="h-10 w-auto grayscale dark:brightness-0 dark:invert" />
+          <img src="/logo.svg" alt="SovraEquitara" class="h-16 w-auto grayscale dark:brightness-0 dark:invert" />
         </a>
         <ThemeToggle client:load />
       </div>
       
       <nav class="flex-1 px-4">
-        <div class="text-[10px] font-extrabold text-zen-muted p-3 tracking-widest uppercase">NAVIGASI</div>
-        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 bg-zen-brand text-white shadow-[0_4px_12px_rgba(59,130,246,0.2)] dark:bg-blue-500/15 dark:text-blue-400 dark:border dark:border-blue-500/30">
+        <div class="text-[10px] font-extrabold text-zen-muted dark:text-zen-muted-dark p-3 tracking-widest uppercase">NAVIGASI</div>
+        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 bg-brand dark:bg-white text-white dark:text-brand shadow-lg shadow-brand/10 dark:shadow-white/10">
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
           Dashboard Warga
         </a>
-        <a href="/profile" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text">
+        <a href="/profile" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:text-zen-text-dark">
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Profil Saya
         </a>
       </nav>
 
-      <div class="p-6 border-t border-zen-border">
-        <div class="p-4 rounded-2xl flex items-center gap-3 mb-4 bg-zen-surface border border-zen-border">
-          <div class="w-11 h-11 rounded-full bg-zen-brand text-white flex items-center justify-center font-extrabold dark:text-zen-bg" id="sidebar-avatar">U</div>
+      <div class="p-6 border-t border-zen-border dark:border-zen-border-dark">
+        <div class="p-4 rounded-2xl flex items-center gap-3 mb-4 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
+          <div class="w-11 h-11 rounded-full bg-brand text-white flex items-center justify-center font-extrabold dark:text-zen-bg" id="sidebar-avatar">U</div>
           <div>
             <span class="font-extrabold text-sm block" id="sidebar-name">Memuat...</span>
             <span class="text-[11px] font-extrabold text-zen-blue" id="sidebar-points">0 PTS</span>
           </div>
         </div>
-        <button id="btn-logout-desktop" class="w-full flex items-center justify-center gap-2.5 p-3 bg-transparent border border-zen-border rounded-xl text-zen-muted font-bold text-[13px] cursor-pointer transition-colors duration-300 hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-900/20 dark:hover:border-red-900/50 dark:hover:text-red-400">
+        <button id="btn-logout-desktop" class="w-full flex items-center justify-center gap-2.5 p-3 bg-transparent border border-zen-border rounded-xl text-zen-muted dark:text-zen-muted-dark font-bold text-[13px] cursor-pointer transition-colors duration-300 hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-900/20 dark:hover:border-red-900/50 dark:hover:text-red-400">
           <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
           Keluar Sesi
         </button>
@@ -44,16 +44,16 @@ import { ThemeToggle } from '../components/ThemeToggle';
     </aside>
 
     <!-- Mobile Header -->
-    <header class="lg:hidden flex items-center justify-between px-5 py-3 fixed top-0 left-0 right-0 z-[900] bg-zen-surface/80 backdrop-blur-xl border-b border-zen-border">
-      <button id="btn-menu-mobile" class="bg-transparent border-none text-zen-text p-2 cursor-pointer flex items-center justify-center">
+    <header class="lg:hidden flex items-center justify-between px-5 py-3 fixed top-0 left-0 right-0 z-[900] bg-zen-surface/80 dark:bg-zen-surface-dark/80 backdrop-blur-xl border-b border-zen-border dark:border-zen-border-dark">
+      <button id="btn-menu-mobile" class="bg-transparent border-none text-zen-text dark:text-zen-text-dark p-2 cursor-pointer flex items-center justify-center">
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
       <a href="/" class="block">
-        <img src="/logo.svg" alt="Sovra" class="h-6 w-auto dark:brightness-0 dark:invert" />
+        <img src="/logo.svg" alt="Sovra" class="h-10 w-auto dark:brightness-0 dark:invert" />
       </a>
-      <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-zen-surface border border-zen-border">
+      <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
         <span id="mobile-points" class="text-[11px] font-extrabold text-zen-blue">0 PTS</span>
-        <div class="w-7 h-7 rounded-full bg-zen-brand text-white flex items-center justify-center text-[11px] font-extrabold dark:text-zen-bg" id="mobile-avatar">U</div>
+        <div class="w-7 h-7 rounded-full bg-brand text-white flex items-center justify-center text-[11px] font-extrabold dark:text-zen-bg" id="mobile-avatar">U</div>
       </div>
     </header>
 
@@ -63,26 +63,26 @@ import { ThemeToggle } from '../components/ThemeToggle';
         
         <header class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-8 lg:mb-10 gap-4 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]">
           <div>
-            <h1 class="text-[28px] lg:text-[32px] font-extrabold tracking-tight m-0 text-zen-text">Suara <span class="bg-gradient-to-r from-blue-500 to-emerald-500 bg-clip-text text-transparent">Warga</span></h1>
-            <p class="text-sm lg:text-base font-semibold text-zen-muted mt-1" id="greeting">Selamat beraktivitas, Warga.</p>
+            <h1 class="text-[28px] lg:text-[32px] font-extrabold tracking-tight m-0 text-zen-text dark:text-zen-text-dark">Suara <span class="bg-gradient-to-r from-blue-500 to-emerald-500 bg-clip-text text-transparent">Warga</span></h1>
+            <p class="text-sm lg:text-base font-semibold text-zen-muted dark:text-zen-muted-dark mt-1" id="greeting">Selamat beraktivitas, Warga.</p>
           </div>
           <div>
-            <div id="current-date" class="px-4 py-2 rounded-full font-bold text-[13px] bg-zen-surface border border-zen-border text-zen-text">Memuat...</div>
+            <div id="current-date" class="px-4 py-2 rounded-full font-bold text-[13px] bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark">Memuat...</div>
           </div>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
           <!-- Report Creation (Bento Main) -->
-          <div class="md:col-span-2 lg:col-span-2 md:row-span-2 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border bg-zen-card animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
+          <div class="md:col-span-2 lg:col-span-2 md:row-span-2 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
             <div class="flex justify-between items-center mb-6">
               <h3 class="text-base font-extrabold m-0">Aspirasi Infrastruktur</h3>
-              <span class="text-[11px] font-extrabold text-zen-muted uppercase tracking-wider">Laporkan Kerusakan</span>
+              <span class="text-[11px] font-extrabold text-zen-muted dark:text-zen-muted-dark uppercase tracking-wider">Laporkan Kerusakan</span>
             </div>
             
             <form id="form-report" class="flex flex-col gap-6">
               <div>
-                <label class="block text-xs font-extrabold text-zen-muted mb-2.5 uppercase tracking-wider">Kategori Masalah</label>
+                <label class="block text-xs font-extrabold text-zen-muted dark:text-zen-muted-dark mb-2.5 uppercase tracking-wider">Kategori Masalah</label>
                 <div class="flex overflow-x-auto sm:flex-wrap gap-2 pb-2 sm:pb-0 -mx-1 sm:mx-0 px-1 sm:px-0 scrollbar-hide" id="category-chips">
                   <!-- Chips injected -->
                 </div>
@@ -91,15 +91,15 @@ import { ThemeToggle } from '../components/ThemeToggle';
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label class="block text-xs font-extrabold text-zen-muted mb-2.5 uppercase tracking-wider">Deskripsi Detail</label>
-                  <textarea id="description" class="w-full p-3.5 lg:p-4 rounded-2xl border border-zen-border bg-zen-surface outline-none text-sm font-medium transition-colors duration-300 text-zen-text resize-none min-h-[100px] focus:border-zen-brand focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5" placeholder="Deskripsikan kerusakan atau keluhan Anda..." required></textarea>
+                  <label class="block text-xs font-extrabold text-zen-muted dark:text-zen-muted-dark mb-2.5 uppercase tracking-wider">Deskripsi Detail</label>
+                  <textarea id="description" class="w-full p-3.5 lg:p-4 rounded-2xl border border-zen-border dark:border-zen-border-dark !bg-zen-surface dark:!bg-zen-surface-dark outline-none text-sm font-medium transition-colors duration-300 text-zen-text dark:text-zen-text-dark placeholder:text-zen-muted dark:placeholder:text-zen-muted-dark resize-none min-h-[120px] focus:ring-4 focus:ring-brand/5 dark:focus:ring-white/5 focus:border-brand dark:focus:border-white appearance-none" placeholder="Deskripsikan kerusakan atau keluhan Anda..." required></textarea>
                 </div>
                 
                 <div>
-                  <label class="block text-xs font-extrabold text-zen-muted mb-2.5 uppercase tracking-wider">Bukti Visual</label>
-                  <div class="h-[100px] border-2 border-dashed border-zen-border rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer bg-zen-surface transition-colors duration-300 hover:border-zen-brand hover:bg-black/5 dark:hover:bg-white/5" id="drop-zone">
+                  <label class="block text-xs font-extrabold text-zen-muted dark:text-zen-muted-dark mb-2.5 uppercase tracking-wider">Bukti Visual</label>
+                  <div class="h-[100px] border-2 border-dashed border-zen-border dark:border-zen-border-dark rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer bg-zen-surface dark:bg-zen-surface-dark transition-colors duration-300 hover:border-brand hover:bg-black/5 dark:hover:bg-white/5" id="drop-zone">
                     <div class="text-xl">📸</div>
-                    <p class="text-xs font-bold text-zen-muted m-0">Klik atau Tarik Gambar</p>
+                    <p class="text-xs font-bold text-zen-muted dark:text-zen-muted-dark m-0">Klik atau Tarik Gambar</p>
                     <input type="file" id="image-upload" accept="image/*" class="hidden" />
                   </div>
                   <div id="image-preview" class="relative h-[100px] rounded-2xl overflow-hidden hidden">
@@ -110,21 +110,21 @@ import { ThemeToggle } from '../components/ThemeToggle';
               </div>
 
               <div>
-                <label class="block text-xs font-extrabold text-zen-muted mb-2.5 uppercase tracking-wider">Lokasi Kejadian</label>
+                <label class="block text-xs font-extrabold text-zen-muted dark:text-zen-muted-dark mb-2.5 uppercase tracking-wider">Lokasi Kejadian</label>
                 <div class="flex flex-col gap-3">
                   <div class="flex flex-col gap-2.5">
-                    <input type="text" id="location_detail" class="w-full p-3.5 lg:p-4 rounded-2xl border border-zen-border bg-zen-surface outline-none text-sm font-medium transition-colors duration-300 text-zen-text focus:border-zen-brand focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5" placeholder="Detail Lokasi (Contoh: Depan Halte)" required />
+                    <input type="text" id="location_detail" class="w-full p-3.5 lg:p-4 rounded-2xl border border-zen-border dark:border-zen-border-dark !bg-zen-surface dark:!bg-zen-surface-dark outline-none text-sm font-medium transition-colors duration-300 text-zen-text dark:text-zen-text-dark placeholder:text-zen-muted dark:placeholder:text-zen-muted-dark focus:ring-4 focus:ring-brand/5 dark:focus:ring-white/5 focus:border-brand dark:focus:border-white appearance-none" placeholder="Detail Lokasi (Contoh: Depan Halte)" required />
                     <div class="flex gap-2">
-                      <input type="text" id="search-address" class="flex-1 p-3.5 lg:p-4 rounded-2xl border border-zen-border bg-zen-surface outline-none text-sm font-medium transition-colors duration-300 text-zen-text focus:border-zen-brand focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5" placeholder="Cari Alamat atau Area..." />
-                      <button type="button" id="btn-search-loc" class="px-4 bg-zen-surface border border-zen-border rounded-xl cursor-pointer transition-colors duration-200 text-zen-text hover:border-zen-brand flex items-center justify-center">🔍</button>
+                      <input type="text" id="search-address" class="flex-1 p-3.5 lg:p-4 rounded-2xl border border-zen-border dark:border-zen-border-dark !bg-zen-surface dark:!bg-zen-surface-dark outline-none text-sm font-medium transition-colors duration-300 text-zen-text dark:text-zen-text-dark placeholder:text-zen-muted dark:placeholder:text-zen-muted-dark focus:ring-4 focus:ring-brand/5 dark:focus:ring-white/5 focus:border-brand dark:focus:border-white appearance-none" placeholder="Cari Alamat atau Area..." />
+                      <button type="button" id="btn-search-loc" class="px-4 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-xl cursor-pointer transition-colors duration-200 text-zen-text dark:text-zen-text-dark hover:border-brand flex items-center justify-center">🔍</button>
                     </div>
                   </div>
-                  <div id="map" class="h-[250px] rounded-2xl border border-zen-border z-10"></div>
+                  <div id="map" class="h-[250px] rounded-2xl border border-zen-border dark:border-zen-border-dark z-10 shadow-soft"></div>
                 </div>
                 <input type="hidden" id="lat" /><input type="hidden" id="lng" />
               </div>
 
-              <button type="submit" id="btn-submit" class="w-full p-4 rounded-2xl bg-zen-brand text-white border-none font-extrabold cursor-pointer transition-all duration-300 flex items-center justify-center gap-2.5 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_rgba(59,130,246,0.2)] hover:opacity-90 dark:text-zen-bg">
+              <button type="submit" id="btn-submit" class="w-full p-4 rounded-2xl bg-brand dark:bg-white text-white dark:text-brand border-none font-extrabold cursor-pointer transition-all duration-300 flex items-center justify-center gap-2.5 hover:-translate-y-0.5 hover:shadow-lg dark:hover:shadow-white/5 disabled:opacity-50 disabled:cursor-not-allowed">
                 Kirim Laporan
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
               </button>
@@ -132,23 +132,23 @@ import { ThemeToggle } from '../components/ThemeToggle';
           </div>
 
           <!-- Quick Stats -->
-          <div class="lg:col-span-1 grid grid-cols-1 gap-4 lg:gap-4 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border bg-zen-card animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.15s;">
-            <div class="p-5 rounded-2xl bg-zen-surface border border-zen-border text-center flex flex-col justify-center">
-              <span class="text-[11px] font-extrabold text-zen-muted uppercase tracking-wider">Total Laporan</span>
-              <h2 id="stat-total" class="text-[32px] font-extrabold m-0 mt-2 tracking-tight text-zen-text">0</h2>
+          <div class="lg:col-span-1 grid grid-cols-1 gap-4 lg:gap-4 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.15s;">
+            <div class="p-5 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark text-center flex flex-col justify-center">
+              <span class="text-[11px] font-extrabold text-zen-muted dark:text-zen-muted-dark uppercase tracking-wider">Total Laporan</span>
+              <h2 id="stat-total" class="text-[32px] font-extrabold m-0 mt-2 tracking-tight text-zen-text dark:text-zen-text-dark">0</h2>
             </div>
-            <div class="p-5 rounded-2xl bg-zen-surface border border-zen-border text-center flex flex-col justify-center">
-              <span class="text-[11px] font-extrabold text-zen-muted uppercase tracking-wider">Diproses</span>
+            <div class="p-5 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark text-center flex flex-col justify-center">
+              <span class="text-[11px] font-extrabold text-zen-muted dark:text-zen-muted-dark uppercase tracking-wider">Diproses</span>
               <h2 id="stat-pending" class="text-[32px] font-extrabold m-0 mt-2 tracking-tight text-zen-yellow">0</h2>
             </div>
-            <div class="p-5 rounded-2xl bg-zen-surface border border-zen-border text-center flex flex-col justify-center">
-              <span class="text-[11px] font-extrabold text-zen-muted uppercase tracking-wider">Terselesaikan</span>
+            <div class="p-5 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark text-center flex flex-col justify-center">
+              <span class="text-[11px] font-extrabold text-zen-muted dark:text-zen-muted-dark uppercase tracking-wider">Terselesaikan</span>
               <h2 id="stat-resolved" class="text-[32px] font-extrabold m-0 mt-2 tracking-tight text-zen-green">0</h2>
             </div>
           </div>
 
           <!-- Leaderboard -->
-          <div class="lg:col-span-1 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border bg-zen-card animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.2s;">
+          <div class="lg:col-span-1 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.2s;">
             <div class="flex justify-between items-center mb-6">
               <h3 class="text-base font-extrabold m-0">Warga Teladan</h3>
               <span class="text-[11px] font-extrabold text-white bg-blue-500 px-2 py-1 rounded-md uppercase tracking-wider">TOP 10</span>
@@ -159,11 +159,11 @@ import { ThemeToggle } from '../components/ThemeToggle';
           </div>
 
           <!-- Feed (Bento Wide Bottom) -->
-          <div class="md:col-span-2 lg:col-span-3 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border bg-zen-card animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.25s;">
+          <div class="md:col-span-2 lg:col-span-3 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.25s;">
             <div class="flex justify-between items-center mb-6">
               <h3 class="text-base font-extrabold m-0">Pantauan Kota</h3>
               <div>
-                <select id="feed-sort" class="px-3 py-1.5 rounded-lg border border-zen-border bg-zen-surface text-xs font-bold outline-none cursor-pointer text-zen-text">
+                <select id="feed-sort" class="px-3 py-1.5 rounded-lg border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark text-xs font-bold outline-none cursor-pointer text-zen-text dark:text-zen-text-dark">
                   <option value="recent">Terbaru</option>
                   <option value="votes">Populer</option>
                   <option value="comments">Diskusi</option>
@@ -181,10 +181,10 @@ import { ThemeToggle } from '../components/ThemeToggle';
 
     <!-- Mobile Nav -->
     <nav class="lg:hidden flex justify-around items-center px-2 py-3 fixed bottom-0 left-0 right-0 z-[900] bg-zen-surface/80 backdrop-blur-xl border-t border-zen-border pb-[calc(env(safe-area-inset-bottom,0px)+12px)]">
-      <a href="/dashboard" class="flex flex-col items-center p-2 text-zen-brand">
+      <a href="/dashboard" class="flex flex-col items-center p-2 text-brand">
         <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
       </a>
-      <a href="/profile" class="flex flex-col items-center p-2 text-zen-muted transition-colors hover:text-zen-text">
+      <a href="/profile" class="flex flex-col items-center p-2 text-zen-muted dark:text-zen-muted-dark transition-colors hover:text-zen-text dark:text-zen-text-dark">
         <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       </a>
       <button id="btn-logout-mobile" class="flex flex-col items-center p-2 text-red-500 bg-transparent border-none cursor-pointer">
@@ -193,51 +193,51 @@ import { ThemeToggle } from '../components/ThemeToggle';
     </nav>
 
     <!-- Detail Modal -->
-    <div id="detail-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-5 hidden">
-      <div class="w-full max-w-[1000px] max-h-[90vh] rounded-[32px] overflow-hidden flex flex-col bg-zen-bg shadow-2xl">
-        <div class="px-8 py-6 border-b border-zen-border flex justify-between items-center bg-zen-surface text-zen-text">
+    <div id="detail-modal" class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-[1000] flex items-center justify-center p-5 hidden">
+      <div class="w-full max-w-[1000px] max-h-[90vh] rounded-[32px] overflow-hidden flex flex-col bg-zen-bg dark:bg-zen-bg-dark shadow-2xl border border-zen-border dark:border-zen-border-dark">
+        <div class="px-8 py-6 border-b border-zen-border dark:border-zen-border-dark flex justify-between items-center bg-zen-surface dark:bg-zen-surface-dark text-zen-text dark:text-zen-text-dark">
           <h3 class="m-0 text-lg font-extrabold">Detail Laporan</h3>
-          <button id="close-detail" class="bg-transparent border-none text-[32px] cursor-pointer text-zen-muted hover:text-zen-text">&times;</button>
+          <button id="close-detail" class="bg-transparent border-none text-[32px] cursor-pointer text-zen-muted dark:text-zen-muted-dark hover:text-zen-text dark:text-zen-text-dark">&times;</button>
         </div>
-        <div class="flex-1 overflow-y-auto bg-zen-bg text-zen-text">
+        <div class="flex-1 overflow-y-auto bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark">
           <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px]">
-            <div class="p-6 lg:p-8 lg:border-r border-zen-border">
-              <div id="detail-img-box" class="h-[250px] lg:h-[300px] rounded-2xl overflow-hidden mb-6 cursor-zoom-in bg-zen-surface hidden">
+            <div class="p-6 lg:p-8 lg:border-r border-zen-border dark:border-zen-border-dark">
+              <div id="detail-img-box" class="h-[250px] lg:h-[300px] rounded-2xl overflow-hidden mb-6 cursor-zoom-in bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark hidden shadow-soft">
                 <img id="detail-img" src="" alt="Bukti" class="w-full h-full object-cover" />
               </div>
               <div>
                 <div class="flex flex-wrap gap-2 mb-4">
-                  <span id="detail-cat" class="text-[11px] font-extrabold bg-zen-surface px-3 py-1.5 rounded-lg border border-zen-border"></span>
+                  <span id="detail-cat" class="text-[11px] font-extrabold bg-zen-surface dark:bg-zen-surface-dark px-3 py-1.5 rounded-lg border border-zen-border dark:border-zen-border-dark"></span>
                   <span id="detail-status" class="text-[11px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider"></span>
                 </div>
                 <h2 id="detail-desc" class="text-xl lg:text-2xl font-extrabold m-0 tracking-tight leading-tight mb-6"></h2>
-                <div class="p-4 rounded-2xl my-6 bg-zen-surface border border-zen-border text-sm">
+                <div class="p-4 rounded-2xl my-6 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark text-sm">
                   <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
                     <span class="font-medium">📍 <span id="detail-loc"></span></span>
                     <div class="flex gap-2">
-                      <button id="btn-view-map-modal" class="px-3 py-1.5 text-[11px] font-extrabold border border-zen-border rounded-lg bg-zen-surface cursor-pointer transition-colors hover:bg-zen-bg hover:border-zen-brand">Lihat Peta</button>
-                      <a id="btn-gmaps-modal" href="#" target="_blank" class="px-3 py-1.5 text-[11px] font-extrabold border border-zen-border rounded-lg bg-zen-surface cursor-pointer transition-colors text-zen-text no-underline hover:bg-zen-bg hover:border-zen-brand">Google Maps</a>
+                      <button id="btn-view-map-modal" class="px-3 py-1.5 text-[11px] font-extrabold border border-zen-border rounded-lg bg-zen-surface cursor-pointer transition-colors hover:bg-zen-bg hover:border-brand">Lihat Peta</button>
+                      <a id="btn-gmaps-modal" href="#" target="_blank" class="px-3 py-1.5 text-[11px] font-extrabold border border-zen-border rounded-lg bg-zen-surface cursor-pointer transition-colors text-zen-text dark:text-zen-text-dark no-underline hover:bg-zen-bg hover:border-brand">Google Maps</a>
                     </div>
                   </div>
-                  <div id="modal-map" class="h-[200px] rounded-xl mt-3 border border-zen-border hidden z-10"></div>
+                  <div id="modal-map" class="h-[200px] rounded-xl mt-3 border border-zen-border dark:border-zen-border-dark hidden z-10 shadow-soft"></div>
                 </div>
                 <div class="flex flex-wrap justify-between items-center gap-4 mt-6">
-                  <span id="detail-date" class="text-sm font-semibold text-zen-muted"></span>
+                  <span id="detail-date" class="text-sm font-semibold text-zen-muted dark:text-zen-muted-dark"></span>
                   <div>
-                    <button class="bg-zen-surface text-zen-text border border-zen-border px-5 py-3 rounded-xl font-extrabold cursor-pointer transition-all duration-200 hover:scale-105 hover:bg-zen-bg hover:border-zen-brand" id="btn-vote-modal">
+                    <button class="bg-zen-surface dark:bg-zen-surface-dark text-zen-text dark:text-zen-text-dark dark:text-zen-text dark:text-zen-text-dark-dark border border-zen-border px-5 py-3 rounded-xl font-extrabold cursor-pointer transition-all duration-200 hover:scale-105 hover:bg-zen-bg hover:border-brand" id="btn-vote-modal">
                       🔥 <b id="detail-votes">0</b> Dukungan
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="bg-zen-surface flex flex-col border-t lg:border-t-0 lg:border-l border-zen-border">
-              <div class="p-6 border-b border-zen-border font-extrabold text-xs uppercase tracking-wider">Diskusi & Solusi</div>
+            <div class="bg-zen-surface dark:bg-zen-surface-dark flex flex-col border-t lg:border-t-0 lg:border-l border-zen-border dark:border-zen-border-dark">
+              <div class="p-6 border-b border-zen-border dark:border-zen-border-dark font-extrabold text-xs uppercase tracking-wider">Diskusi & Solusi</div>
               <div id="comments-list" class="flex-1 p-6 flex flex-col gap-4 overflow-y-auto h-[300px] lg:h-[400px]"></div>
-              <form id="form-comment" class="p-5 flex gap-3 border-t border-zen-border bg-zen-surface">
+              <form id="form-comment" class="p-5 flex gap-3 border-t border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark">
                 <input type="hidden" id="active-report-id" />
-                <input type="text" id="comment-input" class="flex-1 p-3.5 rounded-xl border border-zen-border bg-zen-bg text-zen-text text-sm font-medium outline-none transition-colors focus:border-zen-brand focus:ring-2 focus:ring-zen-brand/20" placeholder="Tulis pendapat Anda..." required />
-                <button type="submit" class="w-12 h-12 rounded-xl bg-zen-brand text-white border-none flex items-center justify-center cursor-pointer transition-transform hover:-translate-y-0.5 dark:text-zen-bg">
+                <input type="text" id="comment-input" class="flex-1 p-3.5 rounded-xl border border-zen-border dark:border-zen-border-dark !bg-zen-bg dark:!bg-zen-bg-dark text-zen-text dark:text-zen-text-dark text-sm font-medium outline-none transition-colors focus:ring-2 focus:ring-brand/20 dark:focus:ring-white/20 focus:border-brand dark:focus:border-white appearance-none placeholder:text-zen-muted dark:placeholder:text-zen-muted-dark" placeholder="Tulis pendapat Anda..." required />
+                <button type="submit" class="w-12 h-12 rounded-xl bg-brand dark:bg-white text-white dark:text-brand border-none flex items-center justify-center cursor-pointer transition-transform hover:-translate-y-0.5">
                   <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                 </button>
               </form>
@@ -285,6 +285,20 @@ import { ThemeToggle } from '../components/ThemeToggle';
       await loadCategories();
       await fetchData();
       setupListeners();
+
+      setInterval(async () => {
+        if(!token) return;
+        const currentSort = document.getElementById('feed-sort').value;
+        await fetchFeed(currentSort, true);
+        const activeReportId = document.getElementById('active-report-id').value;
+        if(activeReportId && !document.getElementById('detail-modal').classList.contains('hidden')) {
+           const r = allReports.find(x => x.id === activeReportId);
+           if(r) {
+             document.getElementById('detail-votes').textContent = r.vote_count;
+             loadComments(activeReportId, true);
+           }
+        }
+      }, 5000);
     }
 
     function setupUI() {
@@ -363,14 +377,14 @@ import { ThemeToggle } from '../components/ThemeToggle';
       input.onchange = (e) => handleFile(e.target.files[0]);
       zone.ondragover = (e) => { 
         e.preventDefault(); 
-        zone.classList.add('border-zen-brand', 'bg-black/5', 'dark:bg-white/5'); 
+        zone.classList.add('border-brand', 'bg-black/5', 'dark:bg-white/5'); 
       };
       zone.ondragleave = () => {
-        zone.classList.remove('border-zen-brand', 'bg-black/5', 'dark:bg-white/5');
+        zone.classList.remove('border-brand', 'bg-black/5', 'dark:bg-white/5');
       };
       zone.ondrop = (e) => { 
         e.preventDefault(); 
-        zone.classList.remove('border-zen-brand', 'bg-black/5', 'dark:bg-white/5');
+        zone.classList.remove('border-brand', 'bg-black/5', 'dark:bg-white/5');
         handleFile(e.dataTransfer.files[0]); 
       };
       document.getElementById('btn-remove-image').onclick = () => {
@@ -398,14 +412,14 @@ import { ThemeToggle } from '../components/ThemeToggle';
         const data = await res.json();
         categories = data.data || [];
         const container = document.getElementById('category-chips');
-        container.innerHTML = categories.map(c => `<div class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-zen-surface border border-zen-border text-xs sm:text-[13px] font-bold cursor-pointer transition-colors duration-200 text-zen-text whitespace-nowrap category-chip" data-id="${c.id}">${c.name}</div>`).join('');
+        container.innerHTML = categories.map(c => `<div class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark text-xs sm:text-[13px] font-bold cursor-pointer transition-colors duration-200 text-zen-text dark:text-zen-text-dark whitespace-nowrap category-chip" data-id="${c.id}">${c.name}</div>`).join('');
         container.querySelectorAll('.category-chip').forEach(c => c.onclick = () => {
           container.querySelectorAll('.category-chip').forEach(x => {
-             x.classList.remove('bg-zen-brand', 'text-white', 'border-zen-brand', 'dark:text-zen-bg');
-             x.classList.add('bg-zen-surface', 'text-zen-text', 'border-zen-border');
+             x.classList.remove('bg-brand', 'text-white', 'border-brand', 'dark:text-zen-bg');
+             x.classList.add('bg-zen-surface', 'dark:bg-zen-surface-dark', 'text-zen-text', 'dark:text-zen-text-dark', 'border-zen-border', 'dark:border-zen-border-dark');
           });
-          c.classList.remove('bg-zen-surface', 'text-zen-text', 'border-zen-border');
-          c.classList.add('bg-zen-brand', 'text-white', 'border-zen-brand', 'dark:text-zen-bg');
+          c.classList.remove('bg-zen-surface', 'dark:bg-zen-surface-dark', 'text-zen-text', 'dark:text-zen-text-dark', 'border-zen-border', 'dark:border-zen-border-dark');
+          c.classList.add('bg-brand', 'text-white', 'border-brand', 'dark:text-zen-bg');
           document.getElementById('category_id').value = c.dataset.id;
         });
       } catch(e) {}
@@ -429,32 +443,32 @@ import { ThemeToggle } from '../components/ThemeToggle';
       } catch(e) {}
     }
 
-    async function fetchFeed(sort) {
+    async function fetchFeed(sort, silent = false) {
       const list = document.getElementById('reports-list');
-      list.innerHTML = '<div class="col-span-full py-12 flex justify-center"><div class="w-8 h-8 border-4 border-zen-border border-t-zen-brand rounded-full animate-spin"></div></div>';
+      if (!silent) list.innerHTML = '<div class="col-span-full py-12 flex justify-center"><div class="w-8 h-8 border-4 border-zen-border dark:border-zen-border-dark border-t-brand dark:border-t-white rounded-full animate-spin"></div></div>';
       try {
         const res = await fetch(`${API_URL}/api/public-reports?sort=${sort}`, { headers: { 'Authorization': `Bearer ${token}` }});
         const data = await res.json();
         allReports = data.data || [];
-        if(allReports.length === 0) { list.innerHTML = '<div class="col-span-full py-12 text-center text-zen-muted font-bold text-sm">Belum ada laporan.</div>'; return; }
-        
+        if(allReports.length === 0) { list.innerHTML = '<div class="col-span-full py-12 text-center text-zen-muted dark:text-zen-muted-dark font-bold text-sm">Belum ada laporan.</div>'; return; }
+
         list.innerHTML = allReports.map(r => {
           const cat = categories.find(c => c.id === r.category_id)?.name || 'Umum';
           const img = r.image_url ? `<div class="h-40 overflow-hidden"><img src="${API_URL}${r.image_url}" class="w-full h-full object-cover" /></div>` : '';
           const statusClass = r.status.toLowerCase() === 'pending' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : r.status.toLowerCase() === 'resolved' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-gray-500/10 text-gray-600 dark:text-gray-400';
           return `
-            <div class="rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.05)] bg-zen-surface border border-zen-border cursor-pointer group" onclick="window.openDetail('${r.id}')">
+            <div class="rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.05)] bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark cursor-pointer group" onclick="window.openDetail('${r.id}')">
               ${img}
               <div class="p-6">
                 <div class="flex gap-2.5 mb-3">
-                  <span class="text-[10px] font-extrabold px-2 py-1 rounded-md bg-zen-bg border border-zen-border">${cat}</span> 
+                  <span class="text-[10px] font-extrabold px-2 py-1 rounded-md bg-zen-bg dark:bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark">${cat}</span>
                   <span class="text-[10px] font-black px-2 py-1 rounded-md uppercase ${statusClass}">${r.status}</span>
                 </div>
                 <h4 class="text-base font-extrabold m-0 mb-2 leading-tight">${r.description}</h4>
-                <p class="text-xs text-zen-muted m-0">📍 ${r.location_detail}</p>
-                <div class="mt-5 pt-4 border-t border-zen-border flex justify-between items-center text-xs font-bold">
-                  <button class="bg-transparent border-none font-extrabold cursor-pointer text-zen-text flex items-center hover:text-zen-brand transition-colors" onclick="event.stopPropagation(); window.doVote('${r.id}')">🔥 ${r.vote_count}</button>
-                  <span class="text-zen-muted">💬 ${r.comment_count} Diskusi</span>
+                <p class="text-xs text-zen-muted dark:text-zen-muted-dark m-0">📍 ${r.location_detail}</p>
+                <div class="mt-5 pt-4 border-t border-zen-border dark:border-zen-border-dark flex justify-between items-center text-xs font-bold">
+                  <button class="bg-transparent border-none font-extrabold cursor-pointer text-zen-text dark:text-zen-text-dark flex items-center hover:text-brand transition-colors" onclick="event.stopPropagation(); window.doVote('${r.id}')">🔥 ${r.vote_count}</button>
+                  <span class="text-zen-muted dark:text-zen-muted-dark">💬 ${r.comment_count} Diskusi</span>
                 </div>
               </div>
             </div>
@@ -463,26 +477,25 @@ import { ThemeToggle } from '../components/ThemeToggle';
       } catch(e) {}
     }
 
-    async function fetchLeaderboard() {
-      const list = document.getElementById('leaderboard-list');
+    async function fetchLeaderboard() {      const list = document.getElementById('leaderboard-list');
       try {
         const res = await fetch(`${API_URL}/api/leaderboard`);
         const data = await res.json();
         const users = data.data || [];
         if (users.length === 0) {
-          list.innerHTML = '<div class="py-8 text-center text-zen-muted font-bold text-sm">Belum ada data warga.</div>';
+          list.innerHTML = '<div class="py-8 text-center text-zen-muted dark:text-zen-muted-dark font-bold text-sm">Belum ada data warga.</div>';
           return;
         }
         list.innerHTML = users.slice(0, 5).map((u, i) => {
-          const rankClass = i === 0 ? "bg-amber-100 text-amber-900 border-amber-200 dark:bg-amber-400/10 dark:text-amber-400 dark:border-amber-400/20" : i === 1 ? "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-400/10 dark:text-slate-400 dark:border-slate-400/20" : i === 2 ? "bg-orange-100 text-orange-900 border-orange-200 dark:bg-orange-400/10 dark:text-orange-400 dark:border-orange-400/20" : "bg-zen-bg border-zen-border text-zen-text";
+          const rankClass = i === 0 ? "bg-amber-100 text-amber-900 border-amber-200 dark:bg-amber-400/10 dark:text-amber-400 dark:border-amber-400/20" : i === 1 ? "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-400/10 dark:text-slate-400 dark:border-slate-400/20" : i === 2 ? "bg-orange-100 text-orange-900 border-orange-200 dark:bg-orange-400/10 dark:text-orange-400 dark:border-orange-400/20" : "bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark";
           const rankIcon = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1;
           const initial = (u.full_name || "U")[0].toUpperCase();
           return `
-            <div class="flex items-center gap-3 p-3 rounded-2xl bg-zen-surface border border-zen-border transition-all duration-200 hover:border-zen-brand hover:translate-x-1">
+            <div class="flex items-center gap-3 p-3 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark transition-all duration-200 hover:border-brand hover:translate-x-1">
               <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black border ${rankClass}">${rankIcon}</div>
-              <div class="w-8 h-8 rounded-xl bg-zen-brand text-white flex items-center justify-center font-extrabold text-xs dark:text-zen-bg">${initial}</div>
+              <div class="w-8 h-8 rounded-xl bg-brand text-white flex items-center justify-center font-extrabold text-xs dark:text-zen-bg">${initial}</div>
               <div class="flex-1 min-w-0">
-                <strong class="text-[13px] font-extrabold block whitespace-nowrap overflow-hidden text-ellipsis text-zen-text">${u.full_name}</strong>
+                <strong class="text-[13px] font-extrabold block whitespace-nowrap overflow-hidden text-ellipsis text-zen-text dark:text-zen-text-dark">${u.full_name}</strong>
                 <span class="text-[10px] font-extrabold text-zen-blue tracking-wider">${u.points} PTS</span>
               </div>
             </div>
@@ -630,21 +643,21 @@ import { ThemeToggle } from '../components/ThemeToggle';
       } catch(e) {}
     };
 
-    async function loadComments(id) {
+    async function loadComments(id, silent = false) {
       const list = document.getElementById('comments-list');
-      list.innerHTML = '<div class="py-10 flex justify-center"><div class="w-8 h-8 border-4 border-zen-border border-t-zen-brand rounded-full animate-spin"></div></div>';
+      if(!silent) list.innerHTML = '<div class="py-10 flex justify-center"><div class="w-8 h-8 border-4 border-zen-border dark:border-zen-border-dark border-t-brand dark:border-t-white rounded-full animate-spin"></div></div>';
       try {
         const res = await fetch(`${API_URL}/api/reports/${id}/comments`);
         const data = await res.json();
         const c = data.data || [];
-        if(c.length === 0) { list.innerHTML = '<div class="py-10 flex justify-center text-zen-muted font-bold text-sm">Belum ada diskusi.</div>'; return; }
+        if(c.length === 0) { list.innerHTML = '<div class="py-10 flex justify-center text-zen-muted dark:text-zen-muted-dark font-bold text-sm">Belum ada diskusi.</div>'; return; }
         list.innerHTML = c.map(x => `
-          <div class="p-4 rounded-[20px] max-w-[90%] border ${x.user?.role === 'admin' ? 'bg-zen-brand text-white self-end border-zen-brand dark:text-zen-bg' : 'bg-zen-bg border-zen-border text-zen-text'}">
+          <div class="p-4 rounded-[20px] max-w-[90%] border ${x.user?.role === 'admin' ? 'bg-brand text-white self-end border-brand dark:text-zen-bg' : 'bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark'}">
             <div class="mb-1 text-xs"><strong>${x.user?.full_name || 'Warga'}</strong></div>
             <p class="m-0 text-sm leading-relaxed">${x.content}</p>
           </div>
         `).join('');
-        list.scrollTop = list.scrollHeight;
+        if(!silent) list.scrollTop = list.scrollHeight;
       } catch(e) {}
     }
 

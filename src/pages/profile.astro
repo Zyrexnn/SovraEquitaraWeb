@@ -8,7 +8,7 @@ import Layout from '../layouts/Layout.astro';
     <aside class="hidden md:flex w-[280px] bg-zen-card/40 dark:bg-zen-card-dark/40 backdrop-blur-xl border-r border-zen-border dark:border-zen-border-dark flex-col z-[100]">
       <div class="p-10 pb-6">
         <a href="/" class="block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="h-10 w-auto dark:brightness-0 dark:invert" />
+          <img src="/logo.svg" alt="SovraEquitara" class="h-16 w-auto dark:brightness-0 dark:invert" />
         </a>
       </div>
       
@@ -42,7 +42,7 @@ import Layout from '../layouts/Layout.astro';
     <!-- Mobile Header -->
     <header class="md:hidden flex justify-between items-center p-4 px-5 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-zen-border dark:border-zen-border-dark sticky top-0 z-[1000]">
       <a href="/" class="block hover:opacity-80 transition-opacity">
-        <img src="/logo.svg" alt="SovraEquitara" class="h-8 w-auto dark:brightness-0 dark:invert" />
+        <img src="/logo.svg" alt="SovraEquitara" class="h-12 w-auto dark:brightness-0 dark:invert" />
       </a>
       <div class="flex items-center gap-2.5 px-3 py-1 bg-white dark:bg-black rounded-full font-extrabold text-xs text-blue-500 shadow-sm border border-zen-border dark:border-zen-border-dark">
         <span id="mobile-points">0 PTS</span>
@@ -86,12 +86,12 @@ import Layout from '../layouts/Layout.astro';
             <form id="form-profile" class="flex flex-col gap-6">
               <div>
                 <label class="block text-xs font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark mb-2.5 uppercase tracking-wide">Nama Lengkap / Nickname</label>
-                <input type="text" id="full_name" placeholder="Contoh: Budi Santoso" required class="w-full p-3.5 px-4 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-white dark:bg-black text-sm font-medium outline-none focus:border-zen-text dark:focus:border-zen-text-dark focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5 transition-all" />
+                <input type="text" id="full_name" placeholder="Contoh: Budi Santoso" required class="w-full p-3.5 px-4 rounded-2xl border border-zen-border dark:border-zen-border-dark !bg-zen-surface dark:!bg-black text-sm font-medium outline-none focus:border-zen-text dark:focus:border-zen-text-dark focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5 transition-all appearance-none" />
                 <p class="text-[11px] font-semibold text-zen-text-secondary dark:text-zen-text-secondary-dark mt-2">Nama ini akan terlihat pada laporan dan diskusi publik.</p>
               </div>
               <div>
                 <label class="block text-xs font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark mb-2.5 uppercase tracking-wide">Nomor WhatsApp</label>
-                <input type="tel" id="phone" placeholder="08xxxxxxxxxx" class="w-full p-3.5 px-4 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-white dark:bg-black text-sm font-medium outline-none focus:border-zen-text dark:focus:border-zen-text-dark focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5 transition-all" />
+                <input type="tel" id="phone" placeholder="08xxxxxxxxxx" class="w-full p-3.5 px-4 rounded-2xl border border-zen-border dark:border-zen-border-dark !bg-zen-surface dark:!bg-black text-sm font-medium outline-none focus:border-zen-text dark:focus:border-zen-text-dark focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5 transition-all appearance-none" />
               </div>
               <button type="submit" id="btn-save" class="w-full p-4 rounded-2xl bg-zen-text dark:bg-zen-text-dark text-zen-bg dark:text-zen-bg-dark font-extrabold flex items-center justify-center gap-2.5 hover:-translate-y-0.5 hover:shadow-lg transition-all cursor-pointer border-none">
                 Simpan Perubahan
