@@ -27,15 +27,15 @@ import { ThemeToggle } from '../../components/ThemeToggle';
 
         <form id="form-admin-login" class="space-y-7">
           <div class="space-y-2.5">
-            <label for="username" class="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400 dark:text-gray-500 ml-2">Identitas Admin</label>
+            <label for="email" class="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400 dark:text-gray-500 ml-2">Identitas Admin</label>
             <div class="relative group">
               <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-stone-400 dark:text-gray-500 group-focus-within:text-amber-600 dark:group-focus-within:text-amber-400 transition-colors duration-300">
                 <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               </div>
               <input 
-                type="text" 
-                id="username" 
-                placeholder="Username Administrator" 
+                type="email" 
+                id="email" 
+                placeholder="Email Administrator" 
                 required
                 class="input pl-14 h-16 text-lg border-stone-200 dark:border-white/10 focus:ring-amber-500/20"
               />
@@ -92,7 +92,7 @@ import { ThemeToggle } from '../../components/ThemeToggle';
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const username = (document.getElementById('username') as HTMLInputElement).value;
+      const email = (document.getElementById('email') as HTMLInputElement).value;
       const password = (document.getElementById('password') as HTMLInputElement).value;
 
       btnLogin.disabled = true;
@@ -102,7 +102,7 @@ import { ThemeToggle } from '../../components/ThemeToggle';
         const res = await fetch(`${API_URL}/api/auth/admin-login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ email, password })
         });
 
         const data = await res.json();
@@ -112,7 +112,7 @@ import { ThemeToggle } from '../../components/ThemeToggle';
           localStorage.setItem('user', JSON.stringify(data.user));
           window.location.href = '/admin/dashboard';
         } else {
-          alert(data.message || 'Login gagal. Periksa kembali username dan password Anda.');
+          alert(data.error || 'Login gagal. Periksa kembali email dan password Anda.');
         }
       } catch (err) {
         console.error('Admin login error:', err);
