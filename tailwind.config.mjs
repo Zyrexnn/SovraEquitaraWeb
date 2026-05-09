@@ -24,6 +24,8 @@ export default {
         zen: {
           bg: '#fbfbfb',
           'bg-dark': '#010101',
+          surface: '#f5f5f5',
+          'surface-dark': '#111111',
           card: '#ffffff',
           'card-dark': '#0B0B0F',
           border: '#f0f0f0',
@@ -32,6 +34,8 @@ export default {
           'text-dark': '#ffffff',
           'text-secondary': '#777777',
           'text-secondary-dark': '#94A3B8',
+          muted: '#a3a3a3',
+          'muted-dark': '#64748b',
           accent: '#000000',
           'accent-dark': '#ffffff',
           'sidebar-bg': '#ffffff',

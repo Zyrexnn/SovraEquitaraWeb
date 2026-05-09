@@ -23,13 +23,8 @@
 }
 
 @layer base {
-  
-  * {
-    @apply border-[var(--zen-border)] transition-colors duration-300;
-  }
-  
   body {
-    @apply bg-[var(--zen-bg)] text-[var(--zen-text)] antialiased;
+    @apply antialiased transition-colors duration-300;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -66,7 +61,7 @@
   
   /* Input Fields */
   .input {
-    @apply w-full px-4 py-3 bg-white dark:bg-white/5 border border-stone-200 dark:border-white/10 rounded-2xl text-sm text-stone-900 dark:text-white placeholder:text-stone-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-white/20 focus:border-transparent transition-all;
+    @apply w-full px-4 py-3 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-2xl text-sm text-zen-text dark:text-zen-text-dark placeholder:text-zen-muted dark:placeholder:text-zen-muted-dark focus:outline-none focus:ring-2 focus:ring-brand dark:focus:ring-white/20 focus:border-brand dark:focus:border-white transition-all appearance-none;
   }
   
   /* Cards */
