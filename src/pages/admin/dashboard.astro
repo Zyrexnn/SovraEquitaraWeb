@@ -12,8 +12,9 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     window.API_URL = API_URL;
   </script>
 
-  <div class="zen-admin-root" id="admin-root" data-api-url={API_URL}>
-    <button id="mobile-menu-btn" class="mobile-menu-btn">
+  <div class="flex min-h-screen bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display" id="admin-root" data-api-url={API_URL}>
+    <!-- Mobile Menu Toggle -->
+    <button id="mobile-menu-btn" class="lg:hidden fixed top-6 right-6 z-50 p-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl shadow-xl">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="3" y1="12" x2="21" y2="12"></line>
         <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -21,15 +22,16 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       </svg>
     </button>
 
-    <aside class="zen-sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <img src="/logo.svg" alt="Sovra" class="logo-mark dark:brightness-0 dark:invert">
+    <!-- Sidebar -->
+    <aside class="fixed inset-y-0 left-0 w-72 bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col z-40 transition-transform lg:translate-x-0 -translate-x-full" id="sidebar">
+      <div class="p-8 flex items-center justify-between border-b border-stone-100 dark:border-white/5">
+        <img src="/logo.svg" alt="Sovra" class="h-8 dark:brightness-0 dark:invert">
         <ThemeToggle client:load />
       </div>
       
-      <nav class="sidebar-nav">
-        <a href="/admin/dashboard" class="nav-item active">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <nav class="flex-1 p-6 space-y-2">
+        <a href="/admin/dashboard" class="flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 bg-stone-900 dark:bg-white text-white dark:text-black font-bold shadow-lg shadow-stone-900/10 dark:shadow-white/5">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <rect x="3" y="3" width="7" height="7" rx="1"></rect>
             <rect x="14" y="3" width="7" height="7" rx="1"></rect>
             <rect x="14" y="14" width="7" height="7" rx="1"></rect>
@@ -37,8 +39,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           </svg>
           <span>Dashboard</span>
         </a>
-        <a href="/admin/leaderboard" class="nav-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <a href="/admin/leaderboard" class="flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 hover:bg-stone-100 dark:hover:bg-white/5 text-stone-500 dark:text-stone-400 font-bold group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="group-hover:scale-110 transition-transform">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -46,8 +48,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           </svg>
           <span>Peringkat Warga</span>
         </a>
-        <a href="/admin/profile" class="nav-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <a href="/admin/profile" class="flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 hover:bg-stone-100 dark:hover:bg-white/5 text-stone-500 dark:text-stone-400 font-bold group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="group-hover:scale-110 transition-transform">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
@@ -55,16 +57,18 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         </a>
       </nav>
 
-      <div class="sidebar-footer">
-        <div class="admin-profile">
-          <div class="profile-avatar">A</div>
-          <div class="profile-info">
-            <div class="profile-name" id="admin-name-sidebar">Administrator</div>
-            <div class="profile-status">Online</div>
+      <div class="p-6 border-t border-stone-100 dark:border-white/5 space-y-4">
+        <div class="flex items-center gap-4 p-4 rounded-2xl bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/5">
+          <div class="w-10 h-10 rounded-xl bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center font-black">A</div>
+          <div class="overflow-hidden">
+            <div class="text-xs font-black truncate" id="admin-name-sidebar">Administrator</div>
+            <div class="text-[10px] font-bold text-green-500 uppercase tracking-widest flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Online
+            </div>
           </div>
         </div>
-        <button id="logout-btn" class="logout-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button id="logout-btn" class="w-full flex items-center gap-3 px-5 py-4 rounded-xl text-stone-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 font-bold transition-all duration-300">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
             <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -74,151 +78,149 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       </div>
     </aside>
 
-    <main class="zen-main">
-      <div class="main-container">
-        <header class="page-header">
+    <!-- Main Content -->
+    <main class="flex-1 lg:ml-72 min-h-screen">
+      <div class="max-w-7xl mx-auto p-6 lg:p-12 space-y-10">
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <h1 class="page-title">Admin Console</h1>
-            <p class="page-subtitle">Pusat Kendali Pelaporan Kota</p>
+            <h1 class="text-4xl lg:text-5xl font-black tracking-tight text-stone-900 dark:text-white">Admin Console</h1>
+            <p class="text-stone-500 font-bold mt-2">Pusat Kendali Pelaporan Kota</p>
           </div>
-          <div id="live-time" class="time-display">--:--:-- WIB</div>
+          <div id="live-time" class="px-6 py-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl font-black text-sm tracking-widest shadow-sm">--:--:-- WIB</div>
         </header>
 
-        <div class="stats-row">
-          <div class="stat-card">
-            <div class="stat-label">TOTAL REPORTS</div>
-            <div id="stat-total" class="stat-value">0</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">PENDING REVIEW</div>
-            <div id="stat-pending" class="stat-value">0</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">VERIFIED</div>
-            <div id="stat-verified" class="stat-value">0</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">RESOLVED</div>
-            <div id="stat-resolved" class="stat-value">0</div>
-          </div>
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
+          {[
+            { label: 'Total Reports', id: 'stat-total', color: 'text-stone-900 dark:text-white' },
+            { label: 'Pending Review', id: 'stat-pending', color: 'text-amber-500' },
+            { label: 'Verified', id: 'stat-verified', color: 'text-green-500' },
+            { label: 'Resolved', id: 'stat-resolved', color: 'text-blue-500' }
+          ].map(stat => (
+            <div class="bg-zen-card dark:bg-zen-card-dark p-6 lg:p-8 rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen hover:shadow-lg transition-all duration-500 group">
+              <div class="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em]">{stat.label}</div>
+              <div id={stat.id} class={`text-4xl lg:text-5xl font-black mt-4 tracking-tighter ${stat.color} group-hover:scale-105 transition-transform origin-left`}>0</div>
+            </div>
+          ))}
         </div>
 
-            <div class="chart-section">
-              <div class="chart-card">
-                <div class="card-header">
-                  <h3>Distribusi Laporan</h3>
-                  <p>Berdasarkan Kategori</p>
-                </div>
-                <div class="chart-container">
-                  <canvas id="categoryChart"></canvas>
-                </div>
+        <!-- Bento Grid: Charts & Table -->
+        <div class="grid lg:grid-cols-12 gap-8">
+          <!-- Chart Card -->
+          <div class="lg:col-span-5 bg-zen-card dark:bg-zen-card-dark p-8 lg:p-10 rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen flex flex-col min-h-[500px]">
+            <div class="mb-10">
+              <h3 class="text-xl font-black text-stone-900 dark:text-white">Distribusi Laporan</h3>
+              <p class="text-sm font-bold text-stone-400 mt-1">Berdasarkan Kategori</p>
+            </div>
+            <div class="flex-1 flex items-center justify-center relative">
+              <canvas id="categoryChart" class="max-w-[280px] lg:max-w-full"></canvas>
+            </div>
+          </div>
+
+          <!-- Table Card -->
+          <div class="lg:col-span-7 bg-zen-card dark:bg-zen-card-dark rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen overflow-hidden flex flex-col">
+            <div class="p-8 lg:p-10 border-b border-stone-100 dark:border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div>
+                <h3 class="text-xl font-black text-stone-900 dark:text-white">Laporan Masuk</h3>
+                <p class="text-sm font-bold text-stone-400 mt-1">Kelola aduan warga secara real-time</p>
+              </div>
+              <div class="flex flex-wrap gap-3">
+                <select id="status-filter" class="px-4 py-2 bg-stone-50 dark:bg-white/5 border border-stone-200 dark:border-white/10 rounded-xl text-xs font-bold outline-none focus:ring-2 ring-stone-900/5">
+                  <option value="">Semua Status</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="VALID">Verified</option>
+                  <option value="RESOLVED">Resolved</option>
+                </select>
               </div>
             </div>
 
-            <div class="data-table-container">
-              <div class="table-controls">
-                <div class="search-input-wrapper">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
-                  <input type="text" id="search-input" placeholder="Cari laporan berdasarkan deskripsi atau lokasi..." />
-                </div>
-                <div class="filter-group">
-                  <select id="category-filter" class="filter-select">
-                    <option value="">Semua Kategori</option>
-                  </select>
-                  <select id="status-filter" class="filter-select">
-                    <option value="">Semua Status</option>
-                    <option value="PENDING">Pending</option>
-                    <option value="VALID">Verified</option>
-                    <option value="RESOLVED">Resolved</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="table-responsive">
-                <table class="zen-table">
-                  <thead>
-                    <tr>
-                      <th width="80">Prev</th>
-                      <th>Laporan & Lokasi</th>
-                      <th width="120">Status</th>
-                      <th width="100">Dukungan</th>
-                      <th width="150" style="text-align: right;">Tanggal</th>
-                    </tr>
-                  </thead>
-                  <tbody id="reports-tbody">
-                  </tbody>
-                </table>
-              </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="text-[10px] font-black text-stone-400 uppercase tracking-widest border-b border-stone-100 dark:border-white/5">
+                    <th class="px-10 py-6">Media</th>
+                    <th class="px-6 py-6">Aduan</th>
+                    <th class="px-6 py-6">Status</th>
+                    <th class="px-6 py-6 text-right">Tanggal</th>
+                  </tr>
+                </thead>
+                <tbody id="reports-tbody" class="divide-y divide-stone-50 dark:divide-white/5">
+                  <!-- JS Render -->
+                </tbody>
+              </table>
             </div>
-
+          </div>
+        </div>
       </div>
     </main>
   </div>
 
   <!-- POPUP DETAIL REPORT -->
-  <div id="report-modal" class="modal">
-    <div class="modal-backdrop" onclick="window.closeModal()"></div>
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 class="modal-title">Detail Laporan Warga</h3>
-        <button class="modal-close-btn" onclick="window.closeModal()">&times;</button>
+  <div id="report-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 lg:p-12">
+    <div class="absolute inset-0 bg-stone-900/40 dark:bg-black/80 backdrop-blur-sm" onclick="window.closeModal()"></div>
+    <div class="relative bg-zen-card dark:bg-zen-card-dark w-full max-w-5xl max-h-[90vh] rounded-3xl shadow-zen border border-zen-border dark:border-zen-border-dark overflow-hidden flex flex-col scale-95 opacity-0 transition-all duration-300" id="modal-content">
+      <div class="p-8 lg:p-10 flex items-center justify-between border-b border-zen-border dark:border-zen-border-dark bg-white/10 backdrop-blur-md sticky top-0 z-10">
+        <h3 class="text-2xl font-black text-stone-900 dark:text-white">Detail Laporan Warga</h3>
+        <button class="p-3 hover:bg-stone-100 dark:hover:bg-white/5 rounded-2xl transition-colors text-stone-400" onclick="window.closeModal()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
       </div>
-      <div class="modal-body scrollbar-thin">
-        <div class="modal-grid">
-          <div class="modal-left">
-            <div class="detail-img-wrapper">
-              <img id="detail-img" src="" alt="Laporan" />
+      
+      <div class="flex-1 overflow-y-auto p-8 lg:p-10 scrollbar-hide">
+        <div class="grid lg:grid-cols-2 gap-12">
+          <!-- Left: Media -->
+          <div class="space-y-6">
+            <div class="aspect-video lg:aspect-square rounded-[32px] overflow-hidden bg-stone-100 dark:bg-white/5 border border-stone-200 dark:border-white/10">
+              <img id="detail-img" src="" alt="Laporan" class="w-full h-full object-cover" />
             </div>
-            <div id="admin-map" class="modal-map hidden"></div>
+            <div id="admin-map" class="aspect-video rounded-[32px] overflow-hidden border border-stone-200 dark:border-white/10 hidden"></div>
           </div>
           
-          <div class="modal-right">
-            <div class="info-row">
-              <div class="info-item">
-                <label>VOTES</label>
-                <div class="vote-badge">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+          <!-- Right: Details -->
+          <div class="space-y-10">
+            <div class="flex items-center gap-6">
+              <div class="flex-1 p-6 rounded-[24px] bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/5">
+                <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-3">VOTES</div>
+                <div class="flex items-center gap-2.5 font-black text-2xl text-stone-900 dark:text-white">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-stone-400"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
                   <span id="modal-vote-count">0</span>
                 </div>
               </div>
-              <div class="info-item">
-                <label>STATUS</label>
-                <div id="modal-status-badge" class="badge">PENDING</div>
+              <div class="flex-1 p-6 rounded-[24px] bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/5">
+                <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-3">STATUS</div>
+                <div id="modal-status-badge" class="inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-amber-200 dark:border-amber-500/20">PENDING</div>
               </div>
             </div>
 
-            <div class="detail-section">
-              <label>DESKRIPSI LAPORAN</label>
-              <p id="detail-desc" class="desc-text"></p>
+            <div class="space-y-4">
+              <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest">DESKRIPSI LAPORAN</label>
+              <p id="detail-desc" class="text-xl font-bold text-stone-800 dark:text-stone-200 leading-relaxed"></p>
             </div>
 
-            <div class="detail-section">
-              <label>LOKASI KEJADIAN</label>
-              <div class="location-box">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                <span id="detail-loc"></span>
+            <div class="space-y-4">
+              <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest">LOKASI KEJADIAN</label>
+              <div class="flex items-start gap-4 p-6 rounded-[24px] bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-stone-400 mt-1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span id="detail-loc" class="font-bold text-stone-900 dark:text-white"></span>
               </div>
             </div>
 
-            <div class="modal-actions-row">
-              <button id="btn-toggle-map" class="btn-action-outline">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon></svg>
-                <span>Lihat Peta</span>
+            <div class="flex gap-4">
+              <button id="btn-toggle-map" class="flex-1 flex items-center justify-center gap-3 px-6 py-5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl font-black text-xs tracking-widest shadow-sm hover:shadow-xl transition-all duration-300">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon></svg>
+                <span>LIHAT PETA</span>
               </button>
-              <a id="gmaps-link" href="#" target="_blank" class="btn-action-outline">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                <span>Google Maps</span>
+              <a id="gmaps-link" href="#" target="_blank" class="flex-1 flex items-center justify-center gap-3 px-6 py-5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl font-black text-xs tracking-widest shadow-sm hover:shadow-xl transition-all duration-300">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <span>GOOGLE MAPS</span>
               </a>
             </div>
 
-            <div class="admin-control-section">
-              <label>MODERASI LAPORAN</label>
-              <div class="moderation-btns">
-                <button id="btn-verify" class="btn-verify-primary">Setujui Laporan</button>
-                <button id="btn-resolve" class="btn-resolve-outline">Selesaikan</button>
+            <div class="pt-8 border-t border-stone-100 dark:border-white/5 space-y-6">
+              <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest">MODERASI LAPORAN</label>
+              <div class="flex gap-4">
+                <button id="btn-verify" class="flex-1 px-8 py-5 bg-stone-900 dark:bg-white text-white dark:text-black font-black text-xs tracking-widest rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all">SETUJUI LAPORAN</button>
+                <button id="btn-resolve" class="flex-1 px-8 py-5 border-2 border-stone-200 dark:border-white/10 text-stone-900 dark:text-white font-black text-xs tracking-widest rounded-2xl hover:bg-stone-100 dark:hover:bg-white/5 transition-all">SELESAIKAN</button>
               </div>
             </div>
           </div>
@@ -227,177 +229,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     </div>
   </div>
 
-  <style is:global>
-    :root {
-      --zen-bg: #fbfbfb;
-      --zen-sidebar-bg: #ffffff;
-      --zen-card-bg: #ffffff;
-      --zen-border: #f0f0f0;
-      --zen-text-primary: #1a1a1a;
-      --zen-text-secondary: #777777;
-      --zen-accent: #000000;
-      --zen-radius: 20px;
-    }
 
-    .dark {
-      --zen-bg: #010101;
-      --zen-sidebar-bg: #0B0B0F;
-      --zen-card-bg: #0B0B0F;
-      --zen-border: #1E293B;
-      --zen-text-primary: #ffffff;
-      --zen-text-secondary: #94A3B8;
-      --zen-accent: #ffffff;
-    }
-
-    /* Layout & Sidebar */
-    .zen-admin-root { display: flex; min-height: 100vh; background: var(--zen-bg); color: var(--zen-text-primary); transition: background 0.3s; }
-    
-    .zen-sidebar { 
-      width: 280px; background: var(--zen-sidebar-bg); border-right: 1px solid var(--zen-border); 
-      position: fixed; height: 100vh; z-index: 100; display: flex; flex-direction: column; transition: 0.3s;
-    }
-    .sidebar-header { padding: 32px; display: flex; align-items: center; justify-content: space-between; }
-    .logo-mark { height: 28px; }
-    .sidebar-nav { padding: 8px 16px; flex: 1; }
-    .nav-item { 
-      display: flex; align-items: center; gap: 12px; padding: 12px 16px; text-decoration: none; 
-      color: var(--zen-text-secondary); font-weight: 600; font-size: 14px; border-radius: 14px; 
-      margin-bottom: 4px; transition: 0.2s;
-    }
-    .nav-item.active { background: var(--zen-accent); color: var(--zen-sidebar-bg); }
-    .nav-item:hover:not(.active) { background: var(--zen-bg); }
-
-    .sidebar-footer { padding: 24px; border-top: 1px solid var(--zen-border); }
-    .admin-profile { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--zen-bg); border-radius: 16px; margin-bottom: 16px; border: 1px solid var(--zen-border); }
-    .profile-avatar { width: 36px; height: 36px; background: var(--zen-border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; }
-    .profile-info { flex: 1; min-width: 0; }
-    .profile-name { font-size: 13px; font-weight: 700; color: var(--zen-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .profile-status { font-size: 10px; color: #10b981; font-weight: 700; text-transform: uppercase; }
-    
-    .logout-btn { 
-      width: 100%; padding: 12px; background: transparent; border: 1px solid var(--zen-border); border-radius: 12px; 
-      font-size: 13px; font-weight: 700; color: var(--zen-text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
-    }
-    .logout-btn:hover { background: #fee2e2; color: #ef4444; border-color: #ef4444; }
-
-    /* Main Console */
-    .zen-main { flex: 1; margin-left: 280px; padding: 48px; }
-    .main-container { max-width: 1200px; margin: 0 auto; }
-    .page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
-    .page-title { font-size: 32px; font-weight: 800; margin: 0 0 4px 0; letter-spacing: -0.02em; }
-    .page-subtitle { color: var(--zen-text-secondary); font-size: 15px; font-weight: 500; }
-    .time-display { font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 700; background: var(--zen-accent); color: var(--zen-sidebar-bg); padding: 8px 16px; border-radius: 99px; }
-
-    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 32px; }
-    @media (max-width: 1200px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 640px) { .stats-row { grid-template-columns: 1fr; } }
-
-    .stat-card { background: var(--zen-card); border: 1px solid var(--zen-border); border-radius: 20px; padding: 20px; transition: 0.3s; }
-    .stat-label { font-size: 10px; font-weight: 800; color: var(--zen-text-secondary); letter-spacing: 0.1em; margin-bottom: 8px; }
-    .stat-value { font-size: 28px; font-weight: 800; color: var(--zen-text); letter-spacing: -0.02em; }
-
-    /* Chart Styling */
-    .chart-section { margin-bottom: 32px; }
-    .chart-card { background: var(--zen-card); border: 1px solid var(--zen-border); border-radius: 24px; padding: 24px; }
-    .chart-container { height: 300px; position: relative; margin-top: 20px; }
-    .card-header h3 { font-size: 16px; font-weight: 800; color: var(--zen-text); margin: 0; }
-    .card-header p { font-size: 13px; color: var(--zen-text-secondary); margin: 4px 0 0 0; }
-
-    
-    .leader-avatar { width: 40px; height: 40px; border-radius: 12px; background: var(--zen-accent); color: var(--zen-sidebar-bg); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; }
-    .leader-info { flex: 1; min-width: 0; }
-    .leader-name { font-size: 14px; font-weight: 700; color: var(--zen-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .leader-points { font-size: 11px; font-weight: 800; color: #3b82f6; display: flex; align-items: center; gap: 4px; }
-    .leaderboard-footer { padding: 20px 32px; background: var(--zen-bg); border-top: 1px solid var(--zen-border); }
-    .leaderboard-footer p { font-size: 11px; color: var(--zen-text-secondary); margin: 0; font-weight: 500; line-height: 1.4; }
-
-    .leader-skeleton { height: 60px; background: var(--zen-bg); border-radius: 16px; margin-bottom: 8px; animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
-
-    /* Data Table */
-    .data-table-container { background: var(--zen-card-bg); border: 1px solid var(--zen-border); border-radius: var(--zen-radius); overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
-    .table-controls { padding: 20px 24px; border-bottom: 1px solid var(--zen-border); display: flex; gap: 16px; align-items: center; background: var(--zen-sidebar-bg); }
-    .search-input-wrapper { flex: 1; position: relative; }
-    .search-input-wrapper svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--zen-text-secondary); }
-    .search-input-wrapper input { 
-      width: 100%; padding: 12px 16px 12px 44px; background: var(--zen-bg); border: 1px solid var(--zen-border); border-radius: 12px; 
-      font-size: 14px; outline: none; transition: 0.2s; color: var(--zen-text-primary);
-    }
-    .filter-group { display: flex; gap: 8px; }
-    .filter-select { padding: 10px 16px; background: var(--zen-bg); border: 1px solid var(--zen-border); border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--zen-text-primary); }
-
-    .zen-table { width: 100%; border-collapse: collapse; min-width: 800px; }
-    .zen-table th { text-align: left; padding: 16px 24px; font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--zen-text-secondary); background: var(--zen-bg); border-bottom: 1px solid var(--zen-border); }
-    .zen-table td { padding: 16px 24px; border-bottom: 1px solid var(--zen-border); vertical-align: middle; }
-    .zen-table tr:hover { background: var(--zen-bg); cursor: pointer; }
-    .thumb-preview { width: 48px; height: 48px; background: var(--zen-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--zen-border); }
-    
-    /* POPUP MODAL STYLES */
-    .modal { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; }
-    .modal.active { display: flex; }
-    .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); }
-    .modal-dialog { position: relative; width: 100%; max-width: 1000px; background: var(--zen-card-bg); border-radius: 32px; overflow: hidden; border: 1px solid var(--zen-border); display: flex; flex-direction: column; max-height: 90vh; box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5); }
-    .modal-header { padding: 24px 32px; border-bottom: 1px solid var(--zen-border); display: flex; justify-content: space-between; align-items: center; }
-    .modal-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
-    .modal-close-btn { background: none; border: none; font-size: 32px; cursor: pointer; color: var(--zen-text-secondary); transition: 0.2s; }
-    .modal-close-btn:hover { color: var(--zen-text-primary); transform: rotate(90deg); }
-    
-    .modal-body { padding: 40px; overflow-y: auto; }
-    .modal-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; }
-    
-    /* Modal Left */
-    .detail-img-wrapper { border-radius: 24px; overflow: hidden; background: var(--zen-bg); border: 1px solid var(--zen-border); aspect-ratio: 16/10; margin-bottom: 24px; }
-    .detail-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-    .modal-map { border-radius: 24px; overflow: hidden; height: 300px; border: 1px solid var(--zen-border); }
-
-    /* Modal Right */
-    .info-row { display: flex; gap: 32px; margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--zen-border); }
-    .info-item label { display: block; font-size: 10px; font-weight: 800; color: var(--zen-text-secondary); margin-bottom: 12px; letter-spacing: 0.05em; }
-    .vote-badge { display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: 800; color: var(--zen-text-primary); }
-    
-    .detail-section { margin-bottom: 32px; }
-    .detail-section label { display: block; font-size: 10px; font-weight: 800; color: var(--zen-text-secondary); margin-bottom: 12px; letter-spacing: 0.05em; }
-    .desc-text { font-size: 16px; font-weight: 600; line-height: 1.6; color: var(--zen-text-primary); margin: 0; }
-    
-    .location-box { display: flex; gap: 12px; padding: 16px; background: var(--zen-bg); border: 1px solid var(--zen-border); border-radius: 16px; font-size: 14px; font-weight: 600; color: var(--zen-text-primary); }
-    
-    .modal-actions-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 40px; }
-    .btn-action-outline { 
-      display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px; 
-      background: transparent; border: 1.5px solid var(--zen-border); border-radius: 14px; 
-      font-size: 13px; font-weight: 700; color: var(--zen-text-primary); cursor: pointer; transition: 0.2s; text-decoration: none;
-    }
-    .btn-action-outline:hover { background: var(--zen-bg); border-color: var(--zen-accent); }
-
-    .admin-control-section { padding: 24px; background: var(--zen-bg); border-radius: 20px; border: 1px solid var(--zen-border); }
-    .admin-control-section label { display: block; font-size: 10px; font-weight: 800; color: var(--zen-text-secondary); margin-bottom: 16px; letter-spacing: 0.1em; }
-    .moderation-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    
-    .btn-verify-primary { padding: 14px; background: #000000; color: #ffffff; border: none; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; }
-    .dark .btn-verify-primary { background: #ffffff; color: #000000; }
-    .btn-verify-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-    
-    .btn-resolve-outline { padding: 14px; background: transparent; border: 1.5px solid #10b981; color: #10b981; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; }
-    .btn-resolve-outline:hover { background: #10b981; color: #ffffff; }
-
-    /* Badges */
-    .badge { display: inline-flex; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
-    .badge-pending { background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
-    .badge-valid { background: #f0f9ff; color: #0369a1; border: 1px solid #e0f2fe; }
-    .badge-resolved { background: #f0fdf4; color: #15803d; border: 1px solid #dcfce7; }
-    .dark .badge-pending { background: rgba(234, 88, 12, 0.1); color: #fb923c; border: 1px solid rgba(234, 88, 12, 0.2); }
-    .dark .badge-valid { background: rgba(14, 165, 233, 0.1); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.2); }
-    .dark .badge-resolved { background: rgba(34, 197, 94, 0.1); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.2); }
-
-    @media (max-width: 1024px) {
-      .zen-sidebar { transform: translateX(-100%); }
-      .zen-sidebar.mobile-open { transform: translateX(0); box-shadow: 20px 0 50px rgba(0,0,0,0.1); }
-      .zen-main { margin-left: 0; padding: 24px; padding-top: 80px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .modal-grid { grid-template-columns: 1fr; gap: 32px; }
-      .mobile-menu-btn { display: flex; }
-    }
-  </style>
 
   <script>
     const root = document.getElementById("admin-root");
@@ -420,15 +252,36 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       if(adminNameEl) adminNameEl.innerText = user.full_name || "Admin";
 
       try {
+        console.log("Fetching data from:", API_URL);
+        console.log("Token present:", !!token);
+        
         const [catRes, reportRes] = await Promise.all([
           fetch(`${API_URL}/api/categories`),
-          fetch(`${API_URL}/api/admin/reports`, { headers: { "Authorization": `Bearer ${token}` } })
+          fetch(`${API_URL}/api/admin/reports`, { 
+            headers: { "Authorization": `Bearer ${token}` } 
+          })
         ]);
+
+        if (!catRes.ok) throw new Error("Gagal mengambil kategori");
+        if (!reportRes.ok) {
+          const errData = await reportRes.json();
+          if (reportRes.status === 401) {
+            console.warn("Session expired or invalid token:", errData.debug_error);
+            alert("Unauthorized: " + (errData.debug_error || "Token tidak valid"));
+            // localStorage.clear();
+            // window.location.href = "/admin/login";
+            return;
+          }
+          throw new Error(errData.error || "Gagal mengambil data laporan (Unauthorized/Forbidden)");
+        }
+
         const catData = await catRes.json();
         const reportData = await reportRes.json();
         
         categoriesData = catData.data || [];
         reportsData = reportData.data || [];
+        
+        console.log("Data loaded successfully:", reportsData.length, "reports found.");
         
         renderCategories();
         renderStats();
@@ -436,7 +289,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         renderCharts();
       } catch (err) {
         console.error("Gagal memuat data admin:", err);
-        alert("Gagal memuat data dari server. Pastikan backend berjalan di " + API_URL);
+        alert("Gagal memuat data: " + err.message);
       }
     }
 
@@ -491,37 +344,75 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       const tbody = document.getElementById("reports-tbody");
       if (!tbody) return;
       tbody.innerHTML = reports.map(r => `
-        <tr onclick="window.openReportModal('${r.id}')">
-          <td><div class="thumb-preview">${r.image_url ? `<img src="${API_URL}${r.image_url}" style="width:100%;height:100%;object-fit:cover"/>` : "🖼️"}</div></td>
-          <td>
-            <div style="font-weight:700;color:var(--zen-text-primary);font-size:14px;margin-bottom:2px">${r.description}</div>
-            <div style="font-size:12px;color:var(--zen-text-secondary);font-weight:500">${r.location_detail}</div>
+        <tr onclick="window.openReportModal('${r.id}')" class="hover:bg-stone-50 dark:hover:bg-white/5 cursor-pointer transition-colors duration-200 group">
+          <td class="px-10 py-6">
+            <div class="w-14 h-14 rounded-xl overflow-hidden bg-stone-100 dark:bg-white/5 border border-stone-200 dark:border-white/10 group-hover:scale-110 transition-transform duration-500">
+              ${r.image_url ? `<img src="${API_URL}${r.image_url}" class="w-full h-full object-cover"/>` : "<div class='w-full h-full flex items-center justify-center text-xl grayscale'>🖼️</div>"}
+            </div>
           </td>
-          <td><span class="badge badge-${r.status.toLowerCase()}">${r.status}</span></td>
-          <td><div style="font-weight:800;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg> ${r.vote_count}</div></td>
-          <td align="right" style="font-size:13px;font-weight:700;color:var(--zen-text-secondary)">${new Date(r.created_at).toLocaleDateString("id-ID")}</td>
+          <td class="px-6 py-6">
+            <div class="font-bold text-stone-900 dark:text-white line-clamp-1">${r.description}</div>
+            <div class="text-[11px] font-bold text-stone-400 mt-1 uppercase tracking-wider">${r.location_detail}</div>
+          </td>
+          <td class="px-6 py-6">
+            <span class="inline-flex px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border
+              ${r.status === 'PENDING' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-amber-200 dark:border-amber-500/20' : ''}
+              ${r.status === 'VALID' ? 'bg-green-50 dark:bg-green-500/10 text-green-600 border-green-200 dark:border-green-500/20' : ''}
+              ${r.status === 'RESOLVED' ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-500/20' : ''}
+            ">
+              ${r.status}
+            </span>
+          </td>
+          <td class="px-6 py-6 text-right font-black text-stone-400 text-xs">
+            ${new Date(r.created_at).toLocaleDateString("id-ID", { day: 'numeric', month: 'short' })}
+          </td>
         </tr>
       `).join("");
     }
+
+    window.closeModal = () => {
+      const modal = document.getElementById("report-modal");
+      const content = document.getElementById("modal-content");
+      if (modal && content) {
+        content.classList.add("scale-95", "opacity-0");
+        setTimeout(() => modal.classList.add("hidden"), 300);
+      }
+    };
 
     window.openReportModal = (id) => {
       currentReportId = id;
       const r = reportsData.find(x => x.id === id);
       if(!r) return;
-      document.getElementById("report-modal")?.classList.add("active");
-      document.getElementById("detail-img").src = r.image_url ? `${API_URL}${r.image_url}` : "";
+      
+      const modal = document.getElementById("report-modal");
+      const content = document.getElementById("modal-content");
+      if (modal && content) {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        setTimeout(() => content.classList.remove("scale-95", "opacity-0"), 10);
+      }
+
+      const set = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val; };
+      const img = document.getElementById("detail-img") as HTMLImageElement;
+      if(img) img.src = r.image_url ? `${API_URL}${r.image_url}` : "";
+      
+      set("detail-desc", r.description);
+      set("detail-loc", r.location_detail);
+      set("modal-vote-count", r.vote_count);
       
       const badge = document.getElementById("modal-status-badge");
       if(badge) {
         badge.innerText = r.status;
-        badge.className = `badge badge-${r.status.toLowerCase()}`;
+        badge.className = `inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+          r.status === 'PENDING' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-amber-200 dark:border-amber-500/20' :
+          r.status === 'VALID' ? 'bg-green-50 dark:bg-green-500/10 text-green-600 border-green-200 dark:border-green-500/20' :
+          'bg-blue-50 dark:bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-500/20'
+        }`;
       }
       
       const gLink = document.getElementById("gmaps-link") as HTMLAnchorElement;
       if(gLink) gLink.href = `https://www.google.com/maps?q=${r.latitude},${r.longitude}`;
     };
-
-    window.closeModal = () => document.getElementById("report-modal")?.classList.remove("active");
 
     window.verifyReport = async (status) => {
       if(!currentReportId) return;
