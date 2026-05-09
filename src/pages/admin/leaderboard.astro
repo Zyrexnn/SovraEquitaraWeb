@@ -5,8 +5,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 ---
 
 <Layout title="Peringkat Warga — SovraEquitara">
-  <div class="zen-admin-root" id="admin-root" data-api-url={API_URL}>
-    <button id="mobile-menu-btn" class="mobile-menu-btn">
+  <div class="flex min-h-screen bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display" id="admin-root" data-api-url={API_URL}>
+    <button id="mobile-menu-btn" class="lg:hidden fixed top-5 left-5 z-[1100] bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark text-white border-none p-2.5 rounded-xl">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="3" y1="12" x2="21" y2="12"></line>
         <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -14,14 +14,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       </svg>
     </button>
 
-    <aside class="zen-sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <img src="/logo.svg" alt="Sovra" class="logo-mark dark:brightness-0 dark:invert">
+    <aside class="w-[280px] bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col fixed h-screen z-[1000] transition-transform duration-300 lg:translate-x-0 -translate-x-full" id="sidebar">
+      <div class="p-10 flex items-center justify-between">
+        <img src="/logo.svg" alt="Sovra" class="h-7 dark:brightness-0 dark:invert">
         <ThemeToggle client:load />
       </div>
       
-      <nav class="sidebar-nav">
-        <a href="/admin/dashboard" class="nav-item">
+      <nav class="flex-1 px-4">
+        <a href="/admin/dashboard" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zen-text-secondary dark:text-zen-text-secondary-dark no-underline text-sm font-bold transition-all duration-300 mb-1 hover:text-white hover:bg-white/5">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="3" width="7" height="7" rx="1"></rect>
             <rect x="14" y="3" width="7" height="7" rx="1"></rect>
@@ -30,7 +30,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           </svg>
           <span>Dashboard</span>
         </a>
-        <a href="/admin/leaderboard" class="nav-item active">
+        <a href="/admin/leaderboard" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-white bg-blue-500 shadow-[0_8px_20px_rgba(59,130,246,0.25)] no-underline text-sm font-bold transition-all duration-300 mb-1">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
@@ -39,7 +39,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           </svg>
           <span>Peringkat Warga</span>
         </a>
-        <a href="/admin/profile" class="nav-item">
+        <a href="/admin/profile" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-zen-text-secondary dark:text-zen-text-secondary-dark no-underline text-sm font-bold transition-all duration-300 mb-1 hover:text-white hover:bg-white/5">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
@@ -48,15 +48,15 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         </a>
       </nav>
 
-      <div class="sidebar-footer">
-        <div class="admin-profile">
-          <div class="profile-avatar">A</div>
-          <div class="profile-info">
-            <div class="profile-name" id="admin-name-sidebar">Administrator</div>
-            <div class="profile-status">Online</div>
+      <div class="p-6 border-t border-white/5">
+        <div class="flex items-center gap-3 mb-5 px-2">
+          <div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center font-extrabold text-lg">A</div>
+          <div class="flex-1">
+            <div class="text-sm font-extrabold text-white" id="admin-name-sidebar">Administrator</div>
+            <div class="text-[11px] text-[#10B981] font-bold">Online</div>
           </div>
         </div>
-        <button id="logout-btn" class="logout-btn">
+        <button id="logout-btn" class="w-full flex items-center justify-center gap-2 p-3 bg-white/5 border-none rounded-xl text-[#ff4444] font-bold text-[13px] cursor-pointer transition-all duration-300">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
@@ -67,101 +67,30 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       </div>
     </aside>
 
-    <main class="zen-main">
-      <div class="main-container">
-        <header class="page-header">
+    <main class="flex-1 lg:ml-[280px] p-10 lg:pt-10 pt-20">
+      <div class="max-w-[1200px] mx-auto">
+        <header class="mb-12">
           <div>
-            <h1 class="page-title">Peringkat Warga</h1>
-            <p class="page-subtitle">Kontribusi Masyarakat SovraEquitara</p>
+            <h1 class="text-[32px] font-extrabold m-0 tracking-tight">Peringkat Warga</h1>
+            <p class="text-zen-text-secondary dark:text-zen-text-secondary-dark mt-2 font-semibold">Kontribusi Masyarakat SovraEquitara</p>
           </div>
         </header>
 
-        <div class="leaderboard-full">
-          <div class="search-bar">
-            <input type="text" id="leader-search" placeholder="Cari nama warga...">
+        <div>
+          <div class="mb-8">
+            <input type="text" id="leader-search" placeholder="Cari nama warga..." class="w-full max-w-[400px] p-4 px-6 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark text-zen-text dark:text-zen-text-dark font-semibold outline-none">
           </div>
           
-          <div class="leader-grid" id="leader-list">
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="leader-list">
             <!-- Loading -->
-            <div style="padding:40px;text-align:center;color:var(--zen-text-secondary);">Memuat data peringkat...</div>
+            <div class="col-span-full p-10 text-center text-zen-text-secondary dark:text-zen-text-secondary-dark">Memuat data peringkat...</div>
           </div>
         </div>
       </div>
     </main>
   </div>
 
-  <style is:global>
-    :root {
-      --zen-bg: #fbfbfb;
-      --zen-sidebar-bg: #111111;
-      --zen-card: #ffffff;
-      --zen-border: rgba(0,0,0,0.06);
-      --zen-text: #111111;
-      --zen-text-secondary: #666666;
-      --zen-accent: #3B82F6;
-      --zen-sidebar-text: #888888;
-      --zen-sidebar-active: #ffffff;
-    }
-    .dark {
-      --zen-bg: #050505;
-      --zen-sidebar-bg: #0A0A0A;
-      --zen-card: #0E0E0E;
-      --zen-border: rgba(255,255,255,0.08);
-      --zen-text: #eeeeee;
-      --zen-text-secondary: #999999;
-      --zen-accent: #3B82F6;
-    }
 
-    body { background: var(--zen-bg); color: var(--zen-text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; }
-    .zen-admin-root { display: flex; min-height: 100vh; }
-    
-    .zen-sidebar { width: 280px; background: var(--zen-sidebar-bg); border-right: 1px solid var(--zen-border); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 1000; }
-    .sidebar-header { padding: 40px 24px; display: flex; align-items: center; justify-content: space-between; }
-    .logo-mark { height: 28px; }
-    
-    .sidebar-nav { flex: 1; padding: 0 16px; }
-    .nav-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; color: var(--zen-sidebar-text); text-decoration: none; font-size: 14px; font-weight: 700; transition: 0.3s; margin-bottom: 4px; }
-    .nav-item:hover { color: var(--zen-sidebar-active); background: rgba(255,255,255,0.05); }
-    .nav-item.active { color: var(--zen-sidebar-active); background: var(--zen-accent); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25); }
-    
-    .sidebar-footer { padding: 24px; border-top: 1px solid rgba(255,255,255,0.05); }
-    .admin-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding: 0 8px; }
-    .profile-avatar { width: 40px; height: 40px; border-radius: 12px; background: var(--zen-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; }
-    .profile-name { font-size: 14px; font-weight: 800; color: white; }
-    .profile-status { font-size: 11px; color: #10B981; font-weight: 700; }
-    .logout-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: rgba(255,255,255,0.05); border: none; border-radius: 12px; color: #ff4444; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s; }
-
-    .zen-main { flex: 1; margin-left: 280px; padding: 40px; }
-    .main-container { max-width: 1200px; margin: 0 auto; }
-    .page-header { margin-bottom: 48px; }
-    .page-title { font-size: 32px; font-weight: 800; margin: 0; letter-spacing: -0.03em; }
-    .page-subtitle { color: var(--zen-text-secondary); margin: 8px 0 0 0; font-weight: 600; }
-
-    .search-bar { margin-bottom: 32px; }
-    .search-bar input { width: 100%; max-width: 400px; padding: 16px 24px; border-radius: 16px; border: 1px solid var(--zen-border); background: var(--zen-card); color: var(--zen-text); font-weight: 600; outline: none; }
-
-    .leader-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
-    .citizen-card { background: var(--zen-card); border: 1px solid var(--zen-border); border-radius: 24px; padding: 24px; display: flex; align-items: center; gap: 20px; transition: 0.3s; position: relative; overflow: hidden; }
-    .citizen-card:hover { transform: translateY(-4px); border-color: var(--zen-accent); }
-    
-    .rank-badge { position: absolute; top: 0; right: 0; padding: 8px 16px; border-bottom-left-radius: 16px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
-    .rank-1 .rank-badge { background: #FFD700; color: #8B4513; }
-    .rank-2 .rank-badge { background: #C0C0C0; color: #4F4F4F; }
-    .rank-3 .rank-badge { background: #CD7F32; color: #ffffff; }
-
-    .citizen-avatar { width: 64px; height: 64px; border-radius: 20px; background: var(--zen-bg); border: 1px solid var(--zen-border); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: var(--zen-accent); }
-    .citizen-info { flex: 1; }
-    .citizen-name { font-weight: 800; font-size: 18px; margin-bottom: 4px; }
-    .citizen-points { display: flex; align-items: center; gap: 6px; color: var(--zen-accent); font-weight: 800; font-size: 14px; }
-
-    .mobile-menu-btn { display: none; position: fixed; top: 20px; left: 20px; z-index: 1100; background: var(--zen-sidebar-bg); color: white; border: none; padding: 10px; border-radius: 12px; }
-    @media (max-width: 1024px) {
-      .zen-sidebar { transform: translateX(-100%); transition: transform 0.3s; }
-      .zen-sidebar.mobile-open { transform: translateX(0); }
-      .zen-main { margin-left: 0; padding: 80px 20px 40px 20px; }
-      .mobile-menu-btn { display: block; }
-    }
-  </style>
 
   <script is:inline define:vars={{ API_URL }}>
     let leaderData = [];
@@ -189,21 +118,20 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       if (!container) return;
       
       if (data.length === 0) {
-        container.innerHTML = '<div style="grid-column: 1/-1; padding:60px; text-align:center; color:var(--zen-text-secondary);">Tidak ada data warga ditemukan.</div>';
+        container.innerHTML = '<div class="col-span-full p-10 text-center text-zen-text-secondary dark:text-zen-text-secondary-dark">Tidak ada data warga ditemukan.</div>';
         return;
       }
 
       container.innerHTML = data.map((u, i) => {
         const initial = (u.full_name || "U")[0].toUpperCase();
         const rank = i + 1;
-        const rankClass = rank === 1 ? "rank-1" : rank === 2 ? "rank-2" : rank === 3 ? "rank-3" : "";
         return `
-          <div class="citizen-card ${rankClass}">
-            ${rank <= 3 ? `<div class="rank-badge">RANK ${rank}</div>` : ''}
-            <div class="citizen-avatar">${initial}</div>
-            <div class="citizen-info">
-              <div class="citizen-name">${u.full_name}</div>
-              <div class="citizen-points">
+          <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-3xl p-6 flex items-center gap-5 transition-transform duration-300 relative overflow-hidden hover:-translate-y-1 hover:border-blue-500 shadow-zen group">
+            ${rank <= 3 ? `<div class="absolute top-0 right-0 px-4 py-2 rounded-bl-2xl text-[11px] font-extrabold uppercase tracking-wider ${rank === 1 ? 'bg-[#FFD700] text-[#8B4513]' : rank === 2 ? 'bg-[#C0C0C0] text-[#4F4F4F]' : 'bg-[#CD7F32] text-white'}">RANK ${rank}</div>` : ''}
+            <div class="w-16 h-16 rounded-2xl bg-zen-bg dark:bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark flex items-center justify-center text-2xl font-extrabold text-blue-500">${initial}</div>
+            <div class="flex-1">
+              <div class="font-extrabold text-lg mb-1 text-zen-text dark:text-zen-text-dark">${u.full_name}</div>
+              <div class="flex items-center gap-1.5 text-blue-500 font-extrabold text-sm">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
                 ${u.points} POINTS
               </div>
