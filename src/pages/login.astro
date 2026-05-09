@@ -111,7 +111,7 @@ import { ThemeToggle } from '../components/ThemeToggle';
         const data = await res.json();
 
         if (res.ok) {
-          localStorage.setItem('access_token', data.token);
+          localStorage.setItem('access_token', data.access_token);
           localStorage.setItem('user', JSON.stringify(data.user));
           
           if (data.user.role === 'admin' || data.user.role === 'ADMIN') {
