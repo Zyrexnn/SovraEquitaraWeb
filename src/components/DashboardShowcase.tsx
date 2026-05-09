@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 
 export const DashboardShowcase = () => {
   return (
-    <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-stone-50 dark:bg-[#010101] transition-colors duration-300">
+    <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-zen-bg dark:bg-zen-bg-dark transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-bold text-stone-900 dark:text-white mb-6 tracking-tight"
+            className="text-4xl md:text-6xl font-bold text-zen-text dark:text-zen-text-dark mb-6 tracking-tight"
           >
             Monitor Seluruh Kota <br /> dari Genggaman Anda.
           </motion.h2>
@@ -20,7 +20,7 @@ export const DashboardShowcase = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-stone-600 dark:text-gray-400 text-lg max-w-2xl mx-auto font-medium"
+            className="text-zen-text-secondary dark:text-zen-text-secondary-dark text-lg max-w-2xl mx-auto font-medium"
           >
             Dashboard admin yang intuitif memungkinkan Anda mengelola ribuan laporan warga dengan efisiensi tinggi dan verifikasi AI otomatis.
           </motion.p>
@@ -53,7 +53,7 @@ export const DashboardShowcase = () => {
             <motion.div 
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -left-4 sm:-left-12 top-1/4 z-20 bg-white dark:bg-[#111] p-3 sm:p-4 rounded-2xl shadow-2xl border border-stone-200 dark:border-white/10 hidden md:flex items-center gap-3"
+              className="absolute -left-4 sm:-left-12 top-1/4 z-20 bg-zen-card dark:bg-zen-card-dark p-3 sm:p-4 rounded-2xl shadow-2xl border border-zen-border dark:border-zen-border-dark hidden md:flex items-center gap-3"
             >
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-amber-500/20 rounded-xl flex items-center justify-center">
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,7 +69,7 @@ export const DashboardShowcase = () => {
             <motion.div 
               animate={{ y: [0, 15, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute -right-4 sm:-right-12 bottom-1/4 z-20 bg-white dark:bg-[#111] p-3 sm:p-4 rounded-2xl shadow-2xl border border-stone-200 dark:border-white/10 hidden md:flex items-center gap-3"
+              className="absolute -right-4 sm:-right-12 bottom-1/4 z-20 bg-zen-card dark:bg-zen-card-dark p-3 sm:p-4 rounded-2xl shadow-2xl border border-zen-border dark:border-zen-border-dark hidden md:flex items-center gap-3"
             >
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-indigo-500/20 dark:bg-brand/20 rounded-xl flex items-center justify-center">
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-500 dark:text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
