@@ -6,37 +6,37 @@ import { ThemeToggle } from '../components/ThemeToggle';
 <Layout title="Dashboard Warga — SovraEquitara">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   
-  <div class="saas-layout">
+  <div class="min-h-screen bg-zen-bg text-zen-text font-sans flex transition-colors duration-300">
     <!-- Desktop Sidebar -->
-    <aside class="sidebar glass-nav">
-      <div class="sidebar-header flex items-center justify-between">
-        <a href="/" class="logo block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="user-logo dark:brightness-0 dark:invert" />
+    <aside class="fixed left-0 top-0 w-[280px] h-screen bg-zen-sidebar border-r border-zen-border flex flex-col z-50 transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] max-lg:-translate-x-full lg:translate-x-0 backdrop-blur-xl shadow-lg" id="sidebar">
+      <div class="p-6 lg:py-10 flex items-center justify-between">
+        <a href="/" class="block hover:opacity-80 transition-opacity">
+          <img src="/logo.svg" alt="SovraEquitara" class="h-10 w-auto grayscale dark:brightness-0 dark:invert" />
         </a>
         <ThemeToggle client:load />
       </div>
       
-      <nav class="nav-menu">
-        <div class="nav-section">NAVIGASI</div>
-        <a href="/dashboard" class="nav-item active">
+      <nav class="flex-1 px-4">
+        <div class="text-[10px] font-extrabold text-zen-muted p-3 tracking-widest uppercase">NAVIGASI</div>
+        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 bg-zen-brand text-white shadow-[0_4px_12px_rgba(59,130,246,0.2)] dark:bg-blue-500/15 dark:text-blue-400 dark:border dark:border-blue-500/30">
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
           Dashboard Warga
         </a>
-        <a href="/profile" class="nav-item">
+        <a href="/profile" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text">
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Profil Saya
         </a>
       </nav>
 
-      <div class="sidebar-footer">
-        <div class="user-card glass">
-          <div class="avatar-large" id="sidebar-avatar">U</div>
-          <div class="user-details">
-            <span class="u-name" id="sidebar-name">Memuat...</span>
-            <span class="u-points" id="sidebar-points">0 PTS</span>
+      <div class="p-6 border-t border-zen-border">
+        <div class="p-4 rounded-2xl flex items-center gap-3 mb-4 bg-zen-surface border border-zen-border">
+          <div class="w-11 h-11 rounded-full bg-zen-brand text-white flex items-center justify-center font-extrabold dark:text-zen-bg" id="sidebar-avatar">U</div>
+          <div>
+            <span class="font-extrabold text-sm block" id="sidebar-name">Memuat...</span>
+            <span class="text-[11px] font-extrabold text-zen-blue" id="sidebar-points">0 PTS</span>
           </div>
         </div>
-        <button id="btn-logout-desktop" class="btn-logout-zen">
+        <button id="btn-logout-desktop" class="w-full flex items-center justify-center gap-2.5 p-3 bg-transparent border border-zen-border rounded-xl text-zen-muted font-bold text-[13px] cursor-pointer transition-colors duration-300 hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-900/20 dark:hover:border-red-900/50 dark:hover:text-red-400">
           <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
           Keluar Sesi
         </button>
@@ -44,87 +44,87 @@ import { ThemeToggle } from '../components/ThemeToggle';
     </aside>
 
     <!-- Mobile Header -->
-    <header class="mobile-header glass-bright">
-      <button id="btn-menu-mobile" class="mobile-menu-toggle">
+    <header class="lg:hidden flex items-center justify-between px-5 py-3 fixed top-0 left-0 right-0 z-[900] bg-zen-surface/80 backdrop-blur-xl border-b border-zen-border">
+      <button id="btn-menu-mobile" class="bg-transparent border-none text-zen-text p-2 cursor-pointer flex items-center justify-center">
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
-      <a href="/" class="logo block">
-        <img src="/logo.svg" alt="Sovra" style="height: 24px;" class="dark:brightness-0 dark:invert" />
+      <a href="/" class="block">
+        <img src="/logo.svg" alt="Sovra" class="h-6 w-auto dark:brightness-0 dark:invert" />
       </a>
-      <div class="user-pill glass">
-        <span id="mobile-points">0 PTS</span>
-        <div class="avatar-sm" id="mobile-avatar">U</div>
+      <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-zen-surface border border-zen-border">
+        <span id="mobile-points" class="text-[11px] font-extrabold text-zen-blue">0 PTS</span>
+        <div class="w-7 h-7 rounded-full bg-zen-brand text-white flex items-center justify-center text-[11px] font-extrabold dark:text-zen-bg" id="mobile-avatar">U</div>
       </div>
     </header>
 
     <!-- Main Content -->
-    <main class="main-content scroll-slim">
-      <div class="content-wrapper">
+    <main class="flex-1 overflow-y-auto lg:ml-[280px] p-6 pt-24 lg:pt-10 max-w-[1600px] w-full mx-auto pb-24 lg:pb-10">
+      <div class="max-w-[1200px] mx-auto">
         
-        <header class="page-header fade-in">
-          <div class="header-left">
-            <h1 class="font-display">Suara <span class="text-gradient">Warga</span></h1>
-            <p class="subtitle" id="greeting">Selamat beraktivitas, Warga.</p>
+        <header class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-8 lg:mb-10 gap-4 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]">
+          <div>
+            <h1 class="text-[28px] lg:text-[32px] font-extrabold tracking-tight m-0 text-zen-text">Suara <span class="bg-gradient-to-r from-blue-500 to-emerald-500 bg-clip-text text-transparent">Warga</span></h1>
+            <p class="text-sm lg:text-base font-semibold text-zen-muted mt-1" id="greeting">Selamat beraktivitas, Warga.</p>
           </div>
-          <div class="header-right">
-            <div id="current-date" class="date-badge glass">Memuat...</div>
+          <div>
+            <div id="current-date" class="px-4 py-2 rounded-full font-bold text-[13px] bg-zen-surface border border-zen-border text-zen-text">Memuat...</div>
           </div>
         </header>
 
-        <div class="bento-grid-user">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
           <!-- Report Creation (Bento Main) -->
-          <div class="bento-card card-form glass animate-up" style="animation-delay: 0.1s;">
-            <div class="card-head">
-              <h3>Aspirasi Infrastruktur</h3>
-              <span class="head-hint">Laporkan Kerusakan</span>
+          <div class="md:col-span-2 lg:col-span-2 md:row-span-2 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border bg-zen-card animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
+            <div class="flex justify-between items-center mb-6">
+              <h3 class="text-base font-extrabold m-0">Aspirasi Infrastruktur</h3>
+              <span class="text-[11px] font-extrabold text-zen-muted uppercase tracking-wider">Laporkan Kerusakan</span>
             </div>
             
-            <form id="form-report" class="zen-form">
-              <div class="input-group">
-                <label>Kategori Masalah</label>
-                <div class="chip-container" id="category-chips">
+            <form id="form-report" class="flex flex-col gap-6">
+              <div>
+                <label class="block text-xs font-extrabold text-zen-muted mb-2.5 uppercase tracking-wider">Kategori Masalah</label>
+                <div class="flex overflow-x-auto sm:flex-wrap gap-2 pb-2 sm:pb-0 -mx-1 sm:mx-0 px-1 sm:px-0 scrollbar-hide" id="category-chips">
                   <!-- Chips injected -->
                 </div>
                 <input type="hidden" id="category_id" />
               </div>
 
-              <div class="grid-2">
-                <div class="input-group">
-                  <label>Deskripsi Detail</label>
-                  <textarea id="description" placeholder="Deskripsikan kerusakan atau keluhan Anda..." required></textarea>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-xs font-extrabold text-zen-muted mb-2.5 uppercase tracking-wider">Deskripsi Detail</label>
+                  <textarea id="description" class="w-full p-3.5 lg:p-4 rounded-2xl border border-zen-border bg-zen-surface outline-none text-sm font-medium transition-colors duration-300 text-zen-text resize-none min-h-[100px] focus:border-zen-brand focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5" placeholder="Deskripsikan kerusakan atau keluhan Anda..." required></textarea>
                 </div>
                 
-                <div class="input-group">
-                  <label>Bukti Visual</label>
-                  <div class="drop-zone" id="drop-zone">
-                    <div class="drop-icon">📸</div>
-                    <p>Klik atau Tarik Gambar</p>
-                    <input type="file" id="image-upload" accept="image/*" hidden />
+                <div>
+                  <label class="block text-xs font-extrabold text-zen-muted mb-2.5 uppercase tracking-wider">Bukti Visual</label>
+                  <div class="h-[100px] border-2 border-dashed border-zen-border rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer bg-zen-surface transition-colors duration-300 hover:border-zen-brand hover:bg-black/5 dark:hover:bg-white/5" id="drop-zone">
+                    <div class="text-xl">📸</div>
+                    <p class="text-xs font-bold text-zen-muted m-0">Klik atau Tarik Gambar</p>
+                    <input type="file" id="image-upload" accept="image/*" class="hidden" />
                   </div>
-                  <div id="image-preview" class="preview-box hidden">
-                    <img id="preview-img" src="" alt="Preview" />
-                    <button type="button" class="btn-clear" id="btn-remove-image">&times;</button>
+                  <div id="image-preview" class="relative h-[100px] rounded-2xl overflow-hidden hidden">
+                    <img id="preview-img" src="" alt="Preview" class="w-full h-full object-cover" />
+                    <button type="button" class="absolute top-2 right-2 bg-black/50 text-white border-none w-6 h-6 rounded-full cursor-pointer flex items-center justify-center hover:bg-black/70" id="btn-remove-image">&times;</button>
                   </div>
                 </div>
               </div>
 
-              <div class="input-group">
-                <label>Lokasi Kejadian</label>
-                <div class="loc-input-wrap">
-                  <div class="search-loc-group">
-                    <input type="text" id="location_detail" placeholder="Detail Lokasi (Contoh: Depan Halte)" required />
-                    <div class="search-box">
-                      <input type="text" id="search-address" placeholder="Cari Alamat atau Area..." />
-                      <button type="button" id="btn-search-loc" class="btn-search-icon">🔍</button>
+              <div>
+                <label class="block text-xs font-extrabold text-zen-muted mb-2.5 uppercase tracking-wider">Lokasi Kejadian</label>
+                <div class="flex flex-col gap-3">
+                  <div class="flex flex-col gap-2.5">
+                    <input type="text" id="location_detail" class="w-full p-3.5 lg:p-4 rounded-2xl border border-zen-border bg-zen-surface outline-none text-sm font-medium transition-colors duration-300 text-zen-text focus:border-zen-brand focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5" placeholder="Detail Lokasi (Contoh: Depan Halte)" required />
+                    <div class="flex gap-2">
+                      <input type="text" id="search-address" class="flex-1 p-3.5 lg:p-4 rounded-2xl border border-zen-border bg-zen-surface outline-none text-sm font-medium transition-colors duration-300 text-zen-text focus:border-zen-brand focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5" placeholder="Cari Alamat atau Area..." />
+                      <button type="button" id="btn-search-loc" class="px-4 bg-zen-surface border border-zen-border rounded-xl cursor-pointer transition-colors duration-200 text-zen-text hover:border-zen-brand flex items-center justify-center">🔍</button>
                     </div>
                   </div>
-                  <div id="map" class="zen-map"></div>
+                  <div id="map" class="h-[250px] rounded-2xl border border-zen-border z-10"></div>
                 </div>
                 <input type="hidden" id="lat" /><input type="hidden" id="lng" />
               </div>
 
-              <button type="submit" id="btn-submit" class="btn-zen-primary w-full">
+              <button type="submit" id="btn-submit" class="w-full p-4 rounded-2xl bg-zen-brand text-white border-none font-extrabold cursor-pointer transition-all duration-300 flex items-center justify-center gap-2.5 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_rgba(59,130,246,0.2)] hover:opacity-90 dark:text-zen-bg">
                 Kirim Laporan
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
               </button>
@@ -132,45 +132,45 @@ import { ThemeToggle } from '../components/ThemeToggle';
           </div>
 
           <!-- Quick Stats -->
-          <div class="bento-card card-stats glass animate-up" style="animation-delay: 0.15s;">
-            <div class="stat-item">
-              <span class="s-label">Total Laporan</span>
-              <h2 id="stat-total">0</h2>
+          <div class="lg:col-span-1 grid grid-cols-1 gap-4 lg:gap-4 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border bg-zen-card animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.15s;">
+            <div class="p-5 rounded-2xl bg-zen-surface border border-zen-border text-center flex flex-col justify-center">
+              <span class="text-[11px] font-extrabold text-zen-muted uppercase tracking-wider">Total Laporan</span>
+              <h2 id="stat-total" class="text-[32px] font-extrabold m-0 mt-2 tracking-tight text-zen-text">0</h2>
             </div>
-            <div class="stat-item">
-              <span class="s-label">Diproses</span>
-              <h2 id="stat-pending" class="text-yellow">0</h2>
+            <div class="p-5 rounded-2xl bg-zen-surface border border-zen-border text-center flex flex-col justify-center">
+              <span class="text-[11px] font-extrabold text-zen-muted uppercase tracking-wider">Diproses</span>
+              <h2 id="stat-pending" class="text-[32px] font-extrabold m-0 mt-2 tracking-tight text-zen-yellow">0</h2>
             </div>
-            <div class="stat-item">
-              <span class="s-label">Terselesaikan</span>
-              <h2 id="stat-resolved" class="text-green">0</h2>
+            <div class="p-5 rounded-2xl bg-zen-surface border border-zen-border text-center flex flex-col justify-center">
+              <span class="text-[11px] font-extrabold text-zen-muted uppercase tracking-wider">Terselesaikan</span>
+              <h2 id="stat-resolved" class="text-[32px] font-extrabold m-0 mt-2 tracking-tight text-zen-green">0</h2>
             </div>
           </div>
 
           <!-- Leaderboard -->
-          <div class="bento-card card-leaderboard glass animate-up" style="animation-delay: 0.2s;">
-            <div class="card-head">
-              <h3>Warga Teladan</h3>
-              <span class="badge-new">TOP 10</span>
+          <div class="lg:col-span-1 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border bg-zen-card animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.2s;">
+            <div class="flex justify-between items-center mb-6">
+              <h3 class="text-base font-extrabold m-0">Warga Teladan</h3>
+              <span class="text-[11px] font-extrabold text-white bg-blue-500 px-2 py-1 rounded-md uppercase tracking-wider">TOP 10</span>
             </div>
-            <div class="leader-list scroll-slim" id="leaderboard-list">
+            <div class="flex flex-col gap-2 overflow-y-auto max-h-[300px] lg:max-h-none pr-1" id="leaderboard-list">
               <!-- Leaderboard items -->
             </div>
           </div>
 
           <!-- Feed (Bento Wide Bottom) -->
-          <div class="bento-card card-feed glass animate-up" style="animation-delay: 0.25s;">
-            <div class="feed-header">
-              <h3>Pantauan Kota</h3>
-              <div class="feed-filters">
-                <select id="feed-sort" class="zen-select-sm">
+          <div class="md:col-span-2 lg:col-span-3 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border bg-zen-card animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.25s;">
+            <div class="flex justify-between items-center mb-6">
+              <h3 class="text-base font-extrabold m-0">Pantauan Kota</h3>
+              <div>
+                <select id="feed-sort" class="px-3 py-1.5 rounded-lg border border-zen-border bg-zen-surface text-xs font-bold outline-none cursor-pointer text-zen-text">
                   <option value="recent">Terbaru</option>
                   <option value="votes">Populer</option>
                   <option value="comments">Diskusi</option>
                 </select>
               </div>
             </div>
-            <div id="reports-list" class="zen-feed">
+            <div id="reports-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <!-- Reports injected -->
             </div>
           </div>
@@ -180,64 +180,64 @@ import { ThemeToggle } from '../components/ThemeToggle';
     </main>
 
     <!-- Mobile Nav -->
-    <nav class="mobile-nav glass-bright">
-      <a href="/dashboard" class="m-item active">
-        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+    <nav class="lg:hidden flex justify-around items-center px-2 py-3 fixed bottom-0 left-0 right-0 z-[900] bg-zen-surface/80 backdrop-blur-xl border-t border-zen-border pb-[calc(env(safe-area-inset-bottom,0px)+12px)]">
+      <a href="/dashboard" class="flex flex-col items-center p-2 text-zen-brand">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
       </a>
-      <a href="/profile" class="m-item">
+      <a href="/profile" class="flex flex-col items-center p-2 text-zen-muted transition-colors hover:text-zen-text">
         <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       </a>
-      <button id="btn-logout-mobile" class="m-item text-danger">
+      <button id="btn-logout-mobile" class="flex flex-col items-center p-2 text-red-500 bg-transparent border-none cursor-pointer">
         <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
       </button>
     </nav>
 
     <!-- Detail Modal -->
-    <div id="detail-modal" class="modal-overlay hidden">
-      <div class="modal-card glass-modal">
-        <div class="modal-head">
-          <h3>Detail Laporan</h3>
-          <button id="close-detail" class="btn-close">&times;</button>
+    <div id="detail-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-5 hidden">
+      <div class="w-full max-w-[1000px] max-h-[90vh] rounded-[32px] overflow-hidden flex flex-col bg-zen-bg shadow-2xl">
+        <div class="px-8 py-6 border-b border-zen-border flex justify-between items-center bg-zen-surface text-zen-text">
+          <h3 class="m-0 text-lg font-extrabold">Detail Laporan</h3>
+          <button id="close-detail" class="bg-transparent border-none text-[32px] cursor-pointer text-zen-muted hover:text-zen-text">&times;</button>
         </div>
-        <div class="modal-body scroll-slim">
-          <div class="modal-grid">
-            <div class="modal-info">
-              <div id="detail-img-box" class="detail-img hidden">
-                <img id="detail-img" src="" alt="Bukti" />
+        <div class="flex-1 overflow-y-auto bg-zen-bg text-zen-text">
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px]">
+            <div class="p-6 lg:p-8 lg:border-r border-zen-border">
+              <div id="detail-img-box" class="h-[250px] lg:h-[300px] rounded-2xl overflow-hidden mb-6 cursor-zoom-in bg-zen-surface hidden">
+                <img id="detail-img" src="" alt="Bukti" class="w-full h-full object-cover" />
               </div>
-              <div class="report-content">
-                <div class="badge-row">
-                  <span id="detail-cat" class="cat-pill"></span>
-                  <span id="detail-status" class="status-pill"></span>
+              <div>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span id="detail-cat" class="text-[11px] font-extrabold bg-zen-surface px-3 py-1.5 rounded-lg border border-zen-border"></span>
+                  <span id="detail-status" class="text-[11px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider"></span>
                 </div>
-                <h2 id="detail-desc" class="font-display"></h2>
-                <div class="loc-box glass">
-                  <div class="loc-header">
-                    <span>📍 <span id="detail-loc"></span></span>
-                    <div class="loc-actions">
-                      <button id="btn-view-map-modal" class="btn-sm-outline">Lihat Peta</button>
-                      <a id="btn-gmaps-modal" href="#" target="_blank" class="btn-sm-outline">Google Maps</a>
+                <h2 id="detail-desc" class="text-xl lg:text-2xl font-extrabold m-0 tracking-tight leading-tight mb-6"></h2>
+                <div class="p-4 rounded-2xl my-6 bg-zen-surface border border-zen-border text-sm">
+                  <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+                    <span class="font-medium">📍 <span id="detail-loc"></span></span>
+                    <div class="flex gap-2">
+                      <button id="btn-view-map-modal" class="px-3 py-1.5 text-[11px] font-extrabold border border-zen-border rounded-lg bg-zen-surface cursor-pointer transition-colors hover:bg-zen-bg hover:border-zen-brand">Lihat Peta</button>
+                      <a id="btn-gmaps-modal" href="#" target="_blank" class="px-3 py-1.5 text-[11px] font-extrabold border border-zen-border rounded-lg bg-zen-surface cursor-pointer transition-colors text-zen-text no-underline hover:bg-zen-bg hover:border-zen-brand">Google Maps</a>
                     </div>
                   </div>
-                  <div id="modal-map" class="modal-map hidden"></div>
+                  <div id="modal-map" class="h-[200px] rounded-xl mt-3 border border-zen-border hidden z-10"></div>
                 </div>
-                <div class="meta-row">
-                  <span id="detail-date"></span>
-                  <div class="meta-stats">
-                    <button class="btn-vote" id="btn-vote-modal">
+                <div class="flex flex-wrap justify-between items-center gap-4 mt-6">
+                  <span id="detail-date" class="text-sm font-semibold text-zen-muted"></span>
+                  <div>
+                    <button class="bg-zen-surface text-zen-text border border-zen-border px-5 py-3 rounded-xl font-extrabold cursor-pointer transition-all duration-200 hover:scale-105 hover:bg-zen-bg hover:border-zen-brand" id="btn-vote-modal">
                       🔥 <b id="detail-votes">0</b> Dukungan
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="modal-comments">
-              <div class="comments-header">Diskusi & Solusi</div>
-              <div id="comments-list" class="comments-feed scroll-slim"></div>
-              <form id="form-comment" class="comment-input glass">
+            <div class="bg-zen-surface flex flex-col border-t lg:border-t-0 lg:border-l border-zen-border">
+              <div class="p-6 border-b border-zen-border font-extrabold text-xs uppercase tracking-wider">Diskusi & Solusi</div>
+              <div id="comments-list" class="flex-1 p-6 flex flex-col gap-4 overflow-y-auto h-[300px] lg:h-[400px]"></div>
+              <form id="form-comment" class="p-5 flex gap-3 border-t border-zen-border bg-zen-surface">
                 <input type="hidden" id="active-report-id" />
-                <input type="text" id="comment-input" placeholder="Tulis pendapat Anda..." required />
-                <button type="submit" class="btn-send">
+                <input type="text" id="comment-input" class="flex-1 p-3.5 rounded-xl border border-zen-border bg-zen-bg text-zen-text text-sm font-medium outline-none transition-colors focus:border-zen-brand focus:ring-2 focus:ring-zen-brand/20" placeholder="Tulis pendapat Anda..." required />
+                <button type="submit" class="w-12 h-12 rounded-xl bg-zen-brand text-white border-none flex items-center justify-center cursor-pointer transition-transform hover:-translate-y-0.5 dark:text-zen-bg">
                   <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                 </button>
               </form>
@@ -248,15 +248,15 @@ import { ThemeToggle } from '../components/ThemeToggle';
     </div>
 
     <!-- Lightbox -->
-    <div id="lightbox" class="modal-overlay hidden">
-      <div class="lightbox-content">
-        <img id="lightbox-img" src="" alt="Full view" />
-        <button id="lightbox-close" class="btn-close-lg">&times;</button>
+    <div id="lightbox" class="fixed inset-0 bg-black/90 z-[2000] flex items-center justify-center hidden backdrop-blur-sm">
+      <div class="relative w-full h-full p-8 flex items-center justify-center">
+        <img id="lightbox-img" src="" alt="Full view" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl" />
+        <button id="lightbox-close" class="absolute top-6 right-6 lg:top-10 lg:right-10 bg-white/10 hover:bg-white/20 text-white border-none w-12 h-12 rounded-full text-2xl cursor-pointer flex items-center justify-center transition-colors backdrop-blur-md">&times;</button>
       </div>
     </div>
 
     <!-- Zen Toast -->
-    <div id="toast" class="zen-toast hidden">
+    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl font-bold text-white z-[2000] shadow-[0_10px_30px_rgba(0,0,0,0.2)] text-sm transition-all duration-300 hidden">
       <span id="toast-msg">Notifikasi</span>
     </div>
   </div>
@@ -361,9 +361,18 @@ import { ThemeToggle } from '../components/ThemeToggle';
       const input = document.getElementById('image-upload');
       zone.onclick = () => input.click();
       input.onchange = (e) => handleFile(e.target.files[0]);
-      zone.ondragover = (e) => { e.preventDefault(); zone.classList.add('active'); };
-      zone.ondragleave = () => zone.classList.remove('active');
-      zone.ondrop = (e) => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); };
+      zone.ondragover = (e) => { 
+        e.preventDefault(); 
+        zone.classList.add('border-zen-brand', 'bg-black/5', 'dark:bg-white/5'); 
+      };
+      zone.ondragleave = () => {
+        zone.classList.remove('border-zen-brand', 'bg-black/5', 'dark:bg-white/5');
+      };
+      zone.ondrop = (e) => { 
+        e.preventDefault(); 
+        zone.classList.remove('border-zen-brand', 'bg-black/5', 'dark:bg-white/5');
+        handleFile(e.dataTransfer.files[0]); 
+      };
       document.getElementById('btn-remove-image').onclick = () => {
         selectedFile = null; input.value = '';
         document.getElementById('image-preview').classList.add('hidden');
@@ -389,10 +398,14 @@ import { ThemeToggle } from '../components/ThemeToggle';
         const data = await res.json();
         categories = data.data || [];
         const container = document.getElementById('category-chips');
-        container.innerHTML = categories.map(c => `<div class="chip" data-id="${c.id}">${c.name}</div>`).join('');
-        container.querySelectorAll('.chip').forEach(c => c.onclick = () => {
-          container.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-          c.classList.add('active');
+        container.innerHTML = categories.map(c => `<div class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-zen-surface border border-zen-border text-xs sm:text-[13px] font-bold cursor-pointer transition-colors duration-200 text-zen-text whitespace-nowrap category-chip" data-id="${c.id}">${c.name}</div>`).join('');
+        container.querySelectorAll('.category-chip').forEach(c => c.onclick = () => {
+          container.querySelectorAll('.category-chip').forEach(x => {
+             x.classList.remove('bg-zen-brand', 'text-white', 'border-zen-brand', 'dark:text-zen-bg');
+             x.classList.add('bg-zen-surface', 'text-zen-text', 'border-zen-border');
+          });
+          c.classList.remove('bg-zen-surface', 'text-zen-text', 'border-zen-border');
+          c.classList.add('bg-zen-brand', 'text-white', 'border-zen-brand', 'dark:text-zen-bg');
           document.getElementById('category_id').value = c.dataset.id;
         });
       } catch(e) {}
@@ -418,26 +431,30 @@ import { ThemeToggle } from '../components/ThemeToggle';
 
     async function fetchFeed(sort) {
       const list = document.getElementById('reports-list');
-      list.innerHTML = '<div class="zen-loader"></div>';
+      list.innerHTML = '<div class="col-span-full py-12 flex justify-center"><div class="w-8 h-8 border-4 border-zen-border border-t-zen-brand rounded-full animate-spin"></div></div>';
       try {
         const res = await fetch(`${API_URL}/api/public-reports?sort=${sort}`, { headers: { 'Authorization': `Bearer ${token}` }});
         const data = await res.json();
         allReports = data.data || [];
-        if(allReports.length === 0) { list.innerHTML = '<div class="empty-zen">Belum ada laporan.</div>'; return; }
+        if(allReports.length === 0) { list.innerHTML = '<div class="col-span-full py-12 text-center text-zen-muted font-bold text-sm">Belum ada laporan.</div>'; return; }
         
         list.innerHTML = allReports.map(r => {
           const cat = categories.find(c => c.id === r.category_id)?.name || 'Umum';
-          const img = r.image_url ? `<div class="f-img"><img src="${API_URL}${r.image_url}" /></div>` : '';
+          const img = r.image_url ? `<div class="h-40 overflow-hidden"><img src="${API_URL}${r.image_url}" class="w-full h-full object-cover" /></div>` : '';
+          const statusClass = r.status.toLowerCase() === 'pending' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : r.status.toLowerCase() === 'resolved' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-gray-500/10 text-gray-600 dark:text-gray-400';
           return `
-            <div class="feed-card-item glass clickable" onclick="window.openDetail('${r.id}')">
+            <div class="rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.05)] bg-zen-surface border border-zen-border cursor-pointer group" onclick="window.openDetail('${r.id}')">
               ${img}
-              <div class="f-body">
-                <div class="f-meta"><span class="cat">${cat}</span> <span class="status ${r.status.toLowerCase()}">${r.status}</span></div>
-                <h4>${r.description}</h4>
-                <p>📍 ${r.location_detail}</p>
-                <div class="f-footer">
-                  <button class="vote-btn" onclick="event.stopPropagation(); window.doVote('${r.id}')">🔥 ${r.vote_count}</button>
-                  <span>💬 ${r.comment_count} Diskusi</span>
+              <div class="p-6">
+                <div class="flex gap-2.5 mb-3">
+                  <span class="text-[10px] font-extrabold px-2 py-1 rounded-md bg-zen-bg border border-zen-border">${cat}</span> 
+                  <span class="text-[10px] font-black px-2 py-1 rounded-md uppercase ${statusClass}">${r.status}</span>
+                </div>
+                <h4 class="text-base font-extrabold m-0 mb-2 leading-tight">${r.description}</h4>
+                <p class="text-xs text-zen-muted m-0">📍 ${r.location_detail}</p>
+                <div class="mt-5 pt-4 border-t border-zen-border flex justify-between items-center text-xs font-bold">
+                  <button class="bg-transparent border-none font-extrabold cursor-pointer text-zen-text flex items-center hover:text-zen-brand transition-colors" onclick="event.stopPropagation(); window.doVote('${r.id}')">🔥 ${r.vote_count}</button>
+                  <span class="text-zen-muted">💬 ${r.comment_count} Diskusi</span>
                 </div>
               </div>
             </div>
@@ -453,26 +470,26 @@ import { ThemeToggle } from '../components/ThemeToggle';
         const data = await res.json();
         const users = data.data || [];
         if (users.length === 0) {
-          list.innerHTML = '<div class="empty-zen">Belum ada data warga.</div>';
+          list.innerHTML = '<div class="py-8 text-center text-zen-muted font-bold text-sm">Belum ada data warga.</div>';
           return;
         }
         list.innerHTML = users.slice(0, 5).map((u, i) => {
-          const rankClass = i === 0 ? "rank-1" : i === 1 ? "rank-2" : i === 2 ? "rank-3" : "";
+          const rankClass = i === 0 ? "bg-amber-100 text-amber-900 border-amber-200 dark:bg-amber-400/10 dark:text-amber-400 dark:border-amber-400/20" : i === 1 ? "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-400/10 dark:text-slate-400 dark:border-slate-400/20" : i === 2 ? "bg-orange-100 text-orange-900 border-orange-200 dark:bg-orange-400/10 dark:text-orange-400 dark:border-orange-400/20" : "bg-zen-bg border-zen-border text-zen-text";
           const rankIcon = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1;
           const initial = (u.full_name || "U")[0].toUpperCase();
           return `
-            <div class="leader-row-zen">
-              <div class="leader-rank-box ${rankClass}">${rankIcon}</div>
-              <div class="leader-avatar-zen">${initial}</div>
-              <div class="leader-info-zen">
-                <strong>${u.full_name}</strong>
-                <span class="pts-tag">${u.points} PTS</span>
+            <div class="flex items-center gap-3 p-3 rounded-2xl bg-zen-surface border border-zen-border transition-all duration-200 hover:border-zen-brand hover:translate-x-1">
+              <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black border ${rankClass}">${rankIcon}</div>
+              <div class="w-8 h-8 rounded-xl bg-zen-brand text-white flex items-center justify-center font-extrabold text-xs dark:text-zen-bg">${initial}</div>
+              <div class="flex-1 min-w-0">
+                <strong class="text-[13px] font-extrabold block whitespace-nowrap overflow-hidden text-ellipsis text-zen-text">${u.full_name}</strong>
+                <span class="text-[10px] font-extrabold text-zen-blue tracking-wider">${u.points} PTS</span>
               </div>
             </div>
           `;
         }).join('');
       } catch(e) {
-        list.innerHTML = '<div class="empty-zen">Gagal memuat leaderboard.</div>';
+        list.innerHTML = '<div class="py-8 text-center text-red-500 font-bold text-sm">Gagal memuat leaderboard.</div>';
       }
     }
 
@@ -486,15 +503,17 @@ import { ThemeToggle } from '../components/ThemeToggle';
       document.getElementById('btn-logout-mobile').onclick = logout;
       
       const mobileMenuBtn = document.getElementById('btn-menu-mobile');
-      const sidebar = document.querySelector('.sidebar');
+      const sidebar = document.getElementById('sidebar');
       if (mobileMenuBtn && sidebar) {
-        mobileMenuBtn.onclick = () => sidebar.classList.toggle('mobile-open');
+        mobileMenuBtn.onclick = () => {
+          sidebar.classList.toggle('max-lg:-translate-x-full');
+        };
       }
       
       // Close sidebar when clicking outside
       document.addEventListener('click', (e) => {
-        if (sidebar && sidebar.classList.contains('mobile-open') && !sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-          sidebar.classList.remove('mobile-open');
+        if (sidebar && !sidebar.classList.contains('max-lg:-translate-x-full') && !sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          sidebar.classList.add('max-lg:-translate-x-full');
         }
       });
     }
@@ -554,8 +573,10 @@ import { ThemeToggle } from '../components/ThemeToggle';
       document.getElementById('detail-cat').textContent = categories.find(c => c.id === r.category_id)?.name || 'Umum';
       document.getElementById('detail-date').textContent = new Date(r.created_at).toLocaleDateString('id-ID');
       document.getElementById('detail-status').textContent = r.status;
-      document.getElementById('detail-status').className = `status-pill ${r.status.toLowerCase()}`;
-      document.getElementById('detail-votes').textContent = r.vote_count;
+      
+      const statusClass = r.status.toLowerCase() === 'pending' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : r.status.toLowerCase() === 'resolved' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-gray-500/10 text-gray-600 dark:text-gray-400';
+      document.getElementById('detail-status').className = `text-[11px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider ${statusClass}`;
+      
       document.getElementById('detail-votes').textContent = r.vote_count;
       document.getElementById('btn-vote-modal').onclick = () => window.doVote(id);
 
@@ -611,16 +632,16 @@ import { ThemeToggle } from '../components/ThemeToggle';
 
     async function loadComments(id) {
       const list = document.getElementById('comments-list');
-      list.innerHTML = '<div class="zen-loader"></div>';
+      list.innerHTML = '<div class="py-10 flex justify-center"><div class="w-8 h-8 border-4 border-zen-border border-t-zen-brand rounded-full animate-spin"></div></div>';
       try {
         const res = await fetch(`${API_URL}/api/reports/${id}/comments`);
         const data = await res.json();
         const c = data.data || [];
-        if(c.length === 0) { list.innerHTML = '<div class="empty-chat">Belum ada diskusi.</div>'; return; }
+        if(c.length === 0) { list.innerHTML = '<div class="py-10 flex justify-center text-zen-muted font-bold text-sm">Belum ada diskusi.</div>'; return; }
         list.innerHTML = c.map(x => `
-          <div class="chat-bubble ${x.user?.role === 'admin' ? 'admin' : ''}">
-            <div class="chat-meta"><strong>${x.user?.full_name || 'Warga'}</strong></div>
-            <p>${x.content}</p>
+          <div class="p-4 rounded-[20px] max-w-[90%] border ${x.user?.role === 'admin' ? 'bg-zen-brand text-white self-end border-zen-brand dark:text-zen-bg' : 'bg-zen-bg border-zen-border text-zen-text'}">
+            <div class="mb-1 text-xs"><strong>${x.user?.full_name || 'Warga'}</strong></div>
+            <p class="m-0 text-sm leading-relaxed">${x.content}</p>
           </div>
         `).join('');
         list.scrollTop = list.scrollHeight;
@@ -644,363 +665,16 @@ import { ThemeToggle } from '../components/ThemeToggle';
     function showToast(msg, type = 'info') {
       const t = document.getElementById('toast');
       document.getElementById('toast-msg').textContent = msg;
-      t.className = `zen-toast ${type}`;
+      
+      const baseClasses = 'fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl font-bold text-white z-[2000] shadow-[0_10px_30px_rgba(0,0,0,0.2)] text-sm transition-all duration-300';
+      const colorClass = type === 'success' ? 'bg-emerald-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+      
+      t.className = `${baseClasses} ${colorClass}`;
       t.classList.remove('hidden');
       setTimeout(() => {
         t.classList.add('hidden');
-        t.className = 'zen-toast hidden';
+        t.className = `${baseClasses} ${colorClass} hidden`;
       }, 3000);
     }
   </script>
-
-  <style is:global>
-    /* =========================================
-       Zen Minimalist SaaS System (User)
-       ========================================= */
-    
-    :root {
-      --zen-bg: #F5F2ED;
-      --zen-surface: #ffffff;
-      --zen-card: #ffffff;
-      --zen-sidebar: #ffffff;
-      --zen-text: #1A1A1A;
-      --zen-muted: #71717A;
-      --zen-border: rgba(26, 26, 26, 0.08);
-      --zen-brand: #1A1A1A;
-      --zen-blue: #3B82F6;
-      --zen-green: #10B981;
-      --zen-yellow: #F59E0B;
-      
-      --font-display: 'Plus Jakarta Sans', sans-serif;
-      --font-sans: 'Inter', sans-serif;
-    }
-
-    .dark {
-      --zen-bg: #010101;
-      --zen-surface: #0B0B0F;
-      --zen-card: #0B0B0F;
-      --zen-sidebar: #0B0B0F;
-      --zen-text: #ffffff;
-      --zen-muted: #94A3B8;
-      --zen-border: rgba(255, 255, 255, 0.1);
-      --zen-brand: #3B82F6; /* Use a brand color for primary actions in dark mode */
-      --zen-on-brand: #ffffff;
-    }
-
-    body { 
-      background-color: var(--zen-bg); 
-      color: var(--zen-text); 
-      font-family: var(--font-sans);
-      margin: 0;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .saas-layout {
-    background: var(--zen-bg);
-    min-height: 100vh;
-    display: flex;
-    transition: background 0.3s ease;
-  }
-
-  .sidebar {
-    width: 280px;
-    background: var(--zen-sidebar);
-    border-right: 1px solid var(--zen-border);
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    z-index: 50;
-    transition: all 0.3s ease;
-  }
-
-  .glass-nav {
-    @apply backdrop-blur-xl shadow-lg;
-  }
-
-  .nav-item {
-    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all mb-1;
-    color: var(--zen-muted);
-  }
-
-  .nav-item:hover {
-    @apply bg-stone-100 dark:bg-white/5;
-    color: var(--zen-text);
-  }
-
-  .nav-item.active {
-    background: var(--zen-brand);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-  }
-  .dark .nav-item.active {
-    background: rgba(59, 130, 246, 0.15);
-    color: #60a5fa;
-    border: 1px solid rgba(59, 130, 246, 0.3);
-  }
-
-  .user-card {
-    @apply p-4 rounded-2xl flex items-center gap-3 mb-4;
-    background: var(--zen-surface);
-    border: 1px solid var(--zen-border);
-  }
-
-  .main-content {
-    flex: 1;
-    margin-left: 280px;
-    padding: 2rem;
-    max-width: 1600px;
-  }
-
-  @media (max-width: 1024px) {
-    .sidebar { 
-      transform: translateX(-100%); 
-      z-index: 1000;
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .sidebar.mobile-open { transform: translateX(0); box-shadow: 20px 0 60px rgba(0,0,0,0.2); }
-    .main-content { margin-left: 0; padding: 1.5rem; padding-top: 5.5rem; }
-    .mobile-header { 
-      display: flex; align-items: center; justify-content: space-between; 
-      padding: 12px 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 900;
-    }
-    .mobile-menu-toggle {
-      background: none; border: none; color: var(--zen-text); padding: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
-    .user-pill {
-      display: flex; align-items: center; gap: 10px; padding: 4px 4px 4px 12px; border-radius: 99px; background: var(--zen-surface); border: 1px solid var(--zen-border);
-    }
-    #mobile-points { font-size: 11px; font-weight: 800; color: var(--zen-blue); }
-    .avatar-sm { width: 28px; height: 28px; border-radius: 50%; background: var(--zen-brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; }
-  }
-
-  .bento-grid {
-    @apply grid gap-6;
-    grid-template-columns: repeat(12, 1fr);
-  }
-
-  .bento-card {
-    @apply p-6 rounded-[2rem] border transition-all;
-    background: var(--zen-card);
-    border-color: var(--zen-border);
-  }
-  @media (max-width: 640px) {
-    .bento-card { padding: 20px; border-radius: 24px; }
-    .font-display { font-size: 28px; }
-    .subtitle { font-size: 14px; }
-  }
-    .sidebar-header { padding: 40px 24px; }
-    .user-logo { height: 40px; width: auto; filter: grayscale(1); }
-    
-    .nav-menu { flex: 1; padding: 0 16px; }
-    .nav-section { font-size: 10px; font-weight: 800; color: var(--zen-muted); padding: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
-    .nav-item { 
-      display: flex; align-items: center; gap: 12px; padding: 12px 16px; 
-      border-radius: 12px; color: var(--zen-muted); text-decoration: none; 
-      font-size: 14px; font-weight: 600; transition: all 0.3s;
-    }
-    .nav-item.active { /* Redundant definition removed */ }
-
-    .sidebar-footer { padding: 24px; border-top: 1px solid var(--zen-border); }
-    .user-card { padding: 16px; border-radius: 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-    .avatar-large { width: 44px; height: 44px; border-radius: 50%; background: var(--zen-brand); color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800; }
-    .u-name { font-weight: 800; font-size: 14px; display: block; }
-    .u-points { font-size: 11px; font-weight: 800; color: var(--zen-blue); }
-    
-    .btn-logout-zen { 
-      width: 100%; display: flex; align-items: center; justify-content: center; 
-      gap: 10px; padding: 12px; background: transparent; border: 1px solid var(--zen-border); 
-      border-radius: 12px; color: var(--zen-muted); font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s;
-    }
-
-    /* Main Content */
-    .main-content { flex: 1; overflow-y: auto; }
-    .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
-    @media (max-width: 640px) {
-      .content-wrapper { padding: 20px 16px; }
-      .page-header { margin-bottom: 24px; }
-    }
-    
-    .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
-    h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.04em; margin: 0; color: var(--zen-text); }
-    .subtitle { font-size: 16px; font-weight: 600; color: var(--zen-muted); margin-top: 4px; }
-    .date-badge { padding: 8px 16px; border-radius: 99px; font-weight: 700; font-size: 13px; background: var(--zen-surface); border: 1px solid var(--zen-border); color: var(--zen-text); }
-
-    /* Bento User Grid */
-    .bento-grid-user { 
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; 
-    }
-    .bento-card { border-radius: 28px; padding: 28px; border: 1px solid var(--zen-border); }
-    
-    .card-form { grid-column: span 2; grid-row: span 2; }
-    .card-stats { grid-column: span 1; display: grid; grid-template-columns: 1fr; gap: 16px; }
-    .card-leaderboard { grid-column: span 1; }
-    .card-feed { grid-column: span 3; }
-
-    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .card-head h3 { font-size: 16px; font-weight: 800; margin: 0; }
-    .head-hint { font-size: 11px; font-weight: 800; color: var(--zen-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-
-    /* Zen Form Styling */
-    .zen-form { display: flex; flex-direction: column; gap: 24px; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .input-group label { display: block; font-size: 12px; font-weight: 800; color: var(--zen-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
-    
-    .chip-container { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip { padding: 10px 18px; border-radius: 12px; background: var(--zen-surface); border: 1px solid var(--zen-border); font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s; color: var(--zen-text); white-space: nowrap; }
-    @media (max-width: 640px) {
-      .chip-container { display: flex; overflow-x: auto; padding-bottom: 8px; margin: 0 -4px; }
-      .chip { padding: 8px 14px; font-size: 12px; }
-    }
-    .chip.active { background: var(--zen-brand); color: var(--zen-bg); border-color: var(--zen-brand); }
-    
-    textarea, input[type="text"] { 
-      width: 100%; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--zen-border); 
-      background: var(--zen-surface); outline: none; font-size: 14px; font-weight: 500; transition: 0.3s;
-      color: var(--zen-text);
-    }
-    textarea { min-height: 100px; resize: none; }
-    textarea:focus, input:focus { border-color: var(--zen-brand); box-shadow: 0 0 0 4px rgba(0,0,0,0.03); }
-
-    .drop-zone { 
-      height: 100px; border: 2px dashed var(--zen-border); border-radius: 16px; 
-      display: flex; flex-direction: column; align-items: center; justify-content: center; 
-      gap: 8px; cursor: pointer; background: var(--zen-surface); transition: 0.3s;
-    }
-    .drop-zone.active { border-color: var(--zen-brand); background: rgba(0,0,0,0.02); }
-    .drop-icon { font-size: 20px; }
-    .drop-zone p { font-size: 12px; font-weight: 700; color: var(--zen-muted); margin: 0; }
-
-    .preview-box { position: relative; height: 100px; border-radius: 16px; overflow: hidden; }
-    .preview-box img { width: 100%; height: 100%; object-fit: cover; }
-    .btn-clear { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.5); color: white; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; }
-
-    .zen-map { height: 250px; border-radius: 16px; border: 1px solid var(--zen-border); margin-top: 12px; z-index: 10; }
-    
-    .search-loc-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
-    .search-box { display: flex; gap: 8px; }
-    .search-box input { flex: 1; }
-    .btn-search-icon { padding: 0 16px; background: var(--zen-surface); border: 1px solid var(--zen-border); border-radius: 12px; cursor: pointer; transition: 0.2s; color: var(--zen-text); }
-    .btn-search-icon:hover { border-color: var(--zen-brand); }
-
-    /* Stats Card */
-    .stat-item { padding: 20px; border-radius: 20px; background: var(--zen-surface); border: 1px solid var(--zen-border); text-align: center; }
-    .s-label { font-size: 11px; font-weight: 800; color: var(--zen-muted); text-transform: uppercase; }
-    .stat-item h2 { font-size: 32px; font-weight: 800; margin: 8px 0 0; letter-spacing: -0.04em; color: var(--zen-text); }
-    .text-yellow { color: var(--zen-yellow); }
-    .text-green { color: var(--zen-green); }
-
-    /* Leaderboard Zen Style */
-    .leader-list { display: flex; flex-direction: column; gap: 8px; }
-    .leader-row-zen { 
-      display: flex; align-items: center; gap: 12px; padding: 12px 14px; 
-      border-radius: 16px; background: var(--zen-surface); border: 1px solid var(--zen-border);
-      transition: 0.2s;
-    }
-    .leader-row-zen:hover { border-color: var(--zen-brand); transform: translateX(4px); }
-    
-    .leader-rank-box { 
-      width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; 
-      font-size: 12px; font-weight: 900; background: var(--zen-bg); border: 1px solid var(--zen-border);
-    }
-    .leader-rank-box.rank-1 { background: #fef3c7; color: #92400e; border-color: #fde68a; }
-    .dark .leader-rank-box.rank-1 { background: rgba(251, 191, 36, 0.1); color: #fbbf24; border-color: rgba(251, 191, 36, 0.2); }
-    .leader-rank-box.rank-2 { background: #f1f5f9; color: #475569; border-color: #e2e8f0; }
-    .leader-rank-box.rank-3 { background: #ffedd5; color: #9a3412; border-color: #fed7aa; }
-    
-    .leader-avatar-zen { width: 34px; height: 34px; border-radius: 10px; background: var(--zen-brand); color: var(--zen-bg); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
-    .leader-info-zen { flex: 1; min-width: 0; }
-    .leader-info-zen strong { font-size: 13px; font-weight: 800; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--zen-text); }
-    .pts-tag { font-size: 10px; font-weight: 800; color: var(--zen-blue); letter-spacing: 0.05em; }
-
-    /* Feed Styling */
-    .zen-feed { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 24px; }
-    .feed-card-item { border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; }
-    .feed-card-item:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-    .f-img { height: 160px; overflow: hidden; }
-    .f-img img { width: 100%; height: 100%; object-fit: cover; }
-    .f-body { padding: 24px; }
-    .f-meta { display: flex; gap: 10px; margin-bottom: 12px; }
-    .cat { font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; background: var(--zen-bg); border: 1px solid var(--zen-border); }
-    .status { font-size: 10px; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; }
-    .status.pending { background: rgba(245, 158, 11, 0.1); color: var(--zen-yellow); }
-    .status.resolved { background: rgba(16, 185, 129, 0.1); color: var(--zen-green); }
-
-    .f-body h4 { font-size: 16px; font-weight: 800; margin: 0 0 8px; line-height: 1.4; }
-    .f-body p { font-size: 12px; color: var(--zen-muted); margin: 0; }
-    .f-footer { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--zen-border); display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; }
-    .vote-btn { background: none; border: none; font-weight: 800; cursor: pointer; color: var(--zen-text); }
-
-    /* Utilities */
-    .glass { background: var(--zen-surface); backdrop-filter: blur(12px); border: 1px solid var(--zen-border); }
-    .glass-nav { background: var(--zen-sidebar); backdrop-filter: blur(20px); }
-    .text-gradient { background: linear-gradient(90deg, #3B82F6, #10B981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .btn-zen-primary { padding: 16px; border-radius: 16px; background: var(--zen-brand); color: var(--zen-on-brand); border: none; font-weight: 800; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .btn-zen-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2); opacity: 0.9; }
-    
-    .hidden { display: none !important; }
-    .animate-up { animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Modal Styling */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .modal-card { width: 100%; max-width: 1000px; max-height: 90vh; border-radius: 32px; overflow: hidden; display: flex; flex-direction: column; }
-    .modal-head { padding: 24px 32px; border-bottom: 1px solid var(--zen-border); display: flex; justify-content: space-between; align-items: center; background: var(--zen-surface); color: var(--zen-text); }
-    .btn-close { background: none; border: none; font-size: 32px; cursor: pointer; color: var(--zen-muted); }
-    .modal-body { background: var(--zen-bg); flex: 1; overflow-y: auto; color: var(--zen-text); }
-    .modal-grid { display: grid; grid-template-columns: 1fr 380px; }
-    @media (max-width: 900px) { .modal-grid { grid-template-columns: 1fr; } }
-    .modal-info { padding: 32px; border-right: 1px solid var(--zen-border); }
-    .detail-img { height: 300px; border-radius: 20px; overflow: hidden; margin-bottom: 24px; cursor: zoom-in; background: var(--zen-surface); }
-    .detail-img img { width: 100%; height: 100%; object-fit: cover; }
-    .cat-pill { font-size: 11px; font-weight: 800; background: var(--zen-surface); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--zen-border); margin-right: 8px; }
-    .status-pill { font-size: 11px; font-weight: 900; padding: 6px 12px; border-radius: 8px; text-transform: uppercase; }
-    .status-pill.pending { background: rgba(245, 158, 11, 0.1); color: var(--zen-yellow); }
-    .status-pill.resolved { background: rgba(16, 185, 129, 0.1); color: var(--zen-green); }
-    
-    .loc-box { padding: 16px; border-radius: 16px; margin: 24px 0; background: var(--zen-surface); border: 1px solid var(--zen-border); font-size: 14px; }
-    .loc-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .loc-actions { display: flex; gap: 8px; }
-    .btn-sm-outline { padding: 6px 12px; font-size: 11px; font-weight: 800; border: 1px solid var(--zen-border); border-radius: 8px; background: var(--zen-surface); cursor: pointer; transition: 0.2s; text-decoration: none; color: inherit; display: inline-flex; align-items: center; }
-    .btn-sm-outline:hover { background: var(--zen-bg); border-color: var(--zen-brand); }
-    .modal-map { height: 200px; border-radius: 12px; margin-top: 12px; border: 1px solid var(--zen-border); }
-    .btn-vote { background: var(--zen-surface); color: var(--zen-text); border: 1px solid var(--zen-border); padding: 12px 20px; border-radius: 14px; font-weight: 800; cursor: pointer; transition: 0.2s; }
-    .btn-vote:hover { transform: scale(1.05); background: var(--zen-bg); }
-
-    .modal-comments { background: var(--zen-surface); display: flex; flex-direction: column; border-left: 1px solid var(--zen-border); }
-    .comments-header { padding: 24px; border-bottom: 1px solid var(--zen-border); font-weight: 800; font-size: 12px; text-transform: uppercase; }
-    .comments-feed { flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; height: 400px; }
-    .chat-bubble { padding: 16px; border-radius: 20px; background: var(--zen-bg); border: 1px solid var(--zen-border); max-width: 90%; }
-    .chat-bubble.admin { background: var(--zen-brand); color: white; align-self: flex-end; }
-    .chat-bubble p { margin: 0; font-size: 14px; line-height: 1.5; margin: 0; }
-
-    .comment-input { padding: 20px; display: flex; gap: 12px; border-top: 1px solid var(--zen-border); }
-    .comment-input input { flex: 1; border-radius: 12px; }
-
-    /* Toast Notification */
-    .zen-toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); padding: 12px 24px; border-radius: 12px; background: var(--zen-brand); color: white; font-weight: 700; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 14px; transition: 0.3s; }
-    .zen-toast.success { background: #10B981; }
-    .zen-toast.error { background: #EF4444; }
-    .zen-toast.info { background: #3B82F6; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .bento-grid-user { grid-template-columns: 1fr; }
-      .card-form, .card-stats, .card-leaderboard, .card-feed { grid-column: span 1; }
-      .main-content { padding-bottom: 100px; }
-      .grid-2 { grid-template-columns: 1fr; }
-      .page-header { flex-direction: column; gap: 16px; align-items: flex-start; }
-    }
-    
-    @media (min-width: 769px) and (max-width: 1100px) {
-      .bento-grid-user { grid-template-columns: repeat(2, 1fr); }
-      .card-form { grid-column: span 2; }
-      .card-stats { grid-column: span 1; }
-      .card-leaderboard { grid-column: span 1; }
-      .card-feed { grid-column: span 2; }
-    }
-    @media (min-width: 769px) { .mobile-header, .mobile-nav { display: none; } }
-  </style>
 </Layout>
