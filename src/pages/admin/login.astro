@@ -83,12 +83,6 @@ import { ThemeToggle } from '../../components/ThemeToggle';
     </div>
   </main>
 
-  <style>
-    .glass-container {
-      background: rgba(255, 255, 255, 0.01);
-      backdrop-filter: blur(40px);
-    }
-  </style>
 
   <script>
     const API_URL = 'http://localhost:3000';
@@ -114,7 +108,7 @@ import { ThemeToggle } from '../../components/ThemeToggle';
         const data = await res.json();
 
         if (res.ok) {
-          localStorage.setItem('access_token', data.token);
+          localStorage.setItem('access_token', data.access_token);
           localStorage.setItem('user', JSON.stringify(data.user));
           window.location.href = '/admin/dashboard';
         } else {
