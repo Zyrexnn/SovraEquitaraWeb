@@ -24,8 +24,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 
     <!-- Sidebar -->
     <aside class="fixed inset-y-0 left-0 w-72 bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col z-40 transition-transform lg:translate-x-0 -translate-x-full" id="sidebar">
-      <div class="p-8 flex items-center justify-between border-b border-stone-100 dark:border-white/5">
-        <img src="/logo.svg" alt="Sovra" class="h-8 dark:brightness-0 dark:invert">
+      <div class="p-8 flex items-center justify-between border-b border-zen-border dark:border-zen-border-dark">
+        <img src="/logo.svg" alt="Sovra" class="h-14 dark:brightness-0 dark:invert">
         <ThemeToggle client:load />
       </div>
       
@@ -57,8 +57,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         </a>
       </nav>
 
-      <div class="p-6 border-t border-stone-100 dark:border-white/5 space-y-4">
-        <div class="flex items-center gap-4 p-4 rounded-2xl bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/5">
+      <div class="p-6 border-t border-zen-border dark:border-zen-border-dark space-y-4">
+        <div class="flex items-center gap-4 p-4 rounded-2xl bg-zen-surface dark:bg-white/5 border border-zen-border dark:border-zen-border-dark">
           <div class="w-10 h-10 rounded-xl bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center font-black">A</div>
           <div class="overflow-hidden">
             <div class="text-xs font-black truncate" id="admin-name-sidebar">Administrator</div>
@@ -83,7 +83,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       <div class="max-w-7xl mx-auto p-6 lg:p-12 space-y-10">
         <header class="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <h1 class="text-4xl lg:text-5xl font-black tracking-tight text-stone-900 dark:text-white">Admin Console</h1>
+            <h1 class="text-4xl lg:text-5xl font-black tracking-tight text-zen-text dark:text-zen-text-dark">Admin Console</h1>
             <p class="text-stone-500 font-bold mt-2">Pusat Kendali Pelaporan Kota</p>
           </div>
           <div id="live-time" class="px-6 py-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl font-black text-sm tracking-widest shadow-sm">--:--:-- WIB</div>
@@ -92,7 +92,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         <!-- Stats Grid -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
           {[
-            { label: 'Total Reports', id: 'stat-total', color: 'text-stone-900 dark:text-white' },
+            { label: 'Total Reports', id: 'stat-total', color: 'text-zen-text dark:text-zen-text-dark' },
             { label: 'Pending Review', id: 'stat-pending', color: 'text-amber-500' },
             { label: 'Verified', id: 'stat-verified', color: 'text-green-500' },
             { label: 'Resolved', id: 'stat-resolved', color: 'text-blue-500' }
@@ -109,7 +109,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           <!-- Chart Card -->
           <div class="lg:col-span-5 bg-zen-card dark:bg-zen-card-dark p-8 lg:p-10 rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen flex flex-col min-h-[500px]">
             <div class="mb-10">
-              <h3 class="text-xl font-black text-stone-900 dark:text-white">Distribusi Laporan</h3>
+              <h3 class="text-xl font-black text-zen-text dark:text-zen-text-dark">Distribusi Laporan</h3>
               <p class="text-sm font-bold text-stone-400 mt-1">Berdasarkan Kategori</p>
             </div>
             <div class="flex-1 flex items-center justify-center relative">
@@ -119,13 +119,13 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 
           <!-- Table Card -->
           <div class="lg:col-span-7 bg-zen-card dark:bg-zen-card-dark rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen overflow-hidden flex flex-col">
-            <div class="p-8 lg:p-10 border-b border-stone-100 dark:border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="p-8 lg:p-10 border-b border-zen-border dark:border-zen-border-dark flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
-                <h3 class="text-xl font-black text-stone-900 dark:text-white">Laporan Masuk</h3>
+                <h3 class="text-xl font-black text-zen-text dark:text-zen-text-dark">Laporan Masuk</h3>
                 <p class="text-sm font-bold text-stone-400 mt-1">Kelola aduan warga secara real-time</p>
               </div>
               <div class="flex flex-wrap gap-3">
-                <select id="status-filter" class="px-4 py-2 bg-stone-50 dark:bg-white/5 border border-stone-200 dark:border-white/10 rounded-xl text-xs font-bold outline-none focus:ring-2 ring-stone-900/5">
+                <select id="status-filter" class="px-4 py-2 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-brand/20 dark:focus:ring-white/20 appearance-none">
                   <option value="">Semua Status</option>
                   <option value="PENDING">Pending</option>
                   <option value="VALID">Verified</option>
@@ -137,14 +137,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             <div class="overflow-x-auto">
               <table class="w-full text-left border-collapse">
                 <thead>
-                  <tr class="text-[10px] font-black text-stone-400 uppercase tracking-widest border-b border-stone-100 dark:border-white/5">
+                  <tr class="text-[10px] font-black text-stone-400 uppercase tracking-widest border-b border-zen-border dark:border-zen-border-dark">
                     <th class="px-10 py-6">Media</th>
                     <th class="px-6 py-6">Aduan</th>
                     <th class="px-6 py-6">Status</th>
                     <th class="px-6 py-6 text-right">Tanggal</th>
                   </tr>
                 </thead>
-                <tbody id="reports-tbody" class="divide-y divide-stone-50 dark:divide-white/5">
+                <tbody id="reports-tbody" class="divide-y divide-zen-border dark:divide-zen-border-dark">
                   <!-- JS Render -->
                 </tbody>
               </table>
@@ -159,8 +159,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
   <div id="report-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 lg:p-12">
     <div class="absolute inset-0 bg-stone-900/40 dark:bg-black/80 backdrop-blur-sm" onclick="window.closeModal()"></div>
     <div class="relative bg-zen-card dark:bg-zen-card-dark w-full max-w-5xl max-h-[90vh] rounded-3xl shadow-zen border border-zen-border dark:border-zen-border-dark overflow-hidden flex flex-col scale-95 opacity-0 transition-all duration-300" id="modal-content">
-      <div class="p-8 lg:p-10 flex items-center justify-between border-b border-zen-border dark:border-zen-border-dark bg-white/10 backdrop-blur-md sticky top-0 z-10">
-        <h3 class="text-2xl font-black text-stone-900 dark:text-white">Detail Laporan Warga</h3>
+      <div class="p-8 lg:p-10 flex items-center justify-between border-b border-zen-border dark:border-zen-border-dark bg-zen-surface/80 dark:bg-zen-surface-dark/80 backdrop-blur-md sticky top-0 z-10">
+        <h3 class="text-2xl font-black text-zen-text dark:text-zen-text-dark">Detail Laporan Warga</h3>
         <button class="p-3 hover:bg-stone-100 dark:hover:bg-white/5 rounded-2xl transition-colors text-stone-400" onclick="window.closeModal()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
@@ -170,7 +170,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         <div class="grid lg:grid-cols-2 gap-12">
           <!-- Left: Media -->
           <div class="space-y-6">
-            <div class="aspect-video lg:aspect-square rounded-[32px] overflow-hidden bg-stone-100 dark:bg-white/5 border border-stone-200 dark:border-white/10">
+            <div class="aspect-video lg:aspect-square rounded-[32px] overflow-hidden bg-zen-surface dark:bg-zen-surface-dark border border-stone-200 dark:border-white/10">
               <img id="detail-img" src="" alt="Laporan" class="w-full h-full object-cover" />
             </div>
             <div id="admin-map" class="aspect-video rounded-[32px] overflow-hidden border border-stone-200 dark:border-white/10 hidden"></div>
@@ -179,14 +179,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           <!-- Right: Details -->
           <div class="space-y-10">
             <div class="flex items-center gap-6">
-              <div class="flex-1 p-6 rounded-[24px] bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/5">
+              <div class="flex-1 p-6 rounded-[24px] bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
                 <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-3">VOTES</div>
-                <div class="flex items-center gap-2.5 font-black text-2xl text-stone-900 dark:text-white">
+                <div class="flex items-center gap-2.5 font-black text-2xl text-zen-text dark:text-zen-text-dark">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-stone-400"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
                   <span id="modal-vote-count">0</span>
                 </div>
               </div>
-              <div class="flex-1 p-6 rounded-[24px] bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/5">
+              <div class="flex-1 p-6 rounded-[24px] bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
                 <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-3">STATUS</div>
                 <div id="modal-status-badge" class="inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-amber-200 dark:border-amber-500/20">PENDING</div>
               </div>
@@ -199,9 +199,9 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 
             <div class="space-y-4">
               <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest">LOKASI KEJADIAN</label>
-              <div class="flex items-start gap-4 p-6 rounded-[24px] bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/5">
+              <div class="flex items-start gap-4 p-6 rounded-[24px] bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-stone-400 mt-1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                <span id="detail-loc" class="font-bold text-stone-900 dark:text-white"></span>
+                <span id="detail-loc" class="font-bold text-zen-text dark:text-zen-text-dark"></span>
               </div>
             </div>
 
@@ -216,11 +216,18 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
               </a>
             </div>
 
-            <div class="pt-8 border-t border-stone-100 dark:border-white/5 space-y-6">
+            <div id="admin-comments-section" class="pt-8 border-t border-zen-border dark:border-zen-border-dark space-y-4">
+              <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest">DISKUSI WARGA</label>
+              <div id="admin-comments-list" class="flex flex-col gap-3 max-h-60 overflow-y-auto p-4 rounded-[24px] bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark scrollbar-hide">
+                <div class="text-sm font-bold text-stone-400 text-center py-4">Memuat komentar...</div>
+              </div>
+            </div>
+
+            <div id="moderation-container" class="pt-8 border-t border-zen-border dark:border-zen-border-dark space-y-6">
               <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest">MODERASI LAPORAN</label>
               <div class="flex gap-4">
                 <button id="btn-verify" class="flex-1 px-8 py-5 bg-stone-900 dark:bg-white text-white dark:text-black font-black text-xs tracking-widest rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all">SETUJUI LAPORAN</button>
-                <button id="btn-resolve" class="flex-1 px-8 py-5 border-2 border-stone-200 dark:border-white/10 text-stone-900 dark:text-white font-black text-xs tracking-widest rounded-2xl hover:bg-stone-100 dark:hover:bg-white/5 transition-all">SELESAIKAN</button>
+                <button id="btn-resolve" class="flex-1 px-8 py-5 border-2 border-stone-200 dark:border-white/10 text-zen-text dark:text-zen-text-dark font-black text-xs tracking-widest rounded-2xl hover:bg-stone-100 dark:hover:bg-white/5 transition-all">SELESAIKAN</button>
               </div>
             </div>
           </div>
@@ -346,12 +353,12 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       tbody.innerHTML = reports.map(r => `
         <tr onclick="window.openReportModal('${r.id}')" class="hover:bg-stone-50 dark:hover:bg-white/5 cursor-pointer transition-colors duration-200 group">
           <td class="px-10 py-6">
-            <div class="w-14 h-14 rounded-xl overflow-hidden bg-stone-100 dark:bg-white/5 border border-stone-200 dark:border-white/10 group-hover:scale-110 transition-transform duration-500">
+            <div class="w-14 h-14 rounded-xl overflow-hidden bg-zen-surface dark:bg-zen-surface-dark border border-stone-200 dark:border-white/10 group-hover:scale-110 transition-transform duration-500">
               ${r.image_url ? `<img src="${API_URL}${r.image_url}" class="w-full h-full object-cover"/>` : "<div class='w-full h-full flex items-center justify-center text-xl grayscale'>🖼️</div>"}
             </div>
           </td>
           <td class="px-6 py-6">
-            <div class="font-bold text-stone-900 dark:text-white line-clamp-1">${r.description}</div>
+            <div class="font-bold text-zen-text dark:text-zen-text-dark line-clamp-1">${r.description}</div>
             <div class="text-[11px] font-bold text-stone-400 mt-1 uppercase tracking-wider">${r.location_detail}</div>
           </td>
           <td class="px-6 py-6">
@@ -412,6 +419,69 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       
       const gLink = document.getElementById("gmaps-link") as HTMLAnchorElement;
       if(gLink) gLink.href = `https://www.google.com/maps?q=${r.latitude},${r.longitude}`;
+
+      const modalMapContainer = document.getElementById('admin-map');
+      const viewMapBtn = document.getElementById('btn-toggle-map');
+      const viewMapText = document.getElementById('btn-toggle-map-text');
+      if (modalMapContainer && viewMapBtn && viewMapText) {
+        modalMapContainer.classList.add('hidden');
+        viewMapText.textContent = 'LIHAT PETA';
+
+        viewMapBtn.onclick = () => {
+          const isHidden = modalMapContainer.classList.toggle('hidden');
+          viewMapText.textContent = isHidden ? 'LIHAT PETA' : 'TUTUP PETA';
+          if (!isHidden) {
+            setTimeout(() => {
+              if ((window as any).mMap) (window as any).mMap.remove();
+              (window as any).mMap = (window as any).L.map('admin-map', { zoomControl: true }).setView([r.latitude, r.longitude], 16);
+              const isDark = document.documentElement.classList.contains('dark');
+              (window as any).L.tileLayer(isDark ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo((window as any).mMap);
+              (window as any).L.marker([r.latitude, r.longitude]).addTo((window as any).mMap);
+            }, 100);
+          }
+        };
+      }
+
+      async function fetchAdminComments(reportId) {
+        const list = document.getElementById('admin-comments-list');
+        if (!list) return;
+        list.innerHTML = '<div class="text-sm font-bold text-stone-400 text-center py-4">Memuat komentar...</div>';
+        try {
+          const res = await fetch(`${API_URL}/api/reports/${reportId}/comments`);
+          const data = await res.json();
+          const comments = data.data || [];
+          if (comments.length === 0) {
+            list.innerHTML = '<div class="text-sm font-bold text-stone-400 text-center py-4">Belum ada diskusi.</div>';
+            return;
+          }
+          list.innerHTML = comments.map(c => `
+            <div class="p-4 rounded-2xl border ${c.user?.role === 'admin' ? 'bg-stone-900 dark:bg-white text-white dark:text-black self-end border-transparent' : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-white/10'}">
+              <div class="mb-1 text-xs opacity-70 font-bold">${c.user?.full_name || 'Warga'}</div>
+              <p class="m-0 text-sm">${c.content}</p>
+            </div>
+          `).join('');
+        } catch(e) {
+          list.innerHTML = '<div class="text-sm font-bold text-red-500 text-center py-4">Gagal memuat diskusi.</div>';
+        }
+      }
+      fetchAdminComments(id);
+
+      const modContainer = document.getElementById("moderation-container");
+      const btnVerify = document.getElementById("btn-verify");
+      const btnResolve = document.getElementById("btn-resolve");
+      if (modContainer && btnVerify && btnResolve) {
+        if (r.status === 'PENDING') {
+          modContainer.style.display = 'block';
+          btnVerify.style.display = 'block';
+          btnResolve.style.display = 'none';
+        } else if (r.status === 'VALID') {
+          modContainer.style.display = 'block';
+          btnVerify.style.display = 'none';
+          btnResolve.style.display = 'block';
+        } else {
+          modContainer.style.display = 'none';
+        }
+      }
     };
 
     window.verifyReport = async (status) => {
@@ -437,8 +507,9 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     updateTime();
     setInterval(updateTime, 1000);
     loadData();
+    setInterval(loadData, 5000);
 
-    document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar")?.classList.toggle("mobile-open"));
+    document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar")?.classList.toggle("-translate-x-full"));
     document.getElementById("logout-btn")?.addEventListener("click", () => { localStorage.clear(); window.location.href = "/admin/login"; });
     
     ["search-input", "category-filter", "status-filter"].forEach(id => {

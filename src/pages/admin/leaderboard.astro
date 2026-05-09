@@ -16,7 +16,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 
     <aside class="w-[280px] bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col fixed h-screen z-[1000] transition-transform duration-300 lg:translate-x-0 -translate-x-full" id="sidebar">
       <div class="p-10 flex items-center justify-between">
-        <img src="/logo.svg" alt="Sovra" class="h-7 dark:brightness-0 dark:invert">
+        <img src="/logo.svg" alt="Sovra" class="h-14 dark:brightness-0 dark:invert">
         <ThemeToggle client:load />
       </div>
       
@@ -147,7 +147,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       renderLeaderboard(filtered);
     });
 
-    document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar").classList.toggle("mobile-open"));
+    document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar").classList.toggle("-translate-x-full"));
     document.getElementById("logout-btn")?.addEventListener("click", () => { localStorage.clear(); window.location.href = "/admin/login"; });
 
     init();
