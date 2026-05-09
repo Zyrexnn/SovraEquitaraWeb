@@ -1,46 +1,56 @@
-# Astro Starter Kit: Basics
+# 🚀 SovraEquitara Frontend
 
-```sh
-npm create astro@latest -- --template basics
+Bagian frontend dari platform **SovraEquitara**, dibangun menggunakan **Astro** untuk performa maksimal dan **Tailwind CSS** untuk desain Zen Minimalis yang elegan.
+
+---
+
+## 🛠️ Tech Stack
+- **Framework**: [Astro v4.x](https://astro.build/)
+- **Styling**: [Tailwind CSS v4.0](https://tailwindcss.com/)
+- **UI Components**: React & TypeScript
+- **State Management**: LocalStorage & JWT
+- **Peta Interaktif**: Leaflet.js
+
+---
+
+## ⚙️ Persiapan Pengembangan
+
+### 1. Prasyarat
+- **Node.js**: v18.x atau lebih baru.
+- **Backend API**: Pastikan server [SovraEquitara Backend](../be) sudah berjalan di `http://localhost:3000`.
+
+### 2. Instalasi
+Clone repositori dan install dependensi:
+```bash
+npm install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+### 3. Konfigurasi Environment
+Buat file `.env` di direktori root `fe/` (jika belum ada) dan sesuaikan URL API:
+```env
+PUBLIC_API_URL=http://localhost:3000
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+### 4. Jalankan Server Development
+```bash
+npm run dev
+```
+Akses di: `http://localhost:4321`
 
-## 🧞 Commands
+---
 
-All commands are run from the root of the project, from a terminal:
+## 🏗️ Struktur Folder Penting
+- `src/pages/`: Route utama aplikasi (Warga & Admin).
+- `src/layouts/`: Struktur layout dasar halaman.
+- `src/components/`: Komponen UI interaktif (React/Astro).
+- `src/styles/`: Konfigurasi global Tailwind.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
+## 🚀 Build untuk Produksi
+Untuk melakukan kompilasi aset siap produksi:
+```bash
+npm run build
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+© 2026 **SovraEquitara** &bull; *Membangun Kota dengan Data.*
