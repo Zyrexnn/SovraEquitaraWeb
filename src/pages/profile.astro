@@ -1,125 +1,163 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { ThemeToggle } from '../components/ThemeToggle';
 ---
 
 <Layout title="Profil Saya — SovraEquitara">
   <div class="flex h-screen overflow-hidden bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display">
     <!-- Desktop Sidebar -->
-    <aside class="hidden md:flex w-[280px] bg-zen-card/40 dark:bg-zen-card-dark/40 backdrop-blur-xl border-r border-zen-border dark:border-zen-border-dark flex-col z-[100]">
-      <div class="p-10 pb-6">
+    <aside class="fixed left-0 top-0 w-[280px] h-screen bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col z-[1000] transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] max-lg:-translate-x-full lg:translate-x-0 backdrop-blur-xl shadow-lg" id="sidebar">
+      <div class="p-6 lg:py-10 flex items-center justify-between">
         <a href="/" class="block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="h-16 w-auto dark:brightness-0 dark:invert" />
+          <img src="/logo.svg" alt="SovraEquitara" class="h-16 w-auto grayscale dark:brightness-0 dark:invert" />
         </a>
+        <div class="flex items-center gap-2">
+          <ThemeToggle client:load />
+          <button id="btn-close-sidebar" class="lg:hidden p-2 text-zen-muted dark:text-zen-muted-dark hover:text-zen-text dark:hover:text-zen-text-dark bg-transparent border-none cursor-pointer flex items-center justify-center">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
       </div>
       
-      <nav class="flex-1 px-4 flex flex-col gap-1">
-        <div id="nav-section-title" class="text-[10px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark px-3 py-3 tracking-widest uppercase">NAVIGASI</div>
-        <a href="/dashboard" id="nav-dashboard-link" class="flex items-center gap-3 p-3 rounded-xl text-zen-text-secondary dark:text-zen-text-secondary-dark hover:bg-zen-bg hover:text-zen-text dark:hover:bg-zen-bg-dark dark:hover:text-zen-text-dark font-semibold text-sm transition-colors no-underline">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
-          <span id="nav-dashboard-text">Dashboard Warga</span>
+      <nav class="flex-1 px-4">
+        <div class="text-[10px] font-extrabold text-zen-muted dark:text-zen-muted-dark p-3 tracking-widest uppercase">NAVIGASI</div>
+        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+          Dashboard Warga
         </a>
-        <a href="/profile" class="flex items-center gap-3 p-3 rounded-xl text-blue-500 bg-blue-50 dark:bg-blue-500/10 border border-zen-border dark:border-zen-border-dark shadow-sm font-bold text-sm transition-colors no-underline">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <a href="/admin/dashboard" id="nav-dashboard-link" class="hidden flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+          <span id="nav-dashboard-text">Dashboard Admin</span>
+        </a>
+        <a href="/history" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Riwayat Laporan
+        </a>
+        <a href="/profile" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 bg-brand dark:bg-white text-white dark:text-brand shadow-lg shadow-brand/10 dark:shadow-white/10">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Profil Saya
         </a>
       </nav>
 
       <div class="p-6 border-t border-zen-border dark:border-zen-border-dark">
-        <div class="p-4 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark backdrop-blur-md border border-zen-border dark:border-zen-border-dark flex items-center gap-3 mb-4">
-          <div class="w-11 h-11 rounded-full bg-zen-text dark:bg-zen-text-dark text-zen-bg dark:text-zen-bg-dark flex items-center justify-center font-extrabold" id="sidebar-avatar">U</div>
+        <div class="p-4 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark flex items-center gap-3 mb-4">
+          <div class="w-11 h-11 rounded-full bg-brand dark:bg-white text-white dark:text-brand flex items-center justify-center font-black" id="sidebar-avatar">U</div>
           <div class="flex flex-col">
-            <span class="font-extrabold text-sm" id="sidebar-name">Memuat...</span>
-            <span class="text-[11px] font-extrabold text-blue-500" id="sidebar-points">0 PTS</span>
+            <span class="font-extrabold text-sm truncate max-w-[150px]" id="sidebar-name">Memuat...</span>
+            <span class="text-[11px] font-bold text-brand dark:text-white/70" id="sidebar-points">0 PTS</span>
           </div>
         </div>
-        <button id="btn-logout-desktop" class="w-full flex items-center justify-center gap-2.5 p-3 bg-transparent border border-zen-border dark:border-zen-border-dark rounded-xl text-zen-text-secondary dark:text-zen-text-secondary-dark font-bold text-[13px] cursor-pointer transition-colors hover:bg-zen-bg dark:hover:bg-zen-bg-dark">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
+        <button id="btn-logout-desktop" class="w-full flex items-center justify-center gap-2.5 p-3.5 bg-transparent border border-zen-border dark:border-zen-border-dark rounded-xl text-zen-muted dark:text-zen-muted-dark font-bold text-[13px] cursor-pointer transition-colors hover:bg-stone-100 dark:hover:bg-white/5 hover:text-red-500 dark:hover:text-red-400">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
           Keluar Sesi
         </button>
       </div>
     </aside>
 
     <!-- Mobile Header -->
-    <header class="md:hidden flex justify-between items-center p-4 px-5 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-zen-border dark:border-zen-border-dark sticky top-0 z-[1000]">
-      <a href="/" class="block hover:opacity-80 transition-opacity">
-        <img src="/logo.svg" alt="SovraEquitara" class="h-12 w-auto dark:brightness-0 dark:invert" />
+    <header class="lg:hidden flex items-center justify-between px-5 py-3 fixed top-0 left-0 right-0 z-[900] bg-zen-surface/80 dark:bg-zen-surface-dark/80 backdrop-blur-xl border-b border-zen-border dark:border-zen-border-dark">
+      <button id="btn-menu-mobile" class="bg-transparent border-none text-zen-text dark:text-zen-text-dark p-2 cursor-pointer flex items-center justify-center">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <a href="/" class="block">
+        <img src="/logo.svg" alt="Sovra" class="h-10 w-auto dark:brightness-0 dark:invert" />
       </a>
-      <div class="flex items-center gap-2.5 px-3 py-1 bg-white dark:bg-black rounded-full font-extrabold text-xs text-blue-500 shadow-sm border border-zen-border dark:border-zen-border-dark">
-        <span id="mobile-points">0 PTS</span>
-        <div class="w-8 h-8 rounded-full bg-zen-text dark:bg-zen-text-dark text-white flex items-center justify-center text-xs" id="mobile-avatar">U</div>
+      <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
+        <span id="mobile-points" class="text-[11px] font-extrabold text-zen-blue">0 PTS</span>
+        <div class="w-7 h-7 rounded-full bg-brand text-white flex items-center justify-center text-[11px] font-extrabold dark:text-zen-bg" id="mobile-avatar">U</div>
       </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto pb-24 md:pb-0">
-      <div class="max-w-[1200px] mx-auto p-6 md:p-10 lg:p-12">
+    <main class="flex-1 overflow-y-auto lg:ml-[280px] p-6 pt-24 lg:pt-10 max-w-[1600px] w-full mx-auto pb-24 lg:pb-10 scroll-smooth">
+      <div class="max-w-[1200px] mx-auto">
         
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 animate-up">
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]">
           <div>
-            <h1 class="text-[32px] font-extrabold tracking-tight mb-1">Pengaturan <span class="bg-gradient-to-r from-blue-500 to-emerald-500 text-transparent bg-clip-text">Profil</span></h1>
-            <p class="text-[15px] text-zen-text-secondary dark:text-zen-text-secondary-dark">Kelola identitas dan keamanan akun Anda.</p>
+            <h1 class="text-[28px] lg:text-[32px] font-black tracking-tight mb-1 text-zen-text dark:text-zen-text-dark">Pengaturan <span class="bg-gradient-to-r from-blue-500 to-emerald-500 text-transparent bg-clip-text">Profil</span></h1>
+            <p class="text-sm lg:text-[15px] font-semibold text-zen-muted dark:text-zen-muted-dark">Kelola identitas dan keamanan akun Anda di SovraEquitara.</p>
           </div>
           <div>
-             <div class="px-4 py-2 rounded-full font-extrabold text-xs bg-white dark:bg-black text-zen-text dark:text-zen-text-dark uppercase tracking-wide border border-zen-border dark:border-zen-border-dark" id="hero-role">Warga</div>
+             <div class="px-5 py-2.5 rounded-full font-black text-[11px] bg-zen-card dark:bg-zen-card-dark text-zen-text dark:text-zen-text-dark uppercase tracking-widest border border-zen-border dark:border-zen-border-dark shadow-sm" id="hero-role">Warga</div>
           </div>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          <!-- Hero Profile Info -->
-          <div class="md:col-span-2 bg-zen-surface dark:bg-zen-surface-dark backdrop-blur-md border border-zen-border dark:border-zen-border-dark rounded-[28px] p-8 shadow-zen animate-up" style="animation-delay: 0.1s;">
-            <div class="flex items-center gap-8">
-              <div class="w-[80px] h-[80px] md:w-[120px] md:h-[120px] rounded-[28px] bg-zen-text dark:bg-zen-text-dark text-zen-bg dark:text-zen-bg-dark flex items-center justify-center text-3xl md:text-5xl font-black shadow-lg" id="avatar-circle">U</div>
-              <div>
-                <h2 id="display-name-hero" class="text-2xl md:text-4xl font-black tracking-tight m-0">Memuat...</h2>
-                <p id="display-email-hero" class="text-lg font-medium text-zen-text-secondary dark:text-zen-text-secondary-dark mt-1">email@example.com</p>
+          <!-- Hero Profile Card -->
+          <div class="md:col-span-3 bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2.5rem] p-8 lg:p-12 shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-12">
+              <div class="relative group">
+                <div class="w-[120px] h-[120px] lg:w-[160px] lg:h-[160px] rounded-[3rem] bg-brand dark:bg-white text-white dark:text-brand flex items-center justify-center text-5xl lg:text-7xl font-black shadow-2xl transition-transform duration-500 group-hover:scale-105" id="avatar-circle">U</div>
+                <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-emerald-500 border-4 border-zen-card dark:border-zen-card-dark rounded-full shadow-lg flex items-center justify-center text-white">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+              </div>
+              <div class="text-center md:text-left pt-2">
+                <h2 id="display-name-hero" class="text-3xl lg:text-5xl font-black tracking-tighter m-0 text-zen-text dark:text-zen-text-dark mb-2">Memuat...</h2>
+                <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
+                  <div class="flex items-center gap-2 text-sm font-bold text-zen-muted">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    <span id="display-email-hero">email@example.com</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-sm font-bold text-brand dark:text-white">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="3"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    <span>Member Aktif</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Public Info Form -->
-          <div class="bg-zen-surface dark:bg-zen-surface-dark backdrop-blur-md border border-zen-border dark:border-zen-border-dark rounded-[28px] p-8 shadow-zen animate-up" style="animation-delay: 0.15s;">
-            <div class="flex justify-between items-center mb-8">
-              <h3 class="text-base font-extrabold m-0">Informasi Publik</h3>
-              <span class="text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase tracking-wide">Identitas Warga</span>
+          <div class="md:col-span-2 bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2rem] p-8 lg:p-10 shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.15s;">
+            <div class="flex justify-between items-center mb-10">
+              <h3 class="text-base font-black m-0 uppercase tracking-widest text-zen-text dark:text-zen-text-dark">Informasi Publik</h3>
+              <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="3"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
             </div>
-            <form id="form-profile" class="flex flex-col gap-6">
-              <div>
-                <label class="block text-xs font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark mb-2.5 uppercase tracking-wide">Nama Lengkap / Nickname</label>
-                <input type="text" id="full_name" placeholder="Contoh: Budi Santoso" required class="w-full p-3.5 px-4 rounded-2xl border border-zen-border dark:border-zen-border-dark !bg-zen-surface dark:!bg-black text-sm font-medium outline-none focus:border-zen-text dark:focus:border-zen-text-dark focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5 transition-all appearance-none" />
-                <p class="text-[11px] font-semibold text-zen-text-secondary dark:text-zen-text-secondary-dark mt-2">Nama ini akan terlihat pada laporan dan diskusi publik.</p>
+            <form id="form-profile" class="flex flex-col gap-8">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div>
+                  <label class="block text-[10px] font-black text-zen-muted uppercase tracking-[0.15em] mb-3">Nama Lengkap / Alias</label>
+                  <input type="text" id="full_name" placeholder="Nama Anda" required class="w-full p-4 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-black/20 text-sm font-bold outline-none focus:border-brand dark:focus:border-white focus:ring-4 focus:ring-brand/5 transition-all text-zen-text dark:text-zen-text-dark appearance-none" />
+                  <p class="text-[11px] font-bold text-zen-muted mt-3 leading-relaxed">Identitas ini akan terlihat saat Anda mengajukan aspirasi atau berdiskusi.</p>
+                </div>
+                <div>
+                  <label class="block text-[10px] font-black text-zen-muted uppercase tracking-[0.15em] mb-3">Nomor WhatsApp</label>
+                  <div class="relative">
+                    <input type="tel" id="phone" placeholder="08xxxxxxxxxx" class="w-full p-4 pl-12 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-black/20 text-sm font-bold outline-none focus:border-brand dark:focus:border-white focus:ring-4 focus:ring-brand/5 transition-all text-zen-text dark:text-zen-text-dark appearance-none" />
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-black text-zen-muted">🇮🇩</span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <label class="block text-xs font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark mb-2.5 uppercase tracking-wide">Nomor WhatsApp</label>
-                <input type="tel" id="phone" placeholder="08xxxxxxxxxx" class="w-full p-3.5 px-4 rounded-2xl border border-zen-border dark:border-zen-border-dark !bg-zen-surface dark:!bg-black text-sm font-medium outline-none focus:border-zen-text dark:focus:border-zen-text-dark focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5 transition-all appearance-none" />
-              </div>
-              <button type="submit" id="btn-save" class="w-full p-4 rounded-2xl bg-zen-text dark:bg-zen-text-dark text-zen-bg dark:text-zen-bg-dark font-extrabold flex items-center justify-center gap-2.5 hover:-translate-y-0.5 hover:shadow-lg transition-all cursor-pointer border-none">
-                Simpan Perubahan
-                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <button type="submit" id="btn-save" class="w-full p-4.5 rounded-2xl bg-brand dark:bg-white text-white dark:text-brand font-black text-sm border-none cursor-pointer transition-all hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-3">
+                Perbarui Profil
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </button>
             </form>
           </div>
 
-          <!-- Security Settings -->
-          <div class="bg-zen-surface dark:bg-zen-surface-dark backdrop-blur-md border border-zen-border dark:border-zen-border-dark rounded-[28px] p-8 shadow-zen animate-up" style="animation-delay: 0.2s;">
-            <div class="flex justify-between items-center mb-8">
-              <h3 class="text-base font-extrabold m-0">Keamanan Akun</h3>
-              <span class="text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase tracking-wide">Akses & Privasi</span>
-            </div>
-            <div class="flex flex-col gap-4">
-              <div class="p-6 rounded-2xl bg-white/40 dark:bg-black/40 border border-zen-border dark:border-zen-border-dark flex flex-col gap-4">
-                <div>
-                  <h4 class="text-[15px] font-extrabold m-0">Ganti Kata Sandi</h4>
-                  <p class="text-[13px] font-medium text-zen-text-secondary dark:text-zen-text-secondary-dark mt-1 mb-0 leading-relaxed">Kirim instruksi reset ke email terdaftar.</p>
-                </div>
-                <button id="btn-reset-pw" class="w-full p-3 rounded-xl bg-white dark:bg-black border border-zen-border dark:border-zen-border-dark font-bold text-[13px] cursor-pointer hover:-translate-y-0.5 hover:shadow-sm transition-all">Reset via Email</button>
+          <!-- Account Security -->
+          <div class="md:col-span-1 bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2rem] p-8 lg:p-10 shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.2s;">
+            <div class="flex justify-between items-center mb-10">
+              <h3 class="text-base font-black m-0 uppercase tracking-widest text-zen-text dark:text-zen-text-dark">Keamanan</h3>
+              <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="3"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
               </div>
-              <div class="p-6 rounded-2xl bg-white/40 dark:bg-black/40 border border-zen-border dark:border-zen-border-dark flex flex-col gap-4">
-                <div>
-                  <h4 class="text-[15px] font-extrabold m-0">Hapus Sesi</h4>
-                  <p class="text-[13px] font-medium text-zen-text-secondary dark:text-zen-text-secondary-dark mt-1 mb-0 leading-relaxed">Keluar dari akun Anda pada perangkat ini.</p>
-                </div>
-                <button id="btn-logout-main" class="w-full p-3 rounded-xl bg-red-50 dark:bg-red-500/10 text-red-500 border border-red-200 dark:border-red-500/20 font-bold text-[13px] cursor-pointer hover:bg-red-500 hover:text-white transition-all">Keluar Sesi</button>
+            </div>
+            <div class="flex flex-col gap-6">
+              <div class="p-6 rounded-2xl bg-zen-surface dark:bg-black/20 border border-zen-border dark:border-white/5">
+                <h4 class="text-[13px] font-black m-0 uppercase tracking-wider mb-2">Kata Sandi</h4>
+                <p class="text-[11px] font-bold text-zen-muted leading-relaxed mb-5">Ingin mengganti kunci akun? Kami akan mengirimkan instruksi ke email Anda.</p>
+                <button id="btn-reset-pw" class="w-full p-3 rounded-xl bg-white dark:bg-black border border-zen-border dark:border-zen-border-dark font-black text-[11px] uppercase tracking-widest cursor-pointer hover:bg-zen-text hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">Atur Ulang Sandi</button>
+              </div>
+              
+              <div class="p-6 rounded-2xl bg-red-500/5 dark:bg-red-500/10 border border-red-500/10">
+                <h4 class="text-[13px] font-black m-0 uppercase tracking-wider text-red-500 mb-2">Sesi Akun</h4>
+                <p class="text-[11px] font-bold text-red-500/60 leading-relaxed mb-5">Keluar dari perangkat ini untuk mengakhiri sesi aktif Anda saat ini.</p>
+                <button id="btn-logout-main" class="w-full p-3 rounded-xl bg-red-500 text-white font-black text-[11px] uppercase tracking-widest cursor-pointer hover:bg-red-600 transition-all border-none">Keluar Sekarang</button>
               </div>
             </div>
           </div>
@@ -128,22 +166,12 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </main>
 
-    <!-- Mobile Nav -->
-    <nav class="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 h-[72px] bg-white/80 dark:bg-black/80 backdrop-blur-md border-t border-zen-border dark:border-zen-border-dark z-[1000] pb-safe">
-      <a href="/dashboard" class="p-3 rounded-xl text-zen-text-secondary dark:text-zen-text-secondary-dark" id="mob-dashboard-link">
-        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-      </a>
-      <a href="/profile" class="p-3 rounded-xl text-zen-text dark:text-zen-text-dark bg-black/5 dark:bg-white/5">
-        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      </a>
-      <button id="btn-logout-mobile" class="p-3 rounded-xl text-red-500 bg-transparent border-none cursor-pointer">
-        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
-      </button>
-    </nav>
-
     <!-- Zen Toast -->
-    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-zen-text dark:bg-zen-text-dark text-white px-6 py-3 rounded-full font-extrabold text-[13px] z-[2000] shadow-2xl transition-all duration-300 hidden">
-      <span id="toast-msg">Notifikasi</span>
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-zen-text dark:bg-zen-text-dark text-white dark:text-brand px-8 py-4 rounded-3xl font-black text-[12px] z-[3000] shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hidden uppercase tracking-widest border border-white/10">
+      <div class="flex items-center gap-3">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span id="toast-msg">Notifikasi</span>
+      </div>
     </div>
   </div>
 
@@ -188,6 +216,11 @@ import Layout from '../layouts/Layout.astro';
       document.getElementById('sidebar-points').textContent = `${user.points || 0} PTS`;
       document.getElementById('mobile-points').textContent = `${user.points || 0} PTS`;
       
+      if (user.role === 'admin') {
+        const desktopLink = document.getElementById('nav-dashboard-link');
+        if (desktopLink) desktopLink.classList.remove('hidden');
+      }
+
       document.getElementById('display-name-hero').textContent = user.name || (isAdmin ? 'Admin' : 'Warga');
       document.getElementById('display-email-hero').textContent = user.email;
       document.getElementById('avatar-circle').textContent = initial;
@@ -218,10 +251,36 @@ import Layout from '../layouts/Layout.astro';
     function setupListeners() {
       document.getElementById('form-profile').onsubmit = handleProfileUpdate;
       document.getElementById('btn-reset-pw').onclick = handleResetPassword;
+      document.getElementById('btn-logout-main').onclick = () => { localStorage.clear(); window.location.href = '/'; };
+      
       const logout = () => { localStorage.clear(); window.location.href = '/'; };
       document.getElementById('btn-logout-desktop').onclick = logout;
-      document.getElementById('btn-logout-mobile').onclick = logout;
-      document.getElementById('btn-logout-main').onclick = logout;
+      
+      const sidebar = document.getElementById('sidebar');
+      const mobileMenuBtn = document.getElementById('btn-menu-mobile');
+      const closeSidebarBtn = document.getElementById('btn-close-sidebar');
+
+      if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          sidebar.classList.toggle('max-lg:-translate-x-full');
+        });
+      }
+      
+      if (closeSidebarBtn && sidebar) {
+        closeSidebarBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          sidebar.classList.add('max-lg:-translate-x-full');
+        });
+      }
+      
+      document.addEventListener('click', (e) => {
+        if (sidebar && !sidebar.classList.contains('max-lg:-translate-x-full')) {
+          if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            sidebar.classList.add('max-lg:-translate-x-full');
+          }
+        }
+      });
     }
 
     async function handleProfileUpdate(e) {
