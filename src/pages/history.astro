@@ -1,92 +1,112 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { ThemeToggle } from '../components/ThemeToggle';
 ---
 
 <Layout title="Riwayat Laporan — SovraEquitara">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   <div class="flex h-screen overflow-hidden bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display">
     <!-- Desktop Sidebar -->
-    <aside class="hidden md:flex w-[280px] bg-zen-card dark:bg-zen-card-dark border-r border-zen-border dark:border-zen-border-dark flex-col z-[100]">
-      <div class="p-8 pb-6">
-        <div class="flex items-center gap-3">
-          <img src="/logo.svg" alt="SovraEquitara" class="h-12 w-auto dark:brightness-0 dark:invert" />
+    <aside class="fixed left-0 top-0 w-[280px] h-screen bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col z-[1000] transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] max-lg:-translate-x-full lg:translate-x-0 backdrop-blur-xl shadow-lg" id="sidebar">
+      <div class="p-6 lg:py-10 flex items-center justify-between">
+        <a href="/" class="block hover:opacity-80 transition-opacity">
+          <img src="/logo.svg" alt="SovraEquitara" class="h-16 w-auto grayscale dark:brightness-0 dark:invert" />
+        </a>
+        <div class="flex items-center gap-2">
+          <ThemeToggle client:load />
+          <button id="btn-close-sidebar" class="lg:hidden p-2 text-zen-muted dark:text-zen-muted-dark hover:text-zen-text dark:hover:text-zen-text-dark bg-transparent border-none cursor-pointer flex items-center justify-center">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
         </div>
       </div>
       
-      <nav class="flex-1 px-4 flex flex-col gap-1">
-        <div class="text-[11px] font-bold text-zen-text-secondary dark:text-zen-text-secondary-dark px-3 py-4 tracking-wider">MENU UTAMA</div>
-        <a href="/dashboard" class="flex items-center gap-3 p-3 rounded-xl text-zen-text-secondary dark:text-zen-text-secondary-dark hover:bg-zen-bg hover:text-zen-text dark:hover:bg-zen-bg-dark dark:hover:text-zen-text-dark font-semibold text-sm transition-colors no-underline">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
-          Dashboard
+      <nav class="flex-1 px-4">
+        <div class="text-[10px] font-extrabold text-zen-muted dark:text-zen-muted-dark p-3 tracking-widest uppercase">NAVIGASI</div>
+        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+          Dashboard Warga
         </a>
-        <a href="/history" class="flex items-center gap-3 p-3 rounded-xl text-blue-500 bg-blue-50 dark:bg-blue-500/10 font-bold text-sm transition-colors no-underline">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <a href="/admin/dashboard" id="nav-dashboard-link" class="hidden flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+          <span id="nav-dashboard-text">Dashboard Admin</span>
+        </a>
+        <a href="/history" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 bg-brand dark:bg-white text-white dark:text-brand shadow-lg shadow-brand/10 dark:shadow-white/10">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
           Riwayat Laporan
         </a>
-        <a href="/profile" class="flex items-center gap-3 p-3 rounded-xl text-zen-text-secondary dark:text-zen-text-secondary-dark hover:bg-zen-bg hover:text-zen-text dark:hover:bg-zen-bg-dark dark:hover:text-zen-text-dark font-semibold text-sm transition-colors no-underline">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <a href="/profile" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Profil Saya
         </a>
       </nav>
 
       <div class="p-6 border-t border-zen-border dark:border-zen-border-dark">
-        <div class="flex items-center gap-3 mb-4 px-2">
-          <div class="w-10 h-10 rounded-full bg-zen-bg dark:bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark flex items-center justify-center font-bold" id="sidebar-avatar">U</div>
+        <div class="p-4 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark flex items-center gap-3 mb-4">
+          <div class="w-11 h-11 rounded-full bg-brand dark:bg-white text-white dark:text-brand flex items-center justify-center font-black" id="sidebar-avatar">U</div>
           <div class="flex flex-col">
-            <span class="font-semibold text-sm" id="sidebar-name">Warga</span>
-            <span class="text-xs font-bold text-blue-500" id="sidebar-points">0 PTS</span>
+            <span class="font-extrabold text-sm truncate max-w-[150px]" id="sidebar-name">Memuat...</span>
+            <span class="text-[11px] font-bold text-brand dark:text-white/70" id="sidebar-points">0 PTS</span>
           </div>
         </div>
-        <button id="btn-logout-desktop" class="w-full flex items-center justify-center gap-2 p-2.5 bg-transparent border border-zen-border dark:border-zen-border-dark rounded-xl text-red-500 font-semibold cursor-pointer transition-colors hover:bg-red-50 hover:border-red-200 dark:hover:bg-red-500/10 dark:hover:border-red-500/30">
+        <button id="btn-logout-desktop" class="w-full flex items-center justify-center gap-2.5 p-3.5 bg-transparent border border-zen-border dark:border-zen-border-dark rounded-xl text-zen-muted dark:text-zen-muted-dark font-bold text-[13px] cursor-pointer transition-colors hover:bg-stone-100 dark:hover:bg-white/5 hover:text-red-500 dark:hover:text-red-400">
           <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-          Keluar
+          Keluar Sesi
         </button>
       </div>
     </aside>
 
-    <!-- Mobile Top Bar -->
-    <header class="md:hidden flex justify-between items-center p-4 px-5 bg-zen-card dark:bg-zen-card-dark border-b border-zen-border dark:border-zen-border-dark sticky top-0 z-[90]">
-      <div class="flex items-center">
-        <img src="/logo.svg" alt="SovraEquitara" class="h-8 w-auto dark:brightness-0 dark:invert" />
-      </div>
-      <div class="flex items-center gap-3">
-        <span class="bg-blue-50 text-blue-500 dark:bg-blue-500/10 px-2.5 py-1 rounded-full text-xs font-bold" id="mobile-points">0 PTS</span>
-        <div class="w-8 h-8 bg-zen-bg dark:bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark rounded-full flex items-center justify-center font-bold text-xs" id="mobile-avatar">U</div>
+    <!-- Mobile Header -->
+    <header class="lg:hidden flex items-center justify-between px-5 py-3 fixed top-0 left-0 right-0 z-[900] bg-zen-surface/80 dark:bg-zen-surface-dark/80 backdrop-blur-xl border-b border-zen-border dark:border-zen-border-dark">
+      <button id="btn-menu-mobile" class="bg-transparent border-none text-zen-text dark:text-zen-text-dark p-2 cursor-pointer flex items-center justify-center">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <a href="/" class="block">
+        <img src="/logo.svg" alt="Sovra" class="h-10 w-auto dark:brightness-0 dark:invert" />
+      </a>
+      <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
+        <span id="mobile-points" class="text-[11px] font-extrabold text-zen-blue">0 PTS</span>
+        <div class="w-7 h-7 rounded-full bg-brand text-white flex items-center justify-center text-[11px] font-extrabold dark:text-zen-bg" id="mobile-avatar">U</div>
       </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto bg-zen-bg dark:bg-zen-bg-dark pb-20 md:pb-0 scroll-smooth">
-      <div class="max-w-[1200px] mx-auto p-6 md:p-10 lg:p-12">
+    <main class="flex-1 overflow-y-auto lg:ml-[280px] p-6 pt-24 lg:pt-10 max-w-[1600px] w-full mx-auto pb-24 lg:pb-10 scroll-smooth">
+      <div class="max-w-[1200px] mx-auto">
         
-        <!-- Welcome Section -->
-        <section class="mb-8 animate-up">
-          <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-5">
-            <div>
-              <h1 id="greeting" class="text-[28px] font-extrabold tracking-tight mb-2">Riwayat Laporan</h1>
-              <p class="text-zen-text-secondary dark:text-zen-text-secondary-dark text-[15px]">Pantau status laporan yang pernah Anda ajukan.</p>
-            </div>
-            <div class="flex gap-4">
-              <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark p-3 px-5 rounded-xl flex flex-col min-w-[120px] shadow-zen">
-                <span class="text-[11px] font-bold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase">Total</span>
-                <span class="text-2xl font-extrabold leading-tight text-zen-text dark:text-zen-text-dark" id="stat-total">0</span>
-              </div>
+        <header class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-8 lg:mb-10 gap-4 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]">
+          <div>
+            <h1 class="text-[28px] lg:text-[32px] font-extrabold tracking-tight m-0 text-zen-text dark:text-zen-text-dark">Riwayat <span class="bg-gradient-to-r from-blue-500 to-emerald-500 bg-clip-text text-transparent">Laporan</span></h1>
+            <p class="text-sm lg:text-base font-semibold text-zen-muted dark:text-zen-muted-dark mt-1">Pantau perkembangan aspirasi dan laporan Anda.</p>
+          </div>
+          <div class="flex gap-4">
+            <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark p-4 px-6 rounded-2xl flex flex-col min-w-[140px] shadow-zen transition-transform hover:scale-[1.02]">
+              <span class="text-[10px] font-extrabold text-zen-muted dark:text-zen-muted-dark uppercase tracking-widest mb-1">Total Laporan</span>
+              <span class="text-3xl font-black leading-tight text-zen-text dark:text-zen-text-dark" id="stat-total">0</span>
             </div>
           </div>
-        </section>
+        </header>
 
-        <!-- Table View -->
-        <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-3xl shadow-zen overflow-hidden flex flex-col max-h-[800px] mt-6 animate-up" style="animation-delay: 0.1s;">
-          <div class="hidden md:flex p-4 px-6 bg-zen-bg dark:bg-zen-bg-dark border-b border-zen-border dark:border-zen-border-dark text-xs font-bold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase tracking-wide">
-            <div class="flex-[2]">Deskripsi & Lokasi</div>
-            <div class="flex-1">Kategori</div>
-            <div class="flex-1">Status</div>
-            <div class="w-[140px] text-right">Tanggal</div>
+        <!-- Search & Filter -->
+        <div class="mb-6 flex gap-3 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.05s;">
+           <div class="flex-1 relative">
+             <input type="text" id="search-input" placeholder="Cari laporan..." class="w-full p-3.5 pl-11 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark text-sm font-semibold outline-none focus:ring-4 focus:ring-brand/5 transition-all text-zen-text dark:text-zen-text-dark" />
+             <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-zen-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+           </div>
+        </div>
+
+        <!-- History List -->
+        <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2rem] shadow-zen overflow-hidden animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
+          <div class="hidden lg:grid grid-cols-[1fr_180px_160px_140px] p-5 px-8 bg-zen-surface dark:bg-zen-surface-dark border-b border-zen-border dark:border-zen-border-dark text-[11px] font-black text-zen-muted dark:text-zen-muted-dark uppercase tracking-widest">
+            <div>DESKRIPSI & LOKASI</div>
+            <div>KATEGORI</div>
+            <div>STATUS</div>
+            <div class="text-right">TANGGAL</div>
           </div>
           
-          <div class="flex-1 overflow-y-auto" id="history-list">
-            <div class="flex flex-col items-center justify-center p-10 gap-3 text-[13px] text-zen-text-secondary dark:text-zen-text-secondary-dark">
-              <div class="w-6 h-6 border-4 border-zen-border dark:border-zen-border-dark border-t-blue-500 rounded-full animate-spin"></div>
-              <p>Mengambil riwayat...</p>
+          <div id="history-list" class="flex flex-col">
+            <div class="flex flex-col items-center justify-center p-20 gap-4 text-zen-muted dark:text-zen-muted-dark">
+              <div class="w-8 h-8 border-4 border-zen-border dark:border-zen-border-dark border-t-brand rounded-full animate-spin"></div>
+              <p class="text-sm font-bold tracking-tight">Menyelaraskan data...</p>
             </div>
           </div>
         </div>
@@ -94,62 +114,55 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </main>
 
-    <!-- Mobile Bottom Nav -->
-    <nav class="md:hidden flex justify-around items-center fixed bottom-0 left-0 right-0 h-16 bg-zen-card dark:bg-zen-card-dark border-t border-zen-border dark:border-zen-border-dark z-[100] pb-safe">
-      <a href="/dashboard" class="p-2 px-6 text-zen-text-secondary dark:text-zen-text-secondary-dark rounded-xl">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
-      </a>
-      <a href="/history" class="p-2 px-6 text-blue-500 bg-zen-bg dark:bg-zen-bg-dark rounded-xl">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
-      </a>
-      <a href="/profile" class="p-2 px-6 text-zen-text-secondary dark:text-zen-text-secondary-dark rounded-xl">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      </a>
-    </nav>
-
     <!-- Detail Modal -->
-    <div id="detail-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[999] hidden items-center justify-center p-5">
-      <div class="bg-zen-card dark:bg-zen-card-dark w-full max-w-[900px] rounded-3xl flex flex-col max-h-[90vh] overflow-hidden shadow-2xl">
-        <div class="p-5 px-6 border-b border-zen-border dark:border-zen-border-dark flex justify-between items-center">
-          <h3 class="text-lg font-bold m-0 text-zen-text dark:text-zen-text-dark">Detail Laporan</h3>
-          <button id="close-detail" class="bg-transparent border-none text-2xl leading-none text-zen-text-secondary dark:text-zen-text-secondary-dark cursor-pointer p-0 hover:text-zen-text dark:hover:text-zen-text-dark">&times;</button>
+    <div id="detail-modal" class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-[1000] flex items-center justify-center p-5 hidden">
+      <div class="w-full max-w-[1000px] max-h-[90vh] rounded-[32px] overflow-hidden flex flex-col bg-zen-bg dark:bg-zen-bg-dark shadow-2xl border border-zen-border dark:border-zen-border-dark">
+        <div class="px-8 py-6 border-b border-zen-border dark:border-zen-border-dark flex justify-between items-center bg-zen-surface dark:bg-zen-surface-dark text-zen-text dark:text-zen-text-dark">
+          <h3 class="m-0 text-lg font-extrabold">Detail Laporan</h3>
+          <button id="close-detail" class="bg-transparent border-none text-[32px] cursor-pointer text-zen-muted dark:text-zen-muted-dark hover:text-zen-text dark:text-zen-text-dark">&times;</button>
         </div>
-        <div class="flex-1 overflow-hidden p-0">
-          <div class="flex flex-col md:flex-row h-full">
-            <div class="flex-1 p-6 border-b md:border-b-0 md:border-r border-zen-border dark:border-zen-border-dark overflow-y-auto md:w-[60%]">
-              <div id="detail-img-container" class="w-full h-[240px] rounded-xl overflow-hidden mb-5 bg-zen-bg dark:bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark hidden">
-                <img id="detail-img" src="" alt="Bukti Foto" onclick="window.openImg(this.src)" class="w-full h-full object-cover cursor-pointer" />
+        <div class="flex-1 overflow-y-auto scrollbar-thin bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark">
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px]">
+            <div class="p-6 lg:p-8 lg:border-r border-zen-border dark:border-zen-border-dark">
+              <div id="detail-img-box" class="h-[250px] lg:h-[300px] rounded-2xl overflow-hidden mb-6 cursor-zoom-in bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark hidden shadow-soft">
+                <img id="detail-img" src="" alt="Bukti" class="w-full h-full object-cover" />
               </div>
-              <div class="">
-                <div class="flex items-center gap-2 mb-3">
-                  <span id="detail-cat" class="text-[11px] font-bold bg-zen-bg dark:bg-zen-bg-dark px-2 py-1 rounded text-zen-text dark:text-zen-text-dark border border-zen-border dark:border-zen-border-dark"></span>
-                  <span id="detail-status" class="text-[10px] font-extrabold px-3 py-1.5 rounded-md uppercase"></span>
-                  <span id="detail-date" class="text-[13px] font-medium text-zen-text-secondary dark:text-zen-text-secondary-dark ml-auto"></span>
+              <div>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span id="detail-cat" class="text-[11px] font-extrabold bg-zen-surface dark:bg-zen-surface-dark px-3 py-1.5 rounded-lg border border-zen-border dark:border-zen-border-dark"></span>
+                  <span id="detail-status" class="text-[11px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider"></span>
                 </div>
-                <h2 id="detail-desc" class="text-xl font-bold mb-3 leading-snug text-zen-text dark:text-zen-text-dark"></h2>
-                <div class="text-sm text-zen-text-secondary dark:text-zen-text-secondary-dark mb-5 p-3 bg-zen-bg dark:bg-zen-bg-dark rounded-xl">📍 <span id="detail-loc"></span></div>
-                
-                <div class="flex gap-3 mt-4">
-                  <div class="text-[13px] font-semibold px-4 py-2 bg-zen-bg dark:bg-zen-bg-dark rounded-xl border border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark">🔥 <span id="detail-votes">0</span> Dukungan</div>
-                  <div class="text-[13px] font-semibold px-4 py-2 bg-zen-bg dark:bg-zen-bg-dark rounded-xl border border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark">💬 <span id="detail-comment-count">0</span> Diskusi</div>
+                <h2 id="detail-desc" class="text-xl lg:text-2xl font-extrabold m-0 tracking-tight leading-tight mb-6"></h2>
+                <div class="p-4 rounded-2xl my-6 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark text-sm">
+                  <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+                    <span class="font-medium">📍 <span id="detail-loc"></span></span>
+                    <div class="flex gap-2">
+                      <button id="btn-view-map-modal" class="px-3 py-1.5 text-[11px] font-extrabold border border-zen-border dark:border-zen-border-dark rounded-lg bg-zen-surface dark:bg-zen-surface-dark text-zen-text dark:text-zen-text-dark cursor-pointer transition-colors hover:bg-zen-bg dark:hover:bg-zen-bg-dark hover:border-brand dark:hover:border-white">Lihat Peta</button>
+                      <a id="btn-gmaps-modal" href="#" target="_blank" class="px-3 py-1.5 text-[11px] font-extrabold border border-zen-border dark:border-zen-border-dark rounded-lg bg-zen-surface dark:bg-zen-surface-dark cursor-pointer transition-colors text-zen-text dark:text-zen-text-dark no-underline hover:bg-zen-bg dark:hover:bg-zen-bg-dark hover:border-brand dark:hover:border-white">Google Maps</a>
+                    </div>
+                  </div>
+                  <div id="modal-map" class="h-[200px] rounded-xl mt-3 border border-zen-border dark:border-zen-border-dark hidden z-10 shadow-soft"></div>
+                </div>
+                <div class="flex flex-wrap justify-between items-center gap-4 mt-6">
+                  <span id="detail-date" class="text-sm font-semibold text-zen-muted dark:text-zen-muted-dark"></span>
+                  <div>
+                    <button class="bg-zen-surface dark:bg-zen-surface-dark text-zen-text dark:text-zen-text-dark border border-zen-border dark:border-zen-border-dark px-5 py-3 rounded-xl font-extrabold cursor-pointer transition-all duration-200 hover:scale-105 hover:bg-zen-bg dark:hover:bg-zen-bg-dark hover:border-brand dark:hover:border-white" id="btn-vote-modal">
+                      🔥 <b id="detail-votes">0</b> Dukungan
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-            
-            <div class="flex-1 flex flex-col bg-zen-bg dark:bg-zen-bg-dark md:w-[40%]">
-              <h4 class="p-5 px-6 m-0 text-[15px] border-b border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark text-zen-text dark:text-zen-text-dark">Diskusi</h4>
-              <div id="comments-list" class="flex-1 overflow-y-auto p-5 px-6 flex flex-col gap-4">
-                <!-- Comments -->
-              </div>
-              <div class="p-4 px-6 border-t border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark">
-                <form id="form-comment" class="flex gap-3">
-                  <input type="hidden" id="comment-report-id" />
-                  <input type="text" id="comment-input" placeholder="Balas atau diskusi..." required autocomplete="off" class="flex-1 p-3 px-4 border border-zen-border dark:border-zen-border-dark rounded-xl text-sm outline-none bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark focus:border-blue-500" />
-                  <button type="submit" class="bg-zen-text dark:bg-zen-text-dark text-zen-bg dark:text-zen-bg-dark border-none w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer transition-colors hover:bg-zen-text-secondary disabled:opacity-50">
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                  </button>
-                </form>
-              </div>
+            <div class="bg-zen-surface dark:bg-zen-surface-dark flex flex-col border-t lg:border-t-0 lg:border-l border-zen-border dark:border-zen-border-dark">
+              <div class="p-6 border-b border-zen-border dark:border-zen-border-dark font-extrabold text-xs uppercase tracking-wider">Diskusi & Solusi</div>
+              <div id="comments-list" class="flex-1 p-6 flex flex-col gap-4 overflow-y-auto scrollbar-thin h-[300px] lg:h-[400px]"></div>
+              <form id="form-comment" class="p-5 flex gap-3 border-t border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark">
+                <input type="hidden" id="active-report-id" />
+                <input type="text" id="comment-input" class="flex-1 p-3.5 rounded-xl border border-zen-border dark:border-zen-border-dark !bg-zen-bg dark:!bg-zen-bg-dark text-zen-text dark:text-zen-text-dark text-sm font-medium outline-none transition-colors focus:ring-2 focus:ring-brand/20 dark:focus:ring-white/20 focus:border-brand dark:focus:border-white appearance-none placeholder:text-zen-muted dark:placeholder:text-zen-muted-dark" placeholder="Tulis pendapat Anda..." required />
+                <button type="submit" id="btn-send-comment" class="w-12 h-12 rounded-xl bg-brand dark:bg-white text-white dark:text-brand border-none flex items-center justify-center cursor-pointer transition-transform hover:-translate-y-0.5">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -157,19 +170,22 @@ import Layout from '../layouts/Layout.astro';
     </div>
 
     <!-- Lightbox Modal -->
-    <div id="lightbox" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[10000] hidden items-center justify-center p-5">
-      <div class="relative max-w-full max-h-full">
-        <button id="lightbox-close" class="absolute -top-10 right-0 bg-transparent border-none text-3xl leading-none text-white cursor-pointer p-0 hover:text-gray-300">&times;</button>
-        <img id="lightbox-img" src="" alt="Full view" class="max-w-full max-h-[85vh] rounded-xl shadow-2xl" />
+    <div id="lightbox" class="fixed inset-0 bg-black/90 backdrop-blur-2xl z-[3000] hidden items-center justify-center p-5 transition-all">
+      <div class="relative max-w-full max-h-full flex flex-col items-center">
+        <button id="lightbox-close" class="absolute -top-12 right-0 bg-white/10 text-white border-none w-10 h-10 rounded-full flex items-center justify-center cursor-pointer hover:bg-white/20 transition-all">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <img id="lightbox-img" src="" alt="Full view" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl animate-[zoomIn_0.3s_ease-out_both]" />
       </div>
     </div>
 
   </div>
 
-  <!-- JavaScript Logic -->
+  <!-- Scripts -->
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
   <script is:inline>
     const API_URL = 'http://localhost:3000';
-    
     const token = localStorage.getItem('access_token');
     const userRaw = localStorage.getItem('user');
 
@@ -193,20 +209,64 @@ import Layout from '../layouts/Layout.astro';
         document.getElementById('sidebar-points').textContent = `${user.points || 0} PTS`;
         document.getElementById('mobile-points').textContent = `${user.points || 0} PTS`;
 
+        if (user.role === 'admin') {
+          const desktopLink = document.getElementById('nav-dashboard-link');
+          if (desktopLink) desktopLink.classList.remove('hidden');
+        }
+
         loadCategories().then(() => fetchHistory());
 
-        document.getElementById('close-detail').addEventListener('click', () => document.getElementById('detail-modal').classList.add('hidden'));
+        document.getElementById('close-detail').addEventListener('click', () => {
+          document.getElementById('detail-modal').classList.add('hidden');
+          document.body.style.overflow = 'auto';
+          if (window.mMap) { window.mMap.remove(); window.mMap = null; }
+        });
         document.getElementById('lightbox-close').addEventListener('click', () => document.getElementById('lightbox').classList.add('hidden'));
         document.getElementById('form-comment').addEventListener('submit', handleCommentSubmit);
+        
+        // Search functionality
+        document.getElementById('search-input').addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase();
+          const filtered = allReportsList.filter(r => 
+            r.description.toLowerCase().includes(query) || 
+            r.location_detail.toLowerCase().includes(query)
+          );
+          renderHistory(filtered);
+        });
 
         const doLogout = () => { localStorage.clear(); window.location.href = '/login'; };
         document.getElementById('btn-logout-desktop').addEventListener('click', doLogout);
-        document.getElementById('btn-logout-mobile2').addEventListener('click', doLogout);
+        
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuBtn = document.getElementById('btn-menu-mobile');
+        const closeSidebarBtn = document.getElementById('btn-close-sidebar');
+
+        if (mobileMenuBtn && sidebar) {
+          mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('max-lg:-translate-x-full');
+          });
+        }
+        
+        if (closeSidebarBtn && sidebar) {
+          closeSidebarBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.add('max-lg:-translate-x-full');
+          });
+        }
+        
+        document.addEventListener('click', (e) => {
+          if (sidebar && !sidebar.classList.contains('max-lg:-translate-x-full')) {
+            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+              sidebar.classList.add('max-lg:-translate-x-full');
+            }
+          }
+        });
 
         setInterval(() => {
-          if(!token) return;
+          if(!token || document.hidden) return;
           fetchHistory(true);
-          const activeReportId = document.getElementById('comment-report-id').value;
+          const activeReportId = document.getElementById('active-report-id').value;
           if(activeReportId && !document.getElementById('detail-modal').classList.contains('hidden')) {
              const r = allReportsList.find(x => x.id === activeReportId);
              if(r) {
@@ -214,82 +274,79 @@ import Layout from '../layouts/Layout.astro';
                loadComments(activeReportId, true);
              }
           }
-        }, 5000);
+        }, 10000);
 
       } catch(e) {
         console.error("History Init Error: ", e);
       }
     }
+
     async function loadCategories() {
       try {
         const res = await fetch(`${API_URL}/api/categories`);
         const data = await res.json();
         categories = data.data || [];
-      } catch (err) { 
-        console.error("Categories Error", err); 
-        categories = [
-          {id: 1, name: 'Infrastruktur'},
-          {id: 2, name: 'Lingkungan'},
-          {id: 3, name: 'Fasilitas Umum'},
-          {id: 4, name: 'Keamanan'}
-        ];
-      }
+      } catch (err) { categories = []; }
     }
 
     function getCategoryName(id) {
-      if(!id) return 'Umum';
       const cat = categories.find(c => c.id === id);
       return cat ? cat.name : 'Umum';
     }
 
     async function fetchHistory(silent = false) {
-      const list = document.getElementById('history-list');
       try {
         const res = await fetch(`${API_URL}/api/my-reports`, { headers: { 'Authorization': `Bearer ${token}` }});
         const data = await res.json();
         allReportsList = data.data || [];
-
         document.getElementById('stat-total').textContent = allReportsList.length;
         renderHistory(allReportsList);
       } catch(e) {
-        if(!silent) list.innerHTML = '<div class="empty-state text-danger">Gagal memuat riwayat.</div>';
+        if(!silent) document.getElementById('history-list').innerHTML = '<div class="p-10 text-center text-red-500 font-bold">Gagal memuat data.</div>';
       }
     }
+
     function renderHistory(items) {
       const list = document.getElementById('history-list');
       if (items.length === 0) {
-        list.innerHTML = '<div class="text-center p-10 text-zen-text-secondary dark:text-zen-text-secondary-dark text-sm font-medium">Belum ada riwayat laporan yang diajukan.</div>';
+        list.innerHTML = '<div class="p-20 text-center text-zen-muted font-bold">Tidak ada laporan ditemukan.</div>';
         return;
       }
       
       list.innerHTML = items.map(r => {
         const catName = getCategoryName(r.category_id);
         const statusClass = r.status.toLowerCase();
-
-        let statusStyles = "";
-        if (statusClass === "pending") statusStyles = "bg-red-50 text-red-500 dark:bg-red-500/10 dark:text-red-400";
-        else if (statusClass === "valid") statusStyles = "bg-yellow-50 text-yellow-600 dark:bg-yellow-500/10 dark:text-yellow-500";
-        else if (statusClass === "resolved") statusStyles = "bg-green-50 text-green-500 dark:bg-green-500/10 dark:text-green-400";
+        let statusStyles = "bg-stone-100 text-stone-600 dark:bg-white/5 dark:text-white/60";
+        
+        if (statusClass === "pending") statusStyles = "bg-red-50 text-red-500 dark:bg-red-500/10 dark:text-red-400 border border-red-200/50 dark:border-red-500/20";
+        else if (statusClass === "valid") statusStyles = "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400 border border-blue-200/50 dark:border-blue-500/20";
+        else if (statusClass === "resolved") statusStyles = "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-500/20";
 
         return `
-          <div class="flex flex-col md:flex-row p-4 md:p-5 px-4 md:px-6 border-b border-zen-border dark:border-zen-border-dark md:items-center gap-4 transition-colors hover:bg-zen-bg dark:hover:bg-zen-bg-dark cursor-pointer last:border-0" onclick="window.openDetail('${r.id}')">
-            <div class="flex-[2] flex gap-4 items-center">
-              <div>
-                <h4 class="text-[15px] font-semibold mb-1 leading-snug text-zen-text dark:text-zen-text-dark">${r.description}</h4>
-                <p class="text-[13px] text-zen-text-secondary dark:text-zen-text-secondary-dark">📍 ${r.location_detail}</p>
-                <div class="md:hidden mt-2">
-                  <span class="text-[11px] font-bold bg-zen-bg dark:bg-zen-bg-dark px-2 py-1 rounded text-zen-text dark:text-zen-text-dark border border-zen-border dark:border-zen-border-dark inline-block">${catName}</span>
-                  <span class="text-[10px] font-extrabold px-3 py-1.5 rounded-md uppercase inline-block mt-1 ${statusStyles}">${r.status}</span>
-                  <div class="text-xs text-zen-text-secondary dark:text-zen-text-secondary-dark mt-2">${new Date(r.created_at).toLocaleDateString('id-ID')}</div>
+          <div class="group grid grid-cols-1 lg:grid-cols-[1fr_180px_160px_140px] p-6 lg:p-5 lg:px-8 border-b border-zen-border dark:border-zen-border-dark lg:items-center gap-4 transition-all hover:bg-zen-surface dark:hover:bg-zen-surface-dark cursor-pointer last:border-0" onclick="window.openDetail('${r.id}')">
+            <div class="flex gap-4 items-center">
+              <div class="w-12 h-12 rounded-2xl bg-zen-surface dark:bg-zen-bg-dark flex items-center justify-center shrink-0 border border-zen-border dark:border-zen-border-dark overflow-hidden">
+                ${r.image_url ? `<img src="${API_URL}${r.image_url}" class="w-full h-full object-cover" />` : `<span class="text-xl">📄</span>`}
+              </div>
+              <div class="min-w-0">
+                <h4 class="text-[15px] font-black mb-1.5 leading-snug text-zen-text dark:text-zen-text-dark truncate">${r.description}</h4>
+                <div class="flex items-center gap-2 text-xs font-bold text-zen-muted truncate">
+                   <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                   ${r.location_detail}
                 </div>
               </div>
             </div>
-            <div class="flex-1 hidden md:block"><span class="text-[11px] font-bold bg-zen-bg dark:bg-zen-bg-dark px-2 py-1 rounded text-zen-text dark:text-zen-text-dark border border-zen-border dark:border-zen-border-dark inline-block">${catName}</span></div>
-            <div class="flex-1 hidden md:block">
-              <span class="text-[10px] font-extrabold px-3 py-1.5 rounded-md uppercase inline-block ${statusStyles}">${r.status}</span>
+            <div class="flex items-center lg:block">
+              <span class="lg:hidden text-[10px] font-black text-zen-muted uppercase tracking-widest mr-3">Kategori:</span>
+              <span class="text-[10px] font-black bg-zen-bg dark:bg-black/20 px-2.5 py-1.5 rounded-lg text-zen-text dark:text-zen-text-dark border border-zen-border dark:border-zen-border-dark uppercase tracking-widest">${catName}</span>
             </div>
-            <div class="w-[140px] text-right hidden md:block">
-              <span class="text-[13px] font-medium text-zen-text-secondary dark:text-zen-text-secondary-dark">${new Date(r.created_at).toLocaleDateString('id-ID')}</span>
+            <div class="flex items-center lg:block">
+              <span class="lg:hidden text-[10px] font-black text-zen-muted uppercase tracking-widest mr-3">Status:</span>
+              <span class="text-[9px] font-black px-3 py-1.5 rounded-lg uppercase tracking-[0.05em] ${statusStyles}">${r.status}</span>
+            </div>
+            <div class="lg:text-right flex items-center lg:block">
+              <span class="lg:hidden text-[10px] font-black text-zen-muted uppercase tracking-widest mr-3">Dibuat:</span>
+              <span class="text-xs font-bold text-zen-muted">${new Date(r.created_at).toLocaleDateString('id-ID', {day:'2-digit', month:'short', year:'numeric'})}</span>
             </div>
           </div>
         `;
@@ -299,76 +356,106 @@ import Layout from '../layouts/Layout.astro';
     window.openDetail = (id) => {
       const r = allReportsList.find(x => x.id === id);
       if(!r) return;
-
-      document.getElementById('comment-report-id').value = id;
-
+      document.getElementById('active-report-id').value = id;
+      
+      const imgBox = document.getElementById('detail-img-box');
       if(r.image_url) {
         document.getElementById('detail-img').src = API_URL + r.image_url;
-        document.getElementById('detail-img-container').classList.remove('hidden');
-      } else {
-        document.getElementById('detail-img-container').classList.add('hidden');
-      }
+        imgBox.classList.remove('hidden');
+        imgBox.onclick = () => window.openLightbox(API_URL + r.image_url);
+      } else { imgBox.classList.add('hidden'); }
 
       document.getElementById('detail-desc').textContent = r.description;
       document.getElementById('detail-loc').textContent = r.location_detail;
-      document.getElementById('detail-cat').textContent = getCategoryName(r.category_id);
+      document.getElementById('detail-cat').textContent = categories.find(c => c.id === r.category_id)?.name || 'Umum';
       document.getElementById('detail-date').textContent = new Date(r.created_at).toLocaleDateString('id-ID');
+      document.getElementById('detail-status').textContent = r.status;
       
-      const st = document.getElementById('detail-status');
-      st.textContent = r.status;
-      const statusClass = r.status.toLowerCase();
-      let statusStyles = "";
-      if (statusClass === "pending") statusStyles = "bg-red-50 text-red-500 dark:bg-red-500/10 dark:text-red-400";
-      else if (statusClass === "valid") statusStyles = "bg-yellow-50 text-yellow-600 dark:bg-yellow-500/10 dark:text-yellow-500";
-      else if (statusClass === "resolved") statusStyles = "bg-green-50 text-green-500 dark:bg-green-500/10 dark:text-green-400";
-      st.className = `text-[10px] font-extrabold px-3 py-1.5 rounded-md uppercase inline-block ${statusStyles}`;
-
+      const statusClass = r.status.toLowerCase() === 'pending' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : r.status.toLowerCase() === 'resolved' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-gray-500/10 text-gray-600 dark:text-gray-400';
+      document.getElementById('detail-status').className = `text-[11px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider ${statusClass}`;
+      
       document.getElementById('detail-votes').textContent = r.vote_count;
-      document.getElementById('detail-comment-count').textContent = r.comment_count;
+      document.getElementById('btn-vote-modal').onclick = () => window.doVote(id);
+
+      // Google Maps Link
+      const gLink = document.getElementById('btn-gmaps-modal');
+      gLink.href = `https://www.google.com/maps?q=${r.latitude},${r.longitude}`;
+
+      // Modal Map
+      const modalMapContainer = document.getElementById('modal-map');
+      const viewMapBtn = document.getElementById('btn-view-map-modal');
+      modalMapContainer.classList.add('hidden');
+      viewMapBtn.textContent = 'Lihat Peta';
+      
+      viewMapBtn.onclick = () => {
+        const isHidden = modalMapContainer.classList.toggle('hidden');
+        viewMapBtn.textContent = isHidden ? 'Lihat Peta' : 'Tutup Peta';
+        if (!isHidden) {
+          setTimeout(() => {
+            if (window.mMap) window.mMap.remove();
+            window.mMap = L.map('modal-map', { zoomControl: true }).setView([r.latitude, r.longitude], 16);
+            const isDark = document.documentElement.classList.contains('dark');
+            L.tileLayer(isDark ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(window.mMap);
+            L.marker([r.latitude, r.longitude]).addTo(window.mMap);
+          }, 100);
+        }
+      };
 
       document.getElementById('detail-modal').classList.remove('hidden');
       loadComments(id);
     };
 
-    window.openImg = (url) => {
+    window.openLightbox = (url) => {
       document.getElementById('lightbox-img').src = url;
       document.getElementById('lightbox').classList.remove('hidden');
     };
 
+    window.doVote = async (id) => {
+      try {
+        const res = await fetch(`${API_URL}/api/reports/${id}/vote`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ vote_type: 1 })
+        });
+        if(res.ok) {
+          fetchHistory(true);
+          const r = allReportsList.find(x => x.id === id);
+          if(r && document.getElementById('active-report-id').value === id) {
+             document.getElementById('detail-votes').textContent = r.vote_count + 1;
+          }
+        }
+      } catch(e) {}
+    };
+
     async function loadComments(id, silent = false) {
       const list = document.getElementById('comments-list');
-      if(!silent) list.innerHTML = '<div class="feed-loading"><div class="spinner"></div></div>';
+      if(!silent) list.innerHTML = '<div class="flex-1 flex items-center justify-center py-20"><div class="w-6 h-6 border-4 border-zen-border border-t-brand rounded-full animate-spin"></div></div>';
       try {
         const res = await fetch(`${API_URL}/api/reports/${id}/comments`);
         const data = await res.json();
         const comments = data.data || [];
         if(comments.length === 0) {
-          list.innerHTML = '<div class="text-center p-10 text-zen-text-secondary dark:text-zen-text-secondary-dark text-sm font-medium">Belum ada diskusi.</div>';
+          list.innerHTML = '<div class="text-center py-20"><p class="text-xs font-bold text-zen-muted uppercase tracking-widest">Belum ada diskusi</p></div>';
           return;
         }
         list.innerHTML = comments.map(c => `
-          <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark p-3 px-4 rounded-2xl rounded-tr-none shadow-sm">
-            <div class="flex justify-between mb-1 text-xs">
-              <strong class="text-zen-text dark:text-zen-text-dark">${c.user?.full_name || (c.user?.role === 'admin' ? 'Admin' : 'Warga')}</strong>
-              <span class="text-zen-text-secondary dark:text-zen-text-secondary-dark">${new Date(c.created_at).toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}</span>
-            </div>
-            <div class="text-sm text-zen-text dark:text-zen-text-dark leading-relaxed">${c.content}</div>
+          <div class="p-4 rounded-[20px] max-w-[90%] border ${c.user?.role === 'admin' ? 'bg-brand text-white self-end border-brand dark:text-zen-bg' : 'bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark'}">
+            <div class="mb-1 text-xs"><strong>${c.user?.full_name || 'Warga'}</strong></div>
+            <p class="m-0 text-sm leading-relaxed">${c.content}</p>
           </div>
         `).join('');
         if(!silent) list.scrollTop = list.scrollHeight;
-      } catch(e) {
-        if(!silent) list.innerHTML = '<div class="empty-state text-danger">Gagal memuat diskusi.</div>';
-      }
+      } catch(e) {}
     }
+
     async function handleCommentSubmit(e) {
       e.preventDefault();
-      const id = document.getElementById('comment-report-id').value;
+      const id = document.getElementById('active-report-id').value;
       const input = document.getElementById('comment-input');
+      const btn = document.getElementById('btn-send-comment');
       if(!input.value.trim() || !id) return;
 
-      const btn = e.target.querySelector('.btn-send');
       btn.disabled = true;
-      
       try {
         const res = await fetch(`${API_URL}/api/reports/${id}/comments`, {
           method: 'POST',
@@ -378,8 +465,7 @@ import Layout from '../layouts/Layout.astro';
         if(res.ok) {
           input.value = '';
           loadComments(id);
-          const currentCount = parseInt(document.getElementById('detail-comment-count').textContent || "0");
-          document.getElementById('detail-comment-count').textContent = currentCount + 1;
+          fetchHistory(true);
         }
       } catch(err) {}
       btn.disabled = false;
