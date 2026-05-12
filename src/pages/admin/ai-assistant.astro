@@ -99,54 +99,86 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 
     <!-- Main Content -->
     <main class="flex-1 lg:ml-72 min-h-screen min-w-0 w-full overflow-x-hidden flex flex-col">
-      <div class="max-w-4xl mx-auto w-full p-4 sm:p-6 lg:p-12 space-y-8 flex-1 flex flex-col">
+      <div class="max-w-6xl mx-auto w-full p-4 sm:p-6 lg:p-12 flex-1 flex flex-col gap-8">
         <header class="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <h1 class="text-4xl lg:text-5xl font-black tracking-tight text-zen-text dark:text-zen-text-dark flex items-center gap-4">
               AI Assistant
               <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 text-lg">✨</span>
             </h1>
-            <p class="text-stone-500 font-bold mt-2">Dapatkan saran operasional dengan bantuan AI</p>
+            <p class="text-stone-500 font-bold mt-2">Sistem panduan pintar SovraEquitara.</p>
           </div>
         </header>
 
-        <div class="bg-zen-card dark:bg-zen-card-dark rounded-[24px] lg:rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen flex-1 flex flex-col overflow-hidden min-h-[500px]">
-          <!-- Model Selector Header -->
-          <div class="p-6 border-b border-zen-border dark:border-zen-border-dark flex items-center justify-between bg-stone-50 dark:bg-white/5">
-            <div class="text-sm font-bold text-stone-500 uppercase tracking-widest flex items-center gap-2">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-              Mode AI
-            </div>
-            <select id="ai-model" class="px-4 py-2.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-xl text-xs font-black outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer text-zen-text dark:text-zen-text-dark">
-              <option value="gemini">Google Gemini 3 Flash (API)</option>
-              <option value="local">Local: Qwen 2.5 VL 3B Instruct</option>
-            </select>
-          </div>
-
-          <!-- Chat Window -->
-          <div id="chat-window" class="flex-1 p-6 overflow-y-auto space-y-6 flex flex-col">
-            <!-- Greeting Message -->
-            <div class="flex gap-4 self-start max-w-[85%]">
-              <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 shrink-0">✨</div>
-              <div class="bg-stone-100 dark:bg-white/5 p-4 rounded-2xl rounded-tl-sm text-sm font-medium text-stone-700 dark:text-stone-300 markdown-body">
-                <p>Halo Admin! Saya adalah AI Assistant SovraEquitara.</p><p>Saya memiliki akses ke laporan terkini. Ada yang bisa saya bantu analisa hari ini?</p>
+        <!-- Bento Grid Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
+          
+          <!-- Chat Window (Main Bento Block) -->
+          <div class="lg:col-span-8 flex flex-col bg-white dark:bg-stone-900 rounded-[32px] border border-zen-border dark:border-zen-border-dark shadow-sm overflow-hidden min-h-[500px] lg:min-h-0">
+            <!-- Chat Window -->
+            <div id="chat-window" class="flex-1 p-6 sm:p-8 overflow-y-auto space-y-6 flex flex-col scrollbar-hide">
+              <!-- Greeting Message -->
+              <div class="flex gap-4 self-start max-w-[85%]">
+                <div class="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0 border border-blue-100 dark:border-blue-500/20">✨</div>
+                <div class="bg-stone-50 dark:bg-white/5 p-5 rounded-3xl rounded-tl-sm text-sm font-medium text-stone-700 dark:text-stone-300 markdown-body border border-stone-100 dark:border-white/5">
+                  <p>Halo Admin! Saya adalah AI Assistant SovraEquitara.</p><p>Saya telah menganalisis laporan terkini. Ada yang bisa saya bantu hari ini?</p>
+                </div>
               </div>
             </div>
+
+            <!-- Input Area -->
+            <div class="p-4 sm:p-6 border-t border-zen-border dark:border-zen-border-dark bg-stone-50/50 dark:bg-stone-950/50">
+              <form id="chat-form" class="flex items-end gap-3 relative">
+                <textarea 
+                  id="chat-input" 
+                  rows="1"
+                  placeholder="Tanyakan sesuatu pada asisten..." 
+                  class="w-full pl-6 pr-16 py-4 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-blue-500/10 resize-none min-h-[56px] max-h-32 scrollbar-hide text-zen-text dark:text-zen-text-dark transition-shadow"
+                ></textarea>
+                <button type="submit" class="absolute right-2 bottom-2 p-3 bg-zen-text dark:bg-white hover:bg-black dark:hover:bg-stone-200 text-white dark:text-black rounded-xl shadow-lg transition-transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+              </form>
+            </div>
           </div>
 
-          <!-- Input Area -->
-          <div class="p-4 sm:p-6 border-t border-zen-border dark:border-zen-border-dark bg-white dark:bg-stone-900">
-            <form id="chat-form" class="flex items-end gap-3 max-w-4xl mx-auto relative">
-              <textarea 
-                id="chat-input" 
-                rows="1"
-                placeholder="Ketik pertanyaan untuk AI Assistant..." 
-                class="w-full pl-6 pr-16 py-4 bg-stone-50 dark:bg-white/5 border border-stone-200 dark:border-white/10 rounded-2xl text-sm font-medium outline-none focus:ring-4 focus:ring-blue-500/10 resize-none min-h-[56px] max-h-32 scrollbar-hide text-zen-text dark:text-zen-text-dark"
-              ></textarea>
-              <button type="submit" class="absolute right-2 bottom-2 p-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-lg transition-transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-              </button>
-            </form>
+          <!-- Side Bento Blocks -->
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            
+            <!-- Model Selection Block -->
+            <div class="bg-white dark:bg-stone-900 rounded-[32px] p-6 sm:p-8 border border-zen-border dark:border-zen-border-dark shadow-sm flex flex-col gap-4">
+              <div class="flex items-center gap-3 text-sm font-black text-stone-400 uppercase tracking-widest">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                Model Engine
+              </div>
+              <p class="text-xs text-stone-500 font-medium">Pilih mesin AI yang digunakan untuk pemrosesan bahasa.</p>
+              <select id="ai-model" class="mt-2 px-4 py-3.5 bg-stone-50 dark:bg-white/5 border border-stone-200 dark:border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer text-zen-text dark:text-zen-text-dark appearance-none transition-colors hover:bg-stone-100 dark:hover:bg-white/10">
+                <option value="gemini">Gemini 3 Flash (API)</option>
+                <option value="local">Qwen 2.5 3B (Local)</option>
+              </select>
+            </div>
+
+            <!-- Quick Suggestions Block -->
+            <div class="bg-white dark:bg-stone-900 rounded-[32px] p-6 sm:p-8 border border-zen-border dark:border-zen-border-dark shadow-sm flex-1 flex flex-col gap-5">
+              <div class="flex items-center gap-3 text-sm font-black text-stone-400 uppercase tracking-widest">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                Saran Prompt
+              </div>
+              <p class="text-xs text-stone-500 font-medium">Coba beberapa prompt berikut untuk memulai.</p>
+              
+              <div class="flex flex-col gap-3 mt-2">
+                <button onclick="document.getElementById('chat-input').value='Tolong buatkan ringkasan dari semua laporan yang berstatus PENDING hari ini.'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="text-left px-5 py-4 rounded-2xl bg-stone-50 dark:bg-white/5 hover:bg-stone-100 dark:hover:bg-white/10 transition-colors border border-stone-100 dark:border-white/5 text-sm font-bold text-stone-600 dark:text-stone-300">
+                  Ringkasan Laporan Pending
+                </button>
+                <button onclick="document.getElementById('chat-input').value='Kategori masalah apa yang paling banyak dilaporkan minggu ini?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="text-left px-5 py-4 rounded-2xl bg-stone-50 dark:bg-white/5 hover:bg-stone-100 dark:hover:bg-white/10 transition-colors border border-stone-100 dark:border-white/5 text-sm font-bold text-stone-600 dark:text-stone-300">
+                  Analisis Kategori Masalah
+                </button>
+                <button onclick="document.getElementById('chat-input').value='Adakah laporan yang menurutmu mendesak dan butuh penanganan segera?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="text-left px-5 py-4 rounded-2xl bg-stone-50 dark:bg-white/5 hover:bg-stone-100 dark:hover:bg-white/10 transition-colors border border-stone-100 dark:border-white/5 text-sm font-bold text-stone-600 dark:text-stone-300">
+                  Deteksi Laporan Mendesak
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
