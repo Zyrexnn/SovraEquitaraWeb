@@ -184,11 +184,6 @@ import { ThemeToggle } from '../components/ThemeToggle';
         <img id="lightbox-img" src="" alt="Full view" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl animate-[zoomIn_0.3s_ease-out_both]" />
       </div>
     </div>
-
-    <!-- Zen Toast -->
-    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl font-bold text-white z-[2000] shadow-[0_10px_30px_rgba(0,0,0,0.2)] text-sm transition-all duration-300 hidden">
-      <span id="toast-msg">Notifikasi</span>
-    </div>
   </div>
 
   <!-- Scripts -->
@@ -437,13 +432,19 @@ import { ThemeToggle } from '../components/ThemeToggle';
           body: JSON.stringify({ vote_type: 1 })
         });
         if(res.ok) {
+          window.showToast({ message: 'Dukungan berhasil ditambahkan!', type: 'success' });
           fetchHistory(true);
           const r = allReportsList.find(x => x.id === id);
           if(r && document.getElementById('active-report-id').value === id) {
              document.getElementById('detail-votes').textContent = r.vote_count + 1;
           }
+        } else {
+          const err = await res.json();
+          window.showToast({ message: err.error || 'Gagal menambahkan dukungan', type: 'info' });
         }
-      } catch(e) {}
+      } catch(e) {
+        window.showToast({ message: 'Terjadi kesalahan koneksi', type: 'error' });
+      }
     };
 
     async function loadComments(id, silent = false) {
@@ -485,25 +486,14 @@ import { ThemeToggle } from '../components/ThemeToggle';
           input.value = '';
           loadComments(id);
           fetchHistory(true);
+          window.showToast({ message: 'Komentar berhasil ditambahkan!', type: 'success' });
+        } else {
+          window.showToast({ message: 'Gagal mengirim komentar', type: 'error' });
         }
-      } catch(err) {}
+      } catch(err) {
+        window.showToast({ message: 'Terjadi kesalahan koneksi', type: 'error' });
+      }
       btn.disabled = false;
-    }
-
-    function showToast(msg, type = 'info') {
-      const t = document.getElementById('toast');
-      if (!t) return;
-      document.getElementById('toast-msg').textContent = msg;
-      
-      const baseClasses = 'fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl font-bold text-white z-[2000] shadow-[0_10px_30px_rgba(0,0,0,0.2)] text-sm transition-all duration-300';
-      const colorClass = type === 'success' ? 'bg-emerald-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
-      
-      t.className = `${baseClasses} ${colorClass}`;
-      t.classList.remove('hidden');
-      setTimeout(() => {
-        t.classList.add('hidden');
-        t.className = `${baseClasses} ${colorClass} hidden`;
-      }, 3000);
     }
 
     window.deleteReport = async (id) => {
@@ -514,15 +504,15 @@ import { ThemeToggle } from '../components/ThemeToggle';
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if(res.ok) {
-          showToast('Laporan berhasil dihapus', 'success');
+          window.showToast('Laporan berhasil dihapus', 'success');
           document.getElementById('detail-modal').classList.add('hidden');
           fetchHistory();
         } else {
           const err = await res.json();
-          showToast(err.error || 'Gagal menghapus laporan', 'error');
+          window.showToast(err.error || 'Gagal menghapus laporan', 'error');
         }
       } catch(e) {
-        showToast('Terjadi kesalahan koneksi', 'error');
+        window.showToast('Terjadi kesalahan koneksi', 'error');
       }
     };
   </script>

@@ -165,14 +165,6 @@ import { ThemeToggle } from '../components/ThemeToggle';
         </div>
       </div>
     </main>
-
-    <!-- Zen Toast -->
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-zen-text dark:bg-zen-text-dark text-white dark:text-brand px-8 py-4 rounded-3xl font-black text-[12px] z-[3000] shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hidden uppercase tracking-widest border border-white/10">
-      <div class="flex items-center gap-3">
-        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        <span id="toast-msg">Notifikasi</span>
-      </div>
-    </div>
   </div>
 
   <script is:inline>
@@ -299,7 +291,7 @@ import { ThemeToggle } from '../components/ThemeToggle';
           body: JSON.stringify(payload)
         });
         if (res.ok) {
-          showToast('Profil Diperbarui!');
+          window.showToast({ message: 'Profil Diperbarui!', type: 'success' });
           user.name = payload.full_name;
           localStorage.setItem('user', JSON.stringify(user));
           updateDisplays(payload.full_name);
@@ -318,20 +310,12 @@ import { ThemeToggle } from '../components/ThemeToggle';
           body: JSON.stringify({ email: user.email })
         });
         if (res.ok) {
-          showToast('Email Terkirim!');
+          window.showToast({ message: 'Email Terkirim!', type: 'success' });
           setTimeout(() => window.location.href = `/reset-password?email=${user.email}`, 1500);
         }
       } catch (e) {}
       btn.disabled = false;
     }
+    </script>
 
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      document.getElementById('toast-msg').textContent = msg;
-      t.classList.remove('hidden');
-      setTimeout(() => t.classList.add('hidden'), 3000);
-    }
-  </script>
-
-
-</Layout>
+    </Layout>

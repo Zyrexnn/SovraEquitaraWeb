@@ -295,6 +295,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
   </div>
 
   <script>
+    import { showToast } from '../../lib/toast';
     const root = document.getElementById("admin-root");
     const API_URL = root?.dataset.apiUrl || "http://localhost:3000";
     
@@ -338,7 +339,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     window.openReportModal = (id) => {
       currentReportId = id;
       const r = reportsData.find(x => x.id === id);
-      if(!r) return alert('Laporan tidak ditemukan di sistem. Anda mungkin perlu me-refresh halaman.');
+      if(!r) return showToast({ message: 'Laporan tidak ditemukan di sistem. Anda mungkin perlu me-refresh halaman.', type: 'error' });
       
       const modal = document.getElementById("report-modal");
       const content = document.getElementById("modal-content");
@@ -446,11 +447,11 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }
         });
         if(res.ok) {
-          alert(`Laporan berhasil diubah ke ${status}`);
+          showToast({ message: `Laporan berhasil diubah ke ${status}`, type: 'success' });
           window.closeModal();
           checkAuthAndLoadReports(); // reload
         }
-      } catch (err) { alert("Gagal memperbarui status"); }
+      } catch (err) { showToast({ message: "Gagal memperbarui status", type: 'error' }); }
     };
 
     document.getElementById("btn-verify")?.addEventListener("click", () => window.verifyReport("VALID"));

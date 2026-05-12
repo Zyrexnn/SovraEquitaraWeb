@@ -88,6 +88,7 @@ import { ThemeToggle } from '../components/ThemeToggle';
   </main>
 
   <script>
+    import { showToast } from '../lib/toast';
     const API_URL = 'http://localhost:3000';
     const form = document.getElementById('form-login') as HTMLFormElement;
     const btnSubmit = document.getElementById('btn-submit') as HTMLButtonElement;
@@ -120,11 +121,11 @@ import { ThemeToggle } from '../components/ThemeToggle';
             window.location.href = '/dashboard';
           }
         } else {
-          alert(data.message || 'Login gagal. Silakan periksa kembali email dan kata sandi Anda.');
+          showToast({ message: data.message || 'Login gagal. Silakan periksa kembali email dan kata sandi Anda.', type: 'error' });
         }
       } catch (err) {
         console.error('Login error:', err);
-        alert('Terjadi kesalahan koneksi. Pastikan server backend berjalan.');
+        showToast({ message: 'Terjadi kesalahan koneksi. Pastikan server backend berjalan.', type: 'error' });
       } finally {
         btnSubmit.disabled = false;
         btnSubmit.innerText = 'Masuk Sekarang';

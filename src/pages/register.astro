@@ -100,6 +100,7 @@ import { ThemeToggle } from '../components/ThemeToggle';
   </main>
 
   <script>
+    import { showToast } from '../lib/toast';
     const API_URL = 'http://localhost:3000';
     const form = document.getElementById('form-register') as HTMLFormElement;
     const btnSubmit = document.getElementById('btn-submit') as HTMLButtonElement;
@@ -124,14 +125,14 @@ import { ThemeToggle } from '../components/ThemeToggle';
         const data = await res.json();
 
         if (res.ok) {
-          alert('Pendaftaran berhasil! Silakan masuk ke akun Anda.');
-          window.location.href = '/login';
+          showToast({ message: 'Pendaftaran berhasil! Silakan masuk ke akun Anda.', type: 'success' });
+          setTimeout(() => { window.location.href = '/login'; }, 1500);
         } else {
-          alert(data.message || 'Pendaftaran gagal. Email mungkin sudah terdaftar.');
+          showToast({ message: data.message || 'Pendaftaran gagal. Email mungkin sudah terdaftar.', type: 'error' });
         }
       } catch (err) {
         console.error('Register error:', err);
-        alert('Terjadi kesalahan koneksi. Pastikan server backend berjalan.');
+        showToast({ message: 'Terjadi kesalahan koneksi. Pastikan server backend berjalan.', type: 'error' });
       } finally {
         btnSubmit.disabled = false;
         btnSubmit.innerText = 'Daftar Sekarang';

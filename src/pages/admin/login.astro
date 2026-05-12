@@ -85,6 +85,7 @@ import { ThemeToggle } from '../../components/ThemeToggle';
 
 
   <script>
+    import { showToast } from '../../lib/toast';
     const API_URL = 'http://localhost:3000';
     const form = document.getElementById('form-admin-login') as HTMLFormElement;
     const btnLogin = document.getElementById('btn-login') as HTMLButtonElement;
@@ -110,13 +111,14 @@ import { ThemeToggle } from '../../components/ThemeToggle';
         if (res.ok) {
           localStorage.setItem('access_token', data.access_token);
           localStorage.setItem('user', JSON.stringify(data.user));
-          window.location.href = '/admin/dashboard';
+          showToast({ message: 'Login berhasil, mengalihkan...', type: 'success' });
+          setTimeout(() => { window.location.href = '/admin/dashboard'; }, 1000);
         } else {
-          alert(data.error || 'Login gagal. Periksa kembali email dan password Anda.');
+          showToast({ message: data.error || 'Login gagal. Periksa kembali email dan password Anda.', type: 'error' });
         }
       } catch (err) {
         console.error('Admin login error:', err);
-        alert('Terjadi kesalahan koneksi ke server.');
+        showToast({ message: 'Terjadi kesalahan koneksi ke server.', type: 'error' });
       } finally {
         btnLogin.disabled = false;
         btnLogin.innerHTML = '<span>Autentikasi</span><svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';

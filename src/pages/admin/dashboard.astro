@@ -311,6 +311,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 
 
   <script>
+    import { showToast } from '../../lib/toast';
     const root = document.getElementById("admin-root");
     const API_URL = root?.dataset.apiUrl || "http://localhost:3000";
     let reportsData = [];
@@ -346,7 +347,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           const errData = await reportRes.json();
           if (reportRes.status === 401) {
             console.warn("Session expired or invalid token:", errData.debug_error);
-            alert("Unauthorized: " + (errData.debug_error || "Token tidak valid"));
+            showToast({ message: "Unauthorized: " + (errData.debug_error || "Token tidak valid"), type: 'error' });
             // localStorage.clear();
             // window.location.href = "/admin/login";
             return;
@@ -368,7 +369,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         renderCharts();
       } catch (err) {
         console.error("Gagal memuat data admin:", err);
-        alert("Gagal memuat data: " + err.message);
+        showToast({ message: "Gagal memuat data: " + err.message, type: 'error' });
       }
     }
 
@@ -657,11 +658,11 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }
         });
         if(res.ok) {
-          alert(`Laporan berhasil diubah ke ${status}`);
+          showToast({ message: `Laporan berhasil diubah ke ${status}`, type: 'success' });
           (window as any).closeModal();
           loadData();
         }
-      } catch (err) { alert("Gagal memperbarui status"); }
+      } catch (err) { showToast({ message: "Gagal memperbarui status", type: 'error' }); }
     };
 
     document.getElementById("btn-verify")?.addEventListener("click", () => window.verifyReport("VALID"));
