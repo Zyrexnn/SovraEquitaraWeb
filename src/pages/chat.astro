@@ -1,0 +1,175 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ThemeToggle } from '../components/ThemeToggle';
+---
+
+<Layout title="Chat Admin — SovraEquitara">
+  <div class="flex transition-colors duration-300">
+    <!-- Sidebar -->
+    <aside class="fixed left-0 top-0 w-[280px] h-screen bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col z-[1000] transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] max-lg:-translate-x-full lg:translate-x-0 backdrop-blur-xl shadow-lg" id="sidebar">
+      <div class="p-6 lg:py-10 flex items-center justify-between">
+        <a href="/" class="block hover:opacity-80 transition-opacity"><img src="/logo.svg" alt="SovraEquitara" class="h-16 w-auto grayscale dark:brightness-0 dark:invert" /></a>
+        <div class="flex items-center gap-2">
+          <ThemeToggle client:load />
+          <button id="btn-close-sidebar" class="lg:hidden p-2 text-zen-muted dark:text-zen-muted-dark hover:text-zen-text dark:hover:text-zen-text-dark">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+      <nav class="flex-1 px-4">
+        <div class="text-[10px] font-extrabold text-zen-muted dark:text-zen-muted-dark p-3 tracking-widest uppercase">NAVIGASI</div>
+        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
+          Dashboard Warga
+        </a>
+        <a href="/history" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          Riwayat Laporan
+        </a>
+        <a href="/chat" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 bg-brand dark:bg-white text-white dark:text-brand shadow-lg shadow-brand/10 dark:shadow-white/10">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          Chat Admin
+        </a>
+        <a href="/profile" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Profil Saya
+        </a>
+      </nav>
+      <div class="p-6 border-t border-zen-border dark:border-zen-border-dark">
+        <div class="p-4 rounded-2xl flex items-center gap-3 mb-4 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
+          <div class="w-11 h-11 rounded-full bg-brand text-white flex items-center justify-center font-extrabold dark:text-zen-bg" id="sidebar-avatar">U</div>
+          <div>
+            <span class="font-extrabold text-sm block" id="sidebar-name">Memuat...</span>
+            <span class="text-[11px] font-extrabold text-zen-blue" id="sidebar-points">0 PTS</span>
+          </div>
+        </div>
+        <button id="btn-logout" class="w-full flex items-center justify-center gap-2.5 p-3 bg-transparent border border-zen-border dark:border-zen-border-dark rounded-xl text-zen-muted dark:text-zen-muted-dark font-bold text-[13px] cursor-pointer transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
+          Keluar Sesi
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden flex items-center justify-between px-5 py-3 fixed top-0 left-0 right-0 z-[900] bg-zen-surface/80 dark:bg-zen-surface-dark/80 backdrop-blur-xl border-b border-zen-border dark:border-zen-border-dark">
+      <button id="btn-menu-mobile" class="bg-transparent border-none text-zen-text dark:text-zen-text-dark p-2 cursor-pointer">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <a href="/"><img src="/logo.svg" alt="Sovra" class="h-10 w-auto dark:brightness-0 dark:invert" /></a>
+      <div class="w-10"></div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto lg:ml-[280px] p-6 pt-24 lg:pt-10 max-w-[1200px] w-full mx-auto pb-24 lg:pb-10">
+      <header class="mb-8">
+        <h1 class="text-[28px] lg:text-[32px] font-extrabold tracking-tight">Chat <span class="bg-gradient-to-r from-blue-500 to-emerald-500 bg-clip-text text-transparent">Admin</span></h1>
+        <p class="text-sm font-semibold text-zen-muted dark:text-zen-muted-dark mt-1">Kirim pesan langsung ke Super Admin.</p>
+      </header>
+
+      <!-- Chat Window -->
+      <div class="rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen overflow-hidden flex flex-col min-h-[500px] max-h-[70vh]">
+        <div class="px-6 py-4 border-b border-zen-border dark:border-zen-border-dark flex items-center gap-3 bg-zen-surface/50 dark:bg-zen-surface-dark/50">
+          <div class="w-10 h-10 rounded-2xl bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center font-black text-sm">SA</div>
+          <div>
+            <div class="font-black text-sm">Super Admin</div>
+            <div class="text-[10px] font-bold text-green-500 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Online</div>
+          </div>
+        </div>
+
+        <div id="chat-messages" class="flex-1 p-6 overflow-y-auto space-y-4 scrollbar-hide">
+          <div class="flex items-center justify-center h-32 text-zen-muted dark:text-zen-muted-dark font-bold text-sm">Memuat pesan...</div>
+        </div>
+
+        <div class="p-4 border-t border-zen-border dark:border-zen-border-dark bg-zen-surface/30 dark:bg-zen-surface-dark/30">
+          <form id="chat-form" class="flex items-end gap-3">
+            <textarea id="chat-input" rows="1" placeholder="Tulis pesan ke Super Admin..." class="w-full px-5 py-3.5 bg-zen-bg dark:bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand/20 dark:focus:ring-white/20 resize-none min-h-[48px] max-h-28 text-zen-text dark:text-zen-text-dark"></textarea>
+            <button type="submit" class="p-3.5 bg-brand dark:bg-white text-white dark:text-brand rounded-2xl hover:scale-105 transition-transform shadow-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script is:inline define:vars={{ PUBLIC_API_URL: import.meta.env.PUBLIC_API_URL || 'http://localhost:3000' }}>
+    const API_URL = PUBLIC_API_URL;
+    const token = localStorage.getItem('access_token');
+    const userRaw = localStorage.getItem('user');
+    if (!token || !userRaw) { window.location.href = '/login'; }
+
+    const user = JSON.parse(userRaw);
+    document.addEventListener('DOMContentLoaded', () => {
+      // Setup sidebar
+      const initial = (user.name || 'U')[0].toUpperCase();
+      const sn = document.getElementById('sidebar-name');
+      const sa = document.getElementById('sidebar-avatar');
+      const sp = document.getElementById('sidebar-points');
+      if (sn) sn.textContent = user.name || 'Warga';
+      if (sa) sa.textContent = initial;
+      if (sp) sp.textContent = `${user.points || 0} PTS`;
+
+      loadMessages();
+      setInterval(() => loadMessages(true), 4000);
+
+      // Mobile sidebar
+      const sidebar = document.getElementById('sidebar');
+      document.getElementById('btn-menu-mobile')?.addEventListener('click', () => sidebar?.classList.toggle('max-lg:-translate-x-full'));
+      document.getElementById('btn-close-sidebar')?.addEventListener('click', () => sidebar?.classList.add('max-lg:-translate-x-full'));
+      document.getElementById('btn-logout')?.addEventListener('click', () => { localStorage.clear(); window.location.href = '/'; });
+    });
+
+    async function loadMessages(silent) {
+      const container = document.getElementById('chat-messages');
+      if (!container) return;
+      try {
+        const res = await fetch(`${API_URL}/api/chat/messages`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const json = await res.json();
+        const messages = json.data || [];
+
+        if (messages.length === 0) {
+          container.innerHTML = '<div class="flex flex-col items-center justify-center h-full gap-3 text-center"><div class="text-4xl">💬</div><p class="text-zen-muted font-bold text-sm">Belum ada pesan. Mulai percakapan!</p></div>';
+          return;
+        }
+
+        container.innerHTML = messages.map(function(m) {
+          var isMine = m.sender_id === user.id;
+          var senderName = m.sender?.full_name || 'Unknown';
+          var time = new Date(m.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+          return '<div class="flex gap-3 max-w-[85%] ' + (isMine ? 'self-end flex-row-reverse ml-auto' : '') + '">' +
+            '<div class="w-8 h-8 rounded-xl ' + (isMine ? 'bg-brand text-white dark:text-zen-bg' : 'bg-stone-900 dark:bg-white text-white dark:text-black') + ' flex items-center justify-center font-black text-xs shrink-0">' + senderName[0].toUpperCase() + '</div>' +
+            '<div>' +
+            '<div class="flex items-center gap-2 mb-1 ' + (isMine ? 'flex-row-reverse' : '') + '"><span class="text-[10px] font-bold text-zen-muted">' + senderName + '</span><span class="text-[9px] text-stone-300 dark:text-stone-600">' + time + '</span></div>' +
+            '<div class="px-4 py-3 rounded-2xl text-sm font-medium ' + (isMine ? 'bg-brand text-white dark:text-zen-bg rounded-tr-sm' : 'bg-zen-surface dark:bg-zen-surface-dark rounded-tl-sm border border-zen-border dark:border-zen-border-dark') + '">' + m.content + '</div>' +
+            '</div></div>';
+        }).join('');
+
+        if (!silent) container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+      } catch(e) { console.error(e); }
+    }
+
+    // Send message
+    document.getElementById('chat-form')?.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var input = document.getElementById('chat-input');
+      var val = input.value.trim();
+      if (!val) return;
+
+      try {
+        var res = await fetch(API_URL + '/api/chat/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ content: val })
+        });
+        if (res.ok) { input.value = ''; await loadMessages(); }
+        else { window.showToast({ message: 'Gagal mengirim pesan', type: 'error' }); }
+      } catch(e) { window.showToast({ message: 'Koneksi gagal', type: 'error' }); }
+    });
+
+    // Auto-resize
+    document.getElementById('chat-input')?.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    });
+  </script>
+</Layout>
