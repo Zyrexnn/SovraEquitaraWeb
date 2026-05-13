@@ -1,0 +1,669 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+---
+
+<Layout title="Super Admin Dashboard — SovraEquitara">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script is:inline define:vars={{ API_URL }}>
+    window.API_URL = API_URL;
+  </script>
+
+  <div class="flex min-h-screen bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display" id="admin-root" data-api-url={API_URL}>
+    <!-- Mobile Menu Toggle -->
+    <button id="mobile-menu-btn" class="lg:hidden fixed top-6 right-6 z-50 p-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl shadow-xl">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <Sidebar activePage="dashboard" />
+
+    <!-- Main Content -->
+    <main class="flex-1 lg:ml-72 min-h-screen min-w-0 w-full overflow-x-hidden">
+      <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-12 space-y-8 lg:space-y-10">
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <h1 class="text-4xl lg:text-5xl font-black tracking-tight text-zen-text dark:text-zen-text-dark">Super Admin Console</h1>
+            <p class="text-stone-500 font-bold mt-2">Pusat Kendali Utama & Manajemen Admin</p>
+          </div>
+          <div id="live-time" class="px-6 py-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl font-black text-sm tracking-widest shadow-sm">--:--:-- WIB</div>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-8">
+          {[
+            { label: 'Total Reports', id: 'stat-total', color: 'text-zen-text dark:text-zen-text-dark' },
+            { label: 'Pending Review', id: 'stat-pending', color: 'text-amber-500' },
+            { label: 'Verified', id: 'stat-verified', color: 'text-green-500' },
+            { label: 'Resolved', id: 'stat-resolved', color: 'text-blue-500' }
+          ].map(stat => (
+            <div class="bg-zen-card dark:bg-zen-card-dark p-5 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen hover:shadow-lg transition-all duration-500 group overflow-hidden">
+              <div class="text-[9px] sm:text-[10px] font-black text-stone-400 uppercase tracking-widest sm:tracking-[0.2em] truncate">{stat.label}</div>
+              <div id={stat.id} class={`text-3xl sm:text-4xl lg:text-5xl font-black mt-2 sm:mt-4 tracking-tighter ${stat.color} group-hover:scale-105 transition-transform origin-left`}>0</div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Analytics Row -->
+        <div class="grid lg:grid-cols-12 gap-6 lg:gap-8">
+          <!-- Trend Chart -->
+          <div class="lg:col-span-8 bg-zen-card dark:bg-zen-card-dark p-6 lg:p-10 rounded-[24px] lg:rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen flex flex-col min-h-[350px] lg:min-h-[400px] min-w-0">
+            <div class="mb-6 lg:mb-8">
+              <h3 class="text-lg lg:text-xl font-black text-zen-text dark:text-zen-text-dark">Tren Laporan</h3>
+              <p class="text-xs lg:text-sm font-bold text-stone-400 mt-1">Aktivitas pelaporan dalam 7 hari terakhir</p>
+            </div>
+            <div class="flex-1 w-full relative min-h-[200px]">
+              <canvas id="trendChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Top Locations Chart -->
+          <div class="lg:col-span-4 bg-zen-card dark:bg-zen-card-dark p-6 lg:p-10 rounded-[24px] lg:rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen flex flex-col min-h-[350px] lg:min-h-[400px] min-w-0">
+            <div class="mb-6 lg:mb-8">
+              <h3 class="text-lg lg:text-xl font-black text-zen-text dark:text-zen-text-dark">Titik Terpadat</h3>
+              <p class="text-xs lg:text-sm font-bold text-stone-400 mt-1">Lokasi paling aktif</p>
+            </div>
+            <div class="flex-1 w-full relative min-h-[200px]">
+              <canvas id="locationChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Operations Row -->
+        <div class="grid lg:grid-cols-12 gap-6 lg:gap-8">
+          <!-- Table Card -->
+          <div class="lg:col-span-8 bg-zen-card dark:bg-zen-card-dark rounded-[24px] lg:rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen overflow-hidden flex flex-col min-w-0">
+            <div class="p-6 lg:p-10 border-b border-zen-border dark:border-zen-border-dark flex flex-col gap-6 lg:gap-8">
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 lg:gap-6">
+                <div>
+                  <h3 class="text-lg lg:text-xl font-black text-zen-text dark:text-zen-text-dark">Laporan Masuk</h3>
+                  <p class="text-xs lg:text-sm font-bold text-stone-400 mt-1">Daftar aduan terbaru dari warga</p>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap gap-4">
+                <div class="relative flex-1 min-w-[240px]">
+                  <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <input type="text" id="search-input" placeholder="Cari laporan..." class="w-full pl-11 pr-4 py-3 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-2xl text-xs font-bold outline-none focus:ring-4 focus:ring-blue-500/10 transition-all appearance-none" />
+                </div>
+                <select id="category-filter" class="px-4 py-3 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-2xl text-xs font-bold outline-none focus:ring-4 focus:ring-blue-500/10 appearance-none min-w-[140px]">
+                  <option value="">Semua Kategori</option>
+                </select>
+                <select id="status-filter" class="px-4 py-3 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-2xl text-xs font-bold outline-none focus:ring-4 focus:ring-blue-500/10 appearance-none min-w-[140px]">
+                  <option value="">Semua Status</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="VALID">Verified</option>
+                  <option value="RESOLVED">Resolved</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[600px]">
+                <thead>
+                  <tr class="text-[10px] font-black text-stone-400 uppercase tracking-widest border-b border-zen-border dark:border-zen-border-dark">
+                    <th class="px-6 lg:px-10 py-5 w-20">Media</th>
+                    <th class="px-4 lg:px-6 py-5">Aduan</th>
+                    <th class="px-4 lg:px-6 py-5 w-32">Status</th>
+                    <th class="px-4 lg:px-6 py-5 text-right pr-6 lg:pr-10 w-32">Tanggal</th>
+                  </tr>
+                </thead>
+                <tbody id="reports-tbody" class="divide-y divide-zen-border dark:divide-zen-border-dark">
+                  <!-- JS Render -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Category Chart Card -->
+          <div class="lg:col-span-4 bg-zen-card dark:bg-zen-card-dark p-6 lg:p-10 rounded-[24px] lg:rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen flex flex-col min-w-0">
+            <div class="mb-6 lg:mb-8">
+              <h3 class="text-lg lg:text-xl font-black text-zen-text dark:text-zen-text-dark">Kategori</h3>
+              <p class="text-xs lg:text-sm font-bold text-stone-400 mt-1">Distribusi per topik</p>
+            </div>
+            <div class="flex-1 flex items-center justify-center relative min-h-[250px] lg:min-h-[300px] w-full">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- POPUP DETAIL REPORT -->
+  <div id="report-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6 lg:p-12">
+    <div class="absolute inset-0 bg-stone-900/40 dark:bg-black/80 backdrop-blur-sm transition-opacity" onclick="window.closeModal()"></div>
+    <div class="relative bg-zen-card dark:bg-zen-card-dark w-full max-w-5xl max-h-[90vh] rounded-[32px] shadow-2xl border border-zen-border dark:border-zen-border-dark overflow-hidden flex flex-col scale-95 opacity-0 transition-all duration-300" id="modal-content">
+      <div class="px-6 py-5 lg:px-10 lg:py-8 flex items-center justify-between border-b border-zen-border dark:border-zen-border-dark bg-white/50 dark:bg-stone-900/50 backdrop-blur-xl sticky top-0 z-20">
+        <div>
+           <h3 class="text-xl lg:text-2xl font-black text-zen-text dark:text-zen-text-dark tracking-tight">Detail Laporan</h3>
+           <p class="text-xs font-bold text-stone-500 mt-1" id="modal-date"></p>
+        </div>
+        <button class="p-3 hover:bg-stone-100 dark:hover:bg-white/10 rounded-2xl transition-colors text-stone-400 group" onclick="window.closeModal()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="group-hover:rotate-90 transition-transform duration-300"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      
+      <div class="flex-1 overflow-y-auto p-6 lg:p-10 scrollbar-hide bg-stone-50/50 dark:bg-stone-950/50">
+        <div class="grid lg:grid-cols-12 gap-8 lg:gap-12">
+          <!-- Left: Media -->
+          <div class="lg:col-span-5 space-y-6">
+            <div class="aspect-[4/5] sm:aspect-video lg:aspect-[4/5] rounded-[24px] overflow-hidden bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark shadow-sm relative group">
+              <img id="detail-img" src="" alt="Laporan" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div id="admin-map" class="aspect-video rounded-[24px] overflow-hidden border border-zen-border dark:border-zen-border-dark shadow-sm hidden z-10 relative"></div>
+          </div>
+          
+          <!-- Right: Details -->
+          <div class="lg:col-span-7 space-y-8">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <div class="flex-1 p-5 rounded-[20px] bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark shadow-sm flex items-center justify-between">
+                <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest">Dukungan</div>
+                <div class="flex items-center gap-2 font-black text-xl text-zen-text dark:text-zen-text-dark">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-blue-500"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                  <span id="modal-vote-count">0</span>
+                </div>
+              </div>
+              <div class="flex-1 p-5 rounded-[20px] bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark shadow-sm flex items-center justify-between">
+                <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest">Status</div>
+                <div id="modal-status-badge" class="inline-flex px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-amber-200 dark:border-amber-500/20">PENDING</div>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Deskripsi Laporan
+              </label>
+              <div class="p-6 rounded-[24px] bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark shadow-sm">
+                <p id="detail-desc" class="text-base sm:text-lg font-medium text-stone-700 dark:text-stone-300 leading-relaxed"></p>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                Lokasi Kejadian
+              </label>
+              <div class="flex flex-col gap-4 p-5 rounded-[24px] bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark shadow-sm">
+                <div class="flex items-start gap-3">
+                  <div class="p-2 bg-stone-100 dark:bg-white/5 rounded-xl text-stone-500 shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  </div>
+                  <span id="detail-loc" class="font-bold text-sm sm:text-base text-zen-text dark:text-zen-text-dark mt-1"></span>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-zen-border dark:border-zen-border-dark">
+                  <button id="btn-toggle-map" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-stone-100 dark:bg-white/5 hover:bg-stone-200 dark:hover:bg-white/10 rounded-xl font-bold text-xs tracking-wide transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon></svg>
+                    <span id="btn-toggle-map-text">Lihat Peta</span>
+                  </button>
+                  <a id="gmaps-link" href="#" target="_blank" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-stone-100 dark:bg-white/5 hover:bg-stone-200 dark:hover:bg-white/10 rounded-xl font-bold text-xs tracking-wide transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    Google Maps
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div id="admin-comments-section" class="space-y-3">
+              <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                Diskusi Warga
+              </label>
+              <div id="admin-comments-list" class="flex flex-col gap-3 max-h-60 overflow-y-auto p-5 rounded-[24px] bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark shadow-sm scrollbar-hide">
+                <div class="text-sm font-bold text-stone-400 text-center py-4">Memuat komentar...</div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sticky Footer Moderation -->
+      <div id="moderation-container" class="p-6 lg:p-8 border-t border-zen-border dark:border-zen-border-dark bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl sticky bottom-0 z-20">
+        <div class="flex flex-col sm:flex-row gap-4 justify-end items-center max-w-full">
+           <div class="w-full sm:w-auto text-left sm:text-right hidden sm:block mr-auto">
+             <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Tindakan Moderasi</div>
+             <div class="text-sm font-bold text-stone-600 dark:text-stone-300">Update Status Laporan</div>
+           </div>
+           <button id="btn-verify" class="w-full sm:w-auto px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-black text-xs tracking-widest rounded-2xl shadow-xl hover:shadow-blue-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
+             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+             VERIFIKASI
+           </button>
+           <button id="btn-resolve" class="w-full sm:w-auto px-8 py-4 bg-green-500 hover:bg-green-600 text-white font-black text-xs tracking-widest rounded-2xl shadow-xl hover:shadow-green-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
+             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+             SELESAIKAN
+           </button>
+           <button id="btn-cancel" class="hidden w-full sm:w-auto px-8 py-4 bg-red-500 hover:bg-red-600 text-white font-black text-xs tracking-widest rounded-2xl shadow-xl hover:shadow-red-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
+             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+             BATALKAN STATUS
+           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script>
+    import { showToast } from '../../lib/toast';
+    const root = document.getElementById("admin-root");
+    const API_URL = root?.dataset.apiUrl || "http://localhost:3000";
+    let reportsData = [];
+    let categoriesData = [];
+    let currentReportId = null;
+
+    function updateTime() {
+      const el = document.getElementById("live-time");
+      if (el) el.innerText = new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" }) + " WIB";
+    }
+
+    async function loadData() {
+      const token = localStorage.getItem("access_token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      if (!token || user.role !== "super_admin") return window.location.href = "/admin/login";
+      
+      // Sidebar role-checking is now handled by the Sidebar component
+
+      try {
+        console.log("Fetching data from:", API_URL);
+        console.log("Token present:", !!token);
+        
+        const [catRes, reportRes] = await Promise.all([
+          fetch(`${API_URL}/api/categories`),
+          fetch(`${API_URL}/api/admin/reports`, { 
+            headers: { "Authorization": `Bearer ${token}` } 
+          })
+        ]);
+
+        if (!catRes.ok) throw new Error("Gagal mengambil kategori");
+        if (!reportRes.ok) {
+          const errData = await reportRes.json();
+          if (reportRes.status === 401) {
+            console.warn("Session expired or invalid token:", errData.debug_error);
+            showToast({ message: "Unauthorized: " + (errData.debug_error || "Token tidak valid"), type: 'error' });
+            // localStorage.clear();
+            // window.location.href = "/admin/login";
+            return;
+          }
+          throw new Error(errData.error || "Gagal mengambil data laporan (Unauthorized/Forbidden)");
+        }
+
+        const catData = await catRes.json();
+        const reportData = await reportRes.json();
+        
+        categoriesData = catData.data || [];
+        reportsData = reportData.data || [];
+        
+        console.log("Data loaded successfully:", reportsData.length, "reports found.");
+        
+        renderCategories();
+        renderStats();
+        renderReports(reportsData);
+        renderCharts();
+      } catch (err) {
+        console.error("Gagal memuat data admin:", err);
+        showToast({ message: "Gagal memuat data: " + err.message, type: 'error' });
+      }
+    }
+
+    let categoryChart = null;
+    let trendChart = null;
+    let locationChart = null;
+
+    function renderCharts() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const textColor = isDark ? '#a8a29e' : '#78716c';
+      const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+
+      // 1. Category Chart
+      const catCtx = document.getElementById('categoryChart') as HTMLCanvasElement;
+      if (catCtx) {
+        const categoryCounts = {};
+        reportsData.forEach(r => {
+          const catName = categoriesData.find(c => c.id === r.category_id)?.name || "Lainnya";
+          categoryCounts[catName] = (categoryCounts[catName] || 0) + 1;
+        });
+
+        if (categoryChart) categoryChart.destroy();
+        categoryChart = new Chart(catCtx, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(categoryCounts),
+            datasets: [{
+              data: Object.values(categoryCounts),
+              backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'],
+              hoverOffset: 20,
+              borderRadius: 10,
+              borderWidth: 0
+            }]
+          },
+          options: {
+            cutout: '75%',
+            plugins: {
+              legend: { position: 'bottom', labels: { color: textColor, usePointStyle: true, padding: 25, font: { family: 'Plus Jakarta Sans', weight: 'bold', size: 11 } } }
+            }
+          }
+        });
+      }
+
+      // 2. Trend Chart (Last 7 Days)
+      const trendCtx = document.getElementById('trendChart') as HTMLCanvasElement;
+      if (trendCtx) {
+        const last7Days = [...Array(7)].map((_, i) => {
+          const d = new Date();
+          d.setDate(d.getDate() - i);
+          return d.toISOString().split('T')[0];
+        }).reverse();
+
+        const dailyCounts = last7Days.map(date => 
+          reportsData.filter(r => r.created_at.startsWith(date)).length
+        );
+
+        if (trendChart) trendChart.destroy();
+        trendChart = new Chart(trendCtx, {
+          type: 'line',
+          data: {
+            labels: last7Days.map(d => new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })),
+            datasets: [{
+              label: 'Laporan',
+              data: dailyCounts,
+              borderColor: '#3B82F6',
+              backgroundColor: 'rgba(59, 130, 246, 0.1)',
+              fill: true,
+              tension: 0.4,
+              pointRadius: 4,
+              pointBackgroundColor: '#3B82F6'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor, stepSize: 1, font: { weight: 'bold' } } },
+              x: { grid: { display: false }, ticks: { color: textColor, font: { weight: 'bold' } } }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+      }
+
+      // 3. Location Chart (Top 5)
+      const locCtx = document.getElementById('locationChart') as HTMLCanvasElement;
+      if (locCtx) {
+        const locCounts = {};
+        reportsData.forEach(r => {
+          const loc = r.location_detail.split(',')[0].trim();
+          locCounts[loc] = (locCounts[loc] || 0) + 1;
+        });
+
+        const topLocs = Object.entries(locCounts)
+          .sort((a: any, b: any) => b[1] - a[1])
+          .slice(0, 5);
+
+        if (locationChart) locationChart.destroy();
+        locationChart = new Chart(locCtx, {
+          type: 'bar',
+          data: {
+            labels: topLocs.map(x => x[0]),
+            datasets: [{
+              data: topLocs.map(x => x[1]),
+              backgroundColor: '#8B5CF6',
+              borderRadius: 8,
+              barThickness: 24
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor, stepSize: 1, font: { weight: 'bold' } } },
+              y: { grid: { display: false }, ticks: { color: textColor, font: { weight: 'bold' } } }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+      }
+    }
+
+    /* Leaderboard moved to dedicated page */
+
+    function renderCategories() {
+      const f = document.getElementById("category-filter");
+      if (f) f.innerHTML = '<option value="">Semua Kategori</option>' + categoriesData.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
+    }
+
+    function renderStats() {
+      const set = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val; };
+      set("stat-total", reportsData.length);
+      set("stat-pending", reportsData.filter(r => r.status === "PENDING").length);
+      set("stat-verified", reportsData.filter(r => r.status === "VALID").length);
+      set("stat-resolved", reportsData.filter(r => r.status === "RESOLVED").length);
+    }
+
+    function renderReports(reports) {
+      const tbody = document.getElementById("reports-tbody");
+      if (!tbody) return;
+      tbody.innerHTML = reports.map(r => `
+        <tr onclick="window.openReportModal('${r.id}')" class="hover:bg-stone-50 dark:hover:bg-white/5 cursor-pointer transition-colors duration-200 group">
+          <td class="px-6 lg:px-10 py-5">
+            <div class="w-12 h-12 lg:w-14 lg:h-14 rounded-xl overflow-hidden bg-zen-surface dark:bg-zen-surface-dark border border-stone-200 dark:border-white/10 group-hover:scale-105 transition-transform duration-500 shrink-0">
+              ${r.image_url ? `<img src="${API_URL}${r.image_url}" class="w-full h-full object-cover"/>` : "<div class='w-full h-full flex items-center justify-center text-xl grayscale'>🖼️</div>"}
+            </div>
+          </td>
+          <td class="px-4 lg:px-6 py-5 max-w-[200px] sm:max-w-[300px] lg:max-w-xs">
+            <div class="font-bold text-zen-text dark:text-zen-text-dark truncate">${r.description}</div>
+            <div class="text-[11px] font-bold text-stone-400 mt-1 uppercase tracking-wider truncate">${r.location_detail}</div>
+          </td>
+          <td class="px-4 lg:px-6 py-5">
+            <span class="inline-flex px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border
+              ${r.status === 'PENDING' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-amber-200 dark:border-amber-500/20' : ''}
+              ${r.status === 'VALID' ? 'bg-green-50 dark:bg-green-500/10 text-green-600 border-green-200 dark:border-green-500/20' : ''}
+              ${r.status === 'RESOLVED' ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-500/20' : ''}
+            ">
+              ${r.status}
+            </span>
+          </td>
+          <td class="px-4 lg:px-6 py-5 text-right pr-6 lg:pr-10 font-black text-stone-400 text-xs whitespace-nowrap">
+            ${new Date(r.created_at).toLocaleDateString("id-ID", { day: 'numeric', month: 'short' })}
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    window.closeModal = () => {
+      const modal = document.getElementById("report-modal");
+      const content = document.getElementById("modal-content");
+      if (modal && content) {
+        content.classList.add("scale-95", "opacity-0");
+        setTimeout(() => modal.classList.add("hidden"), 300);
+      }
+    };
+
+    window.openReportModal = (id) => {
+      currentReportId = id;
+      const r = reportsData.find(x => x.id === id);
+      if(!r) return;
+      
+      const modal = document.getElementById("report-modal");
+      const content = document.getElementById("modal-content");
+      if (modal && content) {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        setTimeout(() => content.classList.remove("scale-95", "opacity-0"), 10);
+      }
+
+      const set = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val; };
+      const img = document.getElementById("detail-img");
+      if(img) img.src = r.image_url ? `${API_URL}${r.image_url}` : "";
+      
+      const dateEl = document.getElementById("modal-date");
+      if(dateEl) dateEl.innerText = `Dilaporkan pada: ${new Date(r.created_at).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })} WIB`;
+
+      set("detail-desc", r.description);
+      set("detail-loc", r.location_detail);
+      set("modal-vote-count", r.vote_count);
+      
+      const badge = document.getElementById("modal-status-badge");
+      if(badge) {
+        badge.innerText = r.status;
+        badge.className = `inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+          r.status === 'PENDING' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-amber-200 dark:border-amber-500/20' :
+          r.status === 'VALID' ? 'bg-green-50 dark:bg-green-500/10 text-green-600 border-green-200 dark:border-green-500/20' :
+          'bg-blue-50 dark:bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-500/20'
+        }`;
+      }
+      
+      const gLink = document.getElementById("gmaps-link") as HTMLAnchorElement;
+      if(gLink) gLink.href = `https://www.google.com/maps?q=${r.latitude},${r.longitude}`;
+
+      const modalMapContainer = document.getElementById('admin-map');
+      const viewMapBtn = document.getElementById('btn-toggle-map');
+      const viewMapText = document.getElementById('btn-toggle-map-text');
+      if (modalMapContainer && viewMapBtn && viewMapText) {
+        modalMapContainer.classList.add('hidden');
+        viewMapText.textContent = 'LIHAT PETA';
+
+        viewMapBtn.onclick = () => {
+          const isHidden = modalMapContainer.classList.toggle('hidden');
+          viewMapText.textContent = isHidden ? 'LIHAT PETA' : 'TUTUP PETA';
+          if (!isHidden) {
+            setTimeout(() => {
+              if ((window as any).mMap) (window as any).mMap.remove();
+              (window as any).mMap = (window as any).L.map('admin-map', { zoomControl: true }).setView([r.latitude, r.longitude], 16);
+              const isDark = document.documentElement.classList.contains('dark');
+              (window as any).L.tileLayer(isDark ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo((window as any).mMap);
+              (window as any).L.marker([r.latitude, r.longitude]).addTo((window as any).mMap);
+            }, 100);
+          }
+        };
+      }
+
+      async function fetchAdminComments(reportId) {
+        const list = document.getElementById('admin-comments-list');
+        if (!list) return;
+        list.innerHTML = '<div class="text-sm font-bold text-stone-400 text-center py-4">Memuat komentar...</div>';
+        try {
+          const res = await fetch(`${API_URL}/api/reports/${reportId}/comments`);
+          const data = await res.json();
+          const comments = data.data || [];
+          if (comments.length === 0) {
+            list.innerHTML = '<div class="text-sm font-bold text-stone-400 text-center py-4">Belum ada diskusi.</div>';
+            return;
+          }
+          list.innerHTML = comments.map(c => `
+            <div class="p-4 rounded-2xl border ${c.user?.role === 'admin' ? 'bg-stone-900 dark:bg-white text-white dark:text-black self-end border-transparent' : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-white/10'}">
+              <div class="mb-1 text-xs opacity-70 font-bold">${c.user?.full_name || 'Warga'}</div>
+              <p class="m-0 text-sm">${c.content}</p>
+            </div>
+          `).join('');
+        } catch(e) {
+          list.innerHTML = '<div class="text-sm font-bold text-red-500 text-center py-4">Gagal memuat diskusi.</div>';
+        }
+      }
+      fetchAdminComments(id);
+
+      const modContainer = document.getElementById("moderation-container");
+      const btnVerify = document.getElementById("btn-verify");
+      const btnResolve = document.getElementById("btn-resolve");
+      const btnCancel = document.getElementById("btn-cancel");
+      if (modContainer && btnVerify && btnResolve && btnCancel) {
+        if (r.status === 'PENDING') {
+          modContainer.style.display = 'block';
+          btnVerify.style.display = 'flex';
+          btnResolve.style.display = 'none';
+          btnCancel.style.display = 'none';
+        } else if (r.status === 'VALID') {
+          modContainer.style.display = 'block';
+          btnVerify.style.display = 'none';
+          btnResolve.style.display = 'flex';
+          btnCancel.style.display = 'flex';
+        } else if (r.status === 'RESOLVED') {
+          modContainer.style.display = 'block';
+          btnVerify.style.display = 'none';
+          btnResolve.style.display = 'none';
+          btnCancel.style.display = 'flex';
+        } else {
+          modContainer.style.display = 'none';
+        }
+      }
+    };
+
+    window.verifyReport = async (status) => {
+      if(!currentReportId) return;
+      const token = localStorage.getItem("access_token");
+      try {
+        const route = status === "VALID" ? "verify" : status === "RESOLVED" ? "resolve" : "cancel";
+        const endpoint = status === "CANCEL" ? `${API_URL}/api/superadmin/reports/${currentReportId}/cancel` : `${API_URL}/api/admin/reports/${currentReportId}/${route}`;
+        const res = await fetch(endpoint, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }
+        });
+        if(res.ok) {
+          showToast({ message: `Laporan berhasil diubah statusnya`, type: 'success' });
+          (window as any).closeModal();
+          loadData();
+        } else {
+          const data = await res.json();
+          throw new Error(data.error || "Gagal");
+        }
+      } catch (err) { showToast({ message: "Gagal memperbarui status: " + err.message, type: 'error' }); }
+    };
+
+    document.getElementById("btn-verify")?.addEventListener("click", () => window.verifyReport("VALID"));
+    document.getElementById("btn-resolve")?.addEventListener("click", () => window.verifyReport("RESOLVED"));
+    document.getElementById("btn-cancel")?.addEventListener("click", () => {
+      if (confirm("Apakah Anda yakin ingin membatalkan status laporan ini kembali ke PENDING? Poin user akan dikurangi secara otomatis.")) {
+        window.verifyReport("CANCEL");
+      }
+    });
+
+    updateTime();
+    setInterval(updateTime, 1000);
+    loadData();
+
+    // Theme Observer for Charts
+    const observer = new MutationObserver(() => renderCharts());
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    // Live Filters Initialization
+    function setupFilters() {
+      const inputs = ["search-input", "category-filter", "status-filter"];
+      inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", () => {
+            const search = (document.getElementById("search-input") as HTMLInputElement)?.value.toLowerCase() || "";
+            const cat = (document.getElementById("category-filter") as HTMLSelectElement)?.value || "";
+            const status = (document.getElementById("status-filter") as HTMLSelectElement)?.value || "";
+            
+            const filtered = reportsData.filter(r => {
+              const matchesSearch = r.description.toLowerCase().includes(search) || 
+                                   r.location_detail.toLowerCase().includes(search);
+              const matchesCat = !cat || String(r.category_id) === cat;
+              const matchesStatus = !status || r.status === status;
+              return matchesSearch && matchesCat && matchesStatus;
+            });
+            
+            renderReports(filtered);
+          });
+        }
+      });
+    }
+
+    // Initial setup
+    setInterval(loadData, 10000); // Reload every 10s
+    setupFilters();
+
+    document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar")?.classList.toggle("-translate-x-full"));
+    document.getElementById("logout-btn")?.addEventListener("click", () => { localStorage.clear(); window.location.href = "/admin/login"; });
+  </script>
+</Layout>

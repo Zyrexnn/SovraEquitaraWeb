@@ -1,0 +1,255 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+---
+
+<Layout title="Kelola Admin — SovraEquitara">
+  <div class="flex min-h-screen bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display" id="admin-root" data-api-url={API_URL}>
+    <button id="mobile-menu-btn" class="lg:hidden fixed top-6 right-6 z-50 p-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl shadow-xl">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <Sidebar activePage="admins" />
+
+    <main class="flex-1 lg:ml-72 min-h-screen min-w-0 w-full overflow-x-hidden">
+      <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-12 space-y-8 lg:space-y-10">
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <h1 class="text-4xl lg:text-5xl font-black tracking-tight text-zen-text dark:text-zen-text-dark">Kelola Admin</h1>
+            <p class="text-stone-500 font-bold mt-2">Daftar dan Manajemen Akses Admin</p>
+          </div>
+          <button onclick="window.openAdminModal()" class="px-6 py-3 bg-stone-900 hover:bg-stone-800 dark:bg-white dark:hover:bg-stone-200 text-white dark:text-black border border-stone-200 dark:border-white/10 rounded-2xl font-black text-sm transition-all shadow-xl flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            TAMBAH ADMIN
+          </button>
+        </header>
+
+        <!-- Admin Table -->
+        <div class="bg-zen-card dark:bg-zen-card-dark rounded-[24px] lg:rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen overflow-hidden flex flex-col min-w-0">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse min-w-[600px]">
+              <thead>
+                <tr class="text-[10px] font-black text-stone-400 uppercase tracking-widest border-b border-zen-border dark:border-zen-border-dark">
+                  <th class="px-6 lg:px-10 py-5">Admin</th>
+                  <th class="px-4 lg:px-6 py-5">Email</th>
+                  <th class="px-4 lg:px-6 py-5">Role</th>
+                  <th class="px-4 lg:px-6 py-5 text-right pr-6 lg:pr-10">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="admins-tbody" class="divide-y divide-zen-border dark:divide-zen-border-dark">
+                <!-- JS Render -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- POPUP ADMIN -->
+  <div id="admin-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6 lg:p-12">
+    <div class="absolute inset-0 bg-stone-900/40 dark:bg-black/80 backdrop-blur-sm transition-opacity" onclick="window.closeAdminModal()"></div>
+    <div class="relative bg-zen-card dark:bg-zen-card-dark w-full max-w-md rounded-[32px] shadow-2xl border border-zen-border dark:border-zen-border-dark overflow-hidden flex flex-col scale-95 opacity-0 transition-all duration-300" id="admin-modal-content">
+      <div class="px-6 py-5 lg:px-8 lg:py-6 flex items-center justify-between border-b border-zen-border dark:border-zen-border-dark bg-white/50 dark:bg-stone-900/50 backdrop-blur-xl">
+        <h3 id="admin-modal-title" class="text-xl font-black text-zen-text dark:text-zen-text-dark tracking-tight">Tambah Admin</h3>
+        <button class="p-2 hover:bg-stone-100 dark:hover:bg-white/10 rounded-xl transition-colors text-stone-400 group" onclick="window.closeAdminModal()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="group-hover:rotate-90 transition-transform duration-300"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      
+      <div class="p-6 lg:p-8 space-y-6">
+        <form id="admin-form" class="space-y-4">
+          <input type="hidden" id="admin-id" />
+          
+          <div class="space-y-2">
+            <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest">Nama Lengkap</label>
+            <input type="text" id="admin-name" required class="w-full px-4 py-3 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark focus:ring-2 focus:ring-blue-500 font-bold" />
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest">Email</label>
+            <input type="email" id="admin-email" required class="w-full px-4 py-3 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark focus:ring-2 focus:ring-blue-500 font-bold" />
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest">Password</label>
+            <input type="password" id="admin-password" class="w-full px-4 py-3 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark focus:ring-2 focus:ring-blue-500 font-bold" placeholder="Kosongkan jika tidak ingin diubah" />
+            <p class="text-[10px] font-bold text-stone-400 mt-1" id="password-hint">Isi jika ingin membuat admin baru atau mereset password.</p>
+          </div>
+
+          <button type="submit" class="w-full py-4 mt-4 bg-blue-500 hover:bg-blue-600 text-white font-black text-xs tracking-widest uppercase rounded-2xl shadow-xl hover:shadow-blue-500/20 transition-all">
+            Simpan Admin
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { showToast } from '../../lib/toast';
+    const root = document.getElementById("admin-root");
+    const API_URL = root?.dataset.apiUrl || "http://localhost:3000";
+    let adminsData = [];
+
+    async function loadAdmins() {
+      const token = localStorage.getItem("access_token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      if (!token || user.role !== "super_admin") return window.location.href = "/admin/login";
+
+      // Sidebar role-checking is now handled by the Sidebar component
+      try {
+        const res = await fetch(`${API_URL}/api/superadmin/admins`, { 
+          headers: { "Authorization": `Bearer ${token}` } 
+        });
+
+        if (!res.ok) {
+          throw new Error("Gagal mengambil data admin");
+        }
+
+        const data = await res.json();
+        adminsData = data.data || [];
+        renderAdmins();
+      } catch (err) {
+        showToast({ message: "Gagal memuat data: " + err.message, type: 'error' });
+      }
+    }
+
+    function renderAdmins() {
+      const tbody = document.getElementById("admins-tbody");
+      if (!tbody) return;
+      tbody.innerHTML = adminsData.map(a => `
+        <tr class="hover:bg-stone-50 dark:hover:bg-white/5 transition-colors duration-200 group">
+          <td class="px-6 lg:px-10 py-5 font-bold text-zen-text dark:text-zen-text-dark">
+            ${a.full_name}
+          </td>
+          <td class="px-4 lg:px-6 py-5 font-bold text-stone-500">
+            ${a.email}
+          </td>
+          <td class="px-4 lg:px-6 py-5">
+            <span class="inline-flex px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border bg-blue-50 dark:bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-500/20">
+              ${a.role}
+            </span>
+          </td>
+          <td class="px-4 lg:px-6 py-5 text-right pr-6 lg:pr-10 space-x-2">
+            <button onclick="window.editAdmin('${a.id}')" class="px-3 py-2 bg-stone-100 hover:bg-stone-200 dark:bg-white/10 dark:hover:bg-white/20 text-stone-600 dark:text-stone-300 font-bold text-[10px] tracking-widest uppercase rounded-xl transition-colors">Edit</button>
+            <button onclick="window.deleteAdmin('${a.id}')" class="px-3 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 text-red-500 font-bold text-[10px] tracking-widest uppercase rounded-xl transition-colors">Hapus</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    window.openAdminModal = (admin = null) => {
+      const modal = document.getElementById("admin-modal");
+      const content = document.getElementById("admin-modal-content");
+      if (modal && content) {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        setTimeout(() => content.classList.remove("scale-95", "opacity-0"), 10);
+      }
+
+      const idInput = document.getElementById("admin-id") as HTMLInputElement;
+      const nameInput = document.getElementById("admin-name") as HTMLInputElement;
+      const emailInput = document.getElementById("admin-email") as HTMLInputElement;
+      const passInput = document.getElementById("admin-password") as HTMLInputElement;
+      const title = document.getElementById("admin-modal-title");
+      
+      if (admin) {
+        idInput.value = admin.id;
+        nameInput.value = admin.full_name;
+        emailInput.value = admin.email;
+        emailInput.disabled = true; // Cannot edit email usually
+        passInput.required = false;
+        if(title) title.innerText = "Edit Admin";
+      } else {
+        idInput.value = "";
+        nameInput.value = "";
+        emailInput.value = "";
+        emailInput.disabled = false;
+        passInput.required = true;
+        if(title) title.innerText = "Tambah Admin";
+      }
+      passInput.value = "";
+    };
+
+    window.closeAdminModal = () => {
+      const modal = document.getElementById("admin-modal");
+      const content = document.getElementById("admin-modal-content");
+      if (modal && content) {
+        content.classList.add("scale-95", "opacity-0");
+        setTimeout(() => modal.classList.add("hidden"), 300);
+      }
+    };
+
+    window.editAdmin = (id) => {
+      const admin = adminsData.find(a => a.id === id);
+      if (admin) window.openAdminModal(admin);
+    };
+
+    window.deleteAdmin = async (id) => {
+      if (!confirm("Apakah Anda yakin ingin menghapus admin ini?")) return;
+      
+      const token = localStorage.getItem("access_token");
+      try {
+        const res = await fetch(`${API_URL}/api/superadmin/admins/${id}`, {
+          method: "DELETE",
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        
+        if (res.ok) {
+          showToast({ message: "Admin berhasil dihapus", type: 'success' });
+          loadAdmins();
+        } else {
+          const data = await res.json();
+          throw new Error(data.error || "Gagal menghapus admin");
+        }
+      } catch (err) {
+        showToast({ message: err.message, type: 'error' });
+      }
+    };
+
+    document.getElementById("admin-form")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const id = (document.getElementById("admin-id") as HTMLInputElement).value;
+      const full_name = (document.getElementById("admin-name") as HTMLInputElement).value;
+      const email = (document.getElementById("admin-email") as HTMLInputElement).value;
+      const password = (document.getElementById("admin-password") as HTMLInputElement).value;
+      
+      const token = localStorage.getItem("access_token");
+      const method = id ? "PUT" : "POST";
+      const url = id ? `${API_URL}/api/superadmin/admins/${id}` : `${API_URL}/api/superadmin/admins`;
+      
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}` 
+          },
+          body: JSON.stringify({ email, full_name, password })
+        });
+        
+        if (res.ok) {
+          showToast({ message: `Admin berhasil ${id ? 'diupdate' : 'dibuat'}`, type: 'success' });
+          window.closeAdminModal();
+          loadAdmins();
+        } else {
+          const data = await res.json();
+          throw new Error(data.error || "Gagal menyimpan admin");
+        }
+      } catch (err) {
+        showToast({ message: err.message, type: 'error' });
+      }
+    });
+
+    loadAdmins();
+
+    document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar")?.classList.toggle("-translate-x-full"));
+    document.getElementById("logout-btn")?.addEventListener("click", () => { localStorage.clear(); window.location.href = "/admin/login"; });
+  </script>
+</Layout>
