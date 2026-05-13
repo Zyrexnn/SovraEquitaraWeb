@@ -112,7 +112,13 @@ import { ThemeToggle } from '../../components/ThemeToggle';
           localStorage.setItem('access_token', data.access_token);
           localStorage.setItem('user', JSON.stringify(data.user));
           showToast({ message: 'Login berhasil, mengalihkan...', type: 'success' });
-          setTimeout(() => { window.location.href = '/admin/dashboard'; }, 1000);
+          setTimeout(() => { 
+            if (data.user.role === 'super_admin') {
+              window.location.href = '/superadmin/dashboard';
+            } else {
+              window.location.href = '/admin/dashboard';
+            }
+          }, 1000);
         } else {
           showToast({ message: data.error || 'Login gagal. Periksa kembali email dan password Anda.', type: 'error' });
         }
