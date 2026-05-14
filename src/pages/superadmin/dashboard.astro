@@ -13,15 +13,6 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
   </script>
 
   <div class="flex min-h-screen bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display" id="admin-root" data-api-url={API_URL}>
-    <!-- Mobile Menu Toggle -->
-    <button id="mobile-menu-btn" class="lg:hidden fixed top-6 right-6 z-50 p-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl shadow-xl">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
-
     <Sidebar activePage="dashboard" />
 
     <!-- Main Content -->
@@ -626,44 +617,27 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       }
     });
 
-    updateTime();
-    setInterval(updateTime, 1000);
-    loadData();
+    let isInitialized = false;
+    document.addEventListener('astro:page-load', () => {
+      if (isInitialized) {
+        updateTime();
+        loadData();
+        setupFilters();
+        return;
+      }
+      isInitialized = true;
+      updateTime();
+      setInterval(updateTime, 1000);
+      loadData();
 
-    // Theme Observer for Charts
-    const observer = new MutationObserver(() => renderCharts());
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      // Theme Observer for Charts
+      const observer = new MutationObserver(() => renderCharts());
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-    // Live Filters Initialization
-    function setupFilters() {
-      const inputs = ["search-input", "category-filter", "status-filter"];
-      inputs.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.addEventListener("input", () => {
-            const search = (document.getElementById("search-input") as HTMLInputElement)?.value.toLowerCase() || "";
-            const cat = (document.getElementById("category-filter") as HTMLSelectElement)?.value || "";
-            const status = (document.getElementById("status-filter") as HTMLSelectElement)?.value || "";
-            
-            const filtered = reportsData.filter(r => {
-              const matchesSearch = r.description.toLowerCase().includes(search) || 
-                                   r.location_detail.toLowerCase().includes(search);
-              const matchesCat = !cat || String(r.category_id) === cat;
-              const matchesStatus = !status || r.status === status;
-              return matchesSearch && matchesCat && matchesStatus;
-            });
-            
-            renderReports(filtered);
-          });
-        }
-      });
-    }
+      // Initial setup
+      setInterval(loadData, 10000); // Reload every 10s
+      setupFilters();
+    });
 
-    // Initial setup
-    setInterval(loadData, 10000); // Reload every 10s
-    setupFilters();
-
-    document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar")?.classList.toggle("-translate-x-full"));
-    document.getElementById("logout-btn")?.addEventListener("click", () => { localStorage.clear(); window.location.href = "/admin/login"; });
   </script>
 </Layout>
