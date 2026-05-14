@@ -221,7 +221,7 @@ import { ThemeToggle } from '../components/ThemeToggle';
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('astro:page-load', () => {
       const token = localStorage.getItem('access_token');
       const userRaw = localStorage.getItem('user');
       

@@ -5,14 +5,6 @@ import Sidebar from '../../components/Sidebar.astro';
 
 <Layout title="Profile Admin — SovraEquitara">
   <div class="flex min-h-screen bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark transition-all duration-300 font-display">
-    <button id="mobile-menu-btn" class="lg:hidden fixed top-6 right-6 z-50 p-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl shadow-xl">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
-    
     <Sidebar activePage="profile" />
 
     <main class="flex-1 lg:ml-[280px] p-8 lg:p-[60px]">
@@ -52,27 +44,30 @@ import Sidebar from '../../components/Sidebar.astro';
   </div>
 
   <script>
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
-      window.location.href = "/admin/login";
-    } else {
-      const nameEl = document.getElementById("display-name");
-      const sidebarNameEl = document.getElementById("admin-name-sidebar");
-      const emailEl = document.getElementById("display-email");
-      const nameInput = document.getElementById("input-name") as HTMLInputElement;
-      const emailInput = document.getElementById("input-email") as HTMLInputElement;
-      
-      if(nameEl) nameEl.innerText = user.full_name || "Admin";
-      if(emailEl) emailEl.innerText = user.email || "";
-      if(nameInput) nameInput.value = user.full_name || "";
-      if(emailInput) emailInput.value = user.email || "";
+    document.addEventListener('astro:page-load', () => {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
+        window.location.href = "/admin/login";
+      } else {
+        const nameEl = document.getElementById("display-name");
+        const sidebarNameEl = document.getElementById("admin-name-sidebar");
+        const emailEl = document.getElementById("display-email");
+        const nameInput = document.getElementById("input-name") as HTMLInputElement;
+        const emailInput = document.getElementById("input-email") as HTMLInputElement;
+        
+        if(nameEl) nameEl.innerText = user.full_name || "Admin";
+        if(emailEl) emailEl.innerText = user.email || "";
+        if(nameInput) nameInput.value = user.full_name || "";
+        if(emailInput) emailInput.value = user.email || "";
+      }
+    }, { once: true });
+    
+    // Fallback if already loaded
+    if (document.readyState === 'complete') {
+       const user = JSON.parse(localStorage.getItem("user") || "{}");
+       if (!user || (user.role !== "admin" && user.role !== "super_admin")) {
+         window.location.href = "/admin/login";
+       }
     }
-
-    document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar")?.classList.toggle("-translate-x-full"));
-
-    document.getElementById("logout-btn")?.addEventListener("click", () => {
-      localStorage.clear();
-      window.location.href = "/admin/login";
-    });
   </script>
 </Layout>
