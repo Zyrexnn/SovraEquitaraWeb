@@ -1,74 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { ThemeToggle } from '../components/ThemeToggle';
+import Sidebar from '../components/Sidebar.astro';
 ---
 
 <Layout title="Dashboard Warga — SovraEquitara">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   
   <div class="flex transition-colors duration-300">
-    <!-- Desktop Sidebar -->
-    <aside class="fixed left-0 top-0 w-[280px] h-screen bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col z-[1000] transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] max-lg:-translate-x-full lg:translate-x-0 backdrop-blur-xl shadow-lg" id="sidebar">
-      <div class="p-6 lg:py-10 flex items-center justify-between">
-        <a href="/" class="block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="h-16 w-auto grayscale dark:brightness-0 dark:invert" />
-        </a>
-        <div class="flex items-center gap-2">
-          <ThemeToggle client:load />
-          <button id="btn-close-sidebar" class="lg:hidden p-2 text-zen-muted dark:text-zen-muted-dark hover:text-zen-text dark:hover:text-zen-text-dark bg-transparent border-none cursor-pointer flex items-center justify-center">
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          </button>
-        </div>
-      </div>
-      
-      <nav class="flex-1 px-4">
-        <div class="text-[10px] font-extrabold text-zen-muted dark:text-zen-muted-dark p-3 tracking-widest uppercase">NAVIGASI</div>
-        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 bg-brand dark:bg-white text-white dark:text-brand shadow-lg shadow-brand/10 dark:shadow-white/10">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
-          Dashboard Warga
-        </a>
-        <a href="/history" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          Riwayat Laporan
-        </a>
-        <a href="/chat" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-          Chat Admin
-        </a>
-        <a href="/profile" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          Profil Saya
-        </a>
-      </nav>
-
-      <div class="p-6 border-t border-zen-border dark:border-zen-border-dark">
-        <div class="p-4 rounded-2xl flex items-center gap-3 mb-4 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
-          <div class="w-11 h-11 rounded-full bg-brand text-white flex items-center justify-center font-extrabold dark:text-zen-bg" id="sidebar-avatar">U</div>
-          <div>
-            <span class="font-extrabold text-sm block" id="sidebar-name">Memuat...</span>
-            <span class="text-[11px] font-extrabold text-zen-blue" id="sidebar-points">0 PTS</span>
-          </div>
-        </div>
-        <button id="btn-logout-desktop" class="w-full flex items-center justify-center gap-2.5 p-3 bg-transparent border border-zen-border dark:border-zen-border-dark rounded-xl text-zen-muted dark:text-zen-muted-dark font-bold text-[13px] cursor-pointer transition-colors duration-300 hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-900/20 dark:hover:border-red-900/50 dark:hover:text-red-400">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline></svg>
-          Keluar Sesi
-        </button>
-      </div>
-    </aside>
-
-    <!-- Mobile Header -->
-    <header class="lg:hidden flex items-center justify-between px-5 py-3 fixed top-0 left-0 right-0 z-[900] bg-zen-surface/80 dark:bg-zen-surface-dark/80 backdrop-blur-xl border-b border-zen-border dark:border-zen-border-dark">
-      <button id="btn-menu-mobile" class="bg-transparent border-none text-zen-text dark:text-zen-text-dark p-2 cursor-pointer flex items-center justify-center">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-      </button>
-      <a href="/" class="block">
-        <img src="/logo.svg" alt="Sovra" class="h-10 w-auto dark:brightness-0 dark:invert" />
-      </a>
-      <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
-        <span id="mobile-points" class="text-[11px] font-extrabold text-zen-blue">0 PTS</span>
-        <div class="w-7 h-7 rounded-full bg-brand text-white flex items-center justify-center text-[11px] font-extrabold dark:text-zen-bg" id="mobile-avatar">U</div>
-      </div>
-    </header>
+    <Sidebar activePage="dashboard" />
 
     <!-- Main Content -->
     <main class="flex-1 overflow-y-auto lg:ml-[280px] p-6 pt-24 lg:pt-10 max-w-[1600px] w-full mx-auto pb-24 lg:pb-10">
@@ -276,7 +215,8 @@ import { ThemeToggle } from '../components/ThemeToggle';
     if (!token || !userRaw) {
       window.location.href = '/login';
     } else {
-      document.addEventListener('DOMContentLoaded', initZenDashboard);
+      document.addEventListener('astro:page-load', initZenDashboard);
+      if (document.readyState === 'complete') initZenDashboard();
     }
 
     let user, categories = [], selectedFile = null, map, marker, allReports = [];
@@ -306,12 +246,6 @@ import { ThemeToggle } from '../components/ThemeToggle';
     }
 
     function setupUI() {
-      const initial = (user.name || 'U')[0].toUpperCase();
-      document.getElementById('sidebar-name').textContent = user.name || 'Warga';
-      document.getElementById('sidebar-avatar').textContent = initial;
-      document.getElementById('mobile-avatar').textContent = initial;
-      document.getElementById('sidebar-points').textContent = `${user.points || 0} PTS`;
-      document.getElementById('mobile-points').textContent = `${user.points || 0} PTS`;
       document.getElementById('greeting').textContent = `Selamat ${getTimeGreeting()}, ${user.name?.split(' ')[0] || 'Warga'}.`;
       document.getElementById('current-date').textContent = new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'short' });
     }
@@ -527,38 +461,6 @@ import { ThemeToggle } from '../components/ThemeToggle';
       
       const formComment = document.getElementById('form-comment');
       if (formComment) formComment.onsubmit = handleCommentSubmit;
-
-      safeSetClick('btn-logout-desktop', logout);
-      
-      const sidebar = document.getElementById('sidebar');
-      const mobileMenuBtn = document.getElementById('btn-menu-mobile');
-      const closeSidebarBtn = document.getElementById('btn-close-sidebar');
-
-      if (mobileMenuBtn && sidebar) {
-        mobileMenuBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          sidebar.classList.toggle('max-lg:-translate-x-full');
-        });
-      }
-      
-      if (closeSidebarBtn && sidebar) {
-        closeSidebarBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          sidebar.classList.add('max-lg:-translate-x-full');
-        });
-      }
-      
-      // Close sidebar when clicking outside
-      document.addEventListener('click', (e) => {
-        if (sidebar && !sidebar.classList.contains('max-lg:-translate-x-full')) {
-          const isClickInsideSidebar = sidebar.contains(e.target);
-          const isClickOnMenuBtn = mobileMenuBtn && mobileMenuBtn.contains(e.target);
-          
-          if (!isClickInsideSidebar && !isClickOnMenuBtn) {
-            sidebar.classList.add('max-lg:-translate-x-full');
-          }
-        }
-      });
     }
 
     function logout() { localStorage.clear(); window.location.href = '/'; }
