@@ -98,6 +98,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar").classList.toggle("-translate-x-full"));
     document.getElementById("logout-btn")?.addEventListener("click", () => { localStorage.clear(); window.location.href = "/admin/login"; });
 
-    init();
+    document.addEventListener('astro:page-load', init);
+    if (document.readyState === 'complete') init();
   </script>
 </Layout>
