@@ -1,72 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { ThemeToggle } from '../components/ThemeToggle';
+import Sidebar from '../components/Sidebar.astro';
 ---
 
 <Layout title="Profil Saya — SovraEquitara">
   <div class="flex h-screen overflow-hidden bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display">
-    <!-- Desktop Sidebar -->
-    <aside class="fixed left-0 top-0 w-[280px] h-screen bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col z-[1000] transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] max-lg:-translate-x-full lg:translate-x-0 backdrop-blur-xl shadow-lg" id="sidebar">
-      <div class="p-6 lg:py-10 flex items-center justify-between">
-        <a href="/" class="block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="h-16 w-auto grayscale dark:brightness-0 dark:invert" />
-        </a>
-        <div class="flex items-center gap-2">
-          <ThemeToggle client:load />
-          <button id="btn-close-sidebar" class="lg:hidden p-2 text-zen-muted dark:text-zen-muted-dark hover:text-zen-text dark:hover:text-zen-text-dark bg-transparent border-none cursor-pointer flex items-center justify-center">
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          </button>
-        </div>
-      </div>
-      
-      <nav class="flex-1 px-4">
-        <div class="text-[10px] font-extrabold text-zen-muted dark:text-zen-muted-dark p-3 tracking-widest uppercase">NAVIGASI</div>
-        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
-          Dashboard Warga
-        </a>
-        <a href="/admin/dashboard" id="nav-dashboard-link" class="hidden flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
-          <span id="nav-dashboard-text">Dashboard Admin</span>
-        </a>
-        <a href="/history" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 text-zen-muted dark:text-zen-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 hover:text-zen-text dark:hover:text-zen-text-dark">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          Riwayat Laporan
-        </a>
-        <a href="/profile" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all mb-1 bg-brand dark:bg-white text-white dark:text-brand shadow-lg shadow-brand/10 dark:shadow-white/10">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          Profil Saya
-        </a>
-      </nav>
-
-      <div class="p-6 border-t border-zen-border dark:border-zen-border-dark">
-        <div class="p-4 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark flex items-center gap-3 mb-4">
-          <div class="w-11 h-11 rounded-full bg-brand dark:bg-white text-white dark:text-brand flex items-center justify-center font-black" id="sidebar-avatar">U</div>
-          <div class="flex flex-col">
-            <span class="font-extrabold text-sm truncate max-w-[150px]" id="sidebar-name">Memuat...</span>
-            <span class="text-[11px] font-bold text-brand dark:text-white/70" id="sidebar-points">0 PTS</span>
-          </div>
-        </div>
-        <button id="btn-logout-desktop" class="w-full flex items-center justify-center gap-2.5 p-3.5 bg-transparent border border-zen-border dark:border-zen-border-dark rounded-xl text-zen-muted dark:text-zen-muted-dark font-bold text-[13px] cursor-pointer transition-colors hover:bg-stone-100 dark:hover:bg-white/5 hover:text-red-500 dark:hover:text-red-400">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-          Keluar Sesi
-        </button>
-      </div>
-    </aside>
-
-    <!-- Mobile Header -->
-    <header class="lg:hidden flex items-center justify-between px-5 py-3 fixed top-0 left-0 right-0 z-[900] bg-zen-surface/80 dark:bg-zen-surface-dark/80 backdrop-blur-xl border-b border-zen-border dark:border-zen-border-dark">
-      <button id="btn-menu-mobile" class="bg-transparent border-none text-zen-text dark:text-zen-text-dark p-2 cursor-pointer flex items-center justify-center">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-      </button>
-      <a href="/" class="block">
-        <img src="/logo.svg" alt="Sovra" class="h-10 w-auto dark:brightness-0 dark:invert" />
-      </a>
-      <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
-        <span id="mobile-points" class="text-[11px] font-extrabold text-zen-blue">0 PTS</span>
-        <div class="w-7 h-7 rounded-full bg-brand text-white flex items-center justify-center text-[11px] font-extrabold dark:text-zen-bg" id="mobile-avatar">U</div>
-      </div>
-    </header>
+    <Sidebar activePage="profile" />
 
     <!-- Main Content -->
     <main class="flex-1 overflow-y-auto lg:ml-[280px] p-6 pt-24 lg:pt-10 max-w-[1600px] w-full mx-auto pb-24 lg:pb-10 scroll-smooth">
@@ -175,7 +114,8 @@ import { ThemeToggle } from '../components/ThemeToggle';
     if (!token || !userRaw) {
       window.location.href = '/login';
     } else {
-      document.addEventListener('DOMContentLoaded', initProfile);
+      document.addEventListener('astro:page-load', initProfile);
+      if (document.readyState === 'complete') initProfile();
     }
 
     let user;
@@ -192,25 +132,10 @@ import { ThemeToggle } from '../components/ThemeToggle';
       const initial = (user.name || 'U')[0].toUpperCase();
       
       if (isAdmin) {
-        document.getElementById('nav-section-title').textContent = 'ADMINISTRASI';
-        document.getElementById('nav-dashboard-link').href = '/admin/dashboard';
-        document.getElementById('nav-dashboard-text').textContent = 'Dashboard Admin';
-        document.getElementById('mob-dashboard-link').href = '/admin/dashboard';
         document.getElementById('hero-role').textContent = 'Administrator';
         const roleEl = document.getElementById('hero-role');
         roleEl.classList.remove('bg-white', 'dark:bg-black', 'text-zen-text', 'dark:text-zen-text-dark');
         roleEl.classList.add('bg-zen-text', 'dark:bg-zen-text-dark', 'text-white');
-      }
-
-      document.getElementById('sidebar-name').textContent = user.name || 'Warga';
-      document.getElementById('sidebar-avatar').textContent = initial;
-      document.getElementById('mobile-avatar').textContent = initial;
-      document.getElementById('sidebar-points').textContent = `${user.points || 0} PTS`;
-      document.getElementById('mobile-points').textContent = `${user.points || 0} PTS`;
-      
-      if (user.role === 'admin') {
-        const desktopLink = document.getElementById('nav-dashboard-link');
-        if (desktopLink) desktopLink.classList.remove('hidden');
       }
 
       document.getElementById('display-name-hero').textContent = user.name || (isAdmin ? 'Admin' : 'Warga');
@@ -235,44 +160,16 @@ import { ThemeToggle } from '../components/ThemeToggle';
       const initial = name[0].toUpperCase();
       document.getElementById('display-name-hero').textContent = name;
       document.getElementById('avatar-circle').textContent = initial;
-      document.getElementById('sidebar-name').textContent = name;
-      document.getElementById('sidebar-avatar').textContent = initial;
-      document.getElementById('mobile-avatar').textContent = initial;
+      
+      // Notify sidebar to update itself by updating localStorage
+      localStorage.setItem('user', JSON.stringify({...user, name}));
+      window.dispatchEvent(new Event('storage'));
     }
 
     function setupListeners() {
       document.getElementById('form-profile').onsubmit = handleProfileUpdate;
       document.getElementById('btn-reset-pw').onclick = handleResetPassword;
       document.getElementById('btn-logout-main').onclick = () => { localStorage.clear(); window.location.href = '/'; };
-      
-      const logout = () => { localStorage.clear(); window.location.href = '/'; };
-      document.getElementById('btn-logout-desktop').onclick = logout;
-      
-      const sidebar = document.getElementById('sidebar');
-      const mobileMenuBtn = document.getElementById('btn-menu-mobile');
-      const closeSidebarBtn = document.getElementById('btn-close-sidebar');
-
-      if (mobileMenuBtn && sidebar) {
-        mobileMenuBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          sidebar.classList.toggle('max-lg:-translate-x-full');
-        });
-      }
-      
-      if (closeSidebarBtn && sidebar) {
-        closeSidebarBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          sidebar.classList.add('max-lg:-translate-x-full');
-        });
-      }
-      
-      document.addEventListener('click', (e) => {
-        if (sidebar && !sidebar.classList.contains('max-lg:-translate-x-full')) {
-          if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-            sidebar.classList.add('max-lg:-translate-x-full');
-          }
-        }
-      });
     }
 
     async function handleProfileUpdate(e) {
