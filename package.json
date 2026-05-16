@@ -1,7 +1,8 @@
 {
-  "name": "sovraequitaraweb",
+  "name": "sovraequitara-fe",
+  "description": "Smart City Infrastructure & Community Ecosystem - Frontend",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "node": ">=22.12.0"
   },

@@ -1,14 +1,17 @@
 # 🚀 SovraEquitara Frontend
 
-Bagian frontend dari platform **SovraEquitara**, dibangun menggunakan **Astro** untuk performa maksimal dan **Tailwind CSS** untuk desain Zen Minimalis yang elegan.
+Bagian frontend dari platform **SovraEquitara**, dibangun menggunakan **Astro v4** untuk performa maksimal dan **Tailwind CSS v4** untuk desain Zen Minimalis yang elegan dan premium.
 
 ---
 
 ## 🛠️ Tech Stack
-- **Framework**: [Astro v4.x](https://astro.build/)
-- **Styling**: [Tailwind CSS v4.0](https://tailwindcss.com/)
-- **UI Components**: React & TypeScript
-- **State Management**: LocalStorage & JWT
+- **Framework**: [Astro v4.x](https://astro.build/) (Hybrid Rendering & ViewTransitions)
+- **Styling**: [Tailwind CSS v4.0](https://tailwindcss.com/) (CSS-first engine)
+- **UI Components**: React & TypeScript Islands
+- **UX Logic**: 
+  - **ViewTransitions**: Transisi halaman yang mulus tanpa refresh.
+  - **NProgress**: Indikator loading global untuk feedback instan.
+  - **Zen Toast**: Sistem notifikasi minimalis dan terpadu.
 - **Peta Interaktif**: Leaflet.js
 
 ---
@@ -20,13 +23,13 @@ Bagian frontend dari platform **SovraEquitara**, dibangun menggunakan **Astro** 
 - **Backend API**: Pastikan server [SovraEquitara Backend](../be) sudah berjalan di `http://localhost:3000`.
 
 ### 2. Instalasi
-Clone repositori dan install dependensi:
 ```bash
+cd fe
 npm install
 ```
 
 ### 3. Konfigurasi Environment
-Buat file `.env` di direktori root `fe/` (jika belum ada) dan sesuaikan URL API:
+Buat file `.env` di direktori `fe/` (jika belum ada):
 ```env
 PUBLIC_API_URL=http://localhost:3000
 ```
@@ -39,18 +42,21 @@ Akses di: `http://localhost:4321`
 
 ---
 
-## 🏗️ Struktur Folder Penting
-- `src/pages/`: Route utama aplikasi (Warga & Admin).
-- `src/layouts/`: Struktur layout dasar halaman.
-- `src/components/`: Komponen UI interaktif (React/Astro).
-- `src/styles/`: Konfigurasi global Tailwind.
+## 🏗️ Struktur Folder
+- `src/pages/`: 
+  - `/`: Landing Page & Feed.
+  - `/dashboard`: Portal Warga.
+  - `/admin/`: Dashboard & Manajemen Moderasi.
+  - `/superadmin/`: Governance Dashboard & Chat Control.
+- `src/layouts/`: Struktur layout dengan dukungan `ViewTransitions`.
+- `src/components/`: Komponen UI berbasis React & Astro.
+- `src/utils/`: Utilitas sistem seperti `showToast`.
 
 ---
 
 ## 🚀 Build untuk Produksi
-Untuk melakukan kompilasi aset siap produksi:
 ```bash
 npm run build
 ```
 
-© 2026 **SovraEquitara** &bull; *Membangun Kota dengan Data.*
+© 2026 **SovraEquitara** • *Modernizing Urban Governance.*
