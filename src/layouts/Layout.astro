@@ -103,10 +103,13 @@ const {
     </div>
 
     <!-- Global Notification Panel -->
-    <div id="global-notif-panel" class="fixed top-24 lg:top-8 right-4 lg:right-8 w-80 bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark shadow-2xl rounded-3xl z-[5000] hidden flex-col overflow-hidden transition-all duration-300 opacity-0 translate-y-[-20px]">
+    <div id="global-notif-panel" class="fixed top-24 lg:top-8 right-4 lg:right-8 w-80 sm:w-96 bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark shadow-2xl rounded-3xl z-[5000] hidden flex-col overflow-hidden transition-all duration-300 opacity-0 translate-y-[-20px]">
       <div class="p-4 border-b border-zen-border dark:border-zen-border-dark flex justify-between items-center bg-stone-50 dark:bg-stone-950">
         <span class="font-black text-sm uppercase tracking-widest text-zen-text dark:text-zen-text-dark">Notifikasi</span>
-        <button id="btn-close-notif-panel" class="text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        <div class="flex items-center gap-2">
+          <button id="btn-clear-all-notifs" class="text-[10px] font-bold text-stone-400 hover:text-red-500 transition-colors uppercase tracking-widest bg-stone-100 dark:bg-white/5 px-2 py-1 rounded-md hidden">Hapus Semua</button>
+          <button id="btn-close-notif-panel" class="text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        </div>
       </div>
       <div id="global-notif-list" class="max-h-[60vh] overflow-y-auto p-2 flex flex-col gap-1">
         <div class="p-4 text-center text-stone-400 font-bold text-xs">Memuat notifikasi...</div>
@@ -135,25 +138,26 @@ const {
 
       let notifPollInterval = null;
       let seenEmergencies = new Set();
+      let hiddenNotifs = new Set();
       
-      // Load seen emergencies from local storage to avoid spamming
+      // Load local states
       try {
-        const stored = localStorage.getItem('seen_emergencies');
-        if (stored) seenEmergencies = new Set(JSON.parse(stored));
+        const storedEmerg = localStorage.getItem('seen_emergencies');
+        if (storedEmerg) seenEmergencies = new Set(JSON.parse(storedEmerg));
+        
+        const storedHidden = localStorage.getItem('hidden_notifs');
+        if (storedHidden) hiddenNotifs = new Set(JSON.parse(storedHidden));
       } catch(e) {}
 
       function initGlobalNotifications() {
         const token = localStorage.getItem('access_token');
-        if (!token) return; // Only run if logged in
+        if (!token) return;
 
         fetchNotifications(token);
         
         if (notifPollInterval) clearInterval(notifPollInterval);
         notifPollInterval = setInterval(() => fetchNotifications(token, true), 10000);
 
-        // Bind Bell Icon if it exists (e.g. in Sidebar or Header)
-        // We'll dispatch a custom event to notify components that unread counts changed
-        
         const closePanelBtn = document.getElementById('btn-close-notif-panel');
         if (closePanelBtn) {
           closePanelBtn.onclick = () => {
@@ -163,6 +167,17 @@ const {
               panel.classList.add('opacity-0', 'translate-y-[-20px]');
               setTimeout(() => panel.classList.add('hidden'), 300);
             }
+          };
+        }
+
+        const clearAllBtn = document.getElementById('btn-clear-all-notifs');
+        if (clearAllBtn) {
+          clearAllBtn.onclick = () => {
+            // Get all current loaded notifs and hide them
+            const items = document.querySelectorAll('.notif-item');
+            items.forEach(el => hiddenNotifs.add(el.getAttribute('data-id')));
+            localStorage.setItem('hidden_notifs', JSON.stringify([...hiddenNotifs]));
+            fetchNotifications(token, true); // Refresh list
           };
         }
 
@@ -181,6 +196,13 @@ const {
           };
         }
       }
+
+      window.hideNotification = (id) => {
+        hiddenNotifs.add(id);
+        localStorage.setItem('hidden_notifs', JSON.stringify([...hiddenNotifs]));
+        const token = localStorage.getItem('access_token');
+        if (token) fetchNotifications(token, true);
+      };
 
       window.toggleGlobalNotifPanel = () => {
         const panel = document.getElementById('global-notif-panel');
@@ -205,7 +227,16 @@ const {
           });
           if (!res.ok) return;
           const data = await res.json();
-          const notifs = data.data || [];
+          const allNotifs = data.data || [];
+          
+          // Filter out hidden notifications
+          const notifs = allNotifs.filter(n => !hiddenNotifs.has(n.id));
+
+          const clearAllBtn = document.getElementById('btn-clear-all-notifs');
+          if (clearAllBtn) {
+            if (notifs.length > 0) clearAllBtn.classList.remove('hidden');
+            else clearAllBtn.classList.add('hidden');
+          }
 
           // Render List
           const list = document.getElementById('global-notif-list');
@@ -221,13 +252,16 @@ const {
                 const titleClass = isEmerg ? 'text-red-600 dark:text-red-400' : (isWarn ? 'text-amber-600 dark:text-amber-400' : 'text-zen-text dark:text-zen-text-dark');
                 
                 return `
-                  <div class="p-3 sm:p-4 rounded-2xl flex items-start gap-3 transition-colors ${bgClass}">
+                  <div class="notif-item relative p-3 sm:p-4 rounded-2xl flex items-start gap-3 transition-colors ${bgClass} group" data-id="${n.id}">
                     <div class="text-xl shrink-0">${icon}</div>
-                    <div>
+                    <div class="flex-1 pr-6">
                       <div class="font-extrabold text-sm mb-1 ${titleClass}">${n.title}</div>
                       <div class="text-xs text-stone-600 dark:text-stone-300 font-medium leading-relaxed">${n.message}</div>
                       <div class="text-[9px] font-bold text-stone-400 mt-2 uppercase tracking-widest">${new Date(n.created_at).toLocaleDateString('id-ID', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
                     </div>
+                    <button class="absolute top-3 right-3 text-stone-300 hover:text-red-500 transition-colors lg:opacity-0 group-hover:opacity-100" onclick="window.hideNotification('${n.id}')" title="Hapus Notifikasi">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
                   </div>
                 `;
               }).join('');
@@ -235,7 +269,7 @@ const {
           }
 
           // Check for Emergency
-          const emergency = notifs.find(n => n.type === 'EMERGENCY');
+          const emergency = allNotifs.find(n => n.type === 'EMERGENCY'); // Also trigger emergency if it's new (even if not strictly in visible list, though it usually would be)
           if (emergency && !seenEmergencies.has(emergency.id)) {
             showEmergencyPopup(emergency);
             seenEmergencies.add(emergency.id);

@@ -21,14 +21,15 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     <Sidebar activePage="broadcast" />
 
     <main class="flex-1 lg:ml-[280px] p-6 lg:p-[60px] pt-24 lg:pt-[60px]">
-      <div class="max-w-[800px] mx-auto">
-        <header class="mb-12">
+      <div class="max-w-[800px] mx-auto space-y-12">
+        <header>
           <h1 class="text-3xl lg:text-4xl font-extrabold m-0 mb-2 tracking-tight">Broadcast & Notifikasi</h1>
           <p class="text-zen-text-secondary dark:text-zen-text-secondary-dark text-[15px]">Kirim pemberitahuan atau pesan darurat ke pengguna (Super Admin)</p>
         </header>
 
-        <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-3xl p-8 lg:p-10 shadow-zen">
+        <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-3xl p-8 lg:p-10 shadow-zen relative">
           <form id="broadcast-form" class="flex flex-col gap-6">
+            <input type="hidden" id="edit-id" value="" />
             <div class="form-group">
               <label class="block text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase mb-2 tracking-wide">Judul Pesan</label>
               <input type="text" id="input-title" required placeholder="Contoh: Peringatan Banjir di Sektor A" class="w-full p-4 border border-zen-border dark:border-zen-border-dark rounded-xl bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark outline-none text-sm font-medium transition-colors focus:border-amber-500" />
@@ -59,19 +60,33 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
               </div>
             </div>
 
-            <div class="mt-4 pt-6 border-t border-zen-border dark:border-zen-border-dark">
-              <button type="submit" id="btn-submit" class="w-full py-4 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold transition-colors shadow-lg shadow-amber-500/20">
+            <div class="mt-4 pt-6 border-t border-zen-border dark:border-zen-border-dark flex gap-3">
+              <button type="button" id="btn-cancel-edit" class="hidden px-6 py-4 bg-stone-100 dark:bg-white/5 hover:bg-stone-200 dark:hover:bg-white/10 rounded-xl font-bold transition-colors text-stone-600 dark:text-stone-300">
+                Batal
+              </button>
+              <button type="submit" id="btn-submit" class="flex-1 py-4 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold transition-colors shadow-lg shadow-amber-500/20">
                 Kirim Broadcast (Super Admin)
               </button>
             </div>
           </form>
         </div>
+
+        <!-- History -->
+        <div>
+          <h2 class="text-xl font-extrabold mb-4">Riwayat Broadcast</h2>
+          <div id="history-list" class="space-y-4">
+            <div class="text-center p-6 text-stone-400 font-bold text-sm">Memuat data...</div>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>
 
   <script>
     import { showToast } from '../../lib/toast';
+
+    let notifsData = [];
 
     async function init() {
       const token = localStorage.getItem("access_token");
@@ -82,12 +97,23 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 
       const form = document.getElementById("broadcast-form");
       const btn = document.getElementById("btn-submit") as HTMLButtonElement;
+      const btnCancelEdit = document.getElementById("btn-cancel-edit") as HTMLButtonElement;
+
+      if (btnCancelEdit) {
+        btnCancelEdit.onclick = () => {
+          (document.getElementById("edit-id") as HTMLInputElement).value = "";
+          (form as HTMLFormElement).reset();
+          btn.innerText = "Kirim Broadcast (Super Admin)";
+          btnCancelEdit.classList.add("hidden");
+        };
+      }
 
       if (form) {
-        form.addEventListener("submit", async (e) => {
+        form.onsubmit = async (e) => {
           e.preventDefault();
           btn.disabled = true;
-          btn.innerText = "Mengirim...";
+          const editId = (document.getElementById("edit-id") as HTMLInputElement).value;
+          btn.innerText = editId ? "Menyimpan..." : "Mengirim...";
 
           const title = (document.getElementById("input-title") as HTMLInputElement).value;
           const message = (document.getElementById("input-message") as HTMLTextAreaElement).value;
@@ -95,8 +121,11 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           const target_role = (document.getElementById("input-target") as HTMLSelectElement).value;
 
           try {
-            const res = await fetch(`${window.API_URL}/api/admin/notifications`, {
-              method: "POST",
+            const url = editId ? `${window.API_URL}/api/admin/notifications/${editId}` : `${window.API_URL}/api/admin/notifications`;
+            const method = editId ? "PUT" : "POST";
+            
+            const res = await fetch(url, {
+              method,
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -106,20 +135,102 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 
             const data = await res.json();
             if (res.ok) {
-              showToast("Pesan broadcast berhasil dikirim", "success");
-              (form as HTMLFormElement).reset();
+              showToast(editId ? "Notifikasi berhasil diubah" : "Pesan broadcast berhasil dikirim", "success");
+              btnCancelEdit.click();
+              loadHistory();
             } else {
-              showToast(data.error || "Gagal mengirim pesan", "error");
+              showToast(data.error || "Gagal", "error");
             }
           } catch (err) {
             showToast("Terjadi kesalahan koneksi", "error");
           } finally {
             btn.disabled = false;
-            btn.innerText = "Kirim Broadcast (Super Admin)";
+            btn.innerText = editId ? "Simpan Perubahan" : "Kirim Broadcast (Super Admin)";
           }
-        });
+        };
       }
+
+      loadHistory();
     }
+
+    async function loadHistory() {
+      const token = localStorage.getItem("access_token");
+      try {
+        const res = await fetch(`${window.API_URL}/api/notifications`, { headers: { "Authorization": `Bearer ${token}` } });
+        const data = await res.json();
+        notifsData = data.data || [];
+        renderHistory();
+      } catch(e) {}
+    }
+
+    function renderHistory() {
+      const list = document.getElementById("history-list");
+      if (!list) return;
+      if (notifsData.length === 0) {
+        list.innerHTML = '<div class="text-center p-6 text-stone-400 font-bold text-sm">Tidak ada riwayat broadcast</div>';
+        return;
+      }
+
+      list.innerHTML = notifsData.map(n => {
+        const isEmerg = n.type === 'EMERGENCY';
+        const isWarn = n.type === 'WARNING';
+        const bgClass = isEmerg ? 'bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/20' : (isWarn ? 'bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/20' : 'bg-zen-card dark:bg-zen-card-dark border-zen-border dark:border-zen-border-dark');
+        
+        return `
+          <div class="p-5 rounded-2xl border ${bgClass} flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <strong class="text-zen-text dark:text-zen-text-dark font-black">${n.title}</strong>
+                <span class="text-[10px] font-black px-2 py-0.5 rounded-lg border bg-stone-100 dark:bg-white/10 border-stone-200 dark:border-white/20">${n.type}</span>
+              </div>
+              <p class="text-sm font-medium text-stone-600 dark:text-stone-300 m-0 mb-2 truncate max-w-lg">${n.message}</p>
+              <div class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">${new Date(n.created_at).toLocaleDateString('id-ID', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'})} • Target: ${n.target_role}</div>
+            </div>
+            <div class="flex gap-2 shrink-0">
+              <button class="p-2 bg-stone-100 dark:bg-white/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 hover:text-blue-600 rounded-xl transition-colors" onclick="window.editNotif('${n.id}')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              </button>
+              <button class="p-2 bg-stone-100 dark:bg-white/10 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 rounded-xl transition-colors" onclick="window.deleteNotif('${n.id}')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.editNotif = (id) => {
+      const n = notifsData.find(x => x.id === id);
+      if(!n) return;
+      (document.getElementById("edit-id") as HTMLInputElement).value = n.id;
+      (document.getElementById("input-title") as HTMLInputElement).value = n.title;
+      (document.getElementById("input-message") as HTMLTextAreaElement).value = n.message;
+      (document.getElementById("input-type") as HTMLSelectElement).value = n.type;
+      (document.getElementById("input-target") as HTMLSelectElement).value = n.target_role;
+      
+      document.getElementById("btn-submit").innerText = "Simpan Perubahan";
+      document.getElementById("btn-cancel-edit").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.deleteNotif = async (id) => {
+      if(!confirm("Hapus notifikasi ini?")) return;
+      const token = localStorage.getItem("access_token");
+      try {
+        const res = await fetch(`${window.API_URL}/api/admin/notifications/${id}`, {
+          method: "DELETE",
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        if(res.ok) {
+          showToast("Notifikasi dihapus", "success");
+          loadHistory();
+        } else {
+          showToast("Gagal menghapus", "error");
+        }
+      } catch(e) {
+        showToast("Terjadi kesalahan", "error");
+      }
+    };
 
     document.addEventListener('astro:page-load', init, { once: true });
     if (document.readyState === 'complete') init();
