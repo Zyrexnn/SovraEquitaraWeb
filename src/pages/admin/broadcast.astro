@@ -1,0 +1,127 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+---
+
+<Layout title="Buat Notifikasi & Darurat — SovraEquitara">
+  <script is:inline define:vars={{ API_URL }}>
+    window.API_URL = API_URL;
+  </script>
+
+  <div class="flex min-h-screen bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display" id="admin-root" data-api-url={API_URL}>
+    <button id="mobile-menu-btn" class="lg:hidden fixed top-6 right-6 z-50 p-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl shadow-xl text-stone-900 dark:text-white">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <Sidebar activePage="broadcast" />
+
+    <main class="flex-1 lg:ml-[280px] p-6 lg:p-[60px] pt-24 lg:pt-[60px]">
+      <div class="max-w-[800px] mx-auto">
+        <header class="mb-12">
+          <h1 class="text-3xl lg:text-4xl font-extrabold m-0 mb-2 tracking-tight">Broadcast & Notifikasi</h1>
+          <p class="text-zen-text-secondary dark:text-zen-text-secondary-dark text-[15px]">Kirim pemberitahuan atau pesan darurat ke pengguna</p>
+        </header>
+
+        <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-3xl p-8 lg:p-10 shadow-zen">
+          <form id="broadcast-form" class="flex flex-col gap-6">
+            <div class="form-group">
+              <label class="block text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase mb-2 tracking-wide">Judul Pesan</label>
+              <input type="text" id="input-title" required placeholder="Contoh: Peringatan Banjir di Sektor A" class="w-full p-4 border border-zen-border dark:border-zen-border-dark rounded-xl bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark outline-none text-sm font-medium transition-colors focus:border-blue-500" />
+            </div>
+
+            <div class="form-group">
+              <label class="block text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase mb-2 tracking-wide">Isi Pesan / Himbauan</label>
+              <textarea id="input-message" required rows="5" placeholder="Tulis rincian notifikasi..." class="w-full p-4 border border-zen-border dark:border-zen-border-dark rounded-xl bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark outline-none text-sm font-medium transition-colors focus:border-blue-500 resize-none"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label class="block text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase mb-2 tracking-wide">Tingkat Kepentingan</label>
+                <select id="input-type" class="w-full p-4 border border-zen-border dark:border-zen-border-dark rounded-xl bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark outline-none text-sm font-medium transition-colors focus:border-blue-500 appearance-none cursor-pointer">
+                  <option value="INFO">ℹ️ Informasi Biasa (Info)</option>
+                  <option value="WARNING">⚠️ Peringatan (Warning)</option>
+                  <option value="EMERGENCY">🚨 Darurat (Emergency)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="block text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase mb-2 tracking-wide">Kirim Kepada</label>
+                <select id="input-target" class="w-full p-4 border border-zen-border dark:border-zen-border-dark rounded-xl bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark outline-none text-sm font-medium transition-colors focus:border-blue-500 appearance-none cursor-pointer">
+                  <option value="ALL">Semua Pengguna</option>
+                  <option value="USER">Hanya Warga</option>
+                  <option value="admin">Hanya Admin</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-6 border-t border-zen-border dark:border-zen-border-dark">
+              <button type="submit" id="btn-submit" class="w-full py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-bold transition-colors">
+                Kirim Broadcast
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    import { showToast } from '../../lib/toast';
+
+    async function init() {
+      const token = localStorage.getItem("access_token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      if (!token || (user.role !== "admin" && user.role !== "super_admin")) return window.location.href = "/admin/login";
+
+      document.getElementById("mobile-menu-btn")?.addEventListener("click", () => document.getElementById("sidebar")?.classList.toggle("max-lg:-translate-x-full"));
+
+      const form = document.getElementById("broadcast-form");
+      const btn = document.getElementById("btn-submit") as HTMLButtonElement;
+
+      if (form) {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          btn.disabled = true;
+          btn.innerText = "Mengirim...";
+
+          const title = (document.getElementById("input-title") as HTMLInputElement).value;
+          const message = (document.getElementById("input-message") as HTMLTextAreaElement).value;
+          const type = (document.getElementById("input-type") as HTMLSelectElement).value;
+          const target_role = (document.getElementById("input-target") as HTMLSelectElement).value;
+
+          try {
+            const res = await fetch(`${window.API_URL}/api/admin/notifications`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+              },
+              body: JSON.stringify({ title, message, type, target_role })
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+              showToast("Pesan broadcast berhasil dikirim", "success");
+              (form as HTMLFormElement).reset();
+            } else {
+              showToast(data.error || "Gagal mengirim pesan", "error");
+            }
+          } catch (err) {
+            showToast("Terjadi kesalahan koneksi", "error");
+          } finally {
+            btn.disabled = false;
+            btn.innerText = "Kirim Broadcast";
+          }
+        });
+      }
+    }
+
+    document.addEventListener('astro:page-load', init, { once: true });
+    if (document.readyState === 'complete') init();
+  </script>
+</Layout>

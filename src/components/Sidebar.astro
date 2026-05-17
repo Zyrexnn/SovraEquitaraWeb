@@ -16,9 +16,15 @@ const { activePage } = Astro.props;
   <a href="/" class="block">
     <img src="/logo.svg" alt="Sovra" class="h-10 w-auto dark:brightness-0 dark:invert" />
   </a>
-  <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
-    <span id="mobile-points-badge" class="text-[11px] font-extrabold text-blue-500 hidden">0 PTS</span>
-    <div class="w-7 h-7 rounded-full bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center text-[11px] font-extrabold" id="mobile-avatar-badge">U</div>
+  <div class="flex items-center gap-2">
+    <button class="relative p-2 text-stone-500 hover:text-stone-900 dark:hover:text-white transition-colors" onclick="window.toggleGlobalNotifPanel && window.toggleGlobalNotifPanel()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+      <span id="mobile-notif-badge" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full hidden"></span>
+    </button>
+    <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
+      <span id="mobile-points-badge" class="text-[11px] font-extrabold text-blue-500 hidden">0 PTS</span>
+      <div class="w-7 h-7 rounded-full bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center text-[11px] font-extrabold overflow-hidden border border-white/10" id="mobile-avatar-badge">U</div>
+    </div>
   </div>
 </header>
 
@@ -94,6 +100,12 @@ const { activePage } = Astro.props;
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
         <span>Chat Inbox</span>
         {activePage === 'chat' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+      </a>
+      <a id="admin-broadcast-link" href="/admin/broadcast" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'broadcast' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
+        {activePage === 'broadcast' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><path d="M14.05 2a9 9 0 0 1 8 7.94"></path><path d="M14.05 6A5 5 0 0 1 18 10"></path></svg>
+        <span>Broadcast</span>
+        {activePage === 'broadcast' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
       </a>
       <div id="superadmin-links-unified" class="hidden space-y-1">
         <a href="/superadmin/admins" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'admins' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
@@ -233,6 +245,21 @@ const { activePage } = Astro.props;
         console.error("Sidebar Error:", e);
       }
     }
+
+    // Notification Event Listener
+    window.addEventListener('notificationsUpdated', (e: any) => {
+      const { count } = e.detail;
+      const desktopBadge = document.getElementById('desktop-notif-badge');
+      const mobileBadge = document.getElementById('mobile-notif-badge');
+      
+      if (count > 0) {
+        desktopBadge?.classList.remove('hidden');
+        mobileBadge?.classList.remove('hidden');
+      } else {
+        desktopBadge?.classList.add('hidden');
+        mobileBadge?.classList.add('hidden');
+      }
+    });
 
     // 3. Logout Logic
     logoutBtn?.addEventListener('click', () => {

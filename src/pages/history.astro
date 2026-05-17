@@ -359,13 +359,16 @@ import Sidebar from '../components/Sidebar.astro';
         list.innerHTML = comments.map(x => {
           const initial = (x.user?.full_name || 'W')[0].toUpperCase();
           const avatarHtml = x.user?.avatar_url ? `<img src="${x.user.avatar_url.startsWith('http') ? x.user.avatar_url : API_URL + x.user.avatar_url}" class="w-full h-full object-cover" />` : initial;
+          const isAdmin = x.user?.role === 'admin' || x.user?.role === 'super_admin';
+          const badgeHtml = x.user?.role === 'super_admin' ? `<svg class="inline-block ml-1 w-3.5 h-3.5 text-amber-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : (x.user?.role === 'admin' ? `<svg class="inline-block ml-1 w-3.5 h-3.5 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : '');
+          
           return `
-          <div class="flex gap-3 max-w-[90%] ${x.user?.role === 'admin' ? 'self-end flex-row-reverse' : ''}">
-            <div class="w-8 h-8 rounded-xl overflow-hidden shrink-0 flex items-center justify-center font-black text-xs ${x.user?.role === 'admin' ? 'bg-brand text-white dark:text-zen-bg' : 'bg-stone-900 dark:bg-white text-white dark:text-black'} border border-white/10">
+          <div class="flex gap-3 max-w-[90%] ${isAdmin ? 'self-end flex-row-reverse' : ''}">
+            <div class="w-8 h-8 rounded-xl overflow-hidden shrink-0 flex items-center justify-center font-black text-xs ${isAdmin ? 'bg-brand text-white dark:text-zen-bg' : 'bg-stone-900 dark:bg-white text-white dark:text-black'} border border-white/10">
               ${avatarHtml}
             </div>
-            <div class="p-4 rounded-[20px] border flex-1 min-w-0 ${x.user?.role === 'admin' ? 'bg-brand text-white border-brand dark:text-zen-bg' : 'bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark'}">
-              <div class="mb-1 text-xs"><strong>${x.user?.full_name || 'Warga'}</strong></div>
+            <div class="p-4 rounded-[20px] border flex-1 min-w-0 ${isAdmin ? 'bg-brand text-white border-brand dark:text-zen-bg' : 'bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark'}">
+              <div class="mb-1 text-xs flex items-center"><strong>${x.user?.full_name || 'Warga'}</strong>${badgeHtml}</div>
               <p class="m-0 text-sm leading-relaxed">${x.content}</p>
             </div>
           </div>
