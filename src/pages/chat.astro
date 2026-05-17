@@ -1,10 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Sidebar from '../components/Sidebar.astro';
+const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 ---
 
 <Layout title="Chat Admin — SovraEquitara">
-  <div class="flex transition-colors duration-300">
+  <script is:inline define:vars={{ API_URL }}>
+    window.API_URL = API_URL;
+  </script>
+
+  <div class="flex transition-colors duration-300 min-h-screen" id="chat-root" data-api-url={API_URL}>
     <Sidebar activePage="chat" />
 
     <!-- Main Content -->
@@ -40,19 +45,33 @@ import Sidebar from '../components/Sidebar.astro';
     </main>
   </div>
 
-  <script is:inline define:vars={{ PUBLIC_API_URL: import.meta.env.PUBLIC_API_URL || 'http://localhost:3000' }}>
-    const API_URL = PUBLIC_API_URL;
-    const token = localStorage.getItem('access_token');
-    const userRaw = localStorage.getItem('user');
-    if (!token || !userRaw) { window.location.href = '/login'; }
+  <script>
+    import { showToast } from '../lib/toast';
+    
+    let pollInterval = null;
 
-    const user = JSON.parse(userRaw);
-    document.addEventListener('astro:page-load', () => {
-      loadMessages();
-      setInterval(() => loadMessages(true), 4000);
-    });
+    function init() {
+      const root = document.getElementById("chat-root");
+      if (!root) return;
+      
+      const API_URL = root.dataset.apiUrl || "http://localhost:3000";
+      const token = localStorage.getItem('access_token');
+      const userRaw = localStorage.getItem('user');
+      if (!token || !userRaw) { 
+        window.location.href = '/login'; 
+        return;
+      }
+      
+      const user = JSON.parse(userRaw);
+      
+      setupEvents(API_URL, token);
+      loadMessages(API_URL, token, user, false);
+      
+      if (pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(() => loadMessages(API_URL, token, user, true), 4000);
+    }
 
-    async function loadMessages(silent) {
+    async function loadMessages(API_URL, token, user, silent) {
       const container = document.getElementById('chat-messages');
       if (!container) return;
       try {
@@ -65,7 +84,6 @@ import Sidebar from '../components/Sidebar.astro';
           return;
         }
 
-        // Update header target to the last admin who replied
         const lastAdminMsg = [...messages].reverse().find(m => m.sender_id !== user.id);
         if (lastAdminMsg && lastAdminMsg.sender) {
           const adminName = lastAdminMsg.sender.full_name || 'Admin';
@@ -91,28 +109,47 @@ import Sidebar from '../components/Sidebar.astro';
       } catch(e) { console.error(e); }
     }
 
-    // Send message
-    document.getElementById('chat-form')?.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      var input = document.getElementById('chat-input');
-      var val = input.value.trim();
-      if (!val) return;
+    function setupEvents(API_URL, token) {
+      const chatForm = document.getElementById('chat-form');
+      if (chatForm) {
+        chatForm.onsubmit = async function(e) {
+          e.preventDefault();
+          var input = document.getElementById('chat-input');
+          var val = input.value.trim();
+          if (!val) return;
 
-      try {
-        var res = await fetch(API_URL + '/api/chat/send', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-          body: JSON.stringify({ content: val })
-        });
-        if (res.ok) { input.value = ''; await loadMessages(); }
-        else { window.showToast({ message: 'Gagal mengirim pesan', type: 'error' }); }
-      } catch(e) { window.showToast({ message: 'Koneksi gagal', type: 'error' }); }
-    });
+          try {
+            var res = await fetch(API_URL + '/api/chat/send', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+              body: JSON.stringify({ content: val })
+            });
+            if (res.ok) { 
+              input.value = ''; 
+              const userRaw = localStorage.getItem('user');
+              if (userRaw) await loadMessages(API_URL, token, JSON.parse(userRaw), false); 
+            }
+            else { showToast('Gagal mengirim pesan', 'error'); }
+          } catch(e) { showToast('Koneksi gagal', 'error'); }
+        };
+      }
 
-    // Auto-resize
-    document.getElementById('chat-input')?.addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = this.scrollHeight + 'px';
-    });
+      const chatInput = document.getElementById('chat-input');
+      if (chatInput) {
+        chatInput.oninput = function() {
+          this.style.height = 'auto';
+          this.style.height = this.scrollHeight + 'px';
+        };
+        chatInput.onkeydown = function(e) {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            chatForm?.dispatchEvent(new Event("submit"));
+          }
+        };
+      }
+    }
+
+    document.addEventListener('astro:page-load', init);
+    if (document.readyState === 'complete') init();
   </script>
 </Layout>

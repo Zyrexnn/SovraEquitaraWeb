@@ -127,6 +127,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       const token = localStorage.getItem("access_token");
       const user = JSON.parse(localStorage.getItem("user") || "{}");
       if (!token || (user.role !== "admin" && user.role !== "super_admin")) return window.location.href = "/admin/login";
+      setupEvents();
       await loadConversations();
       startPolling();
     }
@@ -255,64 +256,95 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       } catch(e) { console.error(e); }
     }
 
-    // Reply
-    document.getElementById("reply-form")?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!activeConvId) return;
-      const input = document.getElementById("reply-input") as HTMLTextAreaElement;
-      const val = input.value.trim();
-      if (!val) return;
+    function setupEvents() {
+      const filterRole = document.getElementById("filter-role");
+      if (filterRole) filterRole.onchange = () => loadConversations();
+      
+      const searchConv = document.getElementById("search-conv");
+      if (searchConv) searchConv.oninput = () => renderConversations(true);
+      
+      const replyForm = document.getElementById("reply-form");
+      if (replyForm) {
+        replyForm.onsubmit = async (e) => {
+          e.preventDefault();
+          if (!activeConvId) return;
+          const input = document.getElementById("reply-input");
+          const content = input.value.trim();
+          if (!content) return;
+          
+          const token = localStorage.getItem("access_token");
+          input.value = "";
+          try {
+            const res = await fetch(`${API_URL}/api/admin/chat/conversations/${activeConvId}/reply`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+              },
+              body: JSON.stringify({ content })
+            });
+            if (res.ok) {
+              await loadMessages(activeConvId);
+              loadConversations(true);
+            } else {
+              showToast("Gagal mengirim balasan", "error");
+            }
+          } catch(e) {
+            console.error(e);
+            showToast("Terjadi kesalahan", "error");
+          }
+        };
+      }
 
-      const token = localStorage.getItem("access_token");
-      try {
-        const res = await fetch(`${API_URL}/api/admin/chat/conversations/${activeConvId}/reply`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-          body: JSON.stringify({ content: val })
-        });
-        if (res.ok) { input.value = ""; await loadMessages(activeConvId); await loadConversations(true); }
-        else { showToast({ message: "Gagal mengirim balasan", type: "error" }); }
-      } catch(e) { showToast({ message: "Koneksi gagal", type: "error" }); }
-    });
+      const backBtn = document.getElementById("chat-back-btn");
+      if (backBtn) {
+        backBtn.onclick = () => {
+          document.getElementById("chat-active")?.classList.add("hidden");
+          document.getElementById("chat-active")?.classList.remove("flex");
+          document.getElementById("chat-empty")?.classList.remove("hidden");
+          activeConvId = null;
+          activeParticipantId = null;
+          renderConversations(true);
+        };
+      }
+      
+      const replyInput = document.getElementById("reply-input");
+      if (replyInput) {
+        replyInput.onkeydown = (e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            replyForm?.dispatchEvent(new Event("submit"));
+          }
+        };
+      }
+    }
 
-    // Profile Modal
-    window.openProfileModal = async (userId: string) => {
-      try {
-        const res = await fetch(`${API_URL}/api/profiles/${userId}`);
-        const json = await res.json();
-        const p = json.data;
-        if (!p) return;
-        (document.getElementById("pm-avatar") as HTMLElement).textContent = (p.full_name || "U")[0].toUpperCase();
-        (document.getElementById("pm-name") as HTMLElement).textContent = p.full_name || "-";
-        (document.getElementById("pm-email") as HTMLElement).textContent = p.email || "-";
-        (document.getElementById("pm-role") as HTMLElement).textContent = p.role === "admin" ? "Admin" : p.role === "super_admin" ? "Super Admin" : "Warga";
-        (document.getElementById("pm-points") as HTMLElement).textContent = p.points || 0;
-        (document.getElementById("pm-joined") as HTMLElement).textContent = new Date(p.created_at).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
-        const modal = document.getElementById("profile-modal");
-        if (modal) { modal.classList.remove("hidden"); modal.classList.add("flex"); }
-      } catch(e) {}
+    window.openProfileFromChat = () => {
+      if (activeParticipantId) window.openProfileModal(activeParticipantId);
     };
 
-    window.openProfileFromChat = () => { if (activeParticipantId) window.openProfileModal(activeParticipantId); };
-
-    // Filters & search
-    document.getElementById("filter-role")?.addEventListener("change", () => loadConversations());
-    document.getElementById("search-conv")?.addEventListener("input", () => renderConversations());
-
-    // Auto-resize reply input
-    document.getElementById("reply-input")?.addEventListener("input", function() {
-      this.style.height = "auto";
-      this.style.height = this.scrollHeight + "px";
-    });
-
-    // Back button (mobile)
-    document.getElementById("chat-back-btn")?.addEventListener("click", () => {
-      activeConvId = null;
-      document.getElementById("chat-active")?.classList.add("hidden");
-      document.getElementById("chat-empty")?.classList.remove("hidden");
-      renderConversations(true);
-    });
-
+    window.openProfileModal = async (userId) => {
+      const token = localStorage.getItem("access_token");
+      try {
+        const res = await fetch(`${API_URL}/api/profiles/${userId}`, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const json = await res.json();
+        const profile = json.data;
+        if (profile) {
+          document.getElementById('pm-avatar').textContent = (profile.full_name || "U")[0].toUpperCase();
+          document.getElementById('pm-name').textContent = profile.full_name || "Unknown";
+          document.getElementById('pm-email').textContent = profile.email || "-";
+          document.getElementById('pm-role').textContent = profile.role;
+          document.getElementById('pm-points').textContent = profile.points || 0;
+          document.getElementById('pm-joined').textContent = new Date(profile.created_at).toLocaleDateString("id-ID", { year: 'numeric', month: 'long', day: 'numeric' });
+          document.getElementById('profile-modal').classList.remove('hidden');
+          document.getElementById('profile-modal').classList.add('flex');
+        }
+      } catch(e) {
+        console.error(e);
+      }
+    };
 
     document.addEventListener('astro:page-load', init);
     if (document.readyState === 'complete') init();
