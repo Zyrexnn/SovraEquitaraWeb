@@ -628,27 +628,26 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       }
     });
 
-    let isInitialized = false;
-    document.addEventListener('astro:page-load', () => {
-      if (isInitialized) {
-        updateTime();
-        loadData();
-        setupFilters();
-        return;
-      }
-      isInitialized = true;
+    let mainInterval;
+    let timeInterval;
+    let themeObserver;
+
+    function initZenDashboard() {
       updateTime();
-      setInterval(updateTime, 1000);
       loadData();
-
-      // Theme Observer for Charts
-      const observer = new MutationObserver(() => renderCharts());
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-
-      // Initial setup
-      setInterval(loadData, 10000); // Reload every 10s
       setupFilters();
-    });
 
+      if (timeInterval) clearInterval(timeInterval);
+      timeInterval = setInterval(updateTime, 1000);
+
+      if (mainInterval) clearInterval(mainInterval);
+      mainInterval = setInterval(loadData, 10000);
+
+      if (themeObserver) themeObserver.disconnect();
+      themeObserver = new MutationObserver(() => renderCharts());
+      themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    document.addEventListener('astro:page-load', initZenDashboard);
   </script>
 </Layout>

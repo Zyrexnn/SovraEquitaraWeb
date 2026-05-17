@@ -220,6 +220,7 @@ import Sidebar from '../components/Sidebar.astro';
     }
 
     let user, categories = [], selectedFile = null, map, marker, allReports = [];
+    let mainInterval;
 
     async function initZenDashboard() {
       user = JSON.parse(userRaw);
@@ -230,12 +231,13 @@ import Sidebar from '../components/Sidebar.astro';
       await fetchData();
       setupListeners();
 
-      setInterval(async () => {
+      if (mainInterval) clearInterval(mainInterval);
+      mainInterval = setInterval(async () => {
         if(!token) return;
-        const currentSort = document.getElementById('feed-sort').value;
+        const currentSort = document.getElementById('feed-sort')?.value || 'recent';
         await fetchFeed(currentSort, true);
-        const activeReportId = document.getElementById('active-report-id').value;
-        if(activeReportId && !document.getElementById('detail-modal').classList.contains('hidden')) {
+        const activeReportId = document.getElementById('active-report-id')?.value;
+        if(activeReportId && !document.getElementById('detail-modal')?.classList.contains('hidden')) {
            const r = allReports.find(x => x.id === activeReportId);
            if(r) {
              document.getElementById('detail-votes').textContent = r.vote_count;
@@ -259,6 +261,10 @@ import Sidebar from '../components/Sidebar.astro';
     }
 
     function setupMap() {
+      if (map) {
+        map.remove();
+        map = null;
+      }
       const def = { lat: -6.2000, lng: 106.8166 };
       map = L.map('map', { zoomControl: false }).setView([def.lat, def.lng], 13);
       const isDark = document.documentElement.classList.contains('dark');

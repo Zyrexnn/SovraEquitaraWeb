@@ -36,6 +36,10 @@ const { activePage } = Astro.props;
       <img src="/logo.svg" alt="SovraEquitara" class="h-16 w-auto grayscale dark:brightness-0 dark:invert" />
     </a>
     <div class="flex items-center gap-2">
+      <button class="hidden lg:flex p-2 text-stone-400 hover:text-stone-900 dark:hover:text-white bg-transparent border-none cursor-pointer items-center justify-center transition-transform active:scale-90 relative" onclick="window.toggleGlobalNotifPanel && window.toggleGlobalNotifPanel()">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span id="desktop-notif-badge" class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full hidden"></span>
+      </button>
       <ThemeToggle client:load />
       <button id="btn-close-sidebar" class="lg:hidden p-2 text-zen-muted dark:text-zen-muted-dark hover:text-zen-text dark:hover:text-zen-text-dark bg-transparent border-none cursor-pointer flex items-center justify-center transition-transform active:scale-90">
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>

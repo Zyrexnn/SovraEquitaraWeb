@@ -142,6 +142,7 @@ import Sidebar from '../components/Sidebar.astro';
 
     let user, categories = [];
     let allReportsList = [];
+    let mainInterval;
 
     function initHistory() {
       try {
@@ -158,7 +159,7 @@ import Sidebar from '../components/Sidebar.astro';
         
         // Search functionality
         document.getElementById('search-input')?.addEventListener('input', (e) => {
-          const query = e.target.value.toLowerCase();
+          const query = (e.target as HTMLInputElement).value.toLowerCase();
           const filtered = allReportsList.filter(r => 
             r.description.toLowerCase().includes(query) || 
             r.location_detail.toLowerCase().includes(query)
@@ -166,14 +167,15 @@ import Sidebar from '../components/Sidebar.astro';
           renderHistory(filtered);
         });
 
-        setInterval(() => {
+        if (mainInterval) clearInterval(mainInterval);
+        mainInterval = setInterval(() => {
           if(!token || document.hidden) return;
           fetchHistory(true);
-          const activeReportId = document.getElementById('active-report-id').value;
+          const activeReportId = (document.getElementById('active-report-id') as HTMLInputElement).value;
           if(activeReportId && !document.getElementById('detail-modal').classList.contains('hidden')) {
              const r = allReportsList.find(x => x.id === activeReportId);
              if(r) {
-               document.getElementById('detail-votes').textContent = r.vote_count;
+               document.getElementById('detail-votes').textContent = r.vote_count.toString();
                loadComments(activeReportId, true);
              }
           }
