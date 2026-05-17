@@ -239,9 +239,11 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
               const isMine = m.sender_id === user.id;
               const senderName = m.sender?.full_name || "Unknown";
               const time = new Date(m.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+              const initial = senderName[0].toUpperCase();
+              const avatarHtml = m.sender?.avatar_url ? `<img src="${m.sender.avatar_url.startsWith('http') ? m.sender.avatar_url : API_URL + m.sender.avatar_url}" class="w-full h-full object-cover rounded-xl" />` : initial;
               return `
                 <div class="flex gap-3 max-w-[85%] ${isMine ? 'self-end flex-row-reverse ml-auto' : ''}">
-                  <div class="w-8 h-8 rounded-xl ${isMine ? 'bg-stone-900 dark:bg-white text-white dark:text-black' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'} flex items-center justify-center font-black text-xs shrink-0 cursor-pointer" onclick="window.openProfileModal('${m.sender_id}')">${(senderName)[0].toUpperCase()}</div>
+                  <div class="w-8 h-8 rounded-xl overflow-hidden ${isMine ? 'bg-stone-900 dark:bg-white text-white dark:text-black' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'} flex items-center justify-center font-black text-xs shrink-0 cursor-pointer border border-white/10" onclick="window.openProfileModal('${m.sender_id}')">${avatarHtml}</div>
                   <div>
                     <div class="flex items-center gap-2 mb-1 ${isMine ? 'flex-row-reverse' : ''}">
                       <span class="text-[10px] font-bold text-stone-400">${senderName}</span>

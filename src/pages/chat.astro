@@ -97,8 +97,11 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           var isMine = m.sender_id === user.id;
           var senderName = m.sender?.full_name || 'Unknown';
           var time = new Date(m.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+          var initial = senderName[0].toUpperCase();
+          var avatarHtml = m.sender?.avatar_url ? `<img src="${m.sender.avatar_url.startsWith('http') ? m.sender.avatar_url : API_URL + m.sender.avatar_url}" class="w-full h-full object-cover rounded-xl" />` : initial;
+          
           return '<div class="flex gap-3 max-w-[85%] ' + (isMine ? 'self-end flex-row-reverse ml-auto' : '') + '">' +
-            '<div class="w-8 h-8 rounded-xl ' + (isMine ? 'bg-brand text-white dark:text-zen-bg' : 'bg-stone-900 dark:bg-white text-white dark:text-black') + ' flex items-center justify-center font-black text-xs shrink-0">' + senderName[0].toUpperCase() + '</div>' +
+            '<div class="w-8 h-8 rounded-xl ' + (isMine ? 'bg-brand text-white dark:text-zen-bg' : 'bg-stone-900 dark:bg-white text-white dark:text-black') + ' flex items-center justify-center font-black text-xs shrink-0 overflow-hidden border border-white/10">' + avatarHtml + '</div>' +
             '<div>' +
             '<div class="flex items-center gap-2 mb-1 ' + (isMine ? 'flex-row-reverse' : '') + '"><span class="text-[10px] font-bold text-zen-muted">' + senderName + '</span><span class="text-[9px] text-stone-300 dark:text-stone-600">' + time + '</span></div>' +
             '<div class="px-4 py-3 rounded-2xl text-sm font-medium ' + (isMine ? 'bg-brand text-white dark:text-zen-bg rounded-tr-sm' : 'bg-zen-surface dark:bg-zen-surface-dark rounded-tl-sm border border-zen-border dark:border-zen-border-dark') + '">' + m.content + '</div>' +

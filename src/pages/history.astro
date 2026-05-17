@@ -356,12 +356,20 @@ import Sidebar from '../components/Sidebar.astro';
           list.innerHTML = '<div class="text-center py-20"><p class="text-xs font-bold text-zen-muted uppercase tracking-widest">Belum ada diskusi</p></div>';
           return;
         }
-        list.innerHTML = comments.map(c => `
-          <div class="p-4 rounded-[20px] max-w-[90%] border ${c.user?.role === 'admin' ? 'bg-brand text-white self-end border-brand dark:text-zen-bg' : 'bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark'}">
-            <div class="mb-1 text-xs"><strong>${c.user?.full_name || 'Warga'}</strong></div>
-            <p class="m-0 text-sm leading-relaxed">${c.content}</p>
+        list.innerHTML = comments.map(x => {
+          const initial = (x.user?.full_name || 'W')[0].toUpperCase();
+          const avatarHtml = x.user?.avatar_url ? `<img src="${x.user.avatar_url.startsWith('http') ? x.user.avatar_url : API_URL + x.user.avatar_url}" class="w-full h-full object-cover" />` : initial;
+          return `
+          <div class="flex gap-3 max-w-[90%] ${x.user?.role === 'admin' ? 'self-end flex-row-reverse' : ''}">
+            <div class="w-8 h-8 rounded-xl overflow-hidden shrink-0 flex items-center justify-center font-black text-xs ${x.user?.role === 'admin' ? 'bg-brand text-white dark:text-zen-bg' : 'bg-stone-900 dark:bg-white text-white dark:text-black'} border border-white/10">
+              ${avatarHtml}
+            </div>
+            <div class="p-4 rounded-[20px] border flex-1 min-w-0 ${x.user?.role === 'admin' ? 'bg-brand text-white border-brand dark:text-zen-bg' : 'bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark'}">
+              <div class="mb-1 text-xs"><strong>${x.user?.full_name || 'Warga'}</strong></div>
+              <p class="m-0 text-sm leading-relaxed">${x.content}</p>
+            </div>
           </div>
-        `).join('');
+        `}).join('');
         if(!silent) list.scrollTop = list.scrollHeight;
       } catch(e) {}
     }

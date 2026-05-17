@@ -102,6 +102,12 @@ const { activePage } = Astro.props;
           <span>Kelola Admin</span>
           {activePage === 'admins' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
         </a>
+        <a href="/superadmin/users" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'users' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
+          {activePage === 'users' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M17 21v2a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4v-2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Direktori Warga</span>
+          {activePage === 'users' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        </a>
       </div>
       <a id="admin-profile-link" href="/admin/profile" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'profile' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
         {activePage === 'profile' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
@@ -184,8 +190,16 @@ const { activePage } = Astro.props;
         const initial = name[0].toUpperCase();
         
         if (nameEl) nameEl.textContent = name;
-        if (avatarEl) avatarEl.textContent = initial;
-        if (mobileAvatarEl) mobileAvatarEl.textContent = initial;
+        
+        if (user.avatar_url) {
+          const apiBase = (window as any).API_URL || 'http://localhost:3000';
+          const fullUrl = user.avatar_url.startsWith('http') ? user.avatar_url : `${apiBase}${user.avatar_url}`;
+          if (avatarEl) avatarEl.innerHTML = `<img src="${fullUrl}" alt="${name}" class="w-full h-full object-cover rounded-xl" />`;
+          if (mobileAvatarEl) mobileAvatarEl.innerHTML = `<img src="${fullUrl}" alt="${name}" class="w-full h-full object-cover rounded-full" />`;
+        } else {
+          if (avatarEl) avatarEl.textContent = initial;
+          if (mobileAvatarEl) mobileAvatarEl.textContent = initial;
+        }
 
         // Role Based Logic
         if (user.role === 'admin' || user.role === 'super_admin') {

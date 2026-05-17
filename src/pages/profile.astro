@@ -27,10 +27,14 @@ import Sidebar from '../components/Sidebar.astro';
           <div class="md:col-span-3 bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2.5rem] p-8 lg:p-12 shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
             <div class="flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-12">
               <div class="relative group">
-                <div class="w-[120px] h-[120px] lg:w-[160px] lg:h-[160px] rounded-[3rem] bg-brand dark:bg-white text-white dark:text-brand flex items-center justify-center text-5xl lg:text-7xl font-black shadow-2xl transition-transform duration-500 group-hover:scale-105" id="avatar-circle">U</div>
-                <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-emerald-500 border-4 border-zen-card dark:border-zen-card-dark rounded-full shadow-lg flex items-center justify-center text-white">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <div class="w-[120px] h-[120px] lg:w-[160px] lg:h-[160px] rounded-[3rem] bg-brand dark:bg-white text-white dark:text-brand flex items-center justify-center text-5xl lg:text-7xl font-black shadow-2xl transition-transform duration-500 group-hover:scale-105 overflow-hidden" id="avatar-container">
+                  <span id="avatar-circle">U</span>
+                  <img id="avatar-img" src="" class="w-full h-full object-cover hidden" alt="Profile" />
                 </div>
+                <label for="avatar-upload" title="Ubah Foto Profil" class="absolute -bottom-2 -right-2 w-10 h-10 bg-emerald-500 border-4 border-zen-card dark:border-zen-card-dark rounded-full shadow-lg flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-transform">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                </label>
+                <input type="file" id="avatar-upload" accept="image/jpeg,image/png,image/webp" class="hidden" />
               </div>
               <div class="text-center md:text-left pt-2">
                 <h2 id="display-name-hero" class="text-3xl lg:text-5xl font-black tracking-tighter m-0 text-zen-text dark:text-zen-text-dark mb-2">Memuat...</h2>
@@ -140,7 +144,18 @@ import Sidebar from '../components/Sidebar.astro';
 
       document.getElementById('display-name-hero').textContent = user.name || (isAdmin ? 'Admin' : 'Warga');
       document.getElementById('display-email-hero').textContent = user.email;
-      document.getElementById('avatar-circle').textContent = initial;
+      
+      const avatarUrl = user.avatar_url;
+      if (avatarUrl) {
+         document.getElementById('avatar-circle').classList.add('hidden');
+         const img = document.getElementById('avatar-img');
+         img.src = `${API_URL}${avatarUrl}`;
+         img.classList.remove('hidden');
+      } else {
+         document.getElementById('avatar-circle').textContent = initial;
+         document.getElementById('avatar-circle').classList.remove('hidden');
+         document.getElementById('avatar-img').classList.add('hidden');
+      }
     }
 
     async function fetchProfileData() {
@@ -151,18 +166,29 @@ import Sidebar from '../components/Sidebar.astro';
           const name = data.data.full_name || user.email.split('@')[0];
           document.getElementById('full_name').value = name;
           document.getElementById('phone').value = data.data.phone || '';
-          updateDisplays(name);
+          updateDisplays(name, data.data.avatar_url);
         }
       } catch (e) {}
     }
 
-    function updateDisplays(name) {
+    function updateDisplays(name, avatarUrl) {
       const initial = name[0].toUpperCase();
       document.getElementById('display-name-hero').textContent = name;
-      document.getElementById('avatar-circle').textContent = initial;
+      
+      if (avatarUrl) {
+         document.getElementById('avatar-circle').classList.add('hidden');
+         const img = document.getElementById('avatar-img');
+         img.src = `${API_URL}${avatarUrl}`;
+         img.classList.remove('hidden');
+      } else {
+         document.getElementById('avatar-circle').textContent = initial;
+         document.getElementById('avatar-circle').classList.remove('hidden');
+         document.getElementById('avatar-img').classList.add('hidden');
+      }
       
       // Notify sidebar to update itself by updating localStorage
-      localStorage.setItem('user', JSON.stringify({...user, name}));
+      const updatedUser = {...user, name, avatar_url: avatarUrl};
+      localStorage.setItem('user', JSON.stringify(updatedUser));
       window.dispatchEvent(new Event('storage'));
     }
 
@@ -170,6 +196,34 @@ import Sidebar from '../components/Sidebar.astro';
       document.getElementById('form-profile').onsubmit = handleProfileUpdate;
       document.getElementById('btn-reset-pw').onclick = handleResetPassword;
       document.getElementById('btn-logout-main').onclick = () => { localStorage.clear(); window.location.href = '/'; };
+      document.getElementById('avatar-upload').onchange = handleAvatarUpload;
+    }
+
+    async function handleAvatarUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      try {
+        const res = await fetch(`${API_URL}/api/profile/avatar`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData
+        });
+        const data = await res.json();
+        if (res.ok) {
+          window.showToast && window.showToast({ message: data.message, type: 'success' });
+          user.avatar_url = data.avatar_url;
+          localStorage.setItem('user', JSON.stringify(user));
+          updateDisplays(user.name || document.getElementById('full_name').value, data.avatar_url);
+        } else {
+          window.showToast && window.showToast({ message: data.error || 'Gagal unggah', type: 'error' });
+        }
+      } catch (err) {
+        window.showToast && window.showToast({ message: 'Koneksi gagal', type: 'error' });
+      }
     }
 
     async function handleProfileUpdate(e) {

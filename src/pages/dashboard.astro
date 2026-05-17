@@ -428,10 +428,11 @@ import Sidebar from '../components/Sidebar.astro';
           const rankClass = i === 0 ? "bg-amber-100 text-amber-900 border-amber-200 dark:bg-amber-400/10 dark:text-amber-400 dark:border-amber-400/20" : i === 1 ? "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-400/10 dark:text-slate-400 dark:border-slate-400/20" : i === 2 ? "bg-orange-100 text-orange-900 border-orange-200 dark:bg-orange-400/10 dark:text-orange-400 dark:border-orange-400/20" : "bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark";
           const rankIcon = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1;
           const initial = (u.full_name || "U")[0].toUpperCase();
+          const avatarHtml = u.avatar_url ? `<img src="${u.avatar_url.startsWith('http') ? u.avatar_url : API_URL + u.avatar_url}" class="w-full h-full object-cover rounded-xl" />` : initial;
           return `
             <div class="flex items-center gap-3 p-3 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark transition-all duration-200 hover:border-brand hover:translate-x-1">
-              <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black border ${rankClass}">${rankIcon}</div>
-              <div class="w-8 h-8 rounded-xl bg-brand text-white flex items-center justify-center font-extrabold text-xs dark:text-zen-bg">${initial}</div>
+              <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black border ${rankClass} shrink-0">${rankIcon}</div>
+              <div class="w-8 h-8 rounded-xl bg-brand text-white flex items-center justify-center font-extrabold text-xs dark:text-zen-bg shrink-0 border border-white/10 overflow-hidden">${avatarHtml}</div>
               <div class="flex-1 min-w-0">
                 <strong class="text-[13px] font-extrabold block whitespace-nowrap overflow-hidden text-ellipsis text-zen-text dark:text-zen-text-dark">${u.full_name}</strong>
                 <span class="text-[10px] font-extrabold text-zen-blue tracking-wider">${u.points} PTS</span>
@@ -618,12 +619,20 @@ import Sidebar from '../components/Sidebar.astro';
         const data = await res.json();
         const c = data.data || [];
         if(c.length === 0) { list.innerHTML = '<div class="py-10 flex justify-center text-zen-muted dark:text-zen-muted-dark font-bold text-sm">Belum ada diskusi.</div>'; return; }
-        list.innerHTML = c.map(x => `
-          <div class="p-4 rounded-[20px] max-w-[90%] border ${x.user?.role === 'admin' ? 'bg-brand text-white self-end border-brand dark:text-zen-bg' : 'bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark'}">
-            <div class="mb-1 text-xs"><strong>${x.user?.full_name || 'Warga'}</strong></div>
-            <p class="m-0 text-sm leading-relaxed">${x.content}</p>
+        list.innerHTML = c.map(x => {
+          const initial = (x.user?.full_name || 'W')[0].toUpperCase();
+          const avatarHtml = x.user?.avatar_url ? `<img src="${x.user.avatar_url.startsWith('http') ? x.user.avatar_url : API_URL + x.user.avatar_url}" class="w-full h-full object-cover" />` : initial;
+          return `
+          <div class="flex gap-3 max-w-[90%] ${x.user?.role === 'admin' ? 'self-end flex-row-reverse' : ''}">
+            <div class="w-8 h-8 rounded-xl overflow-hidden shrink-0 flex items-center justify-center font-black text-xs ${x.user?.role === 'admin' ? 'bg-brand text-white dark:text-zen-bg' : 'bg-stone-900 dark:bg-white text-white dark:text-black'} border border-white/10">
+              ${avatarHtml}
+            </div>
+            <div class="p-4 rounded-[20px] border flex-1 min-w-0 ${x.user?.role === 'admin' ? 'bg-brand text-white border-brand dark:text-zen-bg' : 'bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark'}">
+              <div class="mb-1 text-xs"><strong>${x.user?.full_name || 'Warga'}</strong></div>
+              <p class="m-0 text-sm leading-relaxed">${x.content}</p>
+            </div>
           </div>
-        `).join('');
+        `}).join('');
         if(!silent) list.scrollTop = list.scrollHeight;
       } catch(e) {}
     }

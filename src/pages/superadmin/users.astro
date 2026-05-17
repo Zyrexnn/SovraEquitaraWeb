@@ -1,0 +1,284 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+---
+
+<Layout title="Direktori Warga — SovraEquitara">
+  <script is:inline define:vars={{ API_URL }}>
+    window.API_URL = API_URL;
+  </script>
+
+  <div class="flex min-h-screen bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display" id="users-root">
+    <Sidebar activePage="users" />
+
+    <main class="flex-1 lg:ml-72 min-h-screen min-w-0 w-full overflow-x-hidden">
+      <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-12 space-y-8 lg:space-y-10">
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <h1 class="text-4xl lg:text-5xl font-black tracking-tight text-zen-text dark:text-zen-text-dark">Direktori Pengguna</h1>
+            <p class="text-stone-500 font-bold mt-2">Daftar seluruh akun yang terdaftar di aplikasi</p>
+          </div>
+        </header>
+
+        <!-- Filters -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <input type="text" id="search-input" placeholder="Cari nama atau email..." class="flex-1 px-5 py-3.5 bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-2xl font-bold text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-shadow" />
+          <select id="role-filter" class="px-5 py-3.5 bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-2xl font-bold text-sm outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer appearance-none min-w-[150px]">
+            <option value="">Semua Peran</option>
+            <option value="USER">Warga</option>
+            <option value="admin">Admin</option>
+            <option value="super_admin">Super Admin</option>
+          </select>
+        </div>
+
+        <!-- Users Table -->
+        <div class="bg-zen-card dark:bg-zen-card-dark rounded-[24px] lg:rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen overflow-hidden flex flex-col min-w-0">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse min-w-[800px]">
+              <thead>
+                <tr class="text-[10px] font-black text-stone-400 uppercase tracking-widest border-b border-zen-border dark:border-zen-border-dark">
+                  <th class="px-6 lg:px-10 py-5">Pengguna</th>
+                  <th class="px-4 lg:px-6 py-5">Kontak</th>
+                  <th class="px-4 lg:px-6 py-5">Role</th>
+                  <th class="px-4 lg:px-6 py-5">Terdaftar</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody" class="divide-y divide-zen-border dark:divide-zen-border-dark">
+                <tr>
+                  <td colspan="4" class="px-6 py-10 text-center font-bold text-stone-400">Memuat data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- POPUP OVERVIEW -->
+  <div id="user-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6 lg:p-12">
+    <div class="absolute inset-0 bg-stone-900/40 dark:bg-black/80 backdrop-blur-sm transition-opacity" onclick="window.closeUserModal()"></div>
+    <div class="relative bg-zen-card dark:bg-zen-card-dark w-full max-w-lg rounded-[32px] shadow-2xl border border-zen-border dark:border-zen-border-dark overflow-hidden flex flex-col scale-95 opacity-0 transition-all duration-300" id="user-modal-content">
+      <div class="px-6 py-5 lg:px-8 lg:py-6 flex items-center justify-between border-b border-zen-border dark:border-zen-border-dark bg-white/50 dark:bg-stone-900/50 backdrop-blur-xl">
+        <h3 class="text-xl font-black text-zen-text dark:text-zen-text-dark tracking-tight">Overview Profil</h3>
+        <button class="p-2 hover:bg-stone-100 dark:hover:bg-white/10 rounded-xl transition-colors text-stone-400 group" onclick="window.closeUserModal()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="group-hover:rotate-90 transition-transform duration-300"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      
+      <div class="p-6 lg:p-8 flex flex-col gap-8">
+        <div class="flex items-center gap-6">
+          <div class="w-20 h-20 rounded-[2rem] bg-stone-100 dark:bg-stone-800 border border-zen-border dark:border-zen-border-dark flex items-center justify-center overflow-hidden shrink-0">
+            <span id="modal-avatar-initial" class="text-3xl font-black text-stone-400">U</span>
+            <img id="modal-avatar-img" src="" class="w-full h-full object-cover hidden" />
+          </div>
+          <div>
+            <h4 id="modal-name" class="text-2xl font-black text-zen-text dark:text-zen-text-dark mb-1">Memuat...</h4>
+            <div class="inline-flex px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border bg-blue-50 dark:bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-500/20" id="modal-role">USER</div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
+            <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Email</div>
+            <div id="modal-email" class="font-bold text-sm truncate">...</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
+            <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Telepon</div>
+            <div id="modal-phone" class="font-bold text-sm truncate">-</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
+            <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Terdaftar Sejak</div>
+            <div id="modal-joined" class="font-bold text-sm">...</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
+            <div class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Total Poin</div>
+            <div id="modal-points" class="font-bold text-sm text-amber-500">0</div>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="text-[11px] font-black text-stone-400 uppercase tracking-widest mb-3 border-b border-zen-border dark:border-zen-border-dark pb-2">Statistik Laporan</h5>
+          <div class="grid grid-cols-3 gap-3 text-center">
+            <div class="p-4 rounded-2xl bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/10">
+              <div id="stat-total" class="text-2xl font-black text-blue-500 mb-1">0</div>
+              <div class="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Total</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/10">
+              <div id="stat-pending" class="text-2xl font-black text-orange-500 mb-1">0</div>
+              <div class="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Pending</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/10">
+              <div id="stat-resolved" class="text-2xl font-black text-emerald-500 mb-1">0</div>
+              <div class="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Selesai</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { showToast } from '../../lib/toast';
+
+    let usersData = [];
+    let searchTimeout;
+
+    async function loadUsers() {
+      const token = localStorage.getItem("access_token");
+      const search = (document.getElementById("search-input") as HTMLInputElement).value;
+      const role = (document.getElementById("role-filter") as HTMLSelectElement).value;
+
+      try {
+        const query = new URLSearchParams({ search, role }).toString();
+        const res = await fetch(`${window.API_URL}/api/profiles?${query}`, { 
+          headers: { "Authorization": `Bearer ${token}` } 
+        });
+
+        if (!res.ok) throw new Error("Gagal mengambil data");
+        const data = await res.json();
+        usersData = data.data || [];
+        renderUsers();
+      } catch (err) {
+        showToast("Gagal memuat data pengguna", "error");
+      }
+    }
+
+    function renderUsers() {
+      const tbody = document.getElementById("users-tbody");
+      if (!tbody) return;
+      
+      if (usersData.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-10 text-center font-bold text-stone-400">Tidak ada data pengguna</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = usersData.map(u => {
+        const initial = (u.full_name || u.email || 'U')[0].toUpperCase();
+        let avatarHtml = `<div class="w-10 h-10 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-500 flex items-center justify-center font-black text-sm shrink-0 border border-zen-border dark:border-zen-border-dark">${initial}</div>`;
+        
+        if (u.avatar_url) {
+          const fullUrl = u.avatar_url.startsWith('http') ? u.avatar_url : `${window.API_URL}${u.avatar_url}`;
+          avatarHtml = `<img src="${fullUrl}" class="w-10 h-10 rounded-xl object-cover border border-zen-border dark:border-zen-border-dark shrink-0" />`;
+        }
+
+        const date = new Date(u.created_at).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' });
+        
+        return `
+        <tr class="hover:bg-stone-50 dark:hover:bg-white/5 transition-colors duration-200 group cursor-pointer" onclick="window.openUserModal('${u.id}')">
+          <td class="px-6 lg:px-10 py-4">
+            <div class="flex items-center gap-4">
+              ${avatarHtml}
+              <div class="font-bold text-sm text-zen-text dark:text-zen-text-dark">${u.full_name || 'Tanpa Nama'}</div>
+            </div>
+          </td>
+          <td class="px-4 lg:px-6 py-4">
+            <div class="font-bold text-sm text-stone-600 dark:text-stone-300">${u.email}</div>
+            <div class="text-[11px] font-bold text-stone-400 mt-0.5">${u.phone || '-'}</div>
+          </td>
+          <td class="px-4 lg:px-6 py-4">
+            <span class="inline-flex px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border bg-stone-100 dark:bg-white/10 text-stone-600 dark:text-stone-300 border-stone-200 dark:border-white/20">
+              ${u.role}
+            </span>
+          </td>
+          <td class="px-4 lg:px-6 py-4 font-bold text-sm text-stone-500">
+            ${date}
+          </td>
+        </tr>
+      `}).join("");
+    }
+
+    window.openUserModal = async (id) => {
+      const modal = document.getElementById("user-modal");
+      const content = document.getElementById("user-modal-content");
+      if (modal && content) {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        setTimeout(() => content.classList.remove("scale-95", "opacity-0"), 10);
+      }
+
+      const user = usersData.find(u => u.id === id);
+      if (!user) return;
+
+      document.getElementById("modal-name").textContent = user.full_name || 'Tanpa Nama';
+      document.getElementById("modal-email").textContent = user.email;
+      document.getElementById("modal-phone").textContent = user.phone || '-';
+      document.getElementById("modal-role").textContent = user.role;
+      document.getElementById("modal-points").textContent = user.points || 0;
+      document.getElementById("modal-joined").textContent = new Date(user.created_at).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      const initialEl = document.getElementById("modal-avatar-initial");
+      const imgEl = document.getElementById("modal-avatar-img") as HTMLImageElement;
+      
+      if (user.avatar_url) {
+        imgEl.src = user.avatar_url.startsWith('http') ? user.avatar_url : `${window.API_URL}${user.avatar_url}`;
+        imgEl.classList.remove("hidden");
+        initialEl.classList.add("hidden");
+      } else {
+        imgEl.classList.add("hidden");
+        initialEl.classList.remove("hidden");
+        initialEl.textContent = (user.full_name || user.email || 'U')[0].toUpperCase();
+      }
+
+      // Fetch stats
+      document.getElementById("stat-total").textContent = "...";
+      document.getElementById("stat-pending").textContent = "...";
+      document.getElementById("stat-resolved").textContent = "...";
+      
+      const token = localStorage.getItem("access_token");
+      try {
+        const res = await fetch(`${window.API_URL}/api/superadmin/profiles/${id}/stats`, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const stats = (await res.json()).data;
+          document.getElementById("stat-total").textContent = stats.total || 0;
+          document.getElementById("stat-pending").textContent = stats.pending || 0;
+          document.getElementById("stat-resolved").textContent = stats.resolved || 0;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    window.closeUserModal = () => {
+      const content = document.getElementById("user-modal-content");
+      if (content) content.classList.add("scale-95", "opacity-0");
+      setTimeout(() => {
+        const modal = document.getElementById("user-modal");
+        if (modal) {
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+        }
+      }, 300);
+    };
+
+    function init() {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      if (!user || user.role !== "super_admin") {
+        window.location.href = "/admin/login";
+        return;
+      }
+
+      // Setup filters
+      const searchInput = document.getElementById("search-input");
+      const roleFilter = document.getElementById("role-filter");
+
+      if (searchInput) {
+        searchInput.oninput = () => {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(loadUsers, 500);
+        };
+      }
+      if (roleFilter) {
+        roleFilter.onchange = loadUsers;
+      }
+
+      loadUsers();
+    }
+
+    document.addEventListener('astro:page-load', init, { once: true });
+    if (document.readyState === 'complete') init();
+  </script>
+</Layout>

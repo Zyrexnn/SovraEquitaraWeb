@@ -550,12 +550,21 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             list.innerHTML = '<div class="text-sm font-bold text-stone-400 text-center py-4">Belum ada diskusi.</div>';
             return;
           }
-          list.innerHTML = comments.map(c => `
-            <div class="p-4 rounded-2xl border ${c.user?.role === 'admin' ? 'bg-stone-900 dark:bg-white text-white dark:text-black self-end border-transparent' : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-white/10'}">
-              <div class="mb-1 text-xs opacity-70 font-bold">${c.user?.full_name || 'Warga'}</div>
-              <p class="m-0 text-sm">${c.content}</p>
+          list.innerHTML = comments.map(c => {
+            const initial = (c.user?.full_name || 'U')[0].toUpperCase();
+            const avatarHtml = c.user?.avatar_url ? `<img src="${c.user.avatar_url.startsWith('http') ? c.user.avatar_url : API_URL + c.user.avatar_url}" class="w-full h-full object-cover" />` : initial;
+            const isAdmin = c.user?.role === 'admin' || c.user?.role === 'super_admin';
+            return `
+            <div class="flex gap-3 max-w-[90%] ${isAdmin ? 'self-end flex-row-reverse' : ''}">
+              <div class="w-8 h-8 rounded-xl overflow-hidden shrink-0 flex items-center justify-center font-black text-xs ${isAdmin ? 'bg-stone-900 dark:bg-white text-white dark:text-black' : 'bg-stone-100 dark:bg-stone-800 text-stone-500'} border border-white/10">
+                ${avatarHtml}
+              </div>
+              <div class="p-4 rounded-2xl flex-1 min-w-0 border ${isAdmin ? 'bg-stone-900 dark:bg-white text-white dark:text-black self-end border-transparent' : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-white/10'}">
+                <div class="mb-1 text-xs opacity-70 font-bold">${c.user?.full_name || 'Warga'}</div>
+                <p class="m-0 text-sm">${c.content}</p>
+              </div>
             </div>
-          `).join('');
+          `}).join('');
         } catch(e) {
           list.innerHTML = '<div class="text-sm font-bold text-red-500 text-center py-4">Gagal memuat diskusi.</div>';
         }
