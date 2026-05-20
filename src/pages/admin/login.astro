@@ -87,6 +87,18 @@ import { ThemeToggle } from '../../components/ThemeToggle';
   <script>
     import { showToast } from '../../lib/toast';
     const API_URL = 'http://localhost:3000';
+
+    // Auto redirect if already logged in
+    const token = localStorage.getItem('access_token');
+    const userRaw = localStorage.getItem('user');
+    if (token && userRaw) {
+      try {
+        const user = JSON.parse(userRaw);
+        if (user.role === 'super_admin' || user.role === 'SUPER_ADMIN') window.location.href = '/superadmin/dashboard';
+        else if (user.role === 'admin' || user.role === 'ADMIN') window.location.href = '/admin/dashboard';
+      } catch (e) {}
+    }
+
     const form = document.getElementById('form-admin-login') as HTMLFormElement;
     const btnLogin = document.getElementById('btn-login') as HTMLButtonElement;
 

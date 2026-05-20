@@ -90,6 +90,19 @@ import { ThemeToggle } from '../components/ThemeToggle';
   <script>
     import { showToast } from '../lib/toast';
     const API_URL = 'http://localhost:3000';
+
+    // Auto redirect if already logged in
+    const token = localStorage.getItem('access_token');
+    const userRaw = localStorage.getItem('user');
+    if (token && userRaw) {
+      try {
+        const user = JSON.parse(userRaw);
+        if (user.role === 'super_admin' || user.role === 'SUPER_ADMIN') window.location.href = '/superadmin/dashboard';
+        else if (user.role === 'admin' || user.role === 'ADMIN') window.location.href = '/admin/dashboard';
+        else window.location.href = '/dashboard';
+      } catch (e) {}
+    }
+
     const form = document.getElementById('form-login') as HTMLFormElement;
     const btnSubmit = document.getElementById('btn-submit') as HTMLButtonElement;
 
@@ -115,7 +128,9 @@ import { ThemeToggle } from '../components/ThemeToggle';
           localStorage.setItem('access_token', data.access_token);
           localStorage.setItem('user', JSON.stringify(data.user));
           
-          if (data.user.role === 'admin' || data.user.role === 'ADMIN') {
+          if (data.user.role === 'super_admin' || data.user.role === 'SUPER_ADMIN') {
+            window.location.href = '/superadmin/dashboard';
+          } else if (data.user.role === 'admin' || data.user.role === 'ADMIN') {
             window.location.href = '/admin/dashboard';
           } else {
             window.location.href = '/dashboard';
