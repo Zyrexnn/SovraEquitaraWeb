@@ -259,7 +259,9 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     async function loadData() {
       const token = localStorage.getItem("access_token");
       const user = JSON.parse(localStorage.getItem("user") || "{}");
-      if (!token || user.role !== "super_admin") return window.location.href = "/admin/login";
+      if (!token) return window.location.href = "/admin/login";
+      if (user.role === "admin" || user.role === "ADMIN") return window.location.href = "/admin/dashboard";
+      if (user.role !== "super_admin" && user.role !== "SUPER_ADMIN") return window.location.href = "/login";
       
       // Sidebar role-checking is now handled by the Sidebar component
 

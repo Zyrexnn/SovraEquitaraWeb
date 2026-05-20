@@ -215,8 +215,15 @@ import Sidebar from '../components/Sidebar.astro';
     if (!token || !userRaw) {
       window.location.href = '/login';
     } else {
-      document.addEventListener('astro:page-load', initZenDashboard);
-      if (document.readyState === 'complete') initZenDashboard();
+      const userObj = JSON.parse(userRaw);
+      if (userObj.role === 'super_admin' || userObj.role === 'SUPER_ADMIN') {
+        window.location.href = '/superadmin/dashboard';
+      } else if (userObj.role === 'admin' || userObj.role === 'ADMIN') {
+        window.location.href = '/admin/dashboard';
+      } else {
+        document.addEventListener('astro:page-load', initZenDashboard);
+        if (document.readyState === 'complete') initZenDashboard();
+      }
     }
 
     let user, categories = [], selectedFile = null, map, marker, allReports = [];
@@ -669,4 +676,4 @@ import Sidebar from '../components/Sidebar.astro';
       }
     }
   </script>
-</Layout>
+</Layout> 
