@@ -235,7 +235,8 @@ import { ThemeToggle } from '../components/ThemeToggle';
       if (token && userRaw) {
         const user = JSON.parse(userRaw);
         const isAdmin = user.role === 'admin' || user.role === 'ADMIN';
-        const dashLink = isAdmin ? '/admin/dashboard' : '/dashboard';
+        const isSuperAdmin = user.role === 'super_admin' || user.role === 'SUPER_ADMIN';
+        const dashLink = isSuperAdmin ? '/superadmin/dashboard' : (isAdmin ? '/admin/dashboard' : '/dashboard');
 
         if (navCta) {
           navCta.innerHTML = `<a href="${dashLink}" class="${primaryBtnClass} !py-2 !px-6 !text-xs">Buka Dashboard</a>`;
