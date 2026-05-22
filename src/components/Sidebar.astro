@@ -204,10 +204,7 @@ const { activePage } = Astro.props;
     overlay?.addEventListener('click', () => toggleSidebar(false));
 
     // 2. Load User Data & Setup Navigation
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      try {
-        const user = JSON.parse(userData);
+    const updateProfileUI = (user) => {
         const name = user.full_name || user.name || "Warga";
         const initial = name[0].toUpperCase();
         
@@ -219,8 +216,8 @@ const { activePage } = Astro.props;
           if (avatarEl) avatarEl.innerHTML = `<img src="${fullUrl}" alt="${name}" class="w-full h-full object-cover rounded-xl" />`;
           if (mobileAvatarEl) mobileAvatarEl.innerHTML = `<img src="${fullUrl}" alt="${name}" class="w-full h-full object-cover rounded-full" />`;
         } else {
-          if (avatarEl) avatarEl.textContent = initial;
-          if (mobileAvatarEl) mobileAvatarEl.textContent = initial;
+          if (avatarEl) avatarEl.innerHTML = initial;
+          if (mobileAvatarEl) mobileAvatarEl.innerHTML = initial;
         }
 
         // Role Based Logic
@@ -251,10 +248,42 @@ const { activePage } = Astro.props;
             mobilePointsEl.classList.remove('hidden');
           }
         }
+    };
+
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        updateProfileUI(user);
       } catch (e) {
         console.error("Sidebar Error:", e);
       }
     }
+
+    // Sync latest profile data from API
+    window.fetchProfileData = () => {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+          const apiBase = (window as any).API_URL || 'http://localhost:3000';
+          fetch(`${apiBase}/api/profile`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+          })
+          .then(res => res.json())
+          .then(data => {
+              if (data.data) {
+                  // Ensure name is mapped correctly
+                  data.data.name = data.data.full_name || data.data.name;
+                  localStorage.setItem('user', JSON.stringify(data.data));
+                  updateProfileUI(data.data);
+                  // Dispatch event for other components to update if needed
+                  window.dispatchEvent(new CustomEvent('profileUpdated', { detail: data.data }));
+              }
+          })
+          .catch(console.error);
+      }
+    };
+    
+    window.fetchProfileData();
 
     // Notification Event Listener
     window.addEventListener('notificationsUpdated', (e: any) => {
