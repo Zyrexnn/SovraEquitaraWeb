@@ -180,15 +180,29 @@ import Sidebar from '../components/Sidebar.astro';
                 <div class="flex flex-wrap justify-between items-center gap-4 mt-6">
                   <span id="detail-date" class="text-sm font-semibold text-zen-muted dark:text-zen-muted-dark"></span>
                   <div>
-                    <button class="bg-zen-surface dark:bg-zen-surface-dark text-zen-text dark:text-zen-text-dark border border-zen-border dark:border-zen-border-dark px-5 py-3 rounded-xl font-extrabold cursor-pointer transition-all duration-200 hover:scale-105 hover:bg-zen-bg dark:hover:bg-zen-bg-dark hover:border-brand dark:hover:border-white" id="btn-vote-modal">
-                      🔥 <b id="detail-votes">0</b> Dukungan
+                    <button
+                      id="btn-vote-modal"
+                      class="group flex items-center gap-2.5 px-5 py-3 rounded-xl font-extrabold cursor-pointer transition-all duration-200 border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark text-zen-text dark:text-zen-text-dark hover:border-brand hover:text-brand dark:hover:border-blue-400 dark:hover:text-blue-400 hover:scale-105 active:scale-95"
+                    >
+                      <!-- Upvote arrow icon -->
+                      <svg id="detail-vote-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200 group-hover:-translate-y-0.5">
+                        <polyline points="18 15 12 9 6 15"></polyline>
+                      </svg>
+                      <b id="detail-votes" class="text-base tabular-nums">0</b>
+                      <span class="text-xs opacity-70">Dukungan</span>
                     </button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="bg-zen-surface dark:bg-zen-surface-dark flex flex-col border-t lg:border-t-0 lg:border-l border-zen-border dark:border-zen-border-dark">
-              <div class="p-6 border-b border-zen-border dark:border-zen-border-dark font-extrabold text-xs uppercase tracking-wider">Diskusi & Solusi</div>
+              <div class="p-6 border-b border-zen-border dark:border-zen-border-dark flex items-center justify-between">
+                <span class="font-extrabold text-xs uppercase tracking-wider">Diskusi &amp; Solusi</span>
+                <span id="detail-comment-count" class="flex items-center gap-1.5 text-xs font-bold text-zen-muted dark:text-zen-muted-dark">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                  <span id="detail-comment-num">0</span>
+                </span>
+              </div>
               <div id="comments-list" class="flex-1 p-6 flex flex-col gap-4 overflow-y-auto scrollbar-thin h-[300px] lg:h-[400px]"></div>
               <form id="form-comment" class="p-5 flex gap-3 border-t border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark">
                 <input type="hidden" id="active-report-id" />
@@ -264,7 +278,17 @@ import Sidebar from '../components/Sidebar.astro';
              loadComments(activeReportId, true);
            }
         }
-      }, 5000);
+      }, 30000); // Slow fallback poll — SSE handles real-time updates
+
+      connectSSE();
+
+      // Handle deep linking from notifications
+      const urlParams = new URLSearchParams(window.location.search);
+      const openId = urlParams.get('open');
+      if (openId) {
+        // slight delay to ensure UI is fully rendered
+        setTimeout(() => window.openDetail(openId), 100);
+      }
     }
 
     function setupUI() {
@@ -438,9 +462,25 @@ import Sidebar from '../components/Sidebar.astro';
                 </div>
                 <h4 class="text-base font-extrabold m-0 mb-2 leading-tight">${r.description}</h4>
                 <p class="text-xs text-zen-muted dark:text-zen-muted-dark m-0">📍 ${r.location_detail}</p>
-                <div class="mt-5 pt-4 border-t border-zen-border dark:border-zen-border-dark flex justify-between items-center text-xs font-bold">
-                  <button class="bg-transparent border-none font-extrabold cursor-pointer text-zen-text dark:text-zen-text-dark flex items-center hover:text-brand transition-colors" onclick="event.stopPropagation(); window.doVote('${r.id}')">🔥 ${r.vote_count}</button>
-                  <span class="text-zen-muted dark:text-zen-muted-dark">💬 ${r.comment_count} Diskusi</span>
+                <div class="mt-5 pt-4 border-t border-zen-border dark:border-zen-border-dark flex justify-between items-center">
+                  <!-- Upvote button -->
+                  <button
+                    id="vote-btn-${r.id}"
+                    class="group/vote flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold border border-zen-border dark:border-zen-border-dark bg-transparent text-zen-muted dark:text-zen-muted-dark hover:border-brand hover:text-brand dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
+                    onclick="event.stopPropagation(); window.doVote('${r.id}')"
+                  >
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200 group-hover/vote:-translate-y-0.5">
+                      <polyline points="18 15 12 9 6 15"></polyline>
+                    </svg>
+                    <span id="vote-count-${r.id}" class="tabular-nums">${r.vote_count}</span>
+                  </button>
+                  <!-- Comment count -->
+                  <div class="flex items-center gap-1.5 text-xs font-bold text-zen-muted dark:text-zen-muted-dark">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span id="comment-count-${r.id}" class="tabular-nums">${r.comment_count}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -587,6 +627,17 @@ import Sidebar from '../components/Sidebar.astro';
 
       document.getElementById('detail-votes').textContent = r.vote_count;
       document.getElementById('btn-vote-modal').onclick = () => window.doVote(id);
+      // Update comment count badge in modal header
+      const commentNumEl = document.getElementById('detail-comment-num');
+      if(commentNumEl) commentNumEl.textContent = r.comment_count;
+
+      // Fetch user's vote status for this report to show correct icon state
+      fetch(`${API_URL}/api/reports/${id}/vote-status`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      }).then(res => res.json()).then(data => {
+        window._currentVoteType = data.vote_type || 0;
+        applyVoteActiveState(id, window._currentVoteType);
+      }).catch(() => { window._currentVoteType = 0; });
 
       // Google Maps Link
       const gLink = document.getElementById('btn-gmaps-modal');
@@ -706,12 +757,18 @@ import Sidebar from '../components/Sidebar.astro';
           body: JSON.stringify({ vote_type: 1 })
         });
         if(res.ok) {
-          window.showToast({ message: 'Dukungan berhasil ditambahkan!', type: 'success' });
-          fetchFeed(document.getElementById('feed-sort').value);
-          const r = allReports.find(x => x.id === id);
-          if(r && document.getElementById('active-report-id').value === id) {
-             document.getElementById('detail-votes').textContent = r.vote_count + 1;
+          const data = await res.json();
+          // Optimistic UI: toggle voted state
+          window._currentVoteType = window._currentVoteType === 1 ? 0 : 1;
+          // Update detail modal if open for this report
+          const activeId = document.getElementById('active-report-id')?.value;
+          if(activeId === id) {
+            if(data.vote_count !== undefined) {
+              document.getElementById('detail-votes').textContent = data.vote_count;
+            }
+            applyVoteActiveState(id, window._currentVoteType);
           }
+          window.showToast({ message: window._currentVoteType === 1 ? 'Dukungan berhasil ditambahkan!' : 'Dukungan dibatalkan', type: 'success' });
         } else {
           const err = await res.json();
           window.showToast({ message: err.error || 'Gagal menambahkan dukungan', type: 'info' });
@@ -720,6 +777,86 @@ import Sidebar from '../components/Sidebar.astro';
         window.showToast({ message: 'Terjadi kesalahan koneksi', type: 'error' });
       }
     };
+
+    // Apply or remove 'voted' active state styling on vote buttons
+    function applyVoteActiveState(reportId, voteType) {
+      const isVoted = voteType === 1;
+      // Feed card vote button
+      const cardBtn = document.getElementById(`vote-btn-${reportId}`);
+      if(cardBtn) {
+        if(isVoted) {
+          cardBtn.classList.add('text-brand', 'dark:text-blue-400', 'border-brand', 'dark:border-blue-400', 'bg-brand/5', 'dark:bg-blue-400/10');
+          cardBtn.classList.remove('text-zen-muted', 'dark:text-zen-muted-dark', 'border-zen-border', 'dark:border-zen-border-dark');
+        } else {
+          cardBtn.classList.remove('text-brand', 'dark:text-blue-400', 'border-brand', 'dark:border-blue-400', 'bg-brand/5', 'dark:bg-blue-400/10');
+          cardBtn.classList.add('text-zen-muted', 'dark:text-zen-muted-dark', 'border-zen-border', 'dark:border-zen-border-dark');
+        }
+      }
+      // Detail modal vote button
+      const modalBtn = document.getElementById('btn-vote-modal');
+      const modalIcon = document.getElementById('detail-vote-icon');
+      if(modalBtn) {
+        if(isVoted) {
+          modalBtn.classList.add('text-brand', 'dark:text-blue-400', 'border-brand', 'dark:border-blue-400', 'bg-brand/5', 'dark:bg-blue-400/10');
+          modalBtn.classList.remove('text-zen-text', 'dark:text-zen-text-dark', 'border-zen-border', 'dark:border-zen-border-dark');
+          if(modalIcon) { modalIcon.setAttribute('fill', 'currentColor'); }
+        } else {
+          modalBtn.classList.remove('text-brand', 'dark:text-blue-400', 'border-brand', 'dark:border-blue-400', 'bg-brand/5', 'dark:bg-blue-400/10');
+          modalBtn.classList.add('text-zen-text', 'dark:text-zen-text-dark', 'border-zen-border', 'dark:border-zen-border-dark');
+          if(modalIcon) { modalIcon.setAttribute('fill', 'none'); }
+        }
+      }
+    }
+
+    // SSE: real-time updates from the server
+    let sseSource = null;
+    function connectSSE() {
+      if(sseSource) sseSource.close();
+      sseSource = new EventSource(`${API_URL}/api/events`);
+
+      sseSource.onmessage = (e) => {
+        try {
+          const event = JSON.parse(e.data);
+          const reportId = event.report_id;
+
+          if(event.event === 'vote_update') {
+            // Update allReports cache
+            const r = allReports.find(x => x.id === reportId);
+            if(r) r.vote_count = event.vote_count;
+            // Update card counter
+            const countEl = document.getElementById(`vote-count-${reportId}`);
+            if(countEl) countEl.textContent = event.vote_count;
+            // Update detail modal if open for this report
+            const activeId = document.getElementById('active-report-id')?.value;
+            if(activeId === reportId) {
+              document.getElementById('detail-votes').textContent = event.vote_count;
+            }
+          }
+
+          if(event.event === 'comment_update') {
+            // Update allReports cache
+            const r = allReports.find(x => x.id === reportId);
+            if(r) r.comment_count = event.comment_count;
+            // Update card counter
+            const countEl = document.getElementById(`comment-count-${reportId}`);
+            if(countEl) countEl.textContent = event.comment_count;
+            // Update detail modal comment count badge
+            const activeId = document.getElementById('active-report-id')?.value;
+            if(activeId === reportId) {
+              const numEl = document.getElementById('detail-comment-num');
+              if(numEl) numEl.textContent = event.comment_count;
+              // Also silently refresh comment list
+              loadComments(reportId, true);
+            }
+          }
+        } catch(err) {}
+      };
+
+      sseSource.onerror = () => {
+        // Auto-reconnect after 5s on error
+        setTimeout(connectSSE, 5000);
+      };
+    }
 
     async function loadComments(id, silent = false) {
       const list = document.getElementById('comments-list');
@@ -762,8 +899,9 @@ import Sidebar from '../components/Sidebar.astro';
         });
         if(res.ok) { 
           input.value = ''; 
-          loadComments(id); 
-          fetchFeed(document.getElementById('feed-sort').value); 
+          // SSE will push the comment_update event which triggers loadComments
+          // Fallback: direct load in case SSE is delayed
+          setTimeout(() => loadComments(id, true), 300);
           window.showToast({ message: 'Komentar berhasil ditambahkan!', type: 'success' });
         } else {
           window.showToast({ message: 'Gagal mengirim komentar', type: 'error' });
