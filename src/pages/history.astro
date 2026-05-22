@@ -197,6 +197,14 @@ import Sidebar from '../components/Sidebar.astro';
       } catch(e) {
         console.error("History Init Error: ", e);
       }
+
+      // Handle deep linking from notifications
+      const urlParams = new URLSearchParams(window.location.search);
+      const openId = urlParams.get('open');
+      if (openId) {
+        // slight delay to ensure UI is fully rendered and data is fetched
+        setTimeout(() => window.openDetail(openId), 300);
+      }
     }
 
     async function loadCategories() {

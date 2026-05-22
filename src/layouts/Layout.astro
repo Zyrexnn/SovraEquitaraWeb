@@ -257,6 +257,7 @@ const {
                     <div class="flex-1 pr-6">
                       <div class="font-extrabold text-sm mb-1 ${titleClass}">${n.title}</div>
                       <div class="text-xs text-stone-600 dark:text-stone-300 font-medium leading-relaxed">${n.message}</div>
+                      ${n.action_url ? `<a href="${n.action_url}" class="inline-block mt-2 px-3 py-1.5 bg-stone-900 dark:bg-white text-white dark:text-black text-[10px] font-black rounded-lg hover:scale-105 transition-transform uppercase tracking-widest">Lihat Detail</a>` : ''}
                       <div class="text-[9px] font-bold text-stone-400 mt-2 uppercase tracking-widest">${new Date(n.created_at).toLocaleDateString('id-ID', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
                     </div>
                     <button class="absolute top-3 right-3 text-stone-300 hover:text-red-500 transition-colors lg:opacity-0 group-hover:opacity-100" onclick="window.hideNotification('${n.id}')" title="Hapus Notifikasi">
