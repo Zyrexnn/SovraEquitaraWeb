@@ -197,10 +197,28 @@ const {
         }
       }
 
-      window.hideNotification = (id) => {
+      window.hideNotification = async (id) => {
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const token = localStorage.getItem('access_token');
+        
+        if (user.role === 'admin' || user.role === 'ADMIN' || user.role === 'super_admin' || user.role === 'SUPER_ADMIN') {
+          try {
+            const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+            const res = await fetch(`${API_URL}/api/admin/notifications/${id}`, {
+              method: 'DELETE',
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+              if (token) fetchNotifications(token, true);
+              return;
+            }
+          } catch(e) {
+            console.error("Gagal menghapus notifikasi:", e);
+          }
+        }
+
         hiddenNotifs.add(id);
         localStorage.setItem('hidden_notifs', JSON.stringify([...hiddenNotifs]));
-        const token = localStorage.getItem('access_token');
         if (token) fetchNotifications(token, true);
       };
 
