@@ -45,6 +45,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
                 <option value="">Semua Status</option>
                 <option value="PENDING">Pending</option>
                 <option value="VALID">Verified</option>
+                <option value="WAITING_APPROVAL">Menunggu Persetujuan</option>
                 <option value="RESOLVED">Resolved</option>
               </select>
             </div>
@@ -267,9 +268,10 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             <span class="inline-flex px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border
               ${r.status === 'PENDING' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-amber-200 dark:border-amber-500/20' : ''}
               ${r.status === 'VALID' ? 'bg-green-50 dark:bg-green-500/10 text-green-600 border-green-200 dark:border-green-500/20' : ''}
+              ${r.status === 'WAITING_APPROVAL' ? 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 border-purple-200 dark:border-purple-500/20' : ''}
               ${r.status === 'RESOLVED' ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-500/20' : ''}
             ">
-              ${r.status}
+              ${r.status === 'WAITING_APPROVAL' ? 'WAITING APPROVAL' : r.status}
             </span>
           </td>
           <td class="px-4 lg:px-6 py-5 text-right pr-6 lg:pr-10">
@@ -316,10 +318,11 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       
       const badge = document.getElementById("modal-status-badge");
       if(badge) {
-        badge.innerText = r.status;
+        badge.innerText = r.status === 'WAITING_APPROVAL' ? 'WAITING APPROVAL' : r.status;
         badge.className = `inline-flex px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
           r.status === 'PENDING' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 border-amber-200 dark:border-amber-500/20' :
           r.status === 'VALID' ? 'bg-green-50 dark:bg-green-500/10 text-green-600 border-green-200 dark:border-green-500/20' :
+          r.status === 'WAITING_APPROVAL' ? 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 border-purple-200 dark:border-purple-500/20' :
           'bg-blue-50 dark:bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-500/20'
         }`;
       }
@@ -384,7 +387,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }
         });
         if(res.ok) {
-          showToast({ message: `Laporan berhasil diubah ke ${status}`, type: 'success' });
+          const successMsg = status === "VALID" ? "Laporan berhasil diverifikasi" : "Laporan berhasil ditandai menunggu persetujuan pelapor";
+          showToast({ message: successMsg, type: 'success' });
           (window as any).closeModal();
           loadData();
         }
