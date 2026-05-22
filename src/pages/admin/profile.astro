@@ -34,20 +34,20 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
               <input type="file" id="avatar-upload" accept="image/jpeg,image/png,image/webp" class="hidden" />
             </div>
             <div class="header-info">
-              <h2 id="display-name" class="text-2xl font-bold">Administrator</h2>
-              <p id="display-email" class="text-stone-500">admin@sovra.com</p>
-            </div>
-          </div>
-
-          <form id="admin-profile-form" class="profile-form">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-              <div class="form-group">
-                <label class="block text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase mb-2 tracking-wide">Nama Lengkap</label>
-                <input type="text" id="input-name" value="Administrator" required class="w-full p-3.5 border border-zen-border dark:border-zen-border-dark rounded-xl !bg-zen-bg dark:!bg-zen-bg-dark text-zen-text dark:text-zen-text-dark outline-none text-sm font-medium transition-colors focus:border-zen-accent dark:focus:border-zen-accent-dark appearance-none" />
+              <h2 id="display-name" class="text-2xl font-bold">Memuat...</h2>
+              <p id="display-email" class="text-stone-500">Memuat...</p>
               </div>
-              <div class="form-group">
-                <label class="block text-[11px] font-extrabold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase mb-2 tracking-wide">Email</label>
-                <input type="email" id="input-email" value="admin@sovra.com" disabled class="w-full p-3.5 border border-zen-border dark:border-zen-border-dark rounded-xl !bg-zen-bg dark:!bg-zen-bg-dark text-zen-text dark:text-zen-text-dark outline-none text-sm font-medium transition-colors opacity-70 cursor-not-allowed appearance-none" />
+              </div>
+
+              <form id="admin-profile-form" class="profile-form">
+              <div class="space-y-5">
+              <div>
+                <label class="block text-xs font-bold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase tracking-wider mb-2">Nama Lengkap</label>
+                <input type="text" id="input-name" required class="w-full p-3.5 border border-zen-border dark:border-zen-border-dark rounded-xl !bg-zen-bg dark:!bg-zen-bg-dark text-zen-text dark:text-zen-text-dark outline-none text-sm font-medium transition-colors focus:border-zen-accent dark:focus:border-zen-accent-dark appearance-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-zen-text-secondary dark:text-zen-text-secondary-dark uppercase tracking-wider mb-2">Email</label>
+                <input type="email" id="input-email" disabled class="w-full p-3.5 border border-zen-border dark:border-zen-border-dark rounded-xl !bg-zen-bg dark:!bg-zen-bg-dark text-zen-text dark:text-zen-text-dark outline-none text-sm font-medium transition-colors opacity-70 cursor-not-allowed appearance-none" />
               </div>
             </div>
             <button type="submit" class="px-8 py-3.5 bg-zen-accent dark:bg-zen-accent-dark text-zen-sidebar-bg dark:text-zen-sidebar-bg-dark border-none rounded-xl font-bold cursor-pointer transition-transform hover:opacity-90 hover:-translate-y-px">Simpan Perubahan</button>
