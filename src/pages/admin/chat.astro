@@ -59,7 +59,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
                 <button id="chat-back-btn" class="lg:hidden p-2 hover:bg-stone-100 dark:hover:bg-white/5 rounded-xl">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 </button>
-                <div id="chat-header-avatar" class="w-11 h-11 rounded-2xl bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center font-black text-sm cursor-pointer hover:scale-105 transition-transform" onclick="window.openProfileFromChat()">A</div>
+                <div id="chat-header-avatar" class="w-11 h-11 rounded-full overflow-hidden bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center font-black text-sm cursor-pointer hover:scale-105 transition-transform" onclick="window.openProfileFromChat()">A</div>
                 <div class="flex-1 min-w-0 cursor-pointer" onclick="window.openProfileFromChat()">
                   <div id="chat-header-name" class="font-black text-sm truncate">Nama User</div>
                   <div id="chat-header-role" class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">USER</div>
@@ -89,7 +89,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       <div class="absolute inset-0 bg-stone-900/40 dark:bg-black/80 backdrop-blur-sm" onclick="document.getElementById('profile-modal').classList.add('hidden')"></div>
       <div class="relative bg-white dark:bg-stone-900 w-full max-w-md rounded-[32px] shadow-2xl border border-stone-200 dark:border-white/10 overflow-hidden">
         <div class="p-8 flex flex-col items-center gap-4 text-center">
-          <div id="pm-avatar" class="w-20 h-20 rounded-3xl bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center font-black text-3xl">U</div>
+          <div id="pm-avatar" class="w-20 h-20 rounded-full overflow-hidden bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center font-black text-3xl">U</div>
           <div>
             <h3 id="pm-name" class="text-xl font-black">Nama</h3>
             <p id="pm-email" class="text-sm text-stone-400 font-bold mt-1">email</p>
@@ -176,6 +176,9 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       list.innerHTML = filtered.map(c => {
         const p = c.participant || {};
         const initial = (p.full_name || "U")[0].toUpperCase();
+        const avatarHtml = p.avatar_url 
+          ? `<img src="${p.avatar_url.startsWith('http') ? p.avatar_url : API_URL + p.avatar_url}" class="w-full h-full object-cover" />`
+          : initial;
         const isActive = c.id === activeConvId;
         const roleLabel = p.role === "admin" ? "Admin" : "Warga";
         const roleColor = p.role === "admin" ? "text-blue-500" : "text-emerald-500";
@@ -183,7 +186,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         const time = c.last_message_at ? new Date(c.last_message_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) : "";
         return `
           <div class="flex items-center gap-3.5 p-3.5 rounded-2xl cursor-pointer transition-all duration-200 group ${isActive ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-lg' : 'hover:bg-stone-50 dark:hover:bg-white/5'}" onclick="window.openConversation('${c.id}', '${p.id}')">
-            <div class="w-11 h-11 rounded-2xl ${isActive ? 'bg-white dark:bg-stone-900 text-black dark:text-white' : 'bg-stone-100 dark:bg-white/10 text-stone-700 dark:text-stone-300'} flex items-center justify-center font-black text-sm shrink-0 cursor-pointer" onclick="event.stopPropagation(); window.openProfileModal('${p.id}')">${initial}</div>
+            <div class="w-11 h-11 rounded-full overflow-hidden ${isActive ? 'bg-white dark:bg-stone-900 text-black dark:text-white' : 'bg-stone-100 dark:bg-white/10 text-stone-700 dark:text-stone-300'} flex items-center justify-center font-black text-sm shrink-0 cursor-pointer" onclick="event.stopPropagation(); window.openProfileModal('${p.id}')">${avatarHtml}</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
                 <span class="font-black text-sm truncate">${p.full_name || "Unknown"}</span>
@@ -247,10 +250,10 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
               const senderName = m.sender?.full_name || "Unknown";
               const time = new Date(m.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
               const initial = senderName[0].toUpperCase();
-              const avatarHtml = m.sender?.avatar_url ? `<img src="${m.sender.avatar_url.startsWith('http') ? m.sender.avatar_url : API_URL + m.sender.avatar_url}" class="w-full h-full object-cover rounded-xl" />` : initial;
+              const avatarHtml = m.sender?.avatar_url ? `<img src="${m.sender.avatar_url.startsWith('http') ? m.sender.avatar_url : API_URL + m.sender.avatar_url}" class="w-full h-full object-cover rounded-full" />` : initial;
               return `
                 <div class="flex gap-3 max-w-[85%] ${isMine ? 'self-end flex-row-reverse ml-auto' : ''}">
-                  <div class="w-8 h-8 rounded-xl overflow-hidden ${isMine ? 'bg-stone-900 dark:bg-white text-white dark:text-black' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'} flex items-center justify-center font-black text-xs shrink-0 cursor-pointer border border-white/10" onclick="window.openProfileModal('${m.sender_id}')">${avatarHtml}</div>
+                  <div class="w-8 h-8 rounded-full overflow-hidden ${isMine ? 'bg-stone-900 dark:bg-white text-white dark:text-black' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'} flex items-center justify-center font-black text-xs shrink-0 cursor-pointer border border-white/10" onclick="window.openProfileModal('${m.sender_id}')">${avatarHtml}</div>
                   <div>
                     <div class="flex items-center gap-2 mb-1 ${isMine ? 'flex-row-reverse' : ''}">
                       <span class="text-[10px] font-bold text-stone-400">${senderName}</span>
