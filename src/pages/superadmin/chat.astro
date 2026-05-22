@@ -211,7 +211,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       const headerAvatar = document.getElementById("chat-header-avatar");
       const headerName = document.getElementById("chat-header-name");
       const headerRole = document.getElementById("chat-header-role");
-      if (headerAvatar) headerAvatar.textContent = (p.full_name || "U")[0].toUpperCase();
+      if (headerAvatar) {
+        if (p.avatar_url) {
+          const url = p.avatar_url.startsWith('http') ? p.avatar_url : API_URL + p.avatar_url;
+          headerAvatar.innerHTML = `<img src="${url}" class="w-full h-full object-cover" />`;
+        } else {
+          headerAvatar.innerHTML = (p.full_name || "U")[0].toUpperCase();
+        }
+      }
       if (headerName) headerName.textContent = p.full_name || "Unknown";
       if (headerRole) headerRole.textContent = p.role === "admin" ? "ADMIN" : "WARGA";
 
@@ -334,7 +341,15 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         const json = await res.json();
         const profile = json.data;
         if (profile) {
-          document.getElementById('pm-avatar').textContent = (profile.full_name || "U")[0].toUpperCase();
+          const pmAvatar = document.getElementById('pm-avatar');
+          if (pmAvatar) {
+            if (profile.avatar_url) {
+              const url = profile.avatar_url.startsWith('http') ? profile.avatar_url : API_URL + profile.avatar_url;
+              pmAvatar.innerHTML = `<img src="${url}" class="w-full h-full object-cover" />`;
+            } else {
+              pmAvatar.innerHTML = (profile.full_name || "U")[0].toUpperCase();
+            }
+          }
           document.getElementById('pm-name').textContent = profile.full_name || "Unknown";
           document.getElementById('pm-email').textContent = profile.email || "-";
           document.getElementById('pm-role').textContent = profile.role;

@@ -90,7 +90,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           const headerName = document.getElementById('chat-header-name');
           const headerAvatar = document.getElementById('chat-header-avatar');
           if (headerName) headerName.textContent = adminName;
-          if (headerAvatar) headerAvatar.textContent = adminName[0].toUpperCase();
+          if (headerAvatar) {
+            if (lastAdminMsg.sender.avatar_url) {
+              const url = lastAdminMsg.sender.avatar_url.startsWith('http') ? lastAdminMsg.sender.avatar_url : API_URL + lastAdminMsg.sender.avatar_url;
+              headerAvatar.innerHTML = `<img src="${url}" class="w-full h-full object-cover" />`;
+            } else {
+              headerAvatar.innerHTML = adminName[0].toUpperCase();
+            }
+          }
         }
 
         container.innerHTML = messages.map(function(m) {
