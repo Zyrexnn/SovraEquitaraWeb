@@ -1,147 +1,173 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { DashboardShowcase } from '../components/DashboardShowcase';
-import { HeroTitle } from '../components/HeroTitle';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { HeroTitle } from '../components/HeroTitle';
+import { DashboardShowcase } from '../components/DashboardShowcase';
+import { HowItWorks } from '../components/HowItWorks';
+import { LeaderboardPreview } from '../components/LeaderboardPreview';
+import { LiveReportsFeed } from '../components/LiveReportsFeed';
+import { AnimatedCounter } from '../components/AnimatedCounter';
 ---
 
 <Layout title="SovraEquitara — Civic Tech for Future Cities">
   <!-- Navigation -->
-  <nav class="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 rounded-2xl border border-zen-border dark:border-white/10 bg-white/80 dark:bg-black/40 backdrop-blur-xl shadow-lg dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] transition-all duration-300">
+  <nav class="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 rounded-2xl border border-stone-200/50 dark:border-white/10 bg-white/70 dark:bg-black/40 backdrop-blur-xl shadow-sm transition-all duration-300">
     <div class="px-4 sm:px-8">
-      <div class="flex items-center justify-between h-14 sm:h-16">
+      <div class="flex items-center justify-between h-16 sm:h-20">
         <a href="/" class="block hover:opacity-80 transition-opacity">
           <img src="/logo.svg" alt="SovraEquitara" class="h-10 sm:h-14 dark:brightness-0 dark:invert" />
         </a>
         
         <div class="hidden md:flex items-center gap-6 lg:gap-8">
-          <a href="#features" class="text-xs font-bold text-stone-600 dark:text-white/50 hover:text-stone-900 dark:hover:text-white transition-colors uppercase tracking-widest">Fitur</a>
-          <a href="#how" class="text-xs font-bold text-stone-600 dark:text-white/50 hover:text-stone-900 dark:hover:text-white transition-colors uppercase tracking-widest">Cara Kerja</a>
-          <a href="#stats" class="text-xs font-bold text-stone-600 dark:text-white/50 hover:text-stone-900 dark:hover:text-white transition-colors uppercase tracking-widest">Dampak</a>
+          <a href="#features" class="text-[11px] font-bold text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors uppercase tracking-[0.2em]">Fitur</a>
+          <a href="#how" class="text-[11px] font-bold text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors uppercase tracking-[0.2em]">Cara Kerja</a>
+          <a href="#leaderboard" class="text-[11px] font-bold text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors uppercase tracking-[0.2em]">Leaderboard</a>
         </div>
         
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 sm:gap-4">
           <ThemeToggle client:load />
-          <div id="nav-cta" class="flex items-center gap-3">
+          
+          {/* Mobile Menu Button */}
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-stone-600 dark:text-stone-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+
+          <div id="nav-cta" class="hidden md:flex items-center gap-3">
             <!-- Injected by JS -->
           </div>
+        </div>
+      </div>
+    </div>
+    
+    {/* Mobile Menu Dropdown */}
+    <div id="mobile-menu" class="hidden md:hidden border-t border-stone-200/50 dark:border-white/10 px-4 py-4 bg-white/95 dark:bg-black/95 backdrop-blur-xl rounded-b-2xl">
+      <div class="flex flex-col gap-4">
+        <a href="#features" class="text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-widest">Fitur</a>
+        <a href="#how" class="text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-widest">Cara Kerja</a>
+        <a href="#leaderboard" class="text-xs font-bold text-stone-600 dark:text-stone-300 uppercase tracking-widest">Leaderboard</a>
+        <div id="mobile-nav-cta" class="flex flex-col gap-2 pt-2 border-t border-stone-100 dark:border-white/5">
+           <!-- Injected by JS -->
         </div>
       </div>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <section class="pt-32 sm:pt-40 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden relative bg-gradient-to-b from-zen-bg to-white dark:from-zen-bg-dark dark:to-black transition-colors duration-300">
+  <section class="pt-32 sm:pt-48 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden relative bg-zen-bg dark:bg-zen-bg-dark transition-colors duration-300 min-h-[90vh] flex flex-col justify-center">
+    {/* Background Grid & Glows */}
+    <div class="absolute inset-0 bg-grid-pattern opacity-[0.15] dark:opacity-[0.05] pointer-events-none" />
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none -z-10">
-      <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-amber-500/20 dark:bg-amber-500/10 blur-[150px] rounded-full"></div>
-      <div class="absolute bottom-[0%] right-[-10%] w-[50%] h-[50%] bg-indigo-500/20 dark:bg-brand/10 blur-[150px] rounded-full"></div>
+      <div class="absolute top-[-10%] left-[10%] w-[40%] h-[40%] bg-amber-500/10 dark:bg-amber-500/5 blur-[120px] rounded-full"></div>
+      <div class="absolute bottom-[20%] right-[10%] w-[30%] h-[30%] bg-blue-500/10 dark:bg-blue-500/5 blur-[120px] rounded-full"></div>
     </div>
 
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center max-w-4xl mx-auto animate-fade-in relative z-10">
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/50 dark:bg-white/5 border border-stone-200 dark:border-white/10 rounded-full mb-8 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto w-full relative z-10">
+      <div class="text-center max-w-4xl mx-auto reveal-up">
+        {/* Badge */}
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-white/5 border border-stone-200/50 dark:border-white/10 rounded-full mb-8 sm:mb-10 backdrop-blur-md shadow-sm">
           <span class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
-          <span class="text-xs sm:text-sm font-bold text-stone-600 dark:text-gray-400">Civic Tech Innovation 2026</span>
+          <span class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-stone-600 dark:text-stone-400">Civic Tech Innovation 2026</span>
         </div>
         
         <HeroTitle client:load />
         
-        <p class="text-lg sm:text-xl text-stone-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-          Platform yang menghubungkan warga dengan pembuat kebijakan melalui pelaporan infrastruktur berbasis AI yang transparan dan terverifikasi.
+        <p class="text-lg sm:text-xl text-stone-500 dark:text-stone-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
+          Platform infrastruktur kota pintar generasi baru. Laporkan masalah, verifikasi dengan AI, dan pantau penyelesaiannya secara real-time.
         </p>
         
-        <div id="hero-cta" class="flex flex-col sm:flex-row items-center justify-center gap-5">
+        <div id="hero-cta" class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
           <!-- Injected by JS -->
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Trust Bar (Marquee) -->
+  <section class="py-10 bg-white dark:bg-[#050505] border-y border-stone-100 dark:border-white/[0.02] overflow-hidden flex items-center">
+    <div class="w-full flex gap-12 items-center text-stone-300 dark:text-stone-800 font-display font-extrabold text-2xl sm:text-3xl uppercase tracking-wider marquee-track">
+      <span>Dinas PUPR</span>
+      <span>•</span>
+      <span>Forum Warga</span>
+      <span>•</span>
+      <span>Smart City ID</span>
+      <span>•</span>
+      <span>Urban Future</span>
+      <span>•</span>
+      <span>Bappeda</span>
+      <span>•</span>
+      <span>Dinas PUPR</span>
+      <span>•</span>
+      <span>Forum Warga</span>
+      <span>•</span>
+      <span>Smart City ID</span>
+      <span>•</span>
+      <span>Urban Future</span>
+      <span>•</span>
+      <span>Bappeda</span>
     </div>
   </section>
 
   <!-- Dashboard Showcase Section -->
   <DashboardShowcase client:load />
 
-  <!-- Trust Bar -->
-  <section class="py-12 bg-stone-100 dark:bg-black border-y border-stone-200 dark:border-white/5 transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-center text-xs font-bold text-stone-500 dark:text-gray-500 tracking-widest mb-8">DIPERCAYA OLEH</p>
-      <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-        <div class="text-lg sm:text-xl font-bold text-stone-400 dark:text-gray-600">Dinas PUPR</div>
-        <div class="text-lg sm:text-xl font-bold text-stone-400 dark:text-gray-600">Forum Warga</div>
-        <div class="text-lg sm:text-xl font-bold text-stone-400 dark:text-gray-600">Smart City ID</div>
-        <div class="text-lg sm:text-xl font-bold text-stone-400 dark:text-gray-600">Urban Future</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section id="features" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-zen-bg-dark transition-colors duration-300">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-stone-900 dark:text-white">
-          Solusi Cerdas untuk Kota Pintar
+  <!-- Features Grid -->
+  <section id="features" class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-white dark:bg-black transition-colors duration-300">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 sm:mb-20">
+        <span class="inline-block text-xs font-bold uppercase tracking-[0.25em] text-stone-400 dark:text-stone-500 mb-4">Solusi Terpadu</span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white tracking-tight">
+          Dirancang untuk Transparansi
         </h2>
-        <p class="text-base sm:text-lg text-stone-600 dark:text-gray-400 max-w-2xl mx-auto font-medium">
-          Platform yang dirancang untuk efisiensi, akurasi, dan transparansi
-        </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
         <!-- Feature 1 -->
-        <div class="p-8 rounded-3xl bg-stone-50 dark:bg-white/5 border border-stone-200 dark:border-white/10 group hover:bg-stone-100 dark:hover:bg-white/10 transition-all">
-          <div class="w-12 h-12 bg-amber-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-            <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+        <div class="group p-8 sm:p-10 rounded-[2rem] bg-stone-50 dark:bg-white/[0.02] border border-stone-200/50 dark:border-white/[0.05] hover:bg-white dark:hover:bg-white/[0.04] transition-colors relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 dark:bg-amber-500/5 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-amber-500/20 transition-colors"></div>
+          <div class="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center mb-8">
+            <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
             </svg>
           </div>
-          <h3 class="text-xl font-bold mb-3 text-stone-900 dark:text-white">Presisi Geospasial</h3>
-          <p class="text-sm text-stone-600 dark:text-gray-400 leading-relaxed">Deteksi lokasi otomatis dengan akurasi tinggi menggunakan teknologi satelit</p>
+          <h3 class="text-2xl font-extrabold mb-4 text-stone-900 dark:text-white">Presisi Geospasial</h3>
+          <p class="text-stone-500 dark:text-stone-400 leading-relaxed font-medium">Pemetaan lokasi otomatis dengan akurasi satelit tinggi, memastikan tim teknis tiba di titik yang tepat tanpa hambatan.</p>
         </div>
 
         <!-- Feature 2 -->
-        <div class="p-8 rounded-3xl bg-stone-50 dark:bg-white/5 border border-stone-200 dark:border-white/10 group hover:bg-stone-100 dark:hover:bg-white/10 transition-all">
-          <div class="w-12 h-12 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        <div class="group p-8 sm:p-10 rounded-[2rem] bg-stone-50 dark:bg-white/[0.02] border border-stone-200/50 dark:border-white/[0.05] hover:bg-white dark:hover:bg-white/[0.04] transition-colors relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 dark:bg-blue-500/5 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-blue-500/20 transition-colors"></div>
+          <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-8">
+            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
           </div>
-          <h3 class="text-xl font-bold mb-3 text-stone-900 dark:text-white">Validasi AI</h3>
-          <p class="text-sm text-stone-600 dark:text-gray-400 leading-relaxed">Verifikasi gambar otomatis untuk mencegah laporan duplikat dan spam</p>
+          <h3 class="text-2xl font-extrabold mb-4 text-stone-900 dark:text-white">Validasi AI Otomatis</h3>
+          <p class="text-stone-500 dark:text-stone-400 leading-relaxed font-medium">Sistem kecerdasan buatan menyaring laporan duplikat, menganalisis gambar, dan memprioritaskan masalah kritis secara real-time.</p>
         </div>
 
         <!-- Feature 3 -->
-        <div class="p-8 rounded-3xl bg-stone-50 dark:bg-white/5 border border-stone-200 dark:border-white/10 group hover:bg-stone-100 dark:hover:bg-white/10 transition-all">
-          <div class="w-12 h-12 bg-green-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-3 text-stone-900 dark:text-white">Sistem Gamifikasi</h3>
-          <p class="text-sm text-stone-600 dark:text-gray-400 leading-relaxed">Dapatkan poin dan lencana untuk setiap kontribusi nyata bagi kota</p>
-        </div>
-
-        <!-- Feature 4 -->
-        <div class="p-8 rounded-3xl bg-stone-50 dark:bg-white/5 border border-stone-200 dark:border-white/10 group hover:bg-stone-100 dark:hover:bg-white/10 transition-all md:col-span-2 lg:col-span-3">
-          <div class="flex flex-col md:flex-row items-start md:items-center gap-8">
-            <div class="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-              <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-              </svg>
-            </div>
+        <div class="group p-8 sm:p-10 rounded-[2rem] bg-stone-50 dark:bg-white/[0.02] border border-stone-200/50 dark:border-white/[0.05] hover:bg-white dark:hover:bg-white/[0.04] transition-colors relative overflow-hidden md:col-span-2">
+          <div class="absolute top-0 right-0 w-[40rem] h-[40rem] bg-emerald-500/5 dark:bg-emerald-500/5 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/4 group-hover:bg-emerald-500/10 transition-colors"></div>
+          <div class="flex flex-col md:flex-row items-start md:items-center gap-10">
             <div class="flex-1">
-              <h3 class="text-2xl font-bold mb-3 text-stone-900 dark:text-white">Transparansi Real-time</h3>
-              <p class="text-base text-stone-600 dark:text-gray-400 leading-relaxed">Pantau setiap tahapan perbaikan dari verifikasi hingga penyelesaian langsung di dashboard Anda</p>
+              <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-8">
+                <svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-extrabold mb-4 text-stone-900 dark:text-white">Ekosistem Gamifikasi</h3>
+              <p class="text-stone-500 dark:text-stone-400 leading-relaxed font-medium">Setiap kontribusi warga dihargai. Kumpulkan poin reputasi, raih lencana eksklusif, dan bersaing secara positif di Leaderboard kota Anda.</p>
             </div>
-            <div class="flex items-center gap-3">
-              <div class="px-4 py-2 bg-amber-500/10 border border-amber-500/20 rounded-full text-xs font-bold text-amber-500">Lapor</div>
-              <svg class="w-4 h-4 text-stone-300 dark:text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-              <div class="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-xs font-bold text-blue-500">Proses</div>
-              <svg class="w-4 h-4 text-stone-300 dark:text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-              <div class="px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full text-xs font-bold text-green-500">Selesai</div>
+            
+            {/* Gamification Visual */}
+            <div class="w-full md:w-auto shrink-0 flex items-center gap-4 bg-white dark:bg-black/50 p-6 rounded-2xl border border-stone-100 dark:border-white/[0.05]">
+              <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-2xl">🏆</div>
+              <div>
+                <div class="text-sm font-bold text-stone-900 dark:text-white mb-1">Reputasi +50</div>
+                <div class="text-xs font-medium text-stone-500 dark:text-stone-400">Laporan tervalidasi</div>
+              </div>
             </div>
           </div>
         </div>
@@ -149,88 +175,109 @@ import { ThemeToggle } from '../components/ThemeToggle';
     </div>
   </section>
 
-  <!-- Stats -->
-  <section id="stats" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-zen-surface dark:bg-brand/10 border-y border-zen-border dark:border-white/5 transition-colors duration-300">
-    <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
-        <div class="text-center">
-          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 text-stone-900 dark:text-brand">14.8k+</div>
-          <div class="text-sm sm:text-base text-stone-500 dark:text-gray-400 font-bold uppercase tracking-widest">Laporan Tuntas</div>
-        </div>
-        <div class="text-center">
-          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 text-amber-500">25+</div>
-          <div class="text-sm sm:text-base text-stone-500 dark:text-gray-400 font-bold uppercase tracking-widest">Wilayah Tercover</div>
-        </div>
-        <div class="text-center">
-          <div class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 text-stone-900 dark:text-brand">200k+</div>
-          <div class="text-sm sm:text-base text-stone-500 dark:text-gray-400 font-bold uppercase tracking-widest">Poin Diberikan</div>
-        </div>
+  <!-- How It Works Section -->
+  <HowItWorks client:load />
+
+  <!-- Leaderboard Section -->
+  <LeaderboardPreview client:load />
+
+  <!-- Live Feed Section -->
+  <LiveReportsFeed client:load />
+
+  <!-- Stats Section -->
+  <section id="stats" class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-stone-50 dark:bg-white/[0.01] border-y border-stone-200/50 dark:border-white/[0.05] transition-colors duration-300">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-8">
+        <AnimatedCounter client:load value={14800} suffix="+" label="Laporan Tuntas" className="text-stone-900 dark:text-white" labelClassName="text-stone-400" />
+        <AnimatedCounter client:load value={25} suffix="+" label="Wilayah Tercover" className="text-amber-500" labelClassName="text-stone-400" />
+        <AnimatedCounter client:load value={200000} suffix="+" label="Poin Reputasi" className="text-stone-900 dark:text-white" labelClassName="text-stone-400" />
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-black transition-colors duration-300">
-    <div class="max-w-4xl mx-auto">
-      <div class="p-8 sm:p-16 rounded-[2rem] sm:rounded-[3rem] text-center bg-stone-50 dark:bg-gradient-to-br dark:from-white/5 dark:to-transparent border border-stone-200 dark:border-white/10 relative overflow-hidden shadow-xl">
-        <div class="absolute top-0 left-0 w-full h-full bg-amber-500/5 dark:bg-brand/5 blur-[100px] -z-10"></div>
-        <h2 class="text-3xl sm:text-5xl font-bold mb-6 text-stone-900 dark:text-white">
-          Siap Menjadi Pahlawan Warga?
-        </h2>
-        <p class="text-base sm:text-lg text-stone-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
-          Bergabunglah dengan ribuan warga lainnya dalam membangun infrastruktur kota yang lebih baik
-        </p>
-        <div id="cta-buttons" class="flex flex-col sm:flex-row items-center justify-center gap-6">
-          <!-- Injected by JS -->
+  <!-- CTA Section -->
+  <section class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-white dark:bg-black transition-colors duration-300">
+    <div class="max-w-5xl mx-auto">
+      <div class="p-10 sm:p-20 rounded-[2.5rem] sm:rounded-[3rem] text-center bg-stone-900 dark:bg-white/[0.03] border border-transparent dark:border-white/[0.05] relative overflow-hidden shadow-2xl">
+        <div class="absolute top-0 right-0 w-[40rem] h-[40rem] bg-amber-500/20 dark:bg-amber-500/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/3"></div>
+        <div class="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-blue-500/20 dark:bg-blue-500/10 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/3"></div>
+        
+        <div class="relative z-10">
+          <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 text-white tracking-tight">
+            Mulai Berdampak Hari Ini
+          </h2>
+          <p class="text-base sm:text-lg text-stone-300 dark:text-stone-400 mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
+            Bergabunglah dengan ribuan warga dan jadilah bagian dari perubahan positif infrastruktur kota kita.
+          </p>
+          <div id="cta-buttons" class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            <!-- Injected by JS -->
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-zen-bg dark:bg-black border-t border-zen-border dark:border-white/5 py-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+  <footer class="bg-zen-bg dark:bg-[#050505] border-t border-stone-200/50 dark:border-white/[0.05] py-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
     <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-        <div class="md:col-span-2">
-          <a href="/" class="block hover:opacity-80 transition-opacity">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+        <div class="md:col-span-5">
+          <a href="/" class="block hover:opacity-80 transition-opacity w-fit">
             <img src="/logo.svg" alt="SovraEquitara" class="h-14 mb-6 dark:brightness-0 dark:invert" />
           </a>
-          <p class="text-base text-stone-500 dark:text-gray-500 max-w-sm leading-relaxed">
-            Civic Tech Innovation untuk masa depan kota yang lebih baik. <br/> Mengubah setiap laporan menjadi aksi nyata.
+          <p class="text-sm text-stone-500 dark:text-stone-400 max-w-sm leading-relaxed font-medium">
+            Platform Civic Tech generasi baru untuk transparansi, partisipasi warga, dan pembangunan infrastruktur pintar.
           </p>
         </div>
-        <div>
-          <h4 class="font-bold text-stone-900 dark:text-white mb-6 uppercase tracking-widest text-xs">Produk</h4>
-          <ul class="space-y-3 text-sm text-stone-500 dark:text-gray-500">
-            <li><a href="#features" class="hover:text-stone-900 dark:hover:text-white transition-colors">Fitur Utama</a></li>
-            <li><a href="#stats" class="hover:text-stone-900 dark:hover:text-white transition-colors">Dampak Sosial</a></li>
+        <div class="md:col-span-2 md:col-start-8">
+          <h4 class="font-bold text-stone-900 dark:text-white mb-6 uppercase tracking-[0.2em] text-xs">Produk</h4>
+          <ul class="space-y-4 text-sm font-medium text-stone-500 dark:text-stone-400">
+            <li><a href="#features" class="hover:text-stone-900 dark:hover:text-white transition-colors">Fitur</a></li>
+            <li><a href="#how" class="hover:text-stone-900 dark:hover:text-white transition-colors">Cara Kerja</a></li>
+            <li><a href="#stats" class="hover:text-stone-900 dark:hover:text-white transition-colors">Statistik</a></li>
           </ul>
         </div>
-        <div>
-          <h4 class="font-bold text-stone-900 dark:text-white mb-6 uppercase tracking-widest text-xs">Komunitas</h4>
-          <ul class="space-y-3 text-sm text-stone-500 dark:text-gray-500">
-            <li><a href="/dashboard" class="hover:text-stone-900 dark:hover:text-white transition-colors">Leaderboard</a></li>
-            <li><a href="#" class="hover:text-stone-900 dark:hover:text-white transition-colors">Pusat Bantuan</a></li>
+        <div class="md:col-span-2">
+          <h4 class="font-bold text-stone-900 dark:text-white mb-6 uppercase tracking-[0.2em] text-xs">Komunitas</h4>
+          <ul class="space-y-4 text-sm font-medium text-stone-500 dark:text-stone-400">
+            <li><a href="#leaderboard" class="hover:text-stone-900 dark:hover:text-white transition-colors">Leaderboard</a></li>
+            <li><a href="/public-reports" class="hover:text-stone-900 dark:hover:text-white transition-colors">Laporan Terbuka</a></li>
           </ul>
         </div>
       </div>
-      <div class="pt-12 border-t border-stone-200 dark:border-white/5 text-center text-xs font-bold text-stone-400 dark:text-gray-600 tracking-widest">
-        <p>&copy; 2026 SOVRAEQUITARA. ALL RIGHTS RESERVED.</p>
+      <div class="pt-8 border-t border-stone-200/50 dark:border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-[11px] font-bold text-stone-400 dark:text-stone-600 uppercase tracking-[0.1em]">
+          &copy; 2026 SOVRAEQUITARA. ALL RIGHTS RESERVED.
+        </p>
       </div>
     </div>
   </footer>
 
   <script>
     document.addEventListener('astro:page-load', () => {
+      // Mobile Menu Toggle
+      const btn = document.getElementById('mobile-menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      if(btn && menu) {
+        btn.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+        });
+      }
+
+      // Auth state management
       const token = localStorage.getItem('access_token');
       const userRaw = localStorage.getItem('user');
       
       const navCta = document.getElementById('nav-cta');
+      const mobileNavCta = document.getElementById('mobile-nav-cta');
       const heroCta = document.getElementById('hero-cta');
       const ctaButtons = document.getElementById('cta-buttons');
 
-      const primaryBtnClass = "btn-primary text-sm sm:text-base px-8 py-3 rounded-2xl font-bold transition-all";
-      const secondaryBtnClass = "bg-stone-200 dark:bg-white/10 text-stone-900 dark:text-white border border-stone-300 dark:border-white/20 px-8 py-3 rounded-2xl text-sm sm:text-base font-bold hover:bg-stone-300 dark:hover:bg-white/20 transition-all";
+      // Shared button classes
+      const primaryBtnClass = "inline-flex items-center justify-center px-6 py-2.5 bg-stone-900 text-white dark:bg-white dark:text-black rounded-xl font-bold text-sm hover:scale-105 active:scale-95 transition-all shadow-sm";
+      const secondaryBtnClass = "inline-flex items-center justify-center px-6 py-2.5 bg-white text-stone-900 dark:bg-white/[0.05] dark:text-white border border-stone-200/50 dark:border-white/10 rounded-xl font-bold text-sm hover:bg-stone-50 dark:hover:bg-white/10 active:scale-95 transition-all shadow-sm";
+      const darkPrimaryBtnClass = "inline-flex items-center justify-center px-8 py-3.5 bg-white text-stone-900 rounded-xl font-bold text-sm sm:text-base hover:scale-105 active:scale-95 transition-all shadow-xl";
+      const darkSecondaryBtnClass = "inline-flex items-center justify-center px-8 py-3.5 bg-white/10 text-white border border-white/20 rounded-xl font-bold text-sm sm:text-base hover:bg-white/20 active:scale-95 transition-all backdrop-blur-md";
 
       if (token && userRaw) {
         const user = JSON.parse(userRaw);
@@ -238,32 +285,39 @@ import { ThemeToggle } from '../components/ThemeToggle';
         const isSuperAdmin = user.role === 'super_admin' || user.role === 'SUPER_ADMIN';
         const dashLink = isSuperAdmin ? '/superadmin/dashboard' : (isAdmin ? '/admin/dashboard' : '/dashboard');
 
-        if (navCta) {
-          navCta.innerHTML = `<a href="${dashLink}" class="${primaryBtnClass} !py-2 !px-6 !text-xs">Buka Dashboard</a>`;
-        }
+        const navDashBtn = `<a href="${dashLink}" class="${primaryBtnClass}">Dashboard</a>`;
+        if (navCta) navCta.innerHTML = navDashBtn;
+        if (mobileNavCta) mobileNavCta.innerHTML = navDashBtn;
+
         if (heroCta) {
-          heroCta.innerHTML = `<a href="${dashLink}" class="${primaryBtnClass} !px-10 !py-4 !text-lg">Lanjutkan ke Dashboard</a>`;
+          heroCta.innerHTML = `<a href="${dashLink}" class="${primaryBtnClass} !px-8 !py-3.5 !text-base">Masuk ke Dashboard</a>`;
         }
         if (ctaButtons) {
-          ctaButtons.innerHTML = `<a href="${dashLink}" class="${primaryBtnClass} !px-10 !py-4 !text-lg">Lanjutkan ke Dashboard</a>`;
+          ctaButtons.innerHTML = `<a href="${dashLink}" class="${darkPrimaryBtnClass}">Masuk ke Dashboard</a>`;
         }
       } else {
+        const loginLink = `<a href="/login" class="text-[11px] font-bold text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors uppercase tracking-[0.2em] mr-2">Masuk</a>`;
+        const registerLink = `<a href="/register" class="${primaryBtnClass}">Daftar</a>`;
+        
         if (navCta) {
-          navCta.innerHTML = `
-            <a href="/login" class="text-xs font-bold text-stone-600 dark:text-white/70 hover:text-stone-900 dark:hover:text-white transition-colors uppercase tracking-widest mr-4">Masuk</a>
-            <a href="/register" class="${primaryBtnClass} !py-2 !px-6 !text-xs">Gabung</a>
+          navCta.innerHTML = loginLink + registerLink;
+        }
+        if (mobileNavCta) {
+          mobileNavCta.innerHTML = `
+            <a href="/login" class="${secondaryBtnClass} w-full">Masuk</a>
+            <a href="/register" class="${primaryBtnClass} w-full">Daftar</a>
           `;
         }
         if (heroCta) {
           heroCta.innerHTML = `
-            <a href="/register" class="${primaryBtnClass} !px-10 !py-4 !text-lg">Mulai Lapor Gratis</a>
-            <a href="#features" class="${secondaryBtnClass} !px-10 !py-4 !text-lg">Lihat Cara Kerja</a>
+            <a href="/register" class="${primaryBtnClass} !px-8 !py-3.5 !text-base">Mulai Lapor Gratis</a>
+            <a href="#how" class="${secondaryBtnClass} !px-8 !py-3.5 !text-base">Pelajari Sistem</a>
           `;
         }
         if (ctaButtons) {
           ctaButtons.innerHTML = `
-            <a href="/register" class="${primaryBtnClass} !px-10 !py-4 !text-lg">Daftar Sekarang</a>
-            <a href="/login" class="${secondaryBtnClass} !px-10 !py-4 !text-lg">Masuk</a>
+            <a href="/register" class="${darkPrimaryBtnClass}">Daftar Sekarang</a>
+            <a href="/login" class="${darkSecondaryBtnClass}">Masuk ke Akun</a>
           `;
         }
       }
