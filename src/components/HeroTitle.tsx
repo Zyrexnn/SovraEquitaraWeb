@@ -4,17 +4,17 @@ import { SquigglyText } from "./ui/squiggly-text";
 
 export const HeroTitle = () => {
   return (
-    <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold mb-8 leading-[1.1] tracking-tight text-stone-900 dark:text-white flex flex-col items-center">
-      <SquigglyText 
-        stepDuration={40} 
-        scale={[10, 15]} 
-        className="text-amber-500 py-2"
-      >
-        Suarakan Perubahan,
-      </SquigglyText>
+    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-8 leading-[1.05] tracking-tight text-stone-900 dark:text-white flex flex-col items-center gap-1">
       <span className="text-stone-900 dark:text-white">
-        Bangun Kota Masa Depan
+        Suarakan Perubahan,
       </span>
+      <SquigglyText 
+        stepDuration={50} 
+        scale={[6, 10]} 
+        className="text-stone-500 dark:text-stone-400 py-1"
+      >
+        Bangun Kota Masa Depan
+      </SquigglyText>
     </h1>
   );
 };
