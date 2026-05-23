@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar.astro';
 ---
 
 <Layout title="Dashboard Warga — SovraEquitara">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <link rel="stylesheet" href="/libs/leaflet/leaflet.css" />
   
   <div class="flex transition-colors duration-300">
     <Sidebar activePage="dashboard" />
@@ -226,7 +226,7 @@ import Sidebar from '../components/Sidebar.astro';
   </div>
 
   <!-- Scripts -->
-  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script is:inline src="/libs/leaflet/leaflet.js"></script>
   
   <script is:inline define:vars={{ PUBLIC_API_URL: import.meta.env.PUBLIC_API_URL || 'http://localhost:3000' }}>
     const API_URL = PUBLIC_API_URL;
@@ -308,12 +308,33 @@ import Sidebar from '../components/Sidebar.astro';
         map.remove();
         map = null;
       }
-      const def = { lat: -6.2000, lng: 106.8166 };
-      map = L.map('map', { zoomControl: false }).setView([def.lat, def.lng], 13);
+
+      // Batas wilayah Indonesia
+      const INDONESIA_BOUNDS = L.latLngBounds(
+        L.latLng(-11.5, 94.0),
+        L.latLng(7.0, 142.0)
+      );
+      // Default ke pusat Indonesia (Kalimantan Tengah)
+      const def = { lat: -2.5, lng: 118.0 };
+
+      map = L.map('map', {
+        zoomControl: false,
+        maxBounds: INDONESIA_BOUNDS,
+        maxBoundsViscosity: 1.0,
+        minZoom: 5,
+        maxZoom: 18
+      }).setView([def.lat, def.lng], 5);
+
       const isDark = document.documentElement.classList.contains('dark');
-      L.tileLayer(isDark ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+      L.tileLayer(
+        isDark
+          ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+          : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+        { subdomains: 'abcd', maxZoom: 19, crossOrigin: true }
+      ).addTo(map);
+
       marker = L.marker([def.lat, def.lng], { draggable: true }).addTo(map);
-      
+
       const setCoords = (ll) => {
         document.getElementById('lat').value = ll.lat;
         document.getElementById('lng').value = ll.lng;
@@ -322,38 +343,56 @@ import Sidebar from '../components/Sidebar.astro';
       marker.on('dragend', (e) => setCoords(e.target.getLatLng()));
       map.on('click', (e) => { marker.setLatLng(e.latlng); setCoords(e.latlng); });
 
-      // Search Location Logic
+      // Search Location Logic — hanya Indonesia
       const searchBtn = document.getElementById('btn-search-loc');
       const searchInput = document.getElementById('search-address');
-      
+
       const doSearch = async () => {
-        const query = searchInput.value;
-        if(!query) return;
+        const query = searchInput.value.trim();
+        if (!query) return;
+        searchBtn.disabled = true;
+        searchBtn.textContent = '...';
         try {
-          const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+          // countrycodes=ID membatasi hasil ke Indonesia saja
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=ID&limit=1&accept-language=id`
+          );
           const data = await res.json();
-          if(data.length > 0) {
+          if (data.length > 0) {
             const first = data[0];
             const ll = { lat: parseFloat(first.lat), lng: parseFloat(first.lon) };
-            map.setView(ll, 16);
+            map.setView(ll, 15);
             marker.setLatLng(ll);
             setCoords(ll);
           } else {
-            window.showToast('Lokasi tidak ditemukan', 'error');
+            window.showToast('Lokasi tidak ditemukan di Indonesia', 'error');
           }
-        } catch(e) {
-          window.showToast('Gagal mencari lokasi', 'error');
+        } catch (e) {
+          window.showToast('Gagal mencari lokasi. Periksa koneksi internet.', 'error');
+        } finally {
+          searchBtn.disabled = false;
+          searchBtn.textContent = 'Cari';
         }
       };
 
       searchBtn.onclick = doSearch;
-      searchInput.onkeydown = (e) => { if(e.key === 'Enter') { e.preventDefault(); doSearch(); } };
+      searchInput.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); doSearch(); } };
 
-      if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(p => {
-          const ll = { lat: p.coords.latitude, lng: p.coords.longitude };
-          map.setView(ll, 15); marker.setLatLng(ll); setCoords(ll);
-        });
+      // GPS: gunakan lokasi user jika di dalam batas Indonesia
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (p) => {
+            const ll = { lat: p.coords.latitude, lng: p.coords.longitude };
+            // Validasi masih dalam batas Indonesia
+            if (INDONESIA_BOUNDS.contains(L.latLng(ll.lat, ll.lng))) {
+              map.setView(ll, 15);
+              marker.setLatLng(ll);
+              setCoords(ll);
+            }
+          },
+          () => { /* GPS denied — tetap di default */ },
+          { timeout: 8000 }
+        );
       }
     }
 
@@ -697,11 +736,22 @@ import Sidebar from '../components/Sidebar.astro';
         if (!isHidden) {
           setTimeout(() => {
             if (window.mMap) window.mMap.remove();
-            window.mMap = L.map('modal-map', { zoomControl: true }).setView([r.latitude, r.longitude], 16);
+            const INDONESIA_BOUNDS = L.latLngBounds(L.latLng(-11.5, 94.0), L.latLng(7.0, 142.0));
+            window.mMap = L.map('modal-map', {
+              zoomControl: true,
+              maxBounds: INDONESIA_BOUNDS,
+              maxBoundsViscosity: 0.9,
+              minZoom: 5
+            }).setView([r.latitude, r.longitude], 15);
             const isDark = document.documentElement.classList.contains('dark');
-            L.tileLayer(isDark ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(window.mMap);
+            L.tileLayer(
+              isDark
+                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+              { subdomains: 'abcd', crossOrigin: true }
+            ).addTo(window.mMap);
             L.marker([r.latitude, r.longitude]).addTo(window.mMap);
-          }, 100);
+          }, 150);
         }
       };
 
