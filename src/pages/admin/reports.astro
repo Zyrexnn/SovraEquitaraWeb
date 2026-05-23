@@ -5,8 +5,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 ---
 
 <Layout title="Arsip Laporan — Admin SovraEquitara">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <link rel="stylesheet" href="/libs/leaflet/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script is:inline src="/libs/leaflet/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script is:inline define:vars={{ API_URL }}>
     window.API_URL = API_URL;
   </script>
@@ -361,7 +361,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           if (!isHidden) {
             setTimeout(() => {
               if ((window as any).mMap) (window as any).mMap.remove();
-              (window as any).mMap = (window as any).L.map('admin-map', { zoomControl: true }).setView([r.latitude, r.longitude], 16);
+              (window as any).mMap = (window as any).L.map('admin-map', { zoomControl: true }).setView([r.latitude, r.longitude], 15);
               const isDark = document.documentElement.classList.contains('dark');
               (window as any).L.tileLayer(isDark ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo((window as any).mMap);
               (window as any).L.marker([r.latitude, r.longitude]).addTo((window as any).mMap);

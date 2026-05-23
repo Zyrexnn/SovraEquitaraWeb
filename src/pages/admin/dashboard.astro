@@ -5,8 +5,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 ---
 
 <Layout title="Admin Dashboard — SovraEquitara">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <link rel="stylesheet" href="/libs/leaflet/leaflet.css" />
+  <script is:inline src="/libs/leaflet/leaflet.js"></script>
   <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script is:inline define:vars={{ API_URL }}>
     window.API_URL = API_URL;
@@ -27,16 +27,23 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         </header>
 
         <!-- Stats Grid -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {[
-            { label: 'Total Reports', id: 'stat-total', color: 'text-zen-text dark:text-zen-text-dark' },
-            { label: 'Pending Review', id: 'stat-pending', color: 'text-amber-500' },
-            { label: 'Verified', id: 'stat-verified', color: 'text-green-500' },
-            { label: 'Resolved', id: 'stat-resolved', color: 'text-blue-500' }
+            { label: 'Total Laporan', id: 'stat-total', color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-500/10', border: 'border-indigo-100 dark:border-indigo-500/20', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>' },
+            { label: 'Pending Review', id: 'stat-pending', color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-500/10', border: 'border-amber-100 dark:border-amber-500/20', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>' },
+            { label: 'Terverifikasi', id: 'stat-verified', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-500/10', border: 'border-emerald-100 dark:border-emerald-500/20', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>' },
+            { label: 'Terselesaikan', id: 'stat-resolved', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-500/10', border: 'border-blue-100 dark:border-blue-500/20', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>' }
           ].map(stat => (
-            <div class="bg-zen-card dark:bg-zen-card-dark p-5 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl border border-zen-border dark:border-zen-border-dark shadow-zen hover:shadow-lg transition-all duration-500 group overflow-hidden">
-              <div class="text-[9px] sm:text-[10px] font-black text-stone-400 uppercase tracking-widest sm:tracking-[0.2em] truncate">{stat.label}</div>
-              <div id={stat.id} class={`text-3xl sm:text-4xl lg:text-5xl font-black mt-2 sm:mt-4 tracking-tighter ${stat.color} group-hover:scale-105 transition-transform origin-left`}>0</div>
+            <div class={`p-6 rounded-[24px] border shadow-sm ${stat.bg} ${stat.border} flex flex-col justify-between group transition-all duration-300 hover:shadow-md hover:-translate-y-1`}>
+              <div class="flex justify-between items-start mb-6">
+                <div class={`p-3 rounded-2xl bg-white dark:bg-stone-900 shadow-sm ${stat.color}`}>
+                  <Fragment set:html={stat.icon} />
+                </div>
+              </div>
+              <div>
+                <div id={stat.id} class={`text-3xl lg:text-4xl font-black ${stat.color} tracking-tight`}>0</div>
+                <div class="text-xs lg:text-sm font-bold text-stone-600 dark:text-stone-400 mt-1">{stat.label}</div>
+              </div>
             </div>
           ))}
         </div>
@@ -355,6 +362,13 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           reportsData.filter(r => r.created_at.startsWith(date)).length
         );
 
+        const ctx = trendCtx.getContext('2d');
+        const gradient = ctx?.createLinearGradient(0, 0, 0, 400);
+        if(gradient) {
+          gradient.addColorStop(0, 'rgba(99, 102, 241, 0.4)');
+          gradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
+        }
+
         if (trendChart) trendChart.destroy();
         trendChart = new Chart(trendCtx, {
           type: 'line',
@@ -363,12 +377,16 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             datasets: [{
               label: 'Laporan',
               data: dailyCounts,
-              borderColor: '#3B82F6',
-              backgroundColor: 'rgba(59, 130, 246, 0.1)',
+              borderColor: '#6366F1',
+              backgroundColor: gradient || 'rgba(99, 102, 241, 0.1)',
               fill: true,
+              borderWidth: 3,
               tension: 0.4,
               pointRadius: 4,
-              pointBackgroundColor: '#3B82F6'
+              pointHoverRadius: 6,
+              pointBackgroundColor: '#fff',
+              pointBorderColor: '#6366F1',
+              pointBorderWidth: 2
             }]
           },
           options: {
@@ -396,6 +414,13 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           .sort((a: any, b: any) => b[1] - a[1])
           .slice(0, 5);
 
+        const ctx = locCtx.getContext('2d');
+        const gradient = ctx?.createLinearGradient(0, 0, 300, 0);
+        if(gradient) {
+          gradient.addColorStop(0, '#8B5CF6');
+          gradient.addColorStop(1, '#C4B5FD');
+        }
+
         if (locationChart) locationChart.destroy();
         locationChart = new Chart(locCtx, {
           type: 'bar',
@@ -403,8 +428,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             labels: topLocs.map(x => x[0]),
             datasets: [{
               data: topLocs.map(x => x[1]),
-              backgroundColor: '#8B5CF6',
-              borderRadius: 8,
+              backgroundColor: gradient || '#8B5CF6',
+              borderRadius: 6,
               barThickness: 24
             }]
           },
@@ -537,11 +562,25 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           if (!isHidden) {
             setTimeout(() => {
               if ((window as any).mMap) (window as any).mMap.remove();
-              (window as any).mMap = (window as any).L.map('admin-map', { zoomControl: true }).setView([r.latitude, r.longitude], 16);
+              const IDB = (window as any).L.latLngBounds(
+                (window as any).L.latLng(-11.5, 94.0),
+                (window as any).L.latLng(7.0, 142.0)
+              );
+              (window as any).mMap = (window as any).L.map('admin-map', {
+                zoomControl: true,
+                maxBounds: IDB,
+                maxBoundsViscosity: 0.9,
+                minZoom: 5
+              }).setView([r.latitude, r.longitude], 15);
               const isDark = document.documentElement.classList.contains('dark');
-              (window as any).L.tileLayer(isDark ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo((window as any).mMap);
+              (window as any).L.tileLayer(
+                isDark
+                  ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                  : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+                { subdomains: 'abcd', crossOrigin: true }
+              ).addTo((window as any).mMap);
               (window as any).L.marker([r.latitude, r.longitude]).addTo((window as any).mMap);
-            }, 100);
+            }, 150);
           }
         };
       }
