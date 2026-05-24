@@ -1,0 +1,190 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Sidebar from '../components/Sidebar.astro';
+const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+---
+
+<Layout title="AI Assistant Warga — SovraEquitara">
+  <script is:inline src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style is:inline>
+    .markdown-body { color: inherit; }
+    .markdown-body p { margin-bottom: 0.5rem; }
+    .markdown-body ul { list-style: disc; margin-left: 1.5rem; margin-bottom: 0.5rem; }
+    .markdown-body ol { list-style: decimal; margin-left: 1.5rem; margin-bottom: 0.5rem; }
+    .markdown-body strong { font-weight: 800; }
+    .markdown-body pre { background-color: rgba(0,0,0,0.05); padding: 0.5rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 0.5rem; }
+  </style>
+
+  <script is:inline define:vars={{ API_URL }}>
+    window.API_URL = API_URL;
+  </script>
+
+  <div class="flex transition-colors duration-300" id="user-ai-root" data-api-url={API_URL}>
+    <Sidebar activePage="ai-assistant" />
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto lg:ml-[280px] p-6 pt-24 lg:pt-10 max-w-[1600px] w-full mx-auto pb-24 lg:pb-10 flex flex-col min-h-screen">
+      <div class="max-w-[1000px] mx-auto w-full flex flex-col h-[calc(100vh-8rem)]">
+        
+        <header class="mb-6 lg:mb-8 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]">
+          <h1 class="text-[28px] lg:text-[32px] font-extrabold tracking-tight m-0 text-zen-text dark:text-zen-text-dark">Tanya <span class="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">AI</span></h1>
+          <p class="text-sm lg:text-base font-semibold text-zen-muted dark:text-zen-muted-dark mt-1">Asisten pribadi Anda untuk memandu fitur SovraEquitara.</p>
+        </header>
+
+        <!-- Chat Container -->
+        <div class="flex-1 flex flex-col bg-zen-card dark:bg-zen-card-dark rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark shadow-zen overflow-hidden animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
+          
+          <!-- Chat Window -->
+          <div id="chat-window" class="flex-1 p-6 lg:p-8 overflow-y-auto space-y-6 flex flex-col scrollbar-thin">
+            <!-- Greeting Message -->
+            <div class="flex gap-4 self-start max-w-[85%]">
+              <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 border border-emerald-200 dark:border-emerald-500/30 text-xl font-bold">🍃</div>
+              <div class="bg-zen-surface dark:bg-zen-surface-dark p-4 lg:p-5 rounded-2xl rounded-tl-none text-sm font-medium text-zen-text dark:text-zen-text-dark markdown-body border border-zen-border dark:border-zen-border-dark shadow-soft">
+                <p>Halo Warga! Saya adalah AI Assistant dari SovraEquitara.</p>
+                <p>Saya dapat membantu Anda memahami cara melapor, melihat status laporan Anda, dan memberi panduan platform. Ada yang bisa saya bantu?</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input Area -->
+          <div class="p-4 lg:p-6 border-t border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark">
+            
+            <!-- Quick Suggestions -->
+            <div class="flex overflow-x-auto gap-2 mb-4 scrollbar-hide pb-2">
+              <button onclick="document.getElementById('chat-input').value='Bagaimana cara membuat laporan baru?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="shrink-0 px-4 py-2 rounded-xl bg-white dark:bg-stone-800 border border-zen-border dark:border-zen-border-dark text-[11px] font-extrabold text-zen-muted dark:text-zen-muted-dark hover:border-brand hover:text-brand dark:hover:border-white dark:hover:text-white transition-colors cursor-pointer">
+                ✍️ Cara Melapor
+              </button>
+              <button onclick="document.getElementById('chat-input').value='Apa status dari laporan saya yang terakhir?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="shrink-0 px-4 py-2 rounded-xl bg-white dark:bg-stone-800 border border-zen-border dark:border-zen-border-dark text-[11px] font-extrabold text-zen-muted dark:text-zen-muted-dark hover:border-brand hover:text-brand dark:hover:border-white dark:hover:text-white transition-colors cursor-pointer">
+                🔍 Status Laporan
+              </button>
+              <button onclick="document.getElementById('chat-input').value='Kapan laporan biasanya selesai ditangani?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="shrink-0 px-4 py-2 rounded-xl bg-white dark:bg-stone-800 border border-zen-border dark:border-zen-border-dark text-[11px] font-extrabold text-zen-muted dark:text-zen-muted-dark hover:border-brand hover:text-brand dark:hover:border-white dark:hover:text-white transition-colors cursor-pointer">
+                ⏱️ Waktu Penanganan
+              </button>
+            </div>
+
+            <form id="chat-form" class="flex items-end gap-3 relative">
+              <textarea 
+                id="chat-input" 
+                rows="1"
+                placeholder="Tanyakan sesuatu..." 
+                class="w-full pl-5 pr-14 py-3.5 lg:py-4 bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark rounded-2xl text-sm font-bold outline-none focus:ring-4 focus:ring-brand/10 dark:focus:ring-white/10 resize-none min-h-[52px] max-h-32 scrollbar-thin text-zen-text dark:text-zen-text-dark transition-all placeholder:text-zen-muted"
+              ></textarea>
+              <button type="submit" class="absolute right-2 bottom-2 w-10 h-10 lg:w-11 lg:h-11 bg-brand dark:bg-white hover:bg-brand/90 dark:hover:bg-stone-200 text-white dark:text-brand rounded-xl shadow-lg transition-transform hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 flex items-center justify-center cursor-pointer border-none">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    import { showToast } from '../lib/toast';
+    const root = document.getElementById("user-ai-root");
+    const API_URL = root?.dataset.apiUrl || "http://localhost:3000";
+    
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("chat-input");
+    const chatWindow = document.getElementById("chat-window");
+
+    function checkAuth() {
+      const token = localStorage.getItem("access_token");
+      if (!token) return window.location.href = "/login";
+    }
+
+    input?.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+      if(this.value === '') this.style.height = '52px';
+    });
+
+    input?.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        form?.dispatchEvent(new Event('submit'));
+      }
+    });
+
+    function addMessage(text, isUser = false) {
+      const div = document.createElement("div");
+      div.className = `flex gap-4 max-w-[85%] w-full ${isUser ? 'self-end flex-row-reverse' : 'self-start'}`;
+      
+      const avatar = document.createElement("div");
+      avatar.className = `w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold ${isUser ? 'bg-brand dark:bg-white text-white dark:text-brand text-sm' : 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 text-xl'}`;
+      
+      if (isUser) {
+        const userObj = JSON.parse(localStorage.getItem('user') || '{}');
+        avatar.innerText = (userObj.full_name || userObj.name || 'W')[0].toUpperCase();
+      } else {
+        avatar.innerText = '🍃';
+      }
+      
+      const bubble = document.createElement("div");
+      bubble.className = `p-4 lg:p-5 rounded-2xl text-sm font-medium w-full overflow-hidden shadow-soft ${isUser ? 'bg-brand dark:bg-white text-white dark:text-brand rounded-tr-none' : 'bg-zen-surface dark:bg-zen-surface-dark text-zen-text dark:text-zen-text-dark border border-zen-border dark:border-zen-border-dark rounded-tl-none markdown-body'}`;
+      
+      if(isUser) {
+         bubble.innerText = text;
+      } else {
+         let html = marked.parse(text);
+         bubble.innerHTML = html;
+      }
+
+      div.appendChild(avatar);
+      div.appendChild(bubble);
+      
+      chatWindow?.appendChild(div);
+      chatWindow?.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
+      return bubble;
+    }
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const val = (input).value.trim();
+      if(!val) return;
+
+      const token = localStorage.getItem("access_token");
+      if (!token) return;
+
+      addMessage(val, true);
+      input.value = '';
+      input.style.height = '52px';
+
+      const loadingBubble = addMessage("Sedang berpikir...", false);
+      loadingBubble.classList.add("animate-pulse");
+
+      try {
+        const res = await fetch(`${API_URL}/api/ai-assistant`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            query: val,
+            model: "local" // Always local for user as per plan
+          })
+        });
+        
+        const data = await res.json();
+        loadingBubble.parentElement?.remove();
+
+        if (res.ok) {
+          addMessage(data.response, false);
+        } else {
+          addMessage(`Maaf, terjadi kesalahan: ${data.error}`, false);
+        }
+      } catch(err) {
+        loadingBubble.parentElement?.remove();
+        addMessage(`Maaf, tidak dapat terhubung ke server AI.`, false);
+      }
+    });
+
+    document.addEventListener('astro:page-load', () => {
+      checkAuth();
+    });
+    if (document.readyState === 'complete') checkAuth();
+
+  </script>
+</Layout>

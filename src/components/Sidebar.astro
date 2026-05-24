@@ -65,6 +65,12 @@ const { activePage } = Astro.props;
         <span>Riwayat Laporan</span>
         {activePage === 'history' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
       </a>
+      <a href="/ai-assistant" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'ai-assistant' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
+        {activePage === 'ai-assistant' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-emerald-500 rounded-full" transition:name="nav-indicator"></span>}
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M12 2a10 10 0 1 0 10 10H12V2Z"></path><path d="M12 12 2.1 14.9"></path><path d="M12 12 14.9 2.1"></path></svg>
+        <span>Tanya AI</span>
+        {activePage === 'ai-assistant' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500"></span>}
+      </a>
       <a href="/chat" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'chat' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
         {activePage === 'chat' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
