@@ -190,7 +190,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
   </div>
 
   <!-- POPUP DETAIL REPORT -->
-  <div id="report-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6 lg:p-12">
+  <div id="report-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4 sm:p-6 lg:p-12">
     <div class="absolute inset-0 bg-stone-900/40 dark:bg-black/80 backdrop-blur-sm transition-opacity" onclick="window.closeModal()"></div>
     <div class="relative bg-zen-card dark:bg-zen-card-dark w-full max-w-5xl max-h-[90vh] rounded-[32px] shadow-2xl border border-zen-border dark:border-zen-border-dark overflow-hidden flex flex-col scale-95 opacity-0 transition-all duration-300" id="modal-content">
       <div class="px-6 py-5 lg:px-10 lg:py-8 flex items-center justify-between border-b border-zen-border dark:border-zen-border-dark bg-white/50 dark:bg-stone-900/50 backdrop-blur-xl sticky top-0 z-20">
