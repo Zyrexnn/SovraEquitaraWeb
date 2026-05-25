@@ -1,84 +1,98 @@
 # 🪪 Identitas Project: SovraEquitara
 
 ## 1. Visi & Misi
-**SovraEquitara** adalah platform tata kelola kota digital yang bertujuan untuk memberikan keadilan (Equitara) dalam pemenuhan infrastruktur publik. Platform ini dirancang untuk mendemokratisasi proses pelaporan masalah kota, memastikan setiap suara warga didengar, diproses, dan diselesaikan secara transparan.
+**SovraEquitara** adalah platform tata kelola kota digital yang bertujuan untuk memberikan keadilan (Equitara) dalam pemenuhan infrastruktur publik. Platform ini dirancang untuk mendemokratisasi proses pelaporan masalah kota, memastikan setiap suara warga didengar, diproses, diselesaikan secara transparan, dan dimonitor secara real-time.
 
 ---
 
 ## 2. Visual & Design Identity (Zen Design System)
-Platform ini menggunakan **Zen Design System**, sebuah pendekatan minimalis yang mengedepankan ketenangan visual tanpa mengorbankan fungsionalitas.
+Platform ini menggunakan **Zen Design System**, sebuah pendekatan minimalis yang mengedepankan ketenangan visual tanpa mengorbankan fungsionalitas dan UX (User Experience).
 
 - **Typography**: 
   - **Display**: `Plus Jakarta Sans` (Font modern dengan keterbacaan tinggi untuk judul).
   - **Body**: `Inter` (Standar industri untuk teks panjang).
 - **Color Palette (Tailwind Integrated)**:
-  - `zen-bg`: `#FAFAF9` (Off-white yang nyaman di mata).
-  - `zen-sidebar`: `#FFFFFF` (Putih bersih untuk kontras navigasi).
-  - `zen-brand`: `#1A1A1A` (Hitam pekat untuk aksen utama).
-  - `zen-blue`: `#3B82F6` (Biru untuk status 'Valid').
-  - `zen-green`: `#10B981` (Hijau untuk status 'Resolved').
-  - `zen-yellow`: `#F59E0B` (Kuning untuk status 'Pending').
+  - `zen-bg`: `#FAFAF9` (Off-white yang nyaman di mata) / Dark Mode terintegrasi.
+  - `zen-surface`: Latar belakang komponen yang bersih dengan border yang sangat halus.
+  - `zen-brand`: Aksen hitam pekat (Light) atau Putih (Dark).
+  - `zen-blue` / `emerald` / `orange`: Indikator status (Valid, Resolved, Pending).
 - **Visual Effects**:
-  - **Glassmorphism**: Penggunaan `backdrop-blur-xl` pada navigasi dan modal.
-  - **Subtle Shadows**: `shadow-zen` yang sangat lembut untuk kedalaman visual.
-  - **Large Radii**: Penggunaan konsisten `rounded-2xl` dan `rounded-3xl` untuk kesan ramah dan modern.
+  - **Glassmorphism**: Penggunaan `backdrop-blur-xl` pada navigasi mobile dan modal.
+  - **Subtle Shadows**: `shadow-zen` yang sangat lembut untuk memberikan kedalaman visual pada "Bento Grid".
+  - **Large Radii**: Penggunaan radius besar (`rounded-2xl`, `rounded-3xl`) untuk kesan ramah, modern, dan tidak kaku.
 
 ---
 
 ## 3. Technology Stack (The Core)
 
-### **Frontend Infrastructure**
-- **Framework**: **Astro v4.x** (Static-first dengan Islands Architecture).
-- **UI Logic**: **React v18** & **TypeScript** (untuk komponen interaktif seperti Modals & Toggles).
-- **Styling**: **Tailwind CSS v4.0** (100% utility-first, nol file CSS manual).
-- **Mapping**: **Leaflet.js** & **OpenStreetMap** (Sistem koordinat real-time).
-- **Analytics**: **Chart.js** (Visualisasi statistik administratif).
+### **Frontend Infrastructure (fe)**
+- **Framework**: **Astro v4.x** (Static-first dengan arsitektur responsif dan load yang sangat cepat).
+- **UI Logic**: **Vanilla JavaScript (Inline Scripts)** untuk performa interaktivitas tertinggi tanpa overhead virtual DOM.
+- **Styling**: **Tailwind CSS v4.0** (100% utility-first, mendukung fitur Dark Mode sistematis).
+- **Mapping**: **Leaflet.js** & **OpenStreetMap** (Sistem koordinat real-time dengan interaksi peta interaktif).
+- **AI UI Integration**: Marked.js untuk *parsing* output Markdown dari AI Assistant.
 
-### **Backend Infrastructure**
+### **Backend Infrastructure (be)**
 - **Language**: **Go (Golang) v1.21+**.
-- **Web Framework**: **Fiber v2** (Framework tercepat untuk Go).
-- **Database**: **PostgreSQL** (Managed persistence).
-- **Security**: **JWT (JSON Web Tokens)** dengan sistem validasi middleware kustom.
-- **API Spec**: RESTful architecture.
+- **Web Framework**: **Fiber v2** (Framework backend berkinerja tinggi).
+- **ORM**: **GORM** untuk kemudahan pemetaan relasi database.
+- **Database**: **PostgreSQL** (Relational Database Management System utama).
+- **Security**: **JWT (JSON Web Tokens)** dengan sistem validasi middleware kustom per-role.
+- **AI Server**: Terintegrasi dengan **Local LLM via LM Studio** (OpenAI-compatible endpoint `http://127.0.0.1:1234/v1`).
 
 ---
 
-## 4. Arsitektur Fitur
+## 4. Hirarki Role & Hak Akses
 
-### **Citizen Module (Portal Warga)**
-1. **Dashboard Bento**: Layout grid responsif yang menampilkan ringkasan aktivitas warga.
+Sistem memiliki tiga tingkatan akses utama:
+1. **Warga (Citizen)**: Pengguna publik yang membuat laporan.
+2. **Admin**: Moderator pengelola kota yang meninjau dan menyelesaikan laporan.
+3. **Super Admin**: Pemegang otoritas tertinggi yang mengatur sistem dan seluruh tingkatan akun.
+
+---
+
+## 5. Arsitektur Fitur Utama
+
+### **A. Modul Warga (Citizen Portal)**
+1. **Dashboard Bento**: Layout grid dinamis yang menampilkan ringkasan cuaca/waktu, status laporan pribadi, leaderboard, dan feed laporan terbaru.
 2. **Smart Reporting System**:
-   - Geolocation tagging otomatis.
-   - Image upload dengan kompresi client-side.
-   - Kategori dinamis (Infrastruktur, Kebersihan, Keamanan, dll).
+   - Deteksi Geolocation otomatis via Leaflet.
+   - Lampiran bukti visual (gambar).
+   - Klasifikasi kategori masalah (Infrastruktur, Kebersihan, Keamanan, dll).
 3. **Social Engagement Feed**:
-   - Sistem Upvote (Dukungan) untuk meningkatkan prioritas laporan.
-   - Kolom diskusi real-time antara warga dan admin.
-4. **Gamification**: Sistem poin dan peringkat berdasarkan kontribusi laporan yang valid.
+   - Sistem Upvote (Dukungan) untuk laporan warga lain.
+   - Kolom diskusi publik di setiap laporan.
+4. **Chat Inbox**: Berkomunikasi langsung dengan tim Admin kota untuk kendala spesifik.
+5. **Gamification (Leaderboard)**: Sistem poin kompetitif yang diberikan setiap kali Warga membuat laporan yang disetujui (Valid).
+6. **Tanya AI (AI Assistant)**: Asisten kecerdasan buatan (*local model*) yang merangkum status laporan pengguna, membimbing cara penggunaan aplikasi, dan memberikan jawaban kontekstual.
 
-### **Administrative Module (Portal Admin)**
-1. **Decision Support Dashboard**: Visualisasi data laporan masuk vs terselesaikan.
+### **B. Modul Admin (Management Portal)**
+1. **Decision Support Dashboard**: Visualisasi analitik komprehensif, jumlah laporan masuk vs selesai, dan daftar prioritas.
 2. **Report Lifecycle Management**:
-   - Perubahan status: `PENDING` → `IN_PROGRESS` → `RESOLVED`.
-   - Verifikasi bukti visual langsung dari dashboard.
-3. **User Management**: Kontrol terhadap akun warga dan moderator.
-4. **Interactive Map Overview**: Melihat sebaran masalah kota berdasarkan titik koordinat pada peta besar.
+   - Validasi status laporan: `PENDING` → `VALID` / `WAITING_APPROVAL` → `RESOLVED` atau `REJECTED`.
+3. **Interactive Map Overview**: Tinjauan geografis (peta penuh) untuk melihat sebaran titik masalah infrastruktur se-kota.
+4. **Global Chat Inbox**: Menjawab pesan dan keluhan pribadi dari seluruh warga.
+5. **Broadcast System**: Menerbitkan pengumuman resmi dari pemerintah kota yang akan muncul di notifikasi warga.
+6. **Admin AI Assistant**: Asisten AI tingkat lanjut untuk membantu moderator menganalisis tren laporan dan merumuskan respon diskusi.
+
+### **C. Modul Super Admin (System Portal)**
+Seluruh fitur yang dimiliki **Admin**, ditambah dengan:
+1. **Admins Management**: Mendaftarkan, memantau, dan menghapus akun Admin kota.
+2. **Users Directory**: Memantau seluruh direktori Warga (Citizens) yang terdaftar di dalam platform.
 
 ---
 
-## 5. Standar Keamanan & Performa
-- **Authentication**: Token-based authentication dengan masa berlaku 72 jam.
-- **Frontend Build**: Optimized static assets via Vite (Astro compiler).
-- **Backend Build**: Compiled binary Go untuk eksekusi ultra-cepat.
-- **Accessibility**: Mematuhi standar kontras warna WCAG untuk aksesibilitas yang baik.
+## 6. Standar Integrasi & Komunikasi
+- **RESTful API**: Komunikasi antara Astro Frontend dan Golang Backend terjadi sepenuhnya via API berformat JSON.
+- **Local AI Prompting**: AI Assistant diatur sedemikian rupa melalui *System Prompts* di handler backend (`be/internal/handler/handler.go`) agar bisa mengekstrak data dari database (misal: menghitung statistik laporan user) sebelum diumpankan ke model LLM (contoh: Llama-3/Mistral di LM Studio).
 
 ---
 
-## 6. Lokasi Pengembangan
-- **Repository Frontend**: `SovraEquitaraWeb`
-- **Repository Backend**: `SovraEquitara-BE`
-- **Status Refactor**: **100% Migrated to Tailwind CSS** (Mei 2026).
+## 7. Lokasi Pengembangan
+- **Repository Frontend**: `SovraEquitaraWeb` (`/fe`)
+- **Repository Backend**: `SovraEquitara-BE` (`/be`)
+- **Status Proyek**: **100% Migrated to Tailwind CSS** & Full Integrated AI Workflow.
 
 ---
 
-© 2026 **SovraEquitara Core Team**. *Membangun masa depan kota yang lebih adil dan efisien.*
+© 2026 **SovraEquitara Core Team**. *Membangun masa depan kota yang lebih transparan, responsif, dan adil dengan kecerdasan buatan.*

@@ -78,8 +78,8 @@ export const HowItWorks = () => {
           <span className="inline-block text-xs font-bold uppercase tracking-[0.25em] text-stone-400 dark:text-stone-500 mb-4">
             Cara Kerja
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white tracking-tight">
-            Tiga Langkah Sederhana
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-stone-900 to-stone-600 dark:from-white dark:to-stone-400 tracking-tight pb-2">
+            Bagaimana SovraEquitara <span className="text-blue-500">Bekerja</span>
           </h2>
         </motion.div>
 

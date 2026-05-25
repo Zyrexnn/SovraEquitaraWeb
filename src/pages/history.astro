@@ -85,6 +85,13 @@ import Sidebar from '../components/Sidebar.astro';
                   <span id="detail-cat" class="text-[11px] font-extrabold bg-zen-surface dark:bg-zen-surface-dark px-3 py-1.5 rounded-lg border border-zen-border dark:border-zen-border-dark"></span>
                   <span id="detail-status" class="text-[11px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider"></span>
                 </div>
+                <div class="flex items-center gap-3 mb-4 p-3 rounded-xl bg-zen-bg dark:bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark">
+                  <div class="w-10 h-10 rounded-full overflow-hidden border border-zen-border dark:border-zen-border-dark shrink-0" id="detail-reporter-avatar"></div>
+                  <div class="flex flex-col">
+                    <span class="text-sm font-bold text-zen-text dark:text-zen-text-dark" id="detail-reporter-name">Memuat...</span>
+                    <span class="text-xs text-zen-muted dark:text-zen-muted-dark">Pelapor</span>
+                  </div>
+                </div>
                 <h2 id="detail-desc" class="text-xl lg:text-2xl font-extrabold m-0 tracking-tight leading-tight mb-6"></h2>
                 <div class="p-4 rounded-2xl my-6 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark text-sm">
                   <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
@@ -249,6 +256,12 @@ import Sidebar from '../components/Sidebar.astro';
         else if (statusClass === "waiting_approval") statusStyles = "bg-purple-50 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200/50 dark:border-purple-500/20";
         else if (statusClass === "resolved") statusStyles = "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-500/20";
 
+        const reporterName = r.profile?.full_name || user?.name || 'Warga';
+        const reporterAvatarUrl = r.profile?.avatar_url || user?.avatar_url;
+        const reporterAvatar = reporterAvatarUrl 
+          ? `<img src="${reporterAvatarUrl.startsWith('http') ? reporterAvatarUrl : API_URL + reporterAvatarUrl}" class="w-full h-full object-cover" />` 
+          : `<div class="w-full h-full bg-brand flex items-center justify-center text-white font-bold text-[8px]">${reporterName[0].toUpperCase()}</div>`;
+
         return `
           <div class="group grid grid-cols-1 lg:grid-cols-[1fr_180px_160px_140px] p-6 lg:p-5 lg:px-8 border-b border-zen-border dark:border-zen-border-dark lg:items-center gap-4 transition-all hover:bg-zen-surface dark:hover:bg-zen-surface-dark cursor-pointer last:border-0" onclick="window.openDetail('${r.id}')">
             <div class="flex gap-4 items-center">
@@ -256,6 +269,12 @@ import Sidebar from '../components/Sidebar.astro';
                 ${r.image_urls && r.image_urls.length > 0 ? `<img src="${API_URL}${r.image_urls[0]}" class="w-full h-full object-cover" />` : `<span class="text-xl">📄</span>`}
               </div>
               <div class="min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                  <div class="w-5 h-5 rounded-full overflow-hidden border border-zen-border dark:border-zen-border-dark shrink-0">
+                    ${reporterAvatar}
+                  </div>
+                  <span class="text-[11px] font-bold text-zen-text dark:text-zen-text-dark">${reporterName}</span>
+                </div>
                 <h4 class="text-[15px] font-black mb-1.5 leading-snug text-zen-text dark:text-zen-text-dark truncate">${r.description}</h4>
                 <div class="flex items-center gap-2 text-xs font-bold text-zen-muted truncate">
                    <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
@@ -297,6 +316,15 @@ import Sidebar from '../components/Sidebar.astro';
         imgBox.classList.remove('hidden', 'cursor-zoom-in');
         imgBox.onclick = null;
       } else { imgBox.classList.add('hidden'); }
+
+      const reporterName = r.profile?.full_name || user?.name || 'Warga';
+      const reporterAvatarUrl = r.profile?.avatar_url || user?.avatar_url;
+      const reporterAvatar = reporterAvatarUrl 
+        ? `<img src="${reporterAvatarUrl.startsWith('http') ? reporterAvatarUrl : API_URL + reporterAvatarUrl}" class="w-full h-full object-cover" />` 
+        : `<div class="w-full h-full bg-brand flex items-center justify-center text-white font-bold text-sm">${reporterName[0].toUpperCase()}</div>`;
+      
+      document.getElementById('detail-reporter-name').textContent = reporterName;
+      document.getElementById('detail-reporter-avatar').innerHTML = reporterAvatar;
 
       document.getElementById('detail-desc').textContent = r.description;
       document.getElementById('detail-loc').textContent = r.location_detail;

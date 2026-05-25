@@ -54,7 +54,7 @@ export const LeaderboardPreview = () => {
   const displayUsers = users.length > 0 ? users : FALLBACK_DATA;
 
   return (
-    <section id="leaderboard" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-white dark:bg-black transition-colors duration-300">
+    <section id="leaderboard" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#050505] transition-colors duration-300 border-t border-stone-200/50 dark:border-white/10">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -62,11 +62,11 @@ export const LeaderboardPreview = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-xs font-bold uppercase tracking-[0.25em] text-stone-400 dark:text-stone-500 mb-4">
+          <span className="inline-block text-xs font-bold uppercase tracking-[0.25em] text-stone-500 mb-4">
             Komunitas
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-white tracking-tight mb-4">
-            Pahlawan Kota
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-stone-900 to-stone-600 dark:from-white dark:to-stone-400 tracking-tight pb-2 mb-4">
+            Pahlawan <span className="text-amber-500">Infrastruktur</span>
           </h2>
           <p className="text-base sm:text-lg text-stone-500 dark:text-stone-400 max-w-xl mx-auto font-medium">
             Kontributor teratas yang aktif membangun kota lebih baik
@@ -78,10 +78,10 @@ export const LeaderboardPreview = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-stone-50 dark:bg-white/[0.03] border border-stone-200 dark:border-white/[0.06] rounded-3xl overflow-hidden"
+          className="bg-stone-50 dark:bg-[#0a0a0a] border border-stone-200/50 dark:border-white/10 rounded-3xl overflow-hidden shadow-xl dark:shadow-2xl"
         >
           {/* Header */}
-          <div className="px-6 sm:px-8 py-4 border-b border-stone-200 dark:border-white/[0.06] flex items-center justify-between">
+          <div className="px-6 sm:px-8 py-4 border-b border-stone-200/50 dark:border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <svg className="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
@@ -90,13 +90,13 @@ export const LeaderboardPreview = () => {
                 Leaderboard
               </span>
             </div>
-            <span className="text-[10px] font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-stone-500 uppercase tracking-widest">
               Top 5
             </span>
           </div>
 
           {/* List */}
-          <div className="divide-y divide-stone-100 dark:divide-white/[0.04]">
+          <div className="divide-y divide-stone-200/50 dark:divide-white/5">
             {loading
               ? Array.from({ length: 5 }).map((_, i) => (
                   <div key={i} className="px-6 sm:px-8 py-4 flex items-center gap-4 animate-pulse">
@@ -115,14 +115,14 @@ export const LeaderboardPreview = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.08, duration: 0.4 }}
-                    className={`px-6 sm:px-8 py-4 flex items-center gap-4 transition-colors hover:bg-stone-100/50 dark:hover:bg-white/[0.02] ${i === 0 ? "bg-amber-50/50 dark:bg-amber-500/[0.03]" : ""}`}
+                    className={`px-6 sm:px-8 py-4 flex items-center gap-4 transition-colors hover:bg-stone-100/50 dark:hover:bg-white/[0.04] ${i === 0 ? "bg-amber-500/5 dark:bg-amber-500/10" : ""}`}
                   >
                     {/* Rank */}
                     <div className="w-6 text-center shrink-0">
                       {i < 3 ? (
                         <span className="text-lg">{medals[i]}</span>
                       ) : (
-                        <span className="text-sm font-extrabold text-stone-300 dark:text-stone-600">
+                        <span className="text-sm font-extrabold text-stone-400 dark:text-stone-600">
                           {i + 1}
                         </span>
                       )}
@@ -131,12 +131,12 @@ export const LeaderboardPreview = () => {
                     {/* Avatar */}
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm ${
                       i === 0
-                        ? "bg-amber-500/15 text-amber-600 dark:text-amber-400"
+                        ? "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400"
                         : i === 1
-                        ? "bg-stone-200 dark:bg-white/10 text-stone-500 dark:text-stone-400"
+                        ? "bg-stone-200 text-stone-600 dark:bg-white/10 dark:text-stone-400"
                         : i === 2
-                        ? "bg-orange-500/10 text-orange-600 dark:text-orange-400"
-                        : "bg-stone-100 dark:bg-white/5 text-stone-400 dark:text-stone-500"
+                        ? "bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400"
+                        : "bg-stone-100 text-stone-500 dark:bg-white/5 dark:text-stone-500"
                     }`}>
                       {user.avatar_url ? (
                         <img
@@ -156,7 +156,7 @@ export const LeaderboardPreview = () => {
                     {/* Name */}
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-bold truncate ${
-                        i === 0 ? "text-stone-900 dark:text-white" : "text-stone-700 dark:text-stone-300"
+                        i === 0 ? "text-stone-900 dark:text-white" : "text-stone-600 dark:text-stone-300"
                       }`}>
                         {user.full_name}
                       </p>
@@ -165,7 +165,7 @@ export const LeaderboardPreview = () => {
                     {/* Points */}
                     <div className="flex items-center gap-1.5 shrink-0">
                       <span className={`text-sm font-extrabold tabular-nums ${
-                        i === 0 ? "text-amber-600 dark:text-amber-400" : "text-stone-500 dark:text-stone-400"
+                        i === 0 ? "text-amber-500 dark:text-amber-400" : "text-stone-500 dark:text-stone-400"
                       }`}>
                         {user.points.toLocaleString()}
                       </span>
@@ -178,10 +178,10 @@ export const LeaderboardPreview = () => {
           </div>
 
           {/* Footer */}
-          <div className="px-6 sm:px-8 py-4 border-t border-stone-200 dark:border-white/[0.06] text-center">
+          <div className="px-6 sm:px-8 py-4 border-t border-stone-200/50 dark:border-white/10 text-center">
             <a
               href="/register"
-              className="text-xs font-bold text-stone-400 dark:text-stone-500 hover:text-stone-900 dark:hover:text-white transition-colors uppercase tracking-[0.2em]"
+              className="text-xs font-bold text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors uppercase tracking-[0.2em]"
             >
               Gabung & Raih Posisimu →
             </a>

@@ -165,6 +165,13 @@ import Sidebar from '../components/Sidebar.astro';
                   <span id="detail-cat" class="text-[11px] font-extrabold bg-zen-surface dark:bg-zen-surface-dark px-3 py-1.5 rounded-lg border border-zen-border dark:border-zen-border-dark"></span>
                   <span id="detail-status" class="text-[11px] font-black px-3 py-1.5 rounded-lg uppercase tracking-wider"></span>
                 </div>
+                <div class="flex items-center gap-3 mb-4 p-3 rounded-xl bg-zen-bg dark:bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark">
+                  <div class="w-10 h-10 rounded-full overflow-hidden border border-zen-border dark:border-zen-border-dark shrink-0" id="detail-reporter-avatar"></div>
+                  <div class="flex flex-col">
+                    <span class="text-sm font-bold text-zen-text dark:text-zen-text-dark" id="detail-reporter-name">Memuat...</span>
+                    <span class="text-xs text-zen-muted dark:text-zen-muted-dark">Pelapor</span>
+                  </div>
+                </div>
                 <h2 id="detail-desc" class="text-xl lg:text-2xl font-extrabold m-0 tracking-tight leading-tight mb-6"></h2>
                 <div class="p-4 rounded-2xl my-6 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark text-sm">
                   <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
@@ -527,8 +534,22 @@ import Sidebar from '../components/Sidebar.astro';
           
           const statusText = r.status === 'WAITING_APPROVAL' ? 'MENUNGGU PERSETUJUAN' : r.status;
           
+          const reporterName = r.profile?.full_name || 'Warga';
+          const reporterAvatar = r.profile?.avatar_url 
+            ? `<img src="${r.profile.avatar_url.startsWith('http') ? r.profile.avatar_url : API_URL + r.profile.avatar_url}" class="w-full h-full object-cover" />` 
+            : `<div class="w-full h-full bg-brand flex items-center justify-center text-white font-bold text-[10px]">${reporterName[0].toUpperCase()}</div>`;
+
           return `
             <div class="rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.05)] bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark cursor-pointer group" onclick="window.openDetail('${r.id}')">
+              <div class="p-4 flex items-center gap-3 border-b border-zen-border dark:border-zen-border-dark">
+                <div class="w-8 h-8 rounded-full overflow-hidden border border-zen-border dark:border-zen-border-dark shrink-0">
+                  ${reporterAvatar}
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-zen-text dark:text-zen-text-dark leading-tight">${reporterName}</span>
+                  <span class="text-[10px] text-zen-muted dark:text-zen-muted-dark">${new Date(r.created_at).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'})}</span>
+                </div>
+              </div>
               ${img}
               <div class="p-6">
                 <div class="flex gap-2.5 mb-3">
@@ -668,6 +689,14 @@ import Sidebar from '../components/Sidebar.astro';
         imgBox.classList.remove('hidden', 'cursor-zoom-in');
         imgBox.onclick = null;
       } else { imgBox.classList.add('hidden'); }
+
+      const reporterName = r.profile?.full_name || 'Warga';
+      const reporterAvatar = r.profile?.avatar_url 
+        ? `<img src="${r.profile.avatar_url.startsWith('http') ? r.profile.avatar_url : API_URL + r.profile.avatar_url}" class="w-full h-full object-cover" />` 
+        : `<div class="w-full h-full bg-brand flex items-center justify-center text-white font-bold text-sm">${reporterName[0].toUpperCase()}</div>`;
+      
+      document.getElementById('detail-reporter-name').textContent = reporterName;
+      document.getElementById('detail-reporter-avatar').innerHTML = reporterAvatar;
 
       document.getElementById('detail-desc').textContent = r.description;
       document.getElementById('detail-loc').textContent = r.location_detail;

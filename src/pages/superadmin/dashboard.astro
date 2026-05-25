@@ -229,6 +229,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
               </div>
             </div>
 
+            <div class="flex items-center gap-3 p-4 rounded-[20px] bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark shadow-sm">
+              <div class="w-10 h-10 rounded-full overflow-hidden border border-zen-border dark:border-zen-border-dark shrink-0" id="detail-reporter-avatar"></div>
+              <div class="flex flex-col">
+                <span class="text-sm font-bold text-zen-text dark:text-zen-text-dark" id="detail-reporter-name">Memuat...</span>
+                <span class="text-[10px] font-black text-stone-400 uppercase tracking-widest mt-0.5">Pelapor</span>
+              </div>
+            </div>
+
             <div class="space-y-3">
               <label class="text-[10px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-2">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
@@ -524,7 +532,13 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     function renderReports(reports) {
       const tbody = document.getElementById("reports-tbody");
       if (!tbody) return;
-      tbody.innerHTML = reports.map(r => `
+      tbody.innerHTML = reports.map(r => {
+        const reporterName = r.profile?.full_name || 'Warga';
+        const reporterAvatarUrl = r.profile?.avatar_url;
+        const reporterAvatar = reporterAvatarUrl 
+          ? `<img src="${reporterAvatarUrl.startsWith('http') ? reporterAvatarUrl : API_URL + reporterAvatarUrl}" class="w-full h-full object-cover" />` 
+          : `<div class="w-full h-full bg-blue-500 flex items-center justify-center text-white font-bold text-[8px]">${reporterName[0].toUpperCase()}</div>`;
+        return `
         <tr onclick="window.openReportModal('${r.id}')" class="hover:bg-stone-50 dark:hover:bg-white/5 cursor-pointer transition-colors duration-200 group">
           <td class="px-6 lg:px-10 py-5">
             <div class="w-12 h-12 lg:w-14 lg:h-14 rounded-xl overflow-hidden bg-zen-surface dark:bg-zen-surface-dark border border-stone-200 dark:border-white/10 group-hover:scale-105 transition-transform duration-500 shrink-0">
@@ -532,6 +546,12 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             </div>
           </td>
           <td class="px-4 lg:px-6 py-5 max-w-[200px] sm:max-w-[300px] lg:max-w-xs">
+            <div class="flex items-center gap-2 mb-1.5">
+              <div class="w-5 h-5 rounded-full overflow-hidden border border-zen-border dark:border-zen-border-dark shrink-0">
+                ${reporterAvatar}
+              </div>
+              <span class="text-[11px] font-bold text-zen-text dark:text-zen-text-dark">${reporterName}</span>
+            </div>
             <div class="font-bold text-zen-text dark:text-zen-text-dark truncate">${r.description}</div>
             <div class="text-[11px] font-bold text-stone-400 mt-1 uppercase tracking-wider truncate">${r.location_detail}</div>
           </td>
@@ -548,7 +568,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             ${new Date(r.created_at).toLocaleDateString("id-ID", { day: 'numeric', month: 'short' })}
           </td>
         </tr>
-      `).join("");
+      `;}).join("");
     }
 
     window.closeModal = () => {
@@ -591,6 +611,17 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       
       const dateEl = document.getElementById("modal-date");
       if(dateEl) dateEl.innerText = `Dilaporkan pada: ${new Date(r.created_at).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })} WIB`;
+
+      const reporterName = r.profile?.full_name || 'Warga';
+      const reporterAvatarUrl = r.profile?.avatar_url;
+      const reporterAvatar = reporterAvatarUrl 
+        ? `<img src="${reporterAvatarUrl.startsWith('http') ? reporterAvatarUrl : API_URL + reporterAvatarUrl}" class="w-full h-full object-cover" />` 
+        : `<div class="w-full h-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">${reporterName[0].toUpperCase()}</div>`;
+      
+      const nameEl = document.getElementById('detail-reporter-name');
+      const avatarEl = document.getElementById('detail-reporter-avatar');
+      if (nameEl) nameEl.textContent = reporterName;
+      if (avatarEl) avatarEl.innerHTML = reporterAvatar;
 
       set("detail-desc", r.description);
       set("detail-loc", r.location_detail);
