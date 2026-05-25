@@ -106,7 +106,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
                 </div>
                 <span class="text-xs font-bold text-stone-700 dark:text-stone-300">Kelola Admin</span>
               </a>
-              <button class="flex flex-col items-center justify-center p-4 rounded-2xl bg-stone-50 dark:bg-stone-900 border border-stone-100 dark:border-stone-800 hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-md transition-all group">
+              <button id="btn-export" class="flex flex-col items-center justify-center p-4 rounded-2xl bg-stone-50 dark:bg-stone-900 border border-stone-100 dark:border-stone-800 hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-md transition-all group cursor-pointer">
                 <div class="p-3 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-xl mb-3 group-hover:scale-110 transition-transform">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                 </div>
@@ -758,13 +758,64 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       } catch (err) { showToast({ message: "Gagal memperbarui status: " + err.message, type: 'error' }); }
     };
 
-    document.getElementById("btn-verify")?.addEventListener("click", () => window.verifyReport("VALID"));
-    document.getElementById("btn-resolve")?.addEventListener("click", () => window.verifyReport("RESOLVED"));
-    document.getElementById("btn-cancel")?.addEventListener("click", () => {
-      if (confirm("Apakah Anda yakin ingin membatalkan status laporan ini kembali ke PENDING? Poin user akan dikurangi secara otomatis.")) {
-        window.verifyReport("CANCEL");
-      }
-    });
+    function setupFilters() {
+      const inputs = ["search-input", "category-filter", "status-filter"];
+      inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", () => {
+            const search = (document.getElementById("search-input") as HTMLInputElement)?.value.toLowerCase() || "";
+            const cat = (document.getElementById("category-filter") as HTMLSelectElement)?.value || "";
+            const status = (document.getElementById("status-filter") as HTMLSelectElement)?.value || "";
+            
+            const filtered = reportsData.filter(r => {
+              const matchesSearch = (r.description || '').toLowerCase().includes(search) || 
+                                   (r.location_detail || '').toLowerCase().includes(search);
+              const matchesCat = !cat || String(r.category_id) === cat;
+              const matchesStatus = !status || r.status === status;
+              return matchesSearch && matchesCat && matchesStatus;
+            });
+            
+            renderReports(filtered);
+          });
+        }
+      });
+    }
+
+    function setupListeners() {
+      document.getElementById("btn-verify")?.addEventListener("click", () => window.verifyReport("VALID"));
+      document.getElementById("btn-resolve")?.addEventListener("click", () => window.verifyReport("RESOLVED"));
+      document.getElementById("btn-cancel")?.addEventListener("click", () => {
+        if (confirm("Apakah Anda yakin ingin membatalkan status laporan ini kembali ke PENDING? Poin user akan dikurangi secara otomatis.")) {
+          window.verifyReport("CANCEL");
+        }
+      });
+
+      document.getElementById("btn-export")?.addEventListener("click", () => {
+        if (!reportsData || reportsData.length === 0) {
+          showToast({ message: "Tidak ada data laporan untuk diekspor.", type: 'error' });
+          return;
+        }
+        const headers = ["ID", "Tanggal", "Pelapor", "Kategori", "Lokasi", "Status", "Deskripsi"];
+        const rows = reportsData.map(r => {
+          const date = new Date(r.created_at).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+          const cat = categoriesData.find(c => c.id === r.category_id)?.name || 'Umum';
+          const reporterName = `"${(r.profile?.full_name || 'Warga').replace(/"/g, '""')}"`;
+          const desc = `"${(r.description || '').replace(/"/g, '""')}"`;
+          const loc = `"${(r.location_detail || '').replace(/"/g, '""')}"`;
+          return [r.id, date, reporterName, cat, loc, r.status, desc].join(",");
+        });
+        const csvContent = [headers.join(","), ...rows].join("\n");
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `Data_Laporan_SovraEquitara_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    }
 
     let mainInterval;
     let timeInterval;
@@ -774,6 +825,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       updateTime();
       loadData();
       setupFilters();
+      setupListeners();
 
       if (timeInterval) clearInterval(timeInterval);
       timeInterval = setInterval(updateTime, 1000);

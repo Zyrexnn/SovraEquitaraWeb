@@ -99,6 +99,10 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
                   <option value="VALID">Verified</option>
                   <option value="RESOLVED">Resolved</option>
                 </select>
+                <button id="btn-export" class="px-5 py-3 bg-brand dark:bg-white text-white dark:text-brand font-black text-xs rounded-2xl hover:shadow-lg hover:shadow-blue-500/30 transition-all cursor-pointer flex items-center gap-2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  Ekspor CSV
+                </button>
               </div>
             </div>
 
@@ -686,11 +690,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       } catch (err) { showToast({ message: "Gagal memperbarui status", type: 'error' }); }
     };
 
-    document.getElementById("btn-verify")?.addEventListener("click", () => window.verifyReport("VALID"));
-    document.getElementById("btn-resolve")?.addEventListener("click", () => window.verifyReport("RESOLVED"));
-
     function setupFilters() {
-      const inputs = ["search-input", "category-filter", "status-filter"];
       inputs.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
@@ -700,8 +700,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             const status = (document.getElementById("status-filter") as HTMLSelectElement)?.value || "";
             
             const filtered = reportsData.filter(r => {
-              const matchesSearch = r.description.toLowerCase().includes(search) || 
-                                   r.location_detail.toLowerCase().includes(search);
+              const matchesSearch = (r.description || '').toLowerCase().includes(search) || 
+                                   (r.location_detail || '').toLowerCase().includes(search);
               const matchesCat = !cat || String(r.category_id) === cat;
               const matchesStatus = !status || r.status === status;
               return matchesSearch && matchesCat && matchesStatus;
@@ -713,6 +713,36 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       });
     }
 
+    function setupListeners() {
+      document.getElementById("btn-verify")?.addEventListener("click", () => window.verifyReport("VALID"));
+      document.getElementById("btn-resolve")?.addEventListener("click", () => window.verifyReport("RESOLVED"));
+
+      document.getElementById("btn-export")?.addEventListener("click", () => {
+        if (!reportsData || reportsData.length === 0) {
+          showToast({ message: "Tidak ada data laporan untuk diekspor.", type: 'error' });
+          return;
+        }
+        const headers = ["ID", "Tanggal", "Pelapor", "Kategori", "Lokasi", "Status", "Deskripsi"];
+        const rows = reportsData.map(r => {
+          const date = new Date(r.created_at).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+          const cat = categoriesData.find(c => c.id === r.category_id)?.name || 'Umum';
+          const reporterName = `"${(r.profile?.full_name || 'Warga').replace(/"/g, '""')}"`;
+          const desc = `"${(r.description || '').replace(/"/g, '""')}"`;
+          const loc = `"${(r.location_detail || '').replace(/"/g, '""')}"`;
+          return [r.id, date, reporterName, cat, loc, r.status, desc].join(",");
+        });
+        const csvContent = [headers.join(","), ...rows].join("\n");
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `Data_Laporan_Admin_SovraEquitara_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    }
+
     let mainInterval;
     let timeInterval;
     let themeObserver;
@@ -721,7 +751,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       updateTime();
       loadData();
       setupFilters();
-      
+      setupListeners();
       
       if (timeInterval) clearInterval(timeInterval);
       timeInterval = setInterval(updateTime, 1000);
