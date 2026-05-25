@@ -113,7 +113,11 @@ import Sidebar from '../components/Sidebar.astro';
           <div class="md:col-span-2 lg:col-span-3 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.25s;">
             <div class="flex justify-between items-center mb-6">
               <h3 class="text-base font-extrabold m-0">Pantauan Kota</h3>
-              <div>
+              <div class="flex items-center gap-3">
+                <div class="relative hidden sm:block">
+                  <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <input type="text" id="feed-search" placeholder="Cari..." class="pl-9 pr-3 py-1.5 rounded-lg border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark text-xs font-bold outline-none focus:ring-2 focus:ring-brand/20 transition-all text-zen-text dark:text-zen-text-dark w-40" />
+                </div>
                 <select id="feed-sort" class="px-3 py-1.5 rounded-lg border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark text-xs font-bold outline-none cursor-pointer text-zen-text dark:text-zen-text-dark">
                   <option value="recent">Terbaru</option>
                   <option value="votes">Populer</option>
@@ -340,7 +344,17 @@ import Sidebar from '../components/Sidebar.astro';
         { subdomains: 'abcd', maxZoom: 19, crossOrigin: true }
       ).addTo(map);
 
-      marker = L.marker([def.lat, def.lng], { draggable: true }).addTo(map);
+      const customIcon = L.icon({
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
+
+      marker = L.marker([def.lat, def.lng], { icon: customIcon, draggable: true }).addTo(map);
 
       const setCoords = (ll) => {
         document.getElementById('lat').value = ll.lat;
@@ -511,9 +525,22 @@ import Sidebar from '../components/Sidebar.astro';
         const res = await fetch(`${API_URL}/api/public-reports?sort=${sort}`, { headers: { 'Authorization': `Bearer ${token}` }});
         const data = await res.json();
         allReports = data.data || [];
-        if(allReports.length === 0) { list.innerHTML = '<div class="col-span-full py-12 text-center text-zen-muted dark:text-zen-muted-dark font-bold text-sm">Belum ada laporan.</div>'; return; }
+        renderFeed();
+      } catch(e) {}
+    }
 
-        list.innerHTML = allReports.map(r => {
+    function renderFeed() {
+      const list = document.getElementById('reports-list');
+      const search = (document.getElementById('feed-search')?.value || '').toLowerCase();
+      
+      const filtered = allReports.filter(r => {
+        return (r.description || '').toLowerCase().includes(search) || 
+               (r.location_detail || '').toLowerCase().includes(search);
+      });
+      
+      if(filtered.length === 0) { list.innerHTML = '<div class="col-span-full py-12 text-center text-zen-muted dark:text-zen-muted-dark font-bold text-sm">Belum ada laporan yang sesuai.</div>'; return; }
+
+      list.innerHTML = filtered.map(r => {
           const cat = categories.find(c => c.id === r.category_id)?.name || 'Umum';
           let img = '';
           if (r.image_urls && r.image_urls.length > 0) {
@@ -582,7 +609,6 @@ import Sidebar from '../components/Sidebar.astro';
             </div>
           `;
         }).join('');
-      } catch(e) {}
     }
 
     async function fetchLeaderboard() {      const list = document.getElementById('leaderboard-list');
@@ -626,6 +652,9 @@ import Sidebar from '../components/Sidebar.astro';
 
       const feedSort = document.getElementById('feed-sort');
       if (feedSort) feedSort.onchange = (e) => fetchFeed(e.target.value);
+      
+      const feedSearch = document.getElementById('feed-search');
+      if (feedSearch) feedSearch.addEventListener('input', () => renderFeed());
 
       safeSetClick('close-detail', () => document.getElementById('detail-modal').classList.add('hidden'));
       safeSetClick('lightbox-close', () => document.getElementById('lightbox').classList.add('hidden'));
@@ -779,7 +808,17 @@ import Sidebar from '../components/Sidebar.astro';
                 : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
               { subdomains: 'abcd', crossOrigin: true }
             ).addTo(window.mMap);
-            L.marker([r.latitude, r.longitude]).addTo(window.mMap);
+            
+            const customIcon = L.icon({
+              iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+              iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+              shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowSize: [41, 41]
+            });
+            L.marker([r.latitude, r.longitude], { icon: customIcon }).addTo(window.mMap);
           }, 150);
         }
       };

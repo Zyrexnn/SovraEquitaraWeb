@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar.astro';
 ---
 
 <Layout title="Profil Saya — SovraEquitara">
-  <div class="flex h-screen overflow-hidden bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display">
+  <div class="flex h-screen overflow-hidden bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark font-display selection:bg-blue-500/30">
     <Sidebar activePage="profile" />
 
     <!-- Main Content -->
@@ -13,39 +13,55 @@ import Sidebar from '../components/Sidebar.astro';
         
         <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]">
           <div>
-            <h1 class="text-[28px] lg:text-[32px] font-black tracking-tight mb-1 text-zen-text dark:text-zen-text-dark">Pengaturan <span class="bg-gradient-to-r from-blue-500 to-emerald-500 text-transparent bg-clip-text">Profil</span></h1>
-            <p class="text-sm lg:text-[15px] font-semibold text-zen-muted dark:text-zen-muted-dark">Kelola identitas dan keamanan akun Anda di SovraEquitara.</p>
+            <h1 class="text-[32px] lg:text-[40px] font-black tracking-tight mb-2 text-zen-text dark:text-zen-text-dark">Profil <span class="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 text-transparent bg-clip-text">Saya</span></h1>
+            <p class="text-sm lg:text-base font-bold text-zen-muted dark:text-zen-muted-dark max-w-lg leading-relaxed">Kelola identitas publik dan atur tingkat keamanan akun Anda di SovraEquitara.</p>
           </div>
-          <div>
-             <div class="px-5 py-2.5 rounded-full font-black text-[11px] bg-zen-card dark:bg-zen-card-dark text-zen-text dark:text-zen-text-dark uppercase tracking-widest border border-zen-border dark:border-zen-border-dark shadow-sm" id="hero-role">Warga</div>
+          <div class="group relative">
+             <div class="absolute inset-0 bg-blue-500 opacity-20 blur-xl rounded-full group-hover:opacity-40 transition-opacity duration-500"></div>
+             <div class="relative px-6 py-2.5 rounded-full font-black text-[12px] bg-white dark:bg-black text-zen-text dark:text-zen-text-dark uppercase tracking-widest border-2 border-zen-border dark:border-zen-border-dark shadow-xl" id="hero-role">Warga</div>
           </div>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           <!-- Hero Profile Card -->
-          <div class="md:col-span-3 bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2.5rem] p-8 lg:p-12 shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
-            <div class="flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-12">
-              <div class="relative group">
-                <div class="w-[120px] h-[120px] lg:w-[160px] lg:h-[160px] rounded-[3rem] bg-brand dark:bg-white text-white dark:text-brand flex items-center justify-center text-5xl lg:text-7xl font-black shadow-2xl transition-transform duration-500 group-hover:scale-105 overflow-hidden" id="avatar-container">
-                  <span id="avatar-circle">U</span>
-                  <img id="avatar-img" src="" class="w-full h-full object-cover hidden" alt="Profile" />
-                </div>
-                <label for="avatar-upload" title="Ubah Foto Profil" class="absolute -bottom-2 -right-2 w-10 h-10 bg-emerald-500 border-4 border-zen-card dark:border-zen-card-dark rounded-full shadow-lg flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-transform">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                </label>
-                <input type="file" id="avatar-upload" accept="image/jpeg,image/png,image/webp" class="hidden" />
-              </div>
-              <div class="text-center md:text-left pt-2">
-                <h2 id="display-name-hero" class="text-3xl lg:text-5xl font-black tracking-tighter m-0 text-zen-text dark:text-zen-text-dark mb-2">Memuat...</h2>
-                <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
-                  <div class="flex items-center gap-2 text-sm font-bold text-zen-muted">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                    <span id="display-email-hero">email@example.com</span>
+          <div class="md:col-span-3 relative overflow-hidden rounded-[2.5rem] p-1 shadow-2xl animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
+            <!-- Animated Gradient Background -->
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 dark:from-blue-900 dark:via-indigo-900 dark:to-purple-900 opacity-100"></div>
+            <div class="absolute -top-32 -right-32 w-[500px] h-[500px] bg-white/10 blur-[100px] rounded-full mix-blend-overlay"></div>
+            <div class="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-black/30 blur-[100px] rounded-full mix-blend-overlay"></div>
+            
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+
+            <!-- Content -->
+            <div class="relative bg-white/10 dark:bg-black/20 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-[2.3rem] p-8 lg:p-12 shadow-inner">
+              <div class="flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-12">
+                <div class="relative group cursor-pointer">
+                  <!-- Avatar Container -->
+                  <div class="w-[140px] h-[140px] lg:w-[180px] lg:h-[180px] rounded-[3rem] p-2 bg-white/20 dark:bg-black/40 backdrop-blur-md shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:rotate-3">
+                    <div class="w-full h-full rounded-[2.5rem] bg-white dark:bg-stone-900 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-5xl lg:text-7xl font-black overflow-hidden border border-white/30" id="avatar-container">
+                      <span id="avatar-circle">U</span>
+                      <img id="avatar-img" src="" class="w-full h-full object-cover hidden" alt="Profile" />
+                    </div>
                   </div>
-                  <div class="flex items-center gap-2 text-sm font-bold text-brand dark:text-white">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="3"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    <span>Member Aktif</span>
+                  <!-- Upload Button -->
+                  <label for="avatar-upload" title="Ubah Foto Profil" class="absolute -bottom-3 -right-3 w-14 h-14 bg-emerald-400 hover:bg-emerald-300 dark:bg-emerald-500 dark:hover:bg-emerald-400 border-4 border-indigo-600 dark:border-indigo-900 rounded-full shadow-[0_0_20px_rgba(52,211,153,0.4)] flex items-center justify-center text-indigo-900 dark:text-white cursor-pointer transition-all duration-300 hover:scale-110 z-10">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                  </label>
+                  <input type="file" id="avatar-upload" accept="image/jpeg,image/png,image/webp" class="hidden" />
+                </div>
+                
+                <div class="text-center md:text-left pt-2 text-white flex-1">
+                  <h2 id="display-name-hero" class="text-4xl lg:text-6xl font-black tracking-tighter m-0 mb-4 drop-shadow-lg">Memuat...</h2>
+                  <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                    <div class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 text-sm font-bold shadow-lg transition-transform hover:-translate-y-0.5">
+                      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                      <span id="display-email-hero">email@example.com</span>
+                    </div>
+                    <div class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-400/20 text-emerald-100 backdrop-blur-md border border-emerald-400/30 text-sm font-bold shadow-lg transition-transform hover:-translate-y-0.5">
+                      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                      <span>Akun Terverifikasi</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -53,54 +69,82 @@ import Sidebar from '../components/Sidebar.astro';
           </div>
 
           <!-- Public Info Form -->
-          <div class="md:col-span-2 bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2rem] p-8 lg:p-10 shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.15s;">
-            <div class="flex justify-between items-center mb-10">
-              <h3 class="text-base font-black m-0 uppercase tracking-widest text-zen-text dark:text-zen-text-dark">Informasi Publik</h3>
-              <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center">
-                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="3"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <div class="md:col-span-2 relative group bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2.5rem] p-8 lg:p-10 shadow-zen transition-all duration-500 hover:shadow-2xl hover:border-blue-500/30 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.15s;">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -z-10 transition-transform duration-700 group-hover:scale-150"></div>
+            
+            <div class="flex justify-between items-start mb-10">
+              <div>
+                <h3 class="text-2xl font-black tracking-tight text-zen-text dark:text-zen-text-dark">Data Diri Publik</h3>
+                <p class="text-[13px] font-bold text-stone-400 mt-1">Identitas Anda yang akan terlihat di platform</p>
+              </div>
+              <div class="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center shadow-inner border border-blue-500/20">
+                <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               </div>
             </div>
+
             <form id="form-profile" class="flex flex-col gap-8">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div>
-                  <label class="block text-[10px] font-black text-zen-muted uppercase tracking-[0.15em] mb-3">Nama Lengkap / Alias</label>
-                  <input type="text" id="full_name" placeholder="Nama Anda" required class="w-full p-4 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-black/20 text-sm font-bold outline-none focus:border-brand dark:focus:border-white focus:ring-4 focus:ring-brand/5 transition-all text-zen-text dark:text-zen-text-dark appearance-none" />
-                  <p class="text-[11px] font-bold text-zen-muted mt-3 leading-relaxed">Identitas ini akan terlihat saat Anda mengajukan aspirasi atau berdiskusi.</p>
+                <div class="relative group/input">
+                  <label class="block text-[11px] font-black text-zen-muted uppercase tracking-[0.15em] mb-2 transition-colors group-focus-within/input:text-blue-500">Nama Lengkap / Alias</label>
+                  <input type="text" id="full_name" placeholder="Nama Anda" required class="w-full p-4 rounded-2xl border-2 border-zen-border dark:border-white/10 bg-white dark:bg-black/40 text-base font-bold outline-none focus:border-blue-500 dark:focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-zen-text dark:text-zen-text-dark shadow-sm hover:border-stone-300 dark:hover:border-stone-700" />
+                  <p class="text-[11px] font-bold text-zen-muted mt-3 leading-relaxed">Nama ini akan digunakan saat Anda mengajukan aspirasi atau memposting komentar.</p>
                 </div>
-                <div>
-                  <label class="block text-[10px] font-black text-zen-muted uppercase tracking-[0.15em] mb-3">Nomor WhatsApp</label>
+                
+                <div class="relative group/input">
+                  <label class="block text-[11px] font-black text-zen-muted uppercase tracking-[0.15em] mb-2 transition-colors group-focus-within/input:text-blue-500">Nomor WhatsApp</label>
                   <div class="relative">
-                    <input type="tel" id="phone" placeholder="08xxxxxxxxxx" class="w-full p-4 pl-12 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-black/20 text-sm font-bold outline-none focus:border-brand dark:focus:border-white focus:ring-4 focus:ring-brand/5 transition-all text-zen-text dark:text-zen-text-dark appearance-none" />
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-black text-zen-muted">🇮🇩</span>
+                    <input type="tel" id="phone" placeholder="08xxxxxxxxxx" class="w-full p-4 pl-14 rounded-2xl border-2 border-zen-border dark:border-white/10 bg-white dark:bg-black/40 text-base font-bold outline-none focus:border-blue-500 dark:focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-zen-text dark:text-zen-text-dark shadow-sm hover:border-stone-300 dark:hover:border-stone-700" />
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-black text-zen-muted">🇮🇩</span>
                   </div>
+                  <p class="text-[11px] font-bold text-zen-muted mt-3 leading-relaxed">Pihak instansi mungkin menghubungi Anda untuk konfirmasi lebih lanjut.</p>
                 </div>
               </div>
-              <button type="submit" id="btn-save" class="w-full p-4.5 rounded-2xl bg-brand dark:bg-white text-white dark:text-brand font-black text-sm border-none cursor-pointer transition-all hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-3">
-                Perbarui Profil
-                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              
+              <button type="submit" id="btn-save" class="w-full p-5 mt-2 rounded-2xl bg-brand dark:bg-white text-white dark:text-brand font-black text-base border-none cursor-pointer transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/30 flex items-center justify-center gap-3 overflow-hidden relative group/btn">
+                <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover/btn:opacity-100 dark:from-stone-200 dark:to-white transition-opacity duration-300"></span>
+                <span class="relative z-10 flex items-center gap-3">
+                  Simpan Perubahan
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
               </button>
             </form>
           </div>
 
           <!-- Account Security -->
-          <div class="md:col-span-1 bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2rem] p-8 lg:p-10 shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.2s;">
-            <div class="flex justify-between items-center mb-10">
-              <h3 class="text-base font-black m-0 uppercase tracking-widest text-zen-text dark:text-zen-text-dark">Keamanan</h3>
-              <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center">
-                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="3"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <div class="md:col-span-1 relative group bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2.5rem] p-8 lg:p-10 shadow-zen transition-all duration-500 hover:shadow-2xl hover:border-orange-500/30 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.2s;">
+            <div class="absolute top-0 right-0 w-48 h-48 bg-orange-500/5 rounded-full blur-3xl -z-10 transition-transform duration-700 group-hover:scale-150"></div>
+            
+            <div class="flex justify-between items-start mb-10">
+              <div>
+                <h3 class="text-2xl font-black tracking-tight text-zen-text dark:text-zen-text-dark">Keamanan</h3>
+                <p class="text-[13px] font-bold text-stone-400 mt-1">Sesi & akses masuk</p>
+              </div>
+              <div class="w-14 h-14 rounded-2xl bg-orange-500/10 text-orange-500 flex items-center justify-center shadow-inner border border-orange-500/20">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
               </div>
             </div>
+
             <div class="flex flex-col gap-6">
-              <div class="p-6 rounded-2xl bg-zen-surface dark:bg-black/20 border border-zen-border dark:border-white/5">
-                <h4 class="text-[13px] font-black m-0 uppercase tracking-wider mb-2">Kata Sandi</h4>
-                <p class="text-[11px] font-bold text-zen-muted leading-relaxed mb-5">Ingin mengganti kunci akun? Kami akan mengirimkan instruksi ke email Anda.</p>
-                <button id="btn-reset-pw" class="w-full p-3 rounded-xl bg-white dark:bg-black border border-zen-border dark:border-zen-border-dark font-black text-[11px] uppercase tracking-widest cursor-pointer hover:bg-zen-text hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">Atur Ulang Sandi</button>
+              <div class="p-6 rounded-3xl bg-zen-surface dark:bg-black/30 border border-zen-border dark:border-white/5 transition-colors hover:border-stone-300 dark:hover:border-stone-700">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="p-2 bg-stone-200 dark:bg-stone-800 rounded-lg text-stone-600 dark:text-stone-300">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+                  </div>
+                  <h4 class="text-[14px] font-black m-0 uppercase tracking-wider">Kata Sandi</h4>
+                </div>
+                <p class="text-[12px] font-bold text-zen-muted leading-relaxed mb-6">Ingin mengganti kunci akun? Kami akan mengirimkan instruksi ke email Anda.</p>
+                <button id="btn-reset-pw" class="w-full p-4 rounded-xl bg-white dark:bg-black border-2 border-zen-border dark:border-zen-border-dark font-black text-[12px] uppercase tracking-widest cursor-pointer hover:bg-zen-text hover:text-white dark:hover:bg-white dark:hover:text-black transition-all shadow-sm">Kirim Tautan Reset</button>
               </div>
               
-              <div class="p-6 rounded-2xl bg-red-500/5 dark:bg-red-500/10 border border-red-500/10">
-                <h4 class="text-[13px] font-black m-0 uppercase tracking-wider text-red-500 mb-2">Sesi Akun</h4>
-                <p class="text-[11px] font-bold text-red-500/60 leading-relaxed mb-5">Keluar dari perangkat ini untuk mengakhiri sesi aktif Anda saat ini.</p>
-                <button id="btn-logout-main" class="w-full p-3 rounded-xl bg-red-500 text-white font-black text-[11px] uppercase tracking-widest cursor-pointer hover:bg-red-600 transition-all border-none">Keluar Sekarang</button>
+              <div class="p-6 rounded-3xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 transition-colors hover:border-red-300 dark:hover:border-red-800/50">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="p-2 bg-red-100 dark:bg-red-900/50 rounded-lg text-red-600 dark:text-red-400">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                  </div>
+                  <h4 class="text-[14px] font-black m-0 uppercase tracking-wider text-red-600 dark:text-red-400">Sesi Akun</h4>
+                </div>
+                <p class="text-[12px] font-bold text-red-500/80 leading-relaxed mb-6">Keluar dari perangkat ini untuk mengakhiri sesi aktif Anda saat ini.</p>
+                <button id="btn-logout-main" class="w-full p-4 rounded-xl bg-red-500 text-white font-black text-[12px] uppercase tracking-widest cursor-pointer hover:bg-red-600 hover:shadow-lg hover:shadow-red-500/30 transition-all border-none">Keluar Sekarang</button>
               </div>
             </div>
           </div>
@@ -175,10 +219,12 @@ import Sidebar from '../components/Sidebar.astro';
       const initial = name[0].toUpperCase();
       document.getElementById('display-name-hero').textContent = name;
       
-      if (avatarUrl) {
+      const currentAvatar = avatarUrl !== undefined ? avatarUrl : user.avatar_url;
+
+      if (currentAvatar) {
          document.getElementById('avatar-circle').classList.add('hidden');
          const img = document.getElementById('avatar-img');
-         img.src = `${API_URL}${avatarUrl}`;
+         img.src = `${API_URL}${currentAvatar}`;
          img.classList.remove('hidden');
       } else {
          document.getElementById('avatar-circle').textContent = initial;
@@ -187,7 +233,7 @@ import Sidebar from '../components/Sidebar.astro';
       }
       
       // Notify sidebar to update itself by updating localStorage
-      const updatedUser = {...user, name, avatar_url: avatarUrl};
+      const updatedUser = {...user, name, avatar_url: currentAvatar};
       localStorage.setItem('user', JSON.stringify(updatedUser));
       window.dispatchEvent(new Event('storage'));
     }
