@@ -199,38 +199,27 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
     }
   };
 
-  const handleDelete = async (reportId: string) => {
-    if (!confirm('Anda yakin ingin menghapus laporan ini?')) return;
+  const handleAdminAction = async (reportId: string, action: string) => {
+    const actionText = action === 'verify' ? 'Validasi' : action === 'resolve' ? 'Selesaikan' : 'Batalkan';
+    if (!confirm(`Apakah Anda yakin ingin ${actionText} laporan ini?`)) return;
     const token = localStorage.getItem('access_token');
-    try {
-      const res = await fetch(`${apiUrl}/api/reports/${reportId}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` },
-      });
-      if (res.ok) {
-        setReports(prev => prev.filter(r => r.id !== reportId));
-      } else {
-        const err = await res.json();
-        alert(err.error || 'Gagal menghapus laporan');
-      }
-    } catch (_) {
-      alert('Terjadi kesalahan jaringan');
-    }
-  };
+    const role = (user?.role || '').toLowerCase();
+    const isSuperAdmin = role === 'super_admin';
+    const endpoint = action === 'cancel' && isSuperAdmin
+      ? `${apiUrl}/api/superadmin/reports/${reportId}/cancel`
+      : `${apiUrl}/api/admin/reports/${reportId}/${action}`;
 
-  const handleResolve = async (reportId: string) => {
-    if (!confirm('Tandai laporan ini sebagai Selesai?')) return;
-    const token = localStorage.getItem('access_token');
     try {
-      const res = await fetch(`${apiUrl}/api/reports/${reportId}/resolve`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
+      const res = await fetch(endpoint, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       });
       if (res.ok) {
-        setReports(prev => prev.map(r => r.id === reportId ? { ...r, status: 'WAITING_APPROVAL' } : r));
+        const newStatus = action === 'verify' ? 'VALID' : action === 'resolve' ? 'RESOLVED' : 'PENDING';
+        setReports(prev => prev.map(r => r.id === reportId ? { ...r, status: newStatus } : r));
       } else {
         const err = await res.json();
-        alert(err.error || 'Gagal menyelesaikan laporan');
+        alert(err.error || `Gagal ${actionText.toLowerCase()} laporan`);
       }
     } catch (_) {
       alert('Terjadi kesalahan jaringan');
@@ -398,18 +387,28 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
 
                   {isAdmin && (
                     <div className="flex gap-2 pt-2 border-t border-stone-100 dark:border-stone-800">
-                      <button
-                        onClick={() => handleResolve(report.id)}
-                        className="flex-1 flex items-center justify-center gap-1.5 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-lg text-xs font-bold border border-emerald-200 dark:border-emerald-500/20 transition-colors cursor-pointer"
-                      >
-                        <CheckCircle2 size={13} /> Selesai
-                      </button>
-                      {['super_admin'].includes((user?.role || '').toLowerCase()) && (
+                      {report.status.toUpperCase() === 'PENDING' && (
                         <button
-                          onClick={() => handleDelete(report.id)}
+                          onClick={() => handleAdminAction(report.id, 'verify')}
+                          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-500/10 dark:text-blue-400 rounded-lg text-xs font-bold border border-blue-200 dark:border-blue-500/20 transition-colors cursor-pointer"
+                        >
+                          <CheckCircle2 size={13} /> Validasi
+                        </button>
+                      )}
+                      {(report.status.toUpperCase() === 'VALID' || report.status.toUpperCase() === 'WAITING_APPROVAL') && (
+                        <button
+                          onClick={() => handleAdminAction(report.id, 'resolve')}
+                          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-lg text-xs font-bold border border-emerald-200 dark:border-emerald-500/20 transition-colors cursor-pointer"
+                        >
+                          <CheckCircle2 size={13} /> Selesai
+                        </button>
+                      )}
+                      {report.status.toUpperCase() !== 'PENDING' && (
+                        <button
+                          onClick={() => handleAdminAction(report.id, 'cancel')}
                           className="flex-1 flex items-center justify-center gap-1.5 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-500/10 dark:text-red-400 rounded-lg text-xs font-bold border border-red-200 dark:border-red-500/20 transition-colors cursor-pointer"
                         >
-                          <Trash2 size={13} /> Hapus
+                          <Trash2 size={13} /> Batalkan
                         </button>
                       )}
                     </div>
