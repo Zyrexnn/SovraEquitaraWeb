@@ -45,7 +45,7 @@ export const DashboardShowcase = () => {
               transition={{ delay: 0.1 }}
               className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-stone-900 dark:text-white tracking-tight mb-4"
             >
-              Kontrol Penuh dalam <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">Satu Genggaman</span>
+              Kontrol Penuh dalam <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">Satu Dashboard</span>
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -54,7 +54,7 @@ export const DashboardShowcase = () => {
               transition={{ delay: 0.2 }}
               className="text-stone-500 dark:text-stone-400 max-w-2xl mx-auto text-sm sm:text-base"
             >
-              Visualisasi data yang presisi, sistem manajemen pelaporan yang canggih, dan antarmuka yang dirancang khusus untuk setiap peran dalam ekosistem Smart City.
+              Visualisasi data yang jelas, sistem manajemen pelaporan, dan antarmuka yang dirancang khusus untuk kemudahan pemantauan infrastruktur kota.
             </motion.p>
           </div>
 

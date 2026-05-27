@@ -86,18 +86,18 @@ export const AnimeHero = () => {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-white/5 border border-stone-200/50 dark:border-white/10 rounded-full mb-8 backdrop-blur-md shadow-sm opacity-0 animate-[fadeIn_1s_ease-out_forwards] transition-all hover:bg-white dark:hover:bg-white/10">
           <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(245,158,11,0.5)]"></span>
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-stone-700 dark:text-stone-300">Civic Tech Innovation 2026</span>
+          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-stone-700 dark:text-stone-300">Layanan Pelaporan Warga</span>
         </div>
 
         {/* Hero Headline */}
         <h1 ref={headlineRef} className="text-5xl sm:text-7xl lg:text-8xl font-black text-center tracking-tight text-stone-900 dark:text-white leading-[1.05] mb-8 max-w-5xl will-change-transform pb-2">
-          Infrastruktur Cerdas Untuk Kota Masa Depan
+          Pelaporan Masalah Kota yang Cepat dan Transparan
         </h1>
 
         {/* Hero Text */}
         <p ref={textRef} className="text-lg sm:text-2xl text-stone-700 dark:text-stone-300 max-w-3xl text-center font-medium leading-relaxed opacity-0 mb-12 will-change-transform">
           <DecryptedText 
-            text="Platform tata kelola kota yang transparan, digerakkan oleh partisipasi aktif warga, dan divalidasi oleh kecerdasan buatan." 
+            text="Laporkan masalah infrastruktur di lingkungan Anda. Kami memastikan laporan Anda diterima dan ditangani oleh pihak yang berwenang." 
             speed={35} 
             maxIterations={20} 
           />

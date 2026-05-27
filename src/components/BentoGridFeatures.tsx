@@ -1,21 +1,22 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import anime from "animejs";
+import { Target, CheckCircle2, Award, Terminal } from "lucide-react";
 
 export const BentoGridFeatures = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   
   // State for AI Validation Logs
   const [logs, setLogs] = useState<string[]>([
-    "⚙️ [SYSTEM]: Initializing Civic-AI validator..."
+    "[Sistem]: Memulai pengecekan laporan..."
   ]);
   const logSequence = [
-    "🔍 [AI]: Metadata scanning... OK",
-    "📷 [AI]: Photo analysis: Validated signature (98% confidence)",
-    "🚫 [AI]: Duplication check: 0 matches found",
-    "🗺️ [AI]: Mapping to coordinate cluster...",
-    "🚀 [AI]: Auto-routing to: Dinas PUPR Kota",
-    "✅ [SYSTEM]: Validation complete. Waiting approval."
+    "[Sistem]: Memeriksa metadata foto... OK",
+    "[Sistem]: Menganalisis keaslian foto laporan...",
+    "[Sistem]: Menyaring potensi laporan ganda...",
+    "[Sistem]: Memetakan koordinat laporan...",
+    "[Sistem]: Meneruskan ke instansi terkait...",
+    "[Sistem]: Pengecekan selesai. Menunggu persetujuan."
   ];
 
   useEffect(() => {
@@ -82,7 +83,7 @@ export const BentoGridFeatures = () => {
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16 sm:mb-20">
           <span className="inline-block text-xs font-bold uppercase tracking-[0.25em] text-stone-400 dark:text-stone-500 mb-4 bg-stone-100 dark:bg-white/5 px-3 py-1 rounded-full">
-            Fitur Cerdas
+            Fitur Utama
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-stone-900 to-stone-600 dark:from-white dark:to-stone-400 tracking-tight pb-2">
             Dirancang untuk <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-amber-500">Transparansi</span>
@@ -98,13 +99,11 @@ export const BentoGridFeatures = () => {
             
             <div className="relative z-10">
               <div className="bento-icon-container w-16 h-16 bg-amber-500/10 dark:bg-amber-500/20 rounded-2xl flex items-center justify-center mb-8 border border-amber-500/20 backdrop-blur-sm shadow-md">
-                <svg className="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                </svg>
+                <Target className="w-8 h-8 text-amber-500" strokeWidth={2.5} />
               </div>
-              <h3 className="text-3xl font-extrabold mb-4 text-stone-900 dark:text-white tracking-tight">Presisi Geospasial</h3>
+              <h3 className="text-3xl font-extrabold mb-4 text-stone-900 dark:text-white tracking-tight">Akurasi Lokasi</h3>
               <p className="text-stone-500 dark:text-stone-400 text-base sm:text-lg leading-relaxed font-semibold max-w-lg">
-                Pemetaan lokasi otomatis dengan akurasi satelit tinggi, memastikan tim teknis tiba di titik yang tepat tanpa hambatan atau kebingungan koordinat.
+                Penentuan lokasi otomatis yang akurat untuk memudahkan tim teknis menemukan masalah di lapangan.
               </p>
             </div>
             
@@ -148,13 +147,11 @@ export const BentoGridFeatures = () => {
             <div className="relative z-10 flex-1 flex flex-col justify-between">
               <div>
                 <div className="bento-icon-container w-16 h-16 bg-blue-500/10 dark:bg-blue-500/20 rounded-2xl flex items-center justify-center mb-8 border border-blue-500/20 backdrop-blur-sm shadow-md">
-                  <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
+                  <CheckCircle2 className="w-8 h-8 text-blue-500" strokeWidth={2.5} />
                 </div>
-                <h3 className="text-2xl font-extrabold mb-4 text-stone-900 dark:text-white tracking-tight">Validasi AI Otomatis</h3>
+                <h3 className="text-2xl font-extrabold mb-4 text-stone-900 dark:text-white tracking-tight">Sistem Pengecekan Otomatis</h3>
                 <p className="text-stone-500 dark:text-stone-400 text-sm leading-relaxed font-semibold mb-6">
-                  Kecerdasan buatan menyaring laporan duplikat dan memprioritaskan masalah secara real-time.
+                  Sistem kami membantu menyaring laporan ganda untuk mempercepat penanganan.
                 </p>
               </div>
               
@@ -170,8 +167,9 @@ export const BentoGridFeatures = () => {
                 ))}
                 
                 {/* Pulsing prompt cursor */}
-                <div className="flex items-center gap-1 font-bold text-stone-500">
-                  <span>$ running diagnostics</span>
+                <div className="flex items-center gap-1.5 font-bold text-stone-500">
+                  <Terminal className="w-3 h-3" />
+                  <span>$ memproses laporan</span>
                   <span className="w-1.5 h-3 bg-blue-500 animate-pulse" />
                 </div>
                 
@@ -189,13 +187,11 @@ export const BentoGridFeatures = () => {
             <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
               <div className="flex-1">
                 <div className="bento-icon-container w-16 h-16 bg-emerald-500/10 dark:bg-emerald-500/20 rounded-2xl flex items-center justify-center mb-8 border border-emerald-500/20 backdrop-blur-sm shadow-md">
-                  <svg className="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
-                  </svg>
+                  <Award className="w-8 h-8 text-emerald-500" strokeWidth={2.5} />
                 </div>
-                <h3 className="text-3xl font-extrabold mb-4 text-stone-900 dark:text-white tracking-tight">Ekosistem Gamifikasi</h3>
+                <h3 className="text-3xl font-extrabold mb-4 text-stone-900 dark:text-white tracking-tight">Sistem Poin Warga</h3>
                 <p className="text-stone-500 dark:text-stone-400 text-base sm:text-lg leading-relaxed font-semibold max-w-2xl">
-                  Setiap kontribusi dihargai. Kumpulkan poin reputasi, raih lencana eksklusif, dan bersaing secara positif di Leaderboard.
+                  Setiap laporan yang terbukti benar akan mendapatkan poin. Kumpulkan poin dan pantau peringkat Anda.
                 </p>
               </div>
               
@@ -226,8 +222,8 @@ export const BentoGridFeatures = () => {
 
                 {/* Widget 2: 3D Trophy Card */}
                 <div className="flex items-center gap-4 bg-white/80 dark:bg-black/40 border border-stone-200/50 dark:border-white/10 p-5 rounded-[2rem] shadow-xl backdrop-blur-md group-hover:scale-[1.03] transition-transform duration-500">
-                  <div className="w-14 h-14 bg-amber-500/20 rounded-2xl flex items-center justify-center text-3xl shadow-[0_0_15px_rgba(245,158,11,0.25)] relative overflow-hidden group-hover:animate-bounce">
-                    <span className="relative z-10">🏆</span>
+                  <div className="w-14 h-14 bg-amber-500/20 rounded-2xl flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.25)] relative overflow-hidden group-hover:animate-bounce">
+                    <Award className="w-7 h-7 text-amber-500 relative z-10" strokeWidth={2.5} />
                     <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
                   </div>
                   <div>

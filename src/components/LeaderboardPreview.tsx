@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Trophy, Medal, Award } from "lucide-react";
 
 interface LeaderboardUser {
   id: string;
@@ -18,7 +19,11 @@ const FALLBACK_DATA: LeaderboardUser[] = [
   { id: "5", full_name: "Dimas Prasetyo", points: 1450 },
 ];
 
-const medals = ["🥇", "🥈", "🥉"];
+const medals = [
+  <Trophy key="gold" className="w-5 h-5 text-yellow-500 mx-auto" strokeWidth={2.5} />, 
+  <Medal key="silver" className="w-5 h-5 text-gray-400 mx-auto" strokeWidth={2.5} />, 
+  <Award key="bronze" className="w-5 h-5 text-amber-700 mx-auto" strokeWidth={2.5} />
+];
 
 const getInitials = (name: string) => {
   return name
@@ -66,10 +71,10 @@ export const LeaderboardPreview = () => {
             Komunitas
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-stone-900 to-stone-600 dark:from-white dark:to-stone-400 tracking-tight pb-2 mb-4">
-            Pahlawan <span className="text-amber-500">Infrastruktur</span>
+            Peringkat <span className="text-amber-500">Warga</span>
           </h2>
           <p className="text-base sm:text-lg text-stone-500 dark:text-stone-400 max-w-xl mx-auto font-medium">
-            Kontributor teratas yang aktif membangun kota lebih baik
+            Warga yang paling aktif melaporkan masalah infrastruktur kota
           </p>
         </motion.div>
 
@@ -120,7 +125,7 @@ export const LeaderboardPreview = () => {
                     {/* Rank */}
                     <div className="w-6 text-center shrink-0">
                       {i < 3 ? (
-                        <span className="text-lg">{medals[i]}</span>
+                        <div className="flex items-center justify-center">{medals[i]}</div>
                       ) : (
                         <span className="text-sm font-extrabold text-stone-400 dark:text-stone-600">
                           {i + 1}

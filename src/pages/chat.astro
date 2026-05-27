@@ -85,7 +85,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         const messages = json.data || [];
 
         if (messages.length === 0) {
-          container.innerHTML = '<div class="flex flex-col items-center justify-center h-full gap-3 text-center"><div class="text-4xl">💬</div><p class="text-zen-muted font-bold text-sm">Belum ada pesan. Mulai percakapan!</p></div>';
+          container.innerHTML = '<div class="flex flex-col items-center justify-center h-full gap-3 text-center"><div class="flex justify-center mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-stone-300 dark:text-stone-700"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><p class="text-zen-muted font-bold text-sm">Belum ada pesan. Mulai percakapan!</p></div>';
           return;
         }
 

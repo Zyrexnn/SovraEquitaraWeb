@@ -1,45 +1,31 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
+import { Camera, ShieldCheck, CheckCircle } from "lucide-react";
 
 const steps = [
   {
     number: "01",
     title: "Lapor",
-    subtitle: "Citizen Portal",
+    subtitle: "Portal Warga",
     description: "Ambil foto, tandai lokasi, dan kirim laporan infrastruktur di sekitar Anda dalam hitungan detik.",
-    icon: (
-      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-        <circle cx="12" cy="13" r="4" />
-      </svg>
-    ),
+    icon: <Camera className="w-8 h-8" strokeWidth={2.5} />,
     color: "amber",
   },
   {
     number: "02",
     title: "Verifikasi",
-    subtitle: "Civic AI Core",
-    description: "AI kami memvalidasi laporan secara otomatis — mendeteksi duplikat, memverifikasi foto, dan memetakan prioritas.",
-    icon: (
-      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        <path d="M9 12l2 2 4-4" />
-      </svg>
-    ),
+    subtitle: "Proses Verifikasi",
+    description: "Laporan Anda akan melalui proses verifikasi untuk memastikan keabsahan dan menghindari laporan ganda.",
+    icon: <ShieldCheck className="w-8 h-8" strokeWidth={2.5} />,
     color: "blue",
   },
   {
     number: "03",
     title: "Selesai",
-    subtitle: "Dinas Resolusi",
+    subtitle: "Tindak Lanjut",
     description: "Tim kota menindaklanjuti perbaikan. Pantau progres real-time dan berikan persetujuan saat selesai.",
-    icon: (
-      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-        <polyline points="22 4 12 14.01 9 11.01" />
-      </svg>
-    ),
+    icon: <CheckCircle className="w-8 h-8" strokeWidth={2.5} />,
     color: "green",
   },
 ];
