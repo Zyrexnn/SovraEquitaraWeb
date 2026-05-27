@@ -20,25 +20,30 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       </header>
 
       <!-- Chat Window -->
-      <div class="rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen overflow-hidden flex flex-col min-h-[500px] max-h-[70vh]">
-        <div class="px-6 py-4 border-b border-zen-border dark:border-zen-border-dark flex items-center gap-3 bg-zen-surface/50 dark:bg-zen-surface-dark/50">
-          <div id="chat-header-avatar" class="w-10 h-10 rounded-full overflow-hidden bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center font-black text-sm">AD</div>
+      <div class="rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-sm overflow-hidden flex flex-col min-h-[500px] h-[75vh]">
+        <!-- Header -->
+        <div class="px-6 py-5 border-b border-zen-border dark:border-zen-border-dark flex items-center gap-4 bg-white/50 dark:bg-zen-bg-dark/50 backdrop-blur-md">
+          <div id="chat-header-avatar" class="w-12 h-12 rounded-[1rem] overflow-hidden bg-brand dark:bg-white text-white dark:text-brand flex items-center justify-center font-black text-base shadow-sm">AD</div>
           <div>
-            <div id="chat-header-name" class="font-black text-sm">Admin</div>
-            <div id="chat-header-role" class="text-[10px] font-bold text-green-500 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Online</div>
+            <div id="chat-header-name" class="font-extrabold text-base text-zen-text dark:text-zen-text-dark">Admin</div>
+            <div id="chat-header-role" class="text-[11px] font-bold text-emerald-500 flex items-center gap-1.5 mt-0.5 tracking-wide uppercase"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Online</div>
           </div>
         </div>
 
-        <div id="chat-messages" class="flex-1 p-6 overflow-y-auto space-y-4 scrollbar-hide">
+        <!-- Messages Area -->
+        <div id="chat-messages" class="flex-1 p-6 overflow-y-auto space-y-6 scrollbar-hide bg-stone-50/50 dark:bg-[#151515]">
           <div class="flex items-center justify-center h-32 text-zen-muted dark:text-zen-muted-dark font-bold text-sm">Memuat pesan...</div>
         </div>
 
-        <div class="p-4 border-t border-zen-border dark:border-zen-border-dark bg-zen-surface/30 dark:bg-zen-surface-dark/30">
-          <form id="chat-form" class="flex items-end gap-3">
-            <textarea id="chat-input" rows="1" placeholder="Tulis pesan ke Admin..." class="w-full px-5 py-3.5 bg-zen-bg dark:bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand/20 dark:focus:ring-white/20 resize-none min-h-[48px] max-h-28 text-zen-text dark:text-zen-text-dark"></textarea>
-            <button type="submit" class="p-3.5 bg-brand dark:bg-white text-white dark:text-brand rounded-2xl hover:scale-105 transition-transform shadow-lg">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            </button>
+        <!-- Input Area -->
+        <div class="p-4 sm:p-6 bg-white dark:bg-zen-card-dark border-t border-zen-border dark:border-zen-border-dark">
+          <form id="chat-form" class="flex items-end gap-3 relative">
+            <div class="flex-1 relative">
+              <textarea id="chat-input" rows="1" placeholder="Tulis pesan ke Admin..." class="w-full pl-5 pr-14 py-3.5 bg-stone-100 dark:bg-stone-900 border-none rounded-[1.25rem] text-sm font-semibold outline-none focus:ring-2 focus:ring-brand/30 dark:focus:ring-white/20 resize-none min-h-[52px] max-h-32 text-zen-text dark:text-zen-text-dark scrollbar-hide transition-all"></textarea>
+              <button type="submit" class="absolute right-2 bottom-2 p-2.5 bg-brand dark:bg-white text-white dark:text-brand rounded-xl hover:scale-105 transition-transform shadow-md cursor-pointer">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -89,7 +94,13 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           const adminName = lastAdminMsg.sender.full_name || 'Admin';
           const headerName = document.getElementById('chat-header-name');
           const headerAvatar = document.getElementById('chat-header-avatar');
-          if (headerName) headerName.textContent = adminName;
+          
+          if (headerName) {
+            const role = lastAdminMsg.sender.role;
+            const badgeHtml = role === 'super_admin' ? `<svg class="inline-block ml-1.5 w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : (role === 'admin' ? `<svg class="inline-block ml-1.5 w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : '');
+            headerName.innerHTML = `<span class="flex items-center">${adminName}${badgeHtml}</span>`;
+          }
+          
           if (headerAvatar) {
             if (lastAdminMsg.sender.avatar_url) {
               const url = lastAdminMsg.sender.avatar_url.startsWith('http') ? lastAdminMsg.sender.avatar_url : API_URL + lastAdminMsg.sender.avatar_url;
@@ -109,11 +120,11 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           const isAdmin = m.sender?.role === 'admin' || m.sender?.role === 'super_admin';
           const badgeHtml = m.sender?.role === 'super_admin' ? `<svg class="inline-block ml-1 w-3.5 h-3.5 text-amber-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : (m.sender?.role === 'admin' ? `<svg class="inline-block ml-1 w-3.5 h-3.5 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : '');
           
-          return '<div class="flex gap-3 max-w-[85%] ' + (isMine ? 'self-end flex-row-reverse ml-auto' : '') + '">' +
-            '<div class="w-8 h-8 rounded-full ' + (isMine ? 'bg-brand text-white dark:text-zen-bg' : 'bg-stone-900 dark:bg-white text-white dark:text-black') + ' flex items-center justify-center font-black text-xs shrink-0 overflow-hidden border border-white/10">' + avatarHtml + '</div>' +
-            '<div>' +
-            '<div class="flex items-center gap-2 mb-1 ' + (isMine ? 'flex-row-reverse' : '') + '"><span class="text-[10px] font-bold text-zen-muted flex items-center">' + senderName + badgeHtml + '</span><span class="text-[9px] text-stone-300 dark:text-stone-600">' + time + '</span></div>' +
-            '<div class="px-4 py-3 rounded-2xl text-sm font-medium ' + (isMine ? 'bg-brand text-white dark:text-zen-bg rounded-tr-sm' : 'bg-zen-surface dark:bg-zen-surface-dark rounded-tl-sm border border-zen-border dark:border-zen-border-dark') + '">' + m.content + '</div>' +
+          return '<div class="flex gap-3.5 max-w-[85%] ' + (isMine ? 'self-end flex-row-reverse ml-auto' : '') + '">' +
+            '<div class="w-9 h-9 rounded-full ' + (isMine ? 'bg-brand text-white dark:text-zen-bg' : 'bg-stone-200 dark:bg-stone-800 text-stone-700 dark:text-stone-300') + ' flex items-center justify-center font-black text-xs shrink-0 overflow-hidden shadow-sm border border-black/5 dark:border-white/5">' + avatarHtml + '</div>' +
+            '<div class="flex flex-col">' +
+            '<div class="flex items-center gap-2 mb-1.5 ' + (isMine ? 'flex-row-reverse' : '') + '"><span class="text-[11px] font-bold text-zen-muted flex items-center">' + senderName + badgeHtml + '</span><span class="text-[10px] font-semibold text-stone-400 dark:text-stone-500">' + time + '</span></div>' +
+            '<div class="px-4 py-3 text-sm font-medium leading-relaxed ' + (isMine ? 'bg-gradient-to-br from-blue-500 to-blue-600 dark:from-white dark:to-stone-200 text-white dark:text-black rounded-[1.25rem] rounded-tr-sm shadow-sm' : 'bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-100 rounded-[1.25rem] rounded-tl-sm border border-stone-200/50 dark:border-white/5 shadow-sm') + '">' + m.content + '</div>' +
             '</div></div>';
         }).join('');
 

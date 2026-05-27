@@ -107,6 +107,17 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
+  
+  // Fitur Filter & Search
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('ALL');
+
+  const filteredReports = reports.filter(r => {
+    const matchesSearch = r.description.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          r.location_detail.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'ALL' || r.status.toUpperCase() === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   useEffect(() => {
     const userRaw = localStorage.getItem('user');
@@ -200,23 +211,30 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
   };
 
   const handleAdminAction = async (reportId: string, action: string) => {
-    const actionText = action === 'verify' ? 'Validasi' : action === 'resolve' ? 'Selesaikan' : 'Batalkan';
+    const actionText = action === 'verify' ? 'Validasi' : action === 'resolve' ? 'Selesaikan' : action === 'delete' ? 'Hapus' : 'Batalkan';
     if (!confirm(`Apakah Anda yakin ingin ${actionText} laporan ini?`)) return;
     const token = localStorage.getItem('access_token');
     const role = (user?.role || '').toLowerCase();
     const isSuperAdmin = role === 'super_admin';
-    const endpoint = action === 'cancel' && isSuperAdmin
+    
+    const endpoint = action === 'delete' && isSuperAdmin
+      ? `${apiUrl}/api/superadmin/reports/${reportId}`
+      : action === 'cancel' && isSuperAdmin
       ? `${apiUrl}/api/superadmin/reports/${reportId}/cancel`
       : `${apiUrl}/api/admin/reports/${reportId}/${action}`;
 
     try {
       const res = await fetch(endpoint, {
-        method: 'PATCH',
+        method: action === 'delete' ? 'DELETE' : 'PATCH',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       });
       if (res.ok) {
-        const newStatus = action === 'verify' ? 'VALID' : action === 'resolve' ? 'RESOLVED' : 'PENDING';
-        setReports(prev => prev.map(r => r.id === reportId ? { ...r, status: newStatus } : r));
+        if (action === 'delete') {
+          setReports(prev => prev.filter(r => r.id !== reportId));
+        } else {
+          const newStatus = action === 'verify' ? 'VALID' : action === 'resolve' ? 'RESOLVED' : 'REJECTED';
+          setReports(prev => prev.map(r => r.id === reportId ? { ...r, status: newStatus } : r));
+        }
       } else {
         const err = await res.json();
         alert(err.error || `Gagal ${actionText.toLowerCase()} laporan`);
@@ -273,17 +291,80 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
   }
 
   const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
+  const role = (user?.role || '').toLowerCase();
+  const isAdmin = role === 'admin' || role === 'super_admin';
+  const isSuperAdmin = role === 'super_admin';
 
   return (
-    <div className="relative w-full h-[70vh] min-h-[500px] rounded-3xl overflow-hidden border border-stone-200 dark:border-stone-800 shadow-lg">
-      <MapContainer
-        center={INDONESIA_CENTER}
-        zoom={INDONESIA_ZOOM}
-        minZoom={5}
-        maxZoom={18}
-        maxBounds={INDONESIA_BOUNDS}
-        maxBoundsViscosity={1.0}
-        style={{ width: '100%', height: '100%' }}
+    <div className="flex flex-col gap-4 w-full h-full">
+      {/* Search & Filter Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]">
+        {/* Search Bar */}
+        <div className="relative w-full md:w-96 shrink-0">
+          <input 
+            type="text" 
+            placeholder="Cari deskripsi atau lokasi..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 rounded-xl pl-10 pr-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+          />
+          <svg className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
+
+        {/* Filter Scrollable Row */}
+        <div className="flex-1 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+          <div className="flex items-center gap-2 min-w-max md:justify-end">
+            {[
+              { id: 'ALL', label: 'Semua', color: 'bg-stone-500' },
+              { id: 'VALID', label: 'Valid', color: 'bg-blue-500' },
+              { id: 'PENDING', label: 'Diproses', color: 'bg-amber-500' },
+              { id: 'WAITING_APPROVAL', label: 'Menunggu', color: 'bg-purple-500' },
+              { id: 'RESOLVED', label: 'Selesai', color: 'bg-emerald-500' },
+              ...(isAdmin ? [{ id: 'REJECTED', label: 'Dibatalkan', color: 'bg-red-500' }] : [])
+            ].map(filter => (
+              <button
+                key={filter.id}
+                onClick={() => setStatusFilter(filter.id)}
+                className={`flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl border transition-colors cursor-pointer ${
+                  statusFilter === filter.id 
+                  ? 'bg-stone-200 dark:bg-stone-800 border-stone-300 dark:border-stone-600 text-stone-900 dark:text-white shadow-sm' 
+                  : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800 text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800/50'
+                }`}
+              >
+                <span className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${filter.color}`}></span>
+                {filter.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="relative flex-1 w-full h-[60vh] min-h-[500px] rounded-3xl overflow-hidden border border-stone-200 dark:border-stone-800 shadow-lg">
+        {isAdmin && (
+          <div className="absolute top-4 left-4 z-[1000] px-3 py-1.5 bg-blue-600 text-white border border-blue-500 rounded-xl shadow-md text-xs font-black tracking-wide uppercase">
+            Mode {isSuperAdmin ? 'Super Admin' : 'Admin'}
+          </div>
+        )}
+
+        {filteredReports.length > 0 ? (
+          <div className="absolute bottom-4 right-4 z-[1000] px-3 py-1.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl shadow-md text-xs font-bold text-stone-700 dark:text-stone-300">
+            {filteredReports.length} Laporan
+          </div>
+        ) : (
+          <div className="absolute inset-0 z-[1000] bg-white/80 dark:bg-black/80 flex flex-col items-center justify-center backdrop-blur-sm">
+            <svg className="w-12 h-12 text-stone-400 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <p className="text-stone-500 dark:text-stone-400 font-bold text-sm">Tidak ada laporan ditemukan</p>
+          </div>
+        )}
+
+        <MapContainer
+          center={INDONESIA_CENTER}
+          zoom={INDONESIA_ZOOM}
+          minZoom={5}
+          maxZoom={18}
+          maxBounds={INDONESIA_BOUNDS}
+          maxBoundsViscosity={1.0}
+          style={{ width: '100%', height: '100%' }}
         preferCanvas={true}
         keepBuffer={4}
       >
@@ -300,9 +381,9 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
         />
 
         {/* Auto-fit bounds to markers */}
-        <MapBoundsFitter reports={reports} />
+        <MapBoundsFitter reports={filteredReports} />
 
-        {reports.map((report) => {
+        {filteredReports.map((report) => {
           if (!report.latitude || !report.longitude) return null;
 
           const catName = categories.find(c => c.id === report.category_id)?.name || 'Umum';
@@ -437,13 +518,6 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
         })}
       </MapContainer>
 
-      {/* Laporan count badge */}
-      {reports.length > 0 && (
-        <div className="absolute top-4 right-4 z-[1000] px-3 py-1.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl shadow-md text-xs font-bold text-stone-700 dark:text-stone-300">
-          {reports.length} Laporan
-        </div>
-      )}
-
       {/* Popup Leaflet overrides */}
       <style>{`
         .leaflet-popup-content-wrapper {
@@ -484,6 +558,7 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
           color: #fff !important;
         }
       `}</style>
+      </div>
     </div>
   );
 };

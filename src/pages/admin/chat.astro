@@ -32,50 +32,52 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         <!-- Bento Grid: Conversation List + Chat Detail -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
           <!-- Conversation List -->
-          <div class="lg:col-span-4 bg-white dark:bg-stone-900 rounded-[32px] border border-stone-200 dark:border-white/10 shadow-sm flex flex-col overflow-hidden min-h-[400px] lg:min-h-0">
-            <div class="p-5 border-b border-stone-100 dark:border-white/5">
+          <div class="lg:col-span-4 bg-stone-50/50 dark:bg-stone-900/30 rounded-[2rem] border border-stone-200/50 dark:border-white/5 shadow-sm flex flex-col overflow-hidden min-h-[400px] lg:min-h-0">
+            <div class="p-5 border-b border-stone-200/50 dark:border-white/5 bg-white/50 dark:bg-stone-900/50 backdrop-blur-sm">
               <div class="relative">
                 <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input id="search-conv" type="text" placeholder="Cari percakapan..." class="w-full pl-11 pr-4 py-3 bg-stone-50 dark:bg-white/5 border border-stone-100 dark:border-white/5 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500/20" />
+                <input id="search-conv" type="text" placeholder="Cari percakapan..." class="w-full pl-11 pr-4 py-3 bg-white dark:bg-stone-800 border-none rounded-2xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500/20 shadow-sm" />
               </div>
             </div>
-            <div id="conv-list" class="flex-1 overflow-y-auto p-3 space-y-1.5 scrollbar-hide">
+            <div id="conv-list" class="flex-1 overflow-y-auto p-4 space-y-2 scrollbar-hide">
               <div class="flex items-center justify-center h-32 text-stone-400 font-bold text-sm">Memuat...</div>
             </div>
           </div>
 
           <!-- Chat Detail Panel -->
-          <div class="lg:col-span-8 bg-white dark:bg-stone-900 rounded-[32px] border border-stone-200 dark:border-white/10 shadow-sm flex flex-col overflow-hidden min-h-[500px] lg:min-h-0">
+          <div class="lg:col-span-8 bg-white dark:bg-[#121212] rounded-[2rem] border border-stone-200/80 dark:border-white/5 shadow-sm flex flex-col overflow-hidden min-h-[500px] lg:min-h-0">
             <!-- Empty State -->
-            <div id="chat-empty" class="flex-1 flex flex-col items-center justify-center gap-4 text-stone-400 p-8">
-              <div class="w-20 h-20 rounded-full bg-stone-50 dark:bg-white/5 flex items-center justify-center text-4xl border border-stone-100 dark:border-white/5">💬</div>
-              <p class="font-bold text-sm text-center">Pilih percakapan untuk mulai membalas pesan.</p>
+            <div id="chat-empty" class="flex-1 flex flex-col items-center justify-center gap-5 text-stone-400 p-8 bg-stone-50/30 dark:bg-transparent">
+              <div class="w-24 h-24 rounded-full bg-stone-100 dark:bg-stone-900 flex items-center justify-center text-5xl shadow-inner border border-stone-200/50 dark:border-white/5">💬</div>
+              <p class="font-bold text-sm text-center text-stone-500">Pilih percakapan dari panel kiri untuk mulai membalas pesan.</p>
             </div>
 
             <!-- Active Chat -->
-            <div id="chat-active" class="hidden flex-1 flex flex-col">
+            <div id="chat-active" class="hidden flex-1 flex flex-col bg-stone-50/50 dark:bg-[#151515]">
               <!-- Chat Header -->
-              <div class="px-6 py-4 border-b border-stone-100 dark:border-white/5 flex items-center gap-4">
-                <button id="chat-back-btn" class="lg:hidden p-2 hover:bg-stone-100 dark:hover:bg-white/5 rounded-xl">
+              <div class="px-6 py-5 border-b border-stone-200/50 dark:border-white/5 flex items-center gap-4 bg-white/80 dark:bg-[#121212]/80 backdrop-blur-md">
+                <button id="chat-back-btn" class="lg:hidden p-2 hover:bg-stone-100 dark:hover:bg-white/5 rounded-xl transition-colors">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 </button>
-                <div id="chat-header-avatar" class="w-11 h-11 rounded-full overflow-hidden bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center font-black text-sm cursor-pointer hover:scale-105 transition-transform" onclick="window.openProfileFromChat()">A</div>
+                <div id="chat-header-avatar" class="w-12 h-12 rounded-[1rem] overflow-hidden bg-blue-500 text-white flex items-center justify-center font-black text-base cursor-pointer hover:scale-105 transition-transform shadow-sm border border-black/5" onclick="window.openProfileFromChat()">A</div>
                 <div class="flex-1 min-w-0 cursor-pointer" onclick="window.openProfileFromChat()">
-                  <div id="chat-header-name" class="font-black text-sm truncate">Nama User</div>
-                  <div id="chat-header-role" class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">USER</div>
+                  <div id="chat-header-name" class="font-extrabold text-base truncate text-stone-900 dark:text-stone-100">Nama User</div>
+                  <div id="chat-header-role" class="text-[11px] font-bold text-stone-400 mt-0.5 tracking-wide uppercase">USER</div>
                 </div>
               </div>
 
               <!-- Messages -->
-              <div id="chat-messages" class="flex-1 p-6 overflow-y-auto space-y-4 scrollbar-hide"></div>
+              <div id="chat-messages" class="flex-1 p-6 overflow-y-auto space-y-6 scrollbar-hide"></div>
 
               <!-- Reply Input -->
-              <div class="p-4 border-t border-stone-100 dark:border-white/5 bg-stone-50/50 dark:bg-stone-950/50">
-                <form id="reply-form" class="flex items-end gap-3">
-                  <textarea id="reply-input" rows="1" placeholder="Tulis balasan..." class="w-full px-5 py-3.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500/20 resize-none min-h-[48px] max-h-28"></textarea>
-                  <button type="submit" class="p-3.5 bg-stone-900 dark:bg-white text-white dark:text-black rounded-2xl hover:scale-105 transition-transform shadow-lg">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                  </button>
+              <div class="p-4 sm:p-6 border-t border-stone-200/50 dark:border-white/5 bg-white dark:bg-[#121212]">
+                <form id="reply-form" class="flex items-end gap-3 relative">
+                  <div class="flex-1 relative">
+                    <textarea id="reply-input" rows="1" placeholder="Tulis balasan..." class="w-full pl-5 pr-14 py-3.5 bg-stone-100 dark:bg-stone-800/50 border-none rounded-[1.25rem] text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500/30 dark:focus:ring-white/20 resize-none min-h-[52px] max-h-32 text-stone-700 dark:text-stone-300 scrollbar-hide transition-all"></textarea>
+                    <button type="submit" class="absolute right-2 bottom-2 p-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl hover:scale-105 transition-transform shadow-md cursor-pointer">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>
@@ -185,18 +187,20 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         const unread = c.unread_count || 0;
         const time = c.last_message_at ? new Date(c.last_message_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) : "";
         return `
-          <div class="flex items-center gap-3.5 p-3.5 rounded-2xl cursor-pointer transition-all duration-200 group ${isActive ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-lg' : 'hover:bg-stone-50 dark:hover:bg-white/5'}" onclick="window.openConversation('${c.id}', '${p.id}')">
-            <div class="w-11 h-11 rounded-full overflow-hidden ${isActive ? 'bg-white dark:bg-stone-900 text-black dark:text-white' : 'bg-stone-100 dark:bg-white/10 text-stone-700 dark:text-stone-300'} flex items-center justify-center font-black text-sm shrink-0 cursor-pointer" onclick="event.stopPropagation(); window.openProfileModal('${p.id}')">${avatarHtml}</div>
+          <div class="flex items-center gap-4 p-4 rounded-2xl cursor-pointer transition-all duration-200 group ${isActive ? 'bg-white dark:bg-stone-800 shadow-sm border border-stone-200/50 dark:border-white/5' : 'hover:bg-stone-100/50 dark:hover:bg-stone-800/50 border border-transparent'}" onclick="window.openConversation('${c.id}', '${p.id}')">
+            <div class="w-12 h-12 rounded-[1rem] overflow-hidden ${isActive ? 'bg-blue-500 text-white' : 'bg-stone-200 dark:bg-stone-800 text-stone-700 dark:text-stone-300'} flex items-center justify-center font-black text-base shrink-0 border border-black/5 dark:border-white/5 shadow-sm" onclick="event.stopPropagation(); window.openProfileModal('${p.id}')">${avatarHtml}</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <span class="font-black text-sm truncate">${p.full_name || "Unknown"}</span>
-                <span class="text-[10px] font-bold ${isActive ? 'opacity-60' : 'text-stone-400'} shrink-0">${time}</span>
+                <span class="font-extrabold text-sm truncate text-stone-900 dark:text-stone-100 flex items-center">${p.full_name || "Unknown"}
+                  ${p.role === 'super_admin' ? `<svg class="inline-block ml-1 w-3.5 h-3.5 text-amber-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : (p.role === 'admin' ? `<svg class="inline-block ml-1 w-3.5 h-3.5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : '')}
+                </span>
+                <span class="text-[10px] font-bold ${isActive ? 'text-stone-500' : 'text-stone-400'} shrink-0">${time}</span>
               </div>
               <div class="flex items-center justify-between gap-2 mt-0.5">
-                <span class="text-xs ${isActive ? 'opacity-70' : 'text-stone-400'} truncate font-medium">${c.last_message || "Belum ada pesan"}</span>
-                ${unread > 0 && !isActive ? `<span class="shrink-0 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-black flex items-center justify-center">${unread}</span>` : ''}
+                <span class="text-[13px] ${isActive ? 'text-stone-600 dark:text-stone-300' : 'text-stone-500 dark:text-stone-400'} truncate font-medium">${c.last_message || "Belum ada pesan"}</span>
+                ${unread > 0 && !isActive ? `<span class="shrink-0 w-3.5 h-3.5 rounded-full bg-red-500 animate-pulse shadow-sm shadow-red-500/30"></span>` : ''}
               </div>
-              <span class="text-[9px] font-black uppercase tracking-widest ${isActive ? 'opacity-50' : roleColor}">${roleLabel}</span>
+              <span class="text-[9.5px] font-bold uppercase tracking-widest mt-1 block ${roleColor}">${roleLabel}</span>
             </div>
           </div>`;
       }).join("");
@@ -222,7 +226,10 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           headerAvatar.innerHTML = (p.full_name || "U")[0].toUpperCase();
         }
       }
-      if (headerName) headerName.textContent = p.full_name || "Unknown";
+      if (headerName) {
+        const badgeHtml = p.role === 'super_admin' ? `<svg class="inline-block ml-1.5 w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : (p.role === 'admin' ? `<svg class="inline-block ml-1.5 w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : '');
+        headerName.innerHTML = `<span class="flex items-center">${p.full_name || "Unknown"}${badgeHtml}</span>`;
+      }
       if (headerRole) headerRole.textContent = (p.role === "admin" || p.role === "super_admin") ? "ADMIN" : "WARGA";
 
       await loadMessages(convId);
@@ -251,15 +258,18 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
               const time = new Date(m.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
               const initial = senderName[0].toUpperCase();
               const avatarHtml = m.sender?.avatar_url ? `<img src="${m.sender.avatar_url.startsWith('http') ? m.sender.avatar_url : API_URL + m.sender.avatar_url}" class="w-full h-full object-cover rounded-full" />` : initial;
+              const role = m.sender?.role;
+              const badgeHtml = role === 'super_admin' ? `<svg class="inline-block ml-1 w-3.5 h-3.5 text-amber-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : (role === 'admin' ? `<svg class="inline-block ml-1 w-3.5 h-3.5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : '');
+              
               return `
-                <div class="flex gap-3 max-w-[85%] ${isMine ? 'self-end flex-row-reverse ml-auto' : ''}">
-                  <div class="w-8 h-8 rounded-full overflow-hidden ${isMine ? 'bg-stone-900 dark:bg-white text-white dark:text-black' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'} flex items-center justify-center font-black text-xs shrink-0 cursor-pointer border border-white/10" onclick="window.openProfileModal('${m.sender_id}')">${avatarHtml}</div>
-                  <div>
-                    <div class="flex items-center gap-2 mb-1 ${isMine ? 'flex-row-reverse' : ''}">
-                      <span class="text-[10px] font-bold text-stone-400">${senderName}</span>
-                      <span class="text-[9px] text-stone-300 dark:text-stone-600">${time}</span>
+                <div class="flex gap-3.5 max-w-[85%] ${isMine ? 'self-end flex-row-reverse ml-auto' : ''}">
+                  <div class="w-9 h-9 rounded-full overflow-hidden ${isMine ? 'bg-blue-500 text-white' : 'bg-stone-200 dark:bg-stone-800 text-stone-700 dark:text-stone-300'} flex items-center justify-center font-black text-xs shrink-0 cursor-pointer border border-black/5 dark:border-white/5 shadow-sm" onclick="window.openProfileModal('${m.sender_id}')">${avatarHtml}</div>
+                  <div class="flex flex-col">
+                    <div class="flex items-center gap-2 mb-1.5 ${isMine ? 'flex-row-reverse' : ''}">
+                      <span class="text-[11px] font-bold text-stone-500 dark:text-stone-400 flex items-center">${senderName}${badgeHtml}</span>
+                      <span class="text-[10px] font-semibold text-stone-400 dark:text-stone-500">${time}</span>
                     </div>
-                    <div class="px-4 py-3 rounded-2xl text-sm font-medium ${isMine ? 'bg-stone-900 dark:bg-white text-white dark:text-black rounded-tr-sm' : 'bg-stone-50 dark:bg-white/5 rounded-tl-sm border border-stone-100 dark:border-white/5'}">${m.content}</div>
+                    <div class="px-4 py-3 text-sm font-medium leading-relaxed ${isMine ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-[1.25rem] rounded-tr-sm shadow-sm' : 'bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-100 rounded-[1.25rem] rounded-tl-sm border border-stone-200/50 dark:border-white/5 shadow-sm'}">${m.content}</div>
                   </div>
                 </div>`;
             }).join("");
