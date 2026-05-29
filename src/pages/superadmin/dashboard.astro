@@ -836,14 +836,27 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           }
 
           const data = await res.json();
+          
+          // Securely fetch the actual backup file as a blob
+          const fileRes = await fetch(`${API_URL}${data.download_url}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+          });
+          if (!fileRes.ok) throw new Error("Gagal mengunduh berkas cadangan dari server");
+          
+          const blob = await fileRes.blob();
+          const url = URL.createObjectURL(blob);
+          
           showToast({ message: "Backup database berhasil dibuat! Memulai unduhan...", type: 'success' });
 
           const downloadLink = document.createElement("a");
-          downloadLink.setAttribute("href", `${API_URL}${data.download_url}`);
+          downloadLink.setAttribute("href", url);
           downloadLink.setAttribute("download", data.filename);
           document.body.appendChild(downloadLink);
           downloadLink.click();
           document.body.removeChild(downloadLink);
+          
+          // Clean up the object URL
+          setTimeout(() => URL.revokeObjectURL(url), 100);
         } catch (err) {
           showToast({ message: "Gagal memproses backup: " + err.message, type: 'error' });
         }
