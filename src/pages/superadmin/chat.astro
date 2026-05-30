@@ -182,8 +182,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           ? `<img src="${p.avatar_url.startsWith('http') ? p.avatar_url : API_URL + p.avatar_url}" class="w-full h-full object-cover" />`
           : initial;
         const isActive = c.id === activeConvId;
-        const roleLabel = (p.role === "admin" || p.role === "super_admin") ? "Admin" : "Warga";
-        const roleColor = (p.role === "admin" || p.role === "super_admin") ? "text-blue-500" : "text-emerald-500";
+        const roleLabel = p.role === "super_admin" ? "Super Admin" : (p.role === "admin" ? "Admin" : "Warga");
+        const roleColor = p.role === "super_admin" ? "text-amber-500" : (p.role === "admin" ? "text-blue-500" : "text-emerald-500");
         const unread = c.unread_count || 0;
         const time = c.last_message_at ? new Date(c.last_message_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) : "";
         return `
@@ -230,7 +230,10 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         const badgeHtml = p.role === 'super_admin' ? `<svg class="inline-block ml-1.5 w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : (p.role === 'admin' ? `<svg class="inline-block ml-1.5 w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.25 15L6 12.25l1.41-1.41L10.75 14.17l7.84-7.84L20 7.75 10.75 17z"/></svg>` : '');
         headerName.innerHTML = `<span class="flex items-center">${p.full_name || "Unknown"}${badgeHtml}</span>`;
       }
-      if (headerRole) headerRole.textContent = (p.role === "admin" || p.role === "super_admin") ? "ADMIN" : "WARGA";
+      if (headerRole) {
+        headerRole.textContent = p.role === "super_admin" ? "SUPER ADMIN" : (p.role === "admin" ? "ADMIN" : "WARGA");
+        headerRole.className = `text-[11px] font-bold mt-0.5 tracking-wide uppercase ${p.role === 'super_admin' ? 'text-amber-500' : (p.role === 'admin' ? 'text-blue-500' : 'text-stone-400')}`;
+      }
 
       await loadMessages(convId);
       renderConversations(true);
