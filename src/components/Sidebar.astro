@@ -253,7 +253,7 @@ const { activePage } = Astro.props;
             const profLink = document.getElementById('admin-profile-link') as HTMLAnchorElement;
             if (dashLink) dashLink.href = "/superadmin/dashboard";
             if (chatLink) chatLink.href = "/superadmin/chat";
-            if (profLink) profLink.href = "/admin/profile"; // Superadmin uses admin profile usually
+            if (profLink) profLink.href = "/superadmin/profile"; // Super admin has dedicated profile page
           }
         } else {
           userNav?.classList.remove('hidden');
