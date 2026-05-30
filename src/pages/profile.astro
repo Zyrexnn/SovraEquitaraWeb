@@ -125,6 +125,7 @@ import Sidebar from '../components/Sidebar.astro';
             </div>
 
             <div class="flex flex-col gap-6">
+              <!-- Password section — toggled by JS based on role -->
               <div class="p-6 rounded-3xl bg-zen-surface dark:bg-black/30 border border-zen-border dark:border-white/5 transition-colors hover:border-stone-300 dark:hover:border-stone-700">
                 <div class="flex items-center gap-3 mb-3">
                   <div class="p-2 bg-stone-200 dark:bg-stone-800 rounded-lg text-stone-600 dark:text-stone-300">
@@ -132,8 +133,32 @@ import Sidebar from '../components/Sidebar.astro';
                   </div>
                   <h4 class="text-[14px] font-black m-0 uppercase tracking-wider">Kata Sandi</h4>
                 </div>
-                <p class="text-[12px] font-bold text-zen-muted leading-relaxed mb-6">Ingin mengganti kunci akun? Kami akan mengirimkan instruksi ke email Anda.</p>
-                <button id="btn-reset-pw" class="w-full p-4 rounded-xl bg-white dark:bg-black border-2 border-zen-border dark:border-zen-border-dark font-black text-[12px] uppercase tracking-widest cursor-pointer hover:bg-zen-text hover:text-white dark:hover:bg-white dark:hover:text-black transition-all shadow-sm">Kirim Tautan Reset</button>
+
+                <!-- Citizen: OTP reset flow -->
+                <div id="pw-citizen-section">
+                  <p class="text-[12px] font-bold text-zen-muted leading-relaxed mb-6">Ingin mengganti kunci akun? Kami akan mengirimkan instruksi ke email Anda.</p>
+                  <button id="btn-reset-pw" class="w-full p-4 rounded-xl bg-white dark:bg-black border-2 border-zen-border dark:border-zen-border-dark font-black text-[12px] uppercase tracking-widest cursor-pointer hover:bg-zen-text hover:text-white dark:hover:bg-white dark:hover:text-black transition-all shadow-sm">Kirim Tautan Reset</button>
+                </div>
+
+                <!-- Admin/Super Admin: direct password change -->
+                <div id="pw-admin-section" class="hidden">
+                  <p class="text-[12px] font-bold text-zen-muted leading-relaxed mb-5">Ubah kata sandi langsung tanpa OTP. Masukkan sandi saat ini dan sandi baru.</p>
+                  <form id="form-change-pw" class="flex flex-col gap-4">
+                    <div>
+                      <label class="block text-[10px] font-black text-zen-muted uppercase tracking-[0.15em] mb-1.5">Kata Sandi Saat Ini</label>
+                      <input type="password" id="current_password" placeholder="••••••••" required class="w-full p-3.5 rounded-xl border-2 border-zen-border dark:border-white/10 bg-white dark:bg-black/40 text-sm font-bold outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-zen-text dark:text-zen-text-dark" />
+                    </div>
+                    <div>
+                      <label class="block text-[10px] font-black text-zen-muted uppercase tracking-[0.15em] mb-1.5">Kata Sandi Baru</label>
+                      <input type="password" id="new_password" placeholder="Minimal 6 karakter" required class="w-full p-3.5 rounded-xl border-2 border-zen-border dark:border-white/10 bg-white dark:bg-black/40 text-sm font-bold outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-zen-text dark:text-zen-text-dark" />
+                    </div>
+                    <div>
+                      <label class="block text-[10px] font-black text-zen-muted uppercase tracking-[0.15em] mb-1.5">Konfirmasi Sandi Baru</label>
+                      <input type="password" id="confirm_password" placeholder="Ulangi sandi baru" required class="w-full p-3.5 rounded-xl border-2 border-zen-border dark:border-white/10 bg-white dark:bg-black/40 text-sm font-bold outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-zen-text dark:text-zen-text-dark" />
+                    </div>
+                    <button type="submit" id="btn-change-pw" class="w-full p-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[12px] uppercase tracking-widest cursor-pointer transition-all border-none shadow-md hover:shadow-indigo-500/30">Perbarui Sandi</button>
+                  </form>
+                </div>
               </div>
               
               <div class="p-6 rounded-3xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 transition-colors hover:border-red-300 dark:hover:border-red-800/50">
@@ -176,14 +201,19 @@ import Sidebar from '../components/Sidebar.astro';
     }
 
     function setupUI() {
-      const isAdmin = (user.role || '').toUpperCase() === 'ADMIN';
+      const roleUpper = (user.role || '').toUpperCase();
+      const isAdmin = roleUpper === 'ADMIN' || roleUpper === 'SUPER_ADMIN';
       const initial = (user.name || 'U')[0].toUpperCase();
       
       if (isAdmin) {
-        document.getElementById('hero-role').textContent = 'Administrator';
+        document.getElementById('hero-role').textContent = roleUpper === 'SUPER_ADMIN' ? 'Super Admin' : 'Administrator';
         const roleEl = document.getElementById('hero-role');
         roleEl.classList.remove('bg-white', 'dark:bg-black', 'text-zen-text', 'dark:text-zen-text-dark');
         roleEl.classList.add('bg-zen-text', 'dark:bg-zen-text-dark', 'text-white');
+
+        // Show direct password form, hide OTP section
+        document.getElementById('pw-admin-section').classList.remove('hidden');
+        document.getElementById('pw-citizen-section').classList.add('hidden');
       }
 
       document.getElementById('display-name-hero').textContent = user.name || (isAdmin ? 'Admin' : 'Warga');
@@ -240,9 +270,16 @@ import Sidebar from '../components/Sidebar.astro';
 
     function setupListeners() {
       document.getElementById('form-profile').onsubmit = handleProfileUpdate;
-      document.getElementById('btn-reset-pw').onclick = handleResetPassword;
       document.getElementById('btn-logout-main').onclick = () => { localStorage.clear(); window.location.href = '/'; };
       document.getElementById('avatar-upload').onchange = handleAvatarUpload;
+
+      // OTP reset (citizen only)
+      const btnReset = document.getElementById('btn-reset-pw');
+      if (btnReset) btnReset.onclick = handleResetPassword;
+
+      // Direct password change (admin/super admin only)
+      const formChangePw = document.getElementById('form-change-pw');
+      if (formChangePw) formChangePw.onsubmit = handleDirectPasswordChange;
     }
 
     async function handleAvatarUpload(e) {
@@ -312,6 +349,44 @@ import Sidebar from '../components/Sidebar.astro';
         }
       } catch (e) {}
       btn.disabled = false;
+    }
+
+    async function handleDirectPasswordChange(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-change-pw');
+      const currentPassword = document.getElementById('current_password').value;
+      const newPassword = document.getElementById('new_password').value;
+      const confirmPassword = document.getElementById('confirm_password').value;
+
+      if (newPassword.length < 6) {
+        window.showToast && window.showToast({ message: 'Kata sandi baru minimal 6 karakter.', type: 'error' });
+        return;
+      }
+      if (newPassword !== confirmPassword) {
+        window.showToast && window.showToast({ message: 'Konfirmasi sandi tidak cocok.', type: 'error' });
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Menyimpan...';
+      try {
+        const res = await fetch(`${API_URL}/api/profile/password`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ current_password: currentPassword, new_password: newPassword })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          window.showToast && window.showToast({ message: 'Kata sandi berhasil diperbarui!', type: 'success' });
+          document.getElementById('form-change-pw').reset();
+        } else {
+          window.showToast && window.showToast({ message: data.error || 'Gagal memperbarui sandi.', type: 'error' });
+        }
+      } catch (err) {
+        window.showToast && window.showToast({ message: 'Koneksi gagal', type: 'error' });
+      }
+      btn.disabled = false;
+      btn.textContent = 'Perbarui Sandi';
     }
     </script>
 
