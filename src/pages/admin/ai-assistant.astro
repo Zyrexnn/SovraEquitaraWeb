@@ -280,9 +280,28 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       }
     };
 
-    window.openReportModal = (id) => {
+    window.openReportModal = async (id) => {
       currentReportId = id;
-      const r = reportsData.find(x => x.id === id);
+      let r = reportsData.find(x => x.id === id);
+      if (!r) {
+        // Fallback: Fetch directly from API
+        try {
+          const token = localStorage.getItem("access_token");
+          const headers = {};
+          if (token) headers["Authorization"] = `Bearer ${token}`;
+          const res = await fetch(`${API_URL}/api/reports/${id}`, { headers });
+          if (res.ok) {
+            const json = await res.json();
+            r = json.data;
+            if (r) {
+              reportsData.push(r);
+            }
+          }
+        } catch (e) {
+          console.error("Failed to fetch fallback report details:", e);
+        }
+      }
+
       if(!r) return showToast({ message: 'Laporan tidak ditemukan di sistem. Anda mungkin perlu me-refresh halaman.', type: 'error' });
       
       const modal = document.getElementById("report-modal");
