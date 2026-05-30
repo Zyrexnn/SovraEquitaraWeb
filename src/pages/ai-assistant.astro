@@ -27,7 +27,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       <div class="max-w-[1000px] mx-auto w-full flex flex-col h-[calc(100vh-8rem)]">
         
         <header class="mb-6 lg:mb-8 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]">
-          <h1 class="text-[28px] lg:text-[32px] font-extrabold tracking-tight m-0 text-zen-text dark:text-zen-text-dark">Tanya <span class="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">AI</span></h1>
+          <h1 class="text-[28px] lg:text-[32px] font-extrabold tracking-tight m-0 text-zen-text dark:text-zen-text-dark">Tanya <span class="bg-gradient-to-r from-stone-900 to-stone-500 dark:from-white dark:to-stone-400 bg-clip-text text-transparent">AI</span></h1>
           <p class="text-sm lg:text-base font-semibold text-zen-muted dark:text-zen-muted-dark mt-1">Asisten pribadi Anda untuk memandu fitur SovraEquitara.</p>
         </header>
 
@@ -38,7 +38,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           <div id="chat-window" class="flex-1 p-6 lg:p-8 overflow-y-auto space-y-6 flex flex-col scrollbar-thin">
             <!-- Greeting Message -->
             <div class="flex gap-4 self-start max-w-[85%]">
-              <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 border border-emerald-200 dark:border-emerald-500/30 text-xl font-bold">🍃</div>
+              <div class="w-10 h-10 rounded-full bg-stone-100 dark:bg-stone-900 flex items-center justify-center text-stone-900 dark:text-white shrink-0 border border-stone-200/50 dark:border-stone-800 text-xl font-bold">🤖</div>
               <div class="bg-zen-surface dark:bg-zen-surface-dark p-4 lg:p-5 rounded-2xl rounded-tl-none text-sm font-medium text-zen-text dark:text-zen-text-dark markdown-body border border-zen-border dark:border-zen-border-dark shadow-soft">
                 <p>Halo Warga! Saya adalah AI Assistant dari SovraEquitara.</p>
                 <p>Saya dapat membantu Anda memahami cara melapor, melihat status laporan Anda, dan memberi panduan platform. Ada yang bisa saya bantu?</p>
@@ -111,18 +111,18 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       const div = document.createElement("div");
       div.className = `flex gap-4 max-w-[85%] w-full ${isUser ? 'self-end flex-row-reverse' : 'self-start'}`;
       
-      const avatar = document.createElement("div");
-      avatar.className = `w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold ${isUser ? 'bg-brand dark:bg-white text-white dark:text-brand text-sm' : 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 text-xl'}`;
+       const avatar = document.createElement("div");
+      avatar.className = `w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-bold ${isUser ? 'bg-stone-900 dark:bg-white text-white dark:text-stone-950 text-sm' : 'bg-stone-100 dark:bg-stone-900 text-stone-950 dark:text-white border border-stone-200/50 dark:border-stone-800 text-lg'}`;
       
       if (isUser) {
         const userObj = JSON.parse(localStorage.getItem('user') || '{}');
         avatar.innerText = (userObj.full_name || userObj.name || 'W')[0].toUpperCase();
       } else {
-        avatar.innerText = '🍃';
+        avatar.innerText = '🤖';
       }
       
       const bubble = document.createElement("div");
-      bubble.className = `p-4 lg:p-5 rounded-2xl text-sm font-medium w-full overflow-hidden shadow-soft ${isUser ? 'bg-brand dark:bg-white text-white dark:text-brand rounded-tr-none' : 'bg-zen-surface dark:bg-zen-surface-dark text-zen-text dark:text-zen-text-dark border border-zen-border dark:border-zen-border-dark rounded-tl-none markdown-body'}`;
+      bubble.className = `p-4 lg:p-5 rounded-2xl text-sm font-medium w-full overflow-hidden shadow-soft ${isUser ? 'bg-stone-900 dark:bg-white text-white dark:text-stone-950 rounded-tr-none' : 'bg-zen-surface dark:bg-zen-surface-dark text-zen-text dark:text-zen-text-dark border border-zen-border dark:border-zen-border-dark rounded-tl-none markdown-body'}`;
       
       if(isUser) {
          bubble.innerText = text;
