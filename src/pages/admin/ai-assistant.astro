@@ -87,24 +87,21 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
               </select>
             </div>
 
-            <!-- Quick Suggestions Block -->
-            <div class="bg-white dark:bg-stone-900 rounded-[32px] p-6 sm:p-8 border border-zen-border dark:border-zen-border-dark shadow-sm flex-1 flex flex-col gap-5">
-              <div class="flex items-center gap-3 text-sm font-black text-stone-400 uppercase tracking-widest">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                Saran Prompt
+            <!-- AI Thread History & Suggestions Block -->
+            <div class="bg-white dark:bg-stone-900 rounded-[32px] p-6 sm:p-8 border border-zen-border dark:border-zen-border-dark shadow-sm flex-1 flex flex-col gap-5 min-h-[400px]">
+              <div class="flex items-center justify-between border-b border-stone-200/40 dark:border-stone-850 pb-3">
+                <div class="flex items-center gap-3 text-sm font-black text-stone-400 uppercase tracking-widest">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 8c-3.87 0-7 3.13-7 7 0 .58.07 1.14.2 1.68l-1.58.79C3.21 16.63 3 15.83 3 15c0-4.97 4.03-9 9-9 3.56 0 6.64 2.07 8.1 5.08L18.42 12C17.3 10.15 15.3 9 12 9z"></path></svg>
+                  Riwayat Obrolan
+                </div>
+                <button id="btn-new-chat" type="button" class="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-black shadow-lg shadow-blue-500/10 transition-all hover:scale-[1.02] flex items-center gap-1">
+                  <span>+</span> Baru
+                </button>
               </div>
-              <p class="text-xs text-stone-500 font-medium">Coba beberapa prompt berikut untuk memulai.</p>
-              
-              <div class="flex flex-col gap-3 mt-2">
-                <button onclick="document.getElementById('chat-input').value='Tolong buatkan ringkasan dari semua laporan yang berstatus PENDING hari ini.'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="text-left px-5 py-4 rounded-2xl bg-stone-50 dark:bg-white/5 hover:bg-stone-100 dark:hover:bg-white/10 transition-colors border border-stone-100 dark:border-white/5 text-sm font-bold text-stone-600 dark:text-stone-300">
-                  Ringkasan Laporan Pending
-                </button>
-                <button onclick="document.getElementById('chat-input').value='Kategori masalah apa yang paling banyak dilaporkan minggu ini?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="text-left px-5 py-4 rounded-2xl bg-stone-50 dark:bg-white/5 hover:bg-stone-100 dark:hover:bg-white/10 transition-colors border border-stone-100 dark:border-white/5 text-sm font-bold text-stone-600 dark:text-stone-300">
-                  Analisis Kategori Masalah
-                </button>
-                <button onclick="document.getElementById('chat-input').value='Adakah laporan yang menurutmu mendesak dan butuh penanganan segera?'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="text-left px-5 py-4 rounded-2xl bg-stone-50 dark:bg-white/5 hover:bg-stone-100 dark:hover:bg-white/10 transition-colors border border-stone-100 dark:border-white/5 text-sm font-bold text-stone-600 dark:text-stone-300">
-                  Deteksi Laporan Mendesak
-                </button>
+
+              <!-- Scrollable Thread List -->
+              <div id="thread-list" class="flex flex-col gap-2 flex-1 overflow-y-auto max-h-[300px] scrollbar-hide">
+                <div class="text-xs font-bold text-stone-400 text-center py-6">Memuat riwayat obrolan...</div>
               </div>
             </div>
 
@@ -234,12 +231,12 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     const modelSelect = document.getElementById("ai-model");
     let reportsData = [];
     let currentReportId = null;
+    let currentThreadId = null;
 
     async function checkAuthAndLoadReports() {
       const token = localStorage.getItem("access_token");
       const user = JSON.parse(localStorage.getItem("user") || "{}");
       if (!token || (user.role !== "admin" && user.role !== "super_admin")) return window.location.href = "/admin/login";
-      // Sidebar role-checking is now handled by the Sidebar component
 
       // Dynamic Title & Description for Super Admin Console parity
       if (user.role === "super_admin") {
@@ -250,10 +247,6 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         const descEl = document.querySelector("header p");
         if (descEl) {
           descEl.textContent = "Sistem panduan pintar & analitis konsol SovraEquitara.";
-        }
-        const greetBubble = document.querySelector("#chat-window .bg-stone-50 p, #chat-window .bg-stone-50/50 p");
-        if (greetBubble) {
-          greetBubble.innerHTML = "Halo Super Admin! Saya adalah SuperAI Assistant dari SovraEquitara. Ada yang bisa saya bantu analisis hari ini?";
         }
       }
 
@@ -267,6 +260,46 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         }
       } catch(e) {
         console.error(e);
+      }
+      loadAIThreads();
+    }
+
+    async function loadAIThreads() {
+      const token = localStorage.getItem("access_token");
+      if (!token) return;
+      const list = document.getElementById("thread-list");
+      if (!list) return;
+
+      try {
+        const res = await fetch(`${API_URL}/api/admin/ai-assistant/threads`, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const json = await res.json();
+          const threads = json.data || [];
+          if (threads.length === 0) {
+            list.innerHTML = `<div class="text-xs font-bold text-stone-400 text-center py-6">Belum ada obrolan terbaru</div>`;
+            return;
+          }
+          list.innerHTML = threads.map(t => {
+            const isActive = t.id === currentThreadId;
+            const activeClass = isActive 
+              ? 'bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900/30' 
+              : 'bg-stone-50 hover:bg-stone-100 dark:bg-stone-850 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 border-stone-200 dark:border-stone-800/80';
+            return `
+              <div class="flex items-center justify-between p-3 rounded-2xl border text-sm font-bold transition-all gap-2 group ${activeClass}">
+                <button type="button" onclick="window.selectAIThread('${t.id}')" class="flex-1 text-left truncate cursor-pointer font-bold focus:outline-none">
+                  ${t.title}
+                </button>
+                <button type="button" onclick="window.deleteAIThread('${t.id}', event)" class="p-1 text-stone-400 hover:text-red-500 rounded-lg transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 shrink-0 focus:outline-none">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+              </div>
+            `;
+          }).join('');
+        }
+      } catch (e) {
+        list.innerHTML = `<div class="text-xs font-bold text-red-500 text-center py-6">Gagal memuat obrolan</div>`;
       }
     }
 
@@ -284,7 +317,6 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       currentReportId = id;
       let r = reportsData.find(x => x.id === id);
       if (!r) {
-        // Fallback: Fetch directly from API
         try {
           const token = localStorage.getItem("access_token");
           const headers = {};
@@ -293,16 +325,12 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
           if (res.ok) {
             const json = await res.json();
             r = json.data;
-            if (r) {
-              reportsData.push(r);
-            }
+            if (r) reportsData.push(r);
           }
-        } catch (e) {
-          console.error("Failed to fetch fallback report details:", e);
-        }
+        } catch (e) { console.error(e); }
       }
 
-      if(!r) return showToast({ message: 'Laporan tidak ditemukan di sistem. Anda mungkin perlu me-refresh halaman.', type: 'error' });
+      if(!r) return showToast({ message: 'Laporan tidak ditemukan.', type: 'error' });
       
       const modal = document.getElementById("report-modal");
       const content = document.getElementById("modal-content");
@@ -341,11 +369,11 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       const viewMapText = document.getElementById('btn-toggle-map-text');
       if (modalMapContainer && viewMapBtn && viewMapText) {
         modalMapContainer.classList.add('hidden');
-        viewMapText.textContent = 'LIHAT PETA';
+        viewMapText.textContent = 'Lihat Peta';
 
         viewMapBtn.onclick = () => {
           const isHidden = modalMapContainer.classList.toggle('hidden');
-          viewMapText.textContent = isHidden ? 'LIHAT PETA' : 'TUTUP PETA';
+          viewMapText.textContent = isHidden ? 'Lihat Peta' : 'Tutup Peta';
           if (!isHidden) {
             setTimeout(() => {
               if (window.mMap) window.mMap.remove();
@@ -361,7 +389,6 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       async function fetchAdminComments(reportId) {
         const list = document.getElementById('admin-comments-list');
         if (!list) return;
-        list.innerHTML = '<div class="text-sm font-bold text-stone-400 text-center py-4">Memuat komentar...</div>';
         try {
           const res = await fetch(`${API_URL}/api/reports/${reportId}/comments`);
           const data = await res.json();
@@ -371,15 +398,13 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             return;
           }
           list.innerHTML = comments.map(c => {
-            const initial = (c.user?.full_name || 'U')[0].toUpperCase();
-            const avatarHtml = c.user?.avatar_url ? `<img src="${c.user.avatar_url.startsWith('http') ? c.user.avatar_url : API_URL + c.user.avatar_url}" class="w-full h-full object-cover" />` : initial;
             const isAdmin = c.user?.role === 'admin' || c.user?.role === 'super_admin';
             return `
             <div class="flex gap-3 max-w-[90%] ${isAdmin ? 'self-end flex-row-reverse' : ''}">
-              <div class="w-8 h-8 rounded-xl overflow-hidden shrink-0 flex items-center justify-center font-black text-xs ${isAdmin ? 'bg-stone-900 dark:bg-white text-white dark:text-black' : 'bg-stone-100 dark:bg-stone-800 text-stone-500'} border border-white/10">
-                ${avatarHtml}
+              <div class="w-8 h-8 rounded-xl overflow-hidden shrink-0 flex items-center justify-center font-black text-xs ${isAdmin ? 'bg-stone-900 dark:bg-white text-white dark:text-black' : 'bg-stone-100 dark:bg-stone-800 text-stone-500'}">
+                ${(c.user?.full_name || 'U')[0].toUpperCase()}
               </div>
-              <div class="p-4 rounded-2xl flex-1 min-w-0 border ${isAdmin ? 'bg-stone-900 dark:bg-white text-white dark:text-black self-end border-transparent' : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-white/10'}">
+              <div class="p-4 rounded-2xl flex-1 min-w-0 border ${isAdmin ? 'bg-stone-900 dark:bg-white text-white dark:text-black self-end' : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-white/10'}">
                 <div class="mb-1 text-xs opacity-70 font-bold">${c.user?.full_name || 'Warga'}</div>
                 <p class="m-0 text-sm">${c.content}</p>
               </div>
@@ -390,23 +415,6 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         }
       }
       fetchAdminComments(id);
-
-      const modContainer = document.getElementById("moderation-container");
-      const btnVerify = document.getElementById("btn-verify");
-      const btnResolve = document.getElementById("btn-resolve");
-      if (modContainer && btnVerify && btnResolve) {
-        if (r.status === 'PENDING') {
-          modContainer.style.display = 'block';
-          btnVerify.style.display = 'flex';
-          btnResolve.style.display = 'none';
-        } else if (r.status === 'VALID') {
-          modContainer.style.display = 'block';
-          btnVerify.style.display = 'none';
-          btnResolve.style.display = 'flex';
-        } else {
-          modContainer.style.display = 'none';
-        }
-      }
     };
 
     window.verifyReport = async (status) => {
@@ -421,26 +429,13 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         if(res.ok) {
           showToast({ message: `Laporan berhasil diubah ke ${status}`, type: 'success' });
           window.closeModal();
-          checkAuthAndLoadReports(); // reload
+          checkAuthAndLoadReports();
         }
       } catch (err) { showToast({ message: "Gagal memperbarui status", type: 'error' }); }
     };
 
     document.getElementById("btn-verify")?.addEventListener("click", () => window.verifyReport("VALID"));
     document.getElementById("btn-resolve")?.addEventListener("click", () => window.verifyReport("RESOLVED"));
-
-    input?.addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = (this.scrollHeight) + 'px';
-      if(this.value === '') this.style.height = '56px';
-    });
-
-    input?.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        form?.dispatchEvent(new Event('submit'));
-      }
-    });
 
     function addMessage(text, isUser = false) {
       const div = document.createElement("div");
@@ -451,31 +446,23 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
       
       const avatar = document.createElement("div");
       let botAvatarBg = 'bg-stone-100 dark:bg-stone-900 text-stone-900 dark:text-white border border-stone-200/50 dark:border-stone-800';
-      if (isSuper) {
-        botAvatarBg = 'bg-purple-100 dark:bg-purple-950/20 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-900/40';
-      }
+      if (isSuper) botAvatarBg = 'bg-purple-100 dark:bg-purple-950/20 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-900/40';
       
       let userAvatarBg = 'bg-stone-900 dark:bg-white text-white dark:text-stone-900';
-      if (isSuper) {
-        userAvatarBg = 'bg-purple-600 dark:bg-purple-500 text-white';
-      }
+      if (isSuper) userAvatarBg = 'bg-purple-600 dark:bg-purple-500 text-white';
       
       avatar.className = `w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-black ${isUser ? userAvatarBg : botAvatarBg}`;
       avatar.innerText = isUser ? 'A' : '✨';
       
       const bubble = document.createElement("div");
       let userBubbleBg = 'bg-stone-900 dark:bg-white text-white dark:text-stone-950 rounded-tr-sm';
-      if (isSuper) {
-        userBubbleBg = 'bg-purple-650 dark:bg-purple-500 text-white rounded-tr-sm';
-      }
+      if (isSuper) userBubbleBg = 'bg-purple-600 dark:bg-purple-500 text-white rounded-tr-sm';
       bubble.className = `p-4 rounded-2xl text-sm font-medium w-full overflow-hidden ${isUser ? userBubbleBg : 'bg-stone-100 dark:bg-white/5 text-stone-700 dark:text-stone-300 rounded-tl-sm markdown-body'}`;
       
       if(isUser) {
          bubble.innerText = text;
       } else {
-          let html = marked.parse(text);
-          
-          // Custom instruction [CHART:type:data]
+          let html = window.marked.parse(text);
           html = html.replace(/\[CHART:(bar|line|pie):([^\]]+)\]/g, (match, type, dataStr) => {
             const items = dataStr.split('|').map(item => {
               const parts = item.split(',');
@@ -485,146 +472,115 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
             const totalVal = items.reduce((acc, curr) => acc + curr.value, 0) || 1;
             
             let chartHtml = `<div class="mt-4 mb-4 p-5 rounded-[24px] bg-stone-50 dark:bg-stone-900/60 border border-stone-250/50 dark:border-stone-800 shadow-sm flex flex-col gap-4">
-              <div class="flex items-center justify-between border-b border-stone-200/40 dark:border-stone-850 pb-2">
-                <span class="text-xs font-black uppercase tracking-widest text-stone-400">Analisis Grafik ${type.toUpperCase()}</span>
-                <span class="text-[9px] font-black text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/20 px-2 py-0.5 rounded-full">Dihasilkan AI</span>
-              </div>`;
+              <span class="text-xs font-black uppercase tracking-widest text-stone-400">Analisis Grafik ${type.toUpperCase()}</span>`;
             
             if (type === 'bar') {
               chartHtml += `<div class="flex flex-col gap-3.5">`;
               items.forEach(item => {
                 const pct = (item.value / maxVal) * 100;
-                chartHtml += `
-                  <div class="space-y-1">
-                    <div class="flex items-center justify-between text-xs font-bold text-stone-700 dark:text-stone-300">
-                      <span>${item.label}</span>
-                      <span class="font-black">${item.value}</span>
-                    </div>
-                    <div class="w-full h-3 bg-stone-200/60 dark:bg-stone-800 rounded-full overflow-hidden">
-                      <div class="h-full bg-blue-500 rounded-full transition-all duration-1000" style="width: ${pct}%"></div>
-                    </div>
-                  </div>
-                `;
+                chartHtml += `<div class="space-y-1"><div class="flex items-center justify-between text-xs font-bold"><span>${item.label}</span><span class="font-black">${item.value}</span></div><div class="w-full h-3 bg-stone-200/60 dark:bg-stone-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width: ${pct}%"></div></div></div>`;
               });
               chartHtml += `</div>`;
             } else if (type === 'line') {
               chartHtml += `<div class="flex flex-col gap-2">`;
               items.forEach(item => {
                 const pct = (item.value / maxVal) * 100;
-                chartHtml += `
-                  <div class="flex items-center gap-4 text-xs">
-                    <span class="font-bold text-stone-600 dark:text-stone-400 w-24 truncate">${item.label}</span>
-                    <div class="flex-1 h-0.5 bg-stone-200/50 dark:bg-stone-800 relative">
-                      <div class="absolute -top-1.5 h-3.5 w-3.5 rounded-full bg-blue-500 border-2 border-white dark:border-stone-900" style="left: ${pct}%"></div>
-                    </div>
-                    <span class="font-black text-stone-850 dark:text-stone-200 w-8 text-right">${item.value}</span>
-                  </div>
-                `;
+                chartHtml += `<div class="flex items-center gap-4 text-xs"><span class="font-bold w-24 truncate">${item.label}</span><div class="flex-1 h-0.5 bg-stone-200/50 relative"><div class="absolute -top-1.5 h-3.5 w-3.5 rounded-full bg-blue-500" style="left: ${pct}%"></div></div><span class="font-black w-8 text-right">${item.value}</span></div>`;
               });
               chartHtml += `</div>`;
             } else if (type === 'pie') {
-              chartHtml += `<div class="flex flex-col sm:flex-row items-center gap-6 justify-center py-2">
-                <div class="relative w-24 h-24 flex items-center justify-center">
-                  <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="4"></circle>`;
-                  
-                  let currentOffset = 0;
-                  const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
-                  items.forEach((item, idx) => {
-                    const share = (item.value / totalVal) * 100;
-                    const color = colors[idx % colors.length];
-                    chartHtml += `<circle cx="18" cy="18" r="15.915" fill="none" stroke="${color}" stroke-width="4.2" stroke-dasharray="${share} ${100 - share}" stroke-dashoffset="${100 - currentOffset}"></circle>`;
-                    currentOffset += share;
-                  });
-                  
-              chartHtml += `</svg>
-                </div>
-                <div class="flex flex-wrap gap-x-4 gap-y-2 justify-center flex-1">`;
-                items.forEach((item, idx) => {
-                  const color = colors[idx % colors.length];
-                  const share = ((item.value / totalVal) * 100).toFixed(0);
-                  chartHtml += `
-                    <div class="flex items-center gap-2 text-xs font-bold text-stone-600 dark:text-stone-400">
-                      <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${color}"></span>
-                      <span>${item.label} (${share}%)</span>
-                    </div>
-                  `;
-                });
-              chartHtml += `</div>
-              </div>`;
+              chartHtml += `<div class="flex flex-wrap gap-x-4 gap-y-2 justify-center py-2 text-xs font-bold text-stone-600 dark:text-stone-400">`;
+              items.forEach((item, idx) => {
+                const share = ((item.value / totalVal) * 100).toFixed(0);
+                chartHtml += `<div>${item.label} (${share}%)</div>`;
+              });
+              chartHtml += `</div>`;
             }
-            
-            chartHtml += `</div>`;
-            return chartHtml;
+            return chartHtml + `</div>`;
           });
-
-          // Custom instruction [DETAIL_BTN:UUID]
           html = html.replace(/\[DETAIL_BTN:([0-9a-fA-F\-]{36})\]/g, (match, uuid) => {
-            return `<div class="mt-3 mb-2"><button onclick="window.openReportModal('${uuid}')" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-lg transition-transform hover:scale-105 font-bold tracking-wide"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>Lihat Detail Laporan</button></div>`;
+            return `<div class="mt-3"><button type="button" onclick="window.openReportModal('${uuid}')" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-bold text-sm">Lihat Detail Laporan</button></div>`;
           });
-          
-          // Fallback regex to capture just any UUID and append a button if it hasn't been buttonized
-          // This protects against AI omitting the explicit instruction wrapper.
-          html = html.replace(/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})/g, (match, uuid) => {
-            if (html.includes(`'${uuid}'`)) return match;
-            return `<span class="font-mono text-xs bg-black/10 dark:bg-white/10 px-1 rounded">${match}</span> <button onclick="window.openReportModal('${match}')" class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-500/10 text-blue-500 rounded-lg text-xs font-bold hover:bg-blue-500/20 transition-colors ml-1"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>Buka Detail Laporan</button>`;
-          });
-
           bubble.innerHTML = html;
       }
-
       div.appendChild(avatar);
       div.appendChild(bubble);
-      
       chatWindow?.appendChild(div);
       chatWindow?.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
       return bubble;
     }
 
-    form?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const val = (input).value.trim();
-      if(!val) return;
+    function addGreeting() {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const isSuper = user.role === "super_admin";
+      const text = isSuper ? "Halo Super Admin! Ada yang bisa saya bantu hari ini?" : "Halo Admin! Ada yang bisa saya bantu hari ini?";
+      const div = document.createElement("div");
+      div.className = "flex gap-4 self-start max-w-[85%] w-full";
+      div.innerHTML = `<div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center font-black">✨</div><div class="p-5 rounded-3xl text-sm font-medium bg-stone-50">${text}</div>`;
+      chatWindow?.appendChild(div);
+    }
 
+    window.selectAIThread = async (id) => {
       const token = localStorage.getItem("access_token");
       if (!token) return;
+      currentThreadId = id;
+      loadAIThreads();
+      if (chatWindow) chatWindow.innerHTML = '';
+      const loader = addMessage("Memuat...", false);
+      try {
+        const res = await fetch(`${API_URL}/api/admin/ai-assistant/threads/${id}`, { headers: { "Authorization": `Bearer ${token}` } });
+        loader.parentElement?.remove();
+        if (res.ok) {
+          const json = await res.json();
+          (json.data || []).forEach(m => addMessage(m.content, m.role === 'user'));
+        } else {
+            addGreeting();
+        }
+      } catch(e) { loader.parentElement?.remove(); addGreeting(); }
+    };
 
+    window.deleteAIThread = async (id, event) => {
+      if (event) event.stopPropagation();
+      if (!confirm("Hapus percakapan?")) return;
+      const token = localStorage.getItem("access_token");
+      await fetch(`${API_URL}/api/admin/ai-assistant/threads/${id}`, { method: "DELETE", headers: { "Authorization": `Bearer ${token}` } });
+      if (currentThreadId === id) window.resetAIThread();
+      else loadAIThreads();
+    };
+
+    window.resetAIThread = () => {
+      currentThreadId = null;
+      if (chatWindow) chatWindow.innerHTML = '';
+      addGreeting();
+      loadAIThreads();
+    };
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const val = input.value.trim();
+      if(!val) return;
+      const token = localStorage.getItem("access_token");
       addMessage(val, true);
       input.value = '';
-      input.style.height = '56px';
-
-      const loadingBubble = addMessage("Mengetik...", false);
-      loadingBubble.classList.add("animate-pulse");
-
+      const loader = addMessage("...", false);
       try {
         const res = await fetch(`${API_URL}/api/admin/ai-assistant`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            query: val,
-            model: (modelSelect).value
-          })
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+          body: JSON.stringify({ query: val, model: modelSelect.value, thread_id: currentThreadId })
         });
-        
         const data = await res.json();
-        loadingBubble.parentElement?.remove();
-
+        loader.parentElement?.remove();
         if (res.ok) {
           addMessage(data.response, false);
+          if (data.thread_id && currentThreadId === null) { currentThreadId = data.thread_id; loadAIThreads(); }
         } else {
-          addMessage(`Maaf, terjadi kesalahan: ${data.error}`, false);
+          addMessage(`Error: ${data.error}`, false);
         }
-      } catch(err) {
-        loadingBubble.parentElement?.remove();
-        addMessage(`Maaf, tidak dapat terhubung ke server AI.`, false);
-      }
+      } catch(err) { loader.parentElement?.remove(); addMessage("Gagal.", false); }
     });
 
-    document.addEventListener('astro:page-load', () => {
-      checkAuthAndLoadReports();
-    });    if (document.readyState === 'complete') checkAuthAndLoadReports();
-
-    </script></Layout>
+    document.getElementById("btn-new-chat")?.addEventListener("click", () => window.resetAIThread());
+    document.addEventListener('astro:page-load', () => checkAuthAndLoadReports());
+    if (document.readyState === 'complete') checkAuthAndLoadReports();
+  </script>
