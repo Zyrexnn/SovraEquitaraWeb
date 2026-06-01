@@ -61,6 +61,20 @@ import { ThemeToggle } from '../components/ThemeToggle';
           Tidak menerima kode?
           <a href="/register" class="text-stone-900 dark:text-white font-bold hover:underline ml-1">Daftar ulang</a>
         </p>
+
+        <!-- Resend OTP Action -->
+        <div class="text-center mt-6 pt-4 border-t border-stone-100 dark:border-white/5">
+          <button
+            type="button"
+            id="btn-resend"
+            class="text-sm font-bold text-emerald-500 dark:text-emerald-400 hover:underline disabled:opacity-50 disabled:no-underline disabled:cursor-not-allowed"
+          >
+            Kirim Ulang OTP
+          </button>
+          <p id="cooldown-text" class="text-xs text-stone-500 dark:text-gray-400 mt-2 font-medium hidden animate-fade-in">
+            Silakan tunggu <span id="cooldown-seconds" class="font-bold text-red-500">60</span> detik sebelum meminta OTP baru.
+          </p>
+        </div>
       </div>
 
       <!-- Footer Info -->
@@ -86,6 +100,67 @@ import { ThemeToggle } from '../components/ThemeToggle';
 
   const form = document.getElementById('form-verify') as HTMLFormElement;
   const btnSubmit = document.getElementById('btn-submit') as HTMLButtonElement;
+  const btnResend = document.getElementById('btn-resend') as HTMLButtonElement;
+  const cooldownText = document.getElementById('cooldown-text') as HTMLDivElement;
+  const cooldownSeconds = document.getElementById('cooldown-seconds') as HTMLSpanElement;
+
+  let cooldownTimer: any = null;
+  let remainingSeconds = 0;
+
+  function startCooldown(seconds: number) {
+    if (cooldownTimer) clearInterval(cooldownTimer);
+    remainingSeconds = seconds;
+    btnResend.disabled = true;
+    cooldownText.classList.remove('hidden');
+    cooldownSeconds.textContent = String(remainingSeconds);
+
+    cooldownTimer = setInterval(() => {
+      remainingSeconds--;
+      if (remainingSeconds <= 0) {
+        clearInterval(cooldownTimer);
+        cooldownTimer = null;
+        btnResend.disabled = false;
+        cooldownText.classList.add('hidden');
+      } else {
+        cooldownSeconds.textContent = String(remainingSeconds);
+      }
+    }, 1000);
+  }
+
+  btnResend?.addEventListener('click', async () => {
+    if (remainingSeconds > 0) return;
+    
+    btnResend.disabled = true;
+    btnResend.textContent = 'Mengirim...';
+
+    try {
+      const res = await fetch(`${API_URL}/api/auth/resend-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        showToast({ message: 'Kode OTP baru telah dikirim!', type: 'success' });
+        startCooldown(60); // Standard 60 seconds cooldown on success
+      } else {
+        if (data.cooldown) {
+          const secs = parseInt(data.cooldown, 10) || 60;
+          showToast({ message: data.error, type: 'error' });
+          startCooldown(secs);
+        } else {
+          showToast({ message: data.error || 'Gagal mengirim ulang OTP.', type: 'error' });
+        }
+      }
+    } catch (err) {
+      showToast({ message: 'Terjadi kesalahan koneksi.', type: 'error' });
+    } finally {
+      btnResend.textContent = 'Kirim Ulang OTP';
+      if (!cooldownTimer) btnResend.disabled = false;
+    }
+  });
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -126,6 +201,9 @@ import { ThemeToggle } from '../components/ThemeToggle';
         }, 1500);
       } else {
         showToast({ message: data.error || 'Verifikasi gagal. Kode OTP salah atau kadaluarsa.', type: 'error' });
+        if (res.status === 429) {
+          startCooldown(60); // Trigger 1 minute lockout cooldown
+        }
       }
     } catch (err) {
       console.error('Verify error:', err);
