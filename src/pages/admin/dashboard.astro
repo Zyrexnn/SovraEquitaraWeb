@@ -229,6 +229,12 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
               <div id="admin-comments-list" class="flex flex-col gap-3 max-h-60 overflow-y-auto p-5 rounded-[24px] bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark shadow-sm scrollbar-hide">
                 <div class="text-sm font-bold text-stone-400 text-center py-4">Memuat komentar...</div>
               </div>
+              <form id="admin-comment-form" class="flex gap-2">
+                <input type="text" id="admin-comment-input" class="flex-1 p-3 rounded-xl border-2 border-stone-200 dark:border-white/10 bg-stone-50 dark:bg-black/30 text-xs font-bold outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-stone-900 dark:text-white" placeholder="Tulis tanggapan atau instruksi..." required />
+                <button type="submit" id="btn-send-admin-comment" class="w-10 h-10 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white border-none flex items-center justify-center cursor-pointer transition-transform hover:-translate-y-0.5 shrink-0 shadow-md">
+                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+              </form>
             </div>
             
           </div>
@@ -717,6 +723,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     function setupListeners() {
       document.getElementById("btn-verify")?.addEventListener("click", () => window.verifyReport("VALID"));
       document.getElementById("btn-resolve")?.addEventListener("click", () => window.verifyReport("RESOLVED"));
+      document.getElementById("admin-comment-form")?.addEventListener("submit", handleAdminCommentSubmit);
 
       document.getElementById("btn-export")?.addEventListener("click", () => {
         if (!reportsData || reportsData.length === 0) {
@@ -742,6 +749,38 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         link.click();
         document.body.removeChild(link);
       });
+    }
+
+    async function handleAdminCommentSubmit(e) {
+      e.preventDefault();
+      if (!currentReportId) return;
+      const input = document.getElementById("admin-comment-input");
+      const btn = document.getElementById("btn-send-admin-comment");
+      if (!input || !input.value.trim()) return;
+
+      const token = localStorage.getItem("access_token");
+      btn.disabled = true;
+      try {
+        const res = await fetch(`${API_URL}/api/reports/${currentReportId}/comments`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+          },
+          body: JSON.stringify({ content: input.value })
+        });
+        if (res.ok) {
+          input.value = '';
+          fetchAdminComments(currentReportId);
+          showToast('Komentar berhasil ditambahkan!', 'success');
+        } else {
+          showToast('Gagal menambahkan komentar', 'error');
+        }
+      } catch (err) {
+        showToast('Koneksi gagal', 'error');
+      } finally {
+        btn.disabled = false;
+      }
     }
 
     let mainInterval;
