@@ -10,9 +10,9 @@ import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: iconRetinaUrl,
-  iconUrl: iconUrl,
-  shadowUrl: shadowUrl,
+  iconRetinaUrl: typeof iconRetinaUrl === 'object' ? (iconRetinaUrl as any).src : iconRetinaUrl,
+  iconUrl: typeof iconUrl === 'object' ? (iconUrl as any).src : iconUrl,
+  shadowUrl: typeof shadowUrl === 'object' ? (shadowUrl as any).src : shadowUrl,
 });
 
 // ── Indonesia bounds ──────────────────────────────────────────────────────────
