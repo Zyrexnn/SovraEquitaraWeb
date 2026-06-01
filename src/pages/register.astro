@@ -138,10 +138,10 @@ import { ThemeToggle } from '../components/ThemeToggle';
         const data = await res.json();
 
         if (res.ok) {
-          showToast({ message: 'Pendaftaran berhasil! Silakan masuk ke akun Anda.', type: 'success' });
-          setTimeout(() => { window.location.href = '/login'; }, 1500);
+          showToast({ message: 'Kode OTP pendaftaran telah dikirim ke email Anda!', type: 'success' });
+          setTimeout(() => { window.location.href = `/verify-otp?email=${email}`; }, 1500);
         } else {
-          showToast({ message: data.message || 'Pendaftaran gagal. Email mungkin sudah terdaftar.', type: 'error' });
+          showToast({ message: data.error || 'Pendaftaran gagal. Email mungkin sudah terdaftar.', type: 'error' });
         }
       } catch (err) {
         console.error('Register error:', err);
