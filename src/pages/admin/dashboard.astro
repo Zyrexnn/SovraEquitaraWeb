@@ -691,6 +691,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     };
 
     function setupFilters() {
+      const inputs = ["search-input", "category-filter", "status-filter"];
       inputs.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
