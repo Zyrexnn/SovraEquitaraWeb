@@ -26,7 +26,7 @@ import Sidebar from '../components/Sidebar.astro';
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
           <!-- Report Creation (Bento Main) -->
-          <div class="md:col-span-2 lg:col-span-2 md:row-span-2 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
+          <div class="md:col-span-2 lg:col-span-2 md:row-span-2 card-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
             <div class="flex justify-between items-center mb-6">
               <h3 class="text-base font-extrabold m-0">Aspirasi Infrastruktur</h3>
               <span class="text-[11px] font-extrabold text-zen-muted dark:text-zen-muted-dark uppercase tracking-wider">Laporkan Kerusakan</span>
@@ -44,7 +44,7 @@ import Sidebar from '../components/Sidebar.astro';
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label class="block text-xs font-extrabold text-zen-muted dark:text-zen-muted-dark mb-2.5 uppercase tracking-wider">Deskripsi Detail</label>
-                  <textarea id="description" class="w-full p-3.5 lg:p-4 rounded-2xl border border-zen-border dark:border-zen-border-dark !bg-zen-surface dark:!bg-zen-surface-dark outline-none text-sm font-medium transition-colors duration-300 text-zen-text dark:text-zen-text-dark placeholder:text-zen-muted dark:placeholder:text-zen-muted-dark resize-none min-h-[120px] focus:ring-4 focus:ring-brand/5 dark:focus:ring-white/5 focus:border-brand dark:focus:border-white appearance-none" placeholder="Deskripsikan kerusakan atau keluhan Anda..." required></textarea>
+                  <textarea id="description" class="input-zen resize-none min-h-[120px]" placeholder="Deskripsikan kerusakan atau keluhan Anda..." required></textarea>
                 </div>
                 
                 <div>
@@ -64,10 +64,10 @@ import Sidebar from '../components/Sidebar.astro';
                 <label class="block text-xs font-extrabold text-zen-muted dark:text-zen-muted-dark mb-2.5 uppercase tracking-wider">Lokasi Kejadian</label>
                 <div class="flex flex-col gap-3">
                   <div class="flex flex-col gap-2.5">
-                    <input type="text" id="location_detail" class="w-full p-3.5 lg:p-4 rounded-2xl border border-zen-border dark:border-zen-border-dark !bg-zen-surface dark:!bg-zen-surface-dark outline-none text-sm font-medium transition-colors duration-300 text-zen-text dark:text-zen-text-dark placeholder:text-zen-muted dark:placeholder:text-zen-muted-dark focus:ring-4 focus:ring-brand/5 dark:focus:ring-white/5 focus:border-brand dark:focus:border-white appearance-none" placeholder="Detail Lokasi (Contoh: Depan Halte)" required />
+                    <input type="text" id="location_detail" class="input-zen" placeholder="Detail Lokasi (Contoh: Depan Halte)" required />
                     <div class="flex gap-2">
-                      <input type="text" id="search-address" class="flex-1 p-3.5 lg:p-4 rounded-2xl border border-zen-border dark:border-zen-border-dark !bg-zen-surface dark:!bg-zen-surface-dark outline-none text-sm font-medium transition-colors duration-300 text-zen-text dark:text-zen-text-dark placeholder:text-zen-muted dark:placeholder:text-zen-muted-dark focus:ring-4 focus:ring-brand/5 dark:focus:ring-white/5 focus:border-brand dark:focus:border-white appearance-none" placeholder="Cari Alamat atau Area..." />
-                      <button type="button" id="btn-search-loc" class="px-4 bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark rounded-xl cursor-pointer transition-colors duration-200 text-zen-text dark:text-zen-text-dark hover:border-brand flex items-center justify-center">🔍</button>
+                      <input type="text" id="search-address" class="input-zen flex-1" placeholder="Cari Alamat atau Area..." />
+                      <button type="button" id="btn-search-loc" class="btn-pill-outline px-4 flex items-center justify-center">🔍</button>
                     </div>
                   </div>
                   <div id="map" class="h-[250px] rounded-2xl border border-zen-border dark:border-zen-border-dark z-10 shadow-soft"></div>
@@ -75,7 +75,7 @@ import Sidebar from '../components/Sidebar.astro';
                 <input type="hidden" id="lat" /><input type="hidden" id="lng" />
               </div>
 
-              <button type="submit" id="btn-submit" class="w-full p-4 rounded-2xl bg-brand dark:bg-white text-white dark:text-brand border-none font-extrabold cursor-pointer transition-all duration-300 flex items-center justify-center gap-2.5 hover:-translate-y-0.5 hover:shadow-lg dark:hover:shadow-white/5 disabled:opacity-50 disabled:cursor-not-allowed">
+              <button type="submit" id="btn-submit" class="btn-pill-primary w-full flex items-center justify-center gap-2.5">
                 Kirim Laporan
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
               </button>
@@ -83,7 +83,7 @@ import Sidebar from '../components/Sidebar.astro';
           </div>
 
           <!-- Quick Stats -->
-          <div class="lg:col-span-1 grid grid-cols-1 gap-4 lg:gap-4 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.15s;">
+          <div class="lg:col-span-1 grid grid-cols-1 gap-4 lg:gap-4 card-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.15s;">
             <div class="p-5 rounded-2xl bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark text-center flex flex-col justify-center">
               <span class="text-[11px] font-extrabold text-zen-muted dark:text-zen-muted-dark uppercase tracking-wider">Total Laporan</span>
               <h2 id="stat-total" class="text-[32px] font-extrabold m-0 mt-2 tracking-tight text-zen-text dark:text-zen-text-dark">0</h2>
@@ -99,7 +99,7 @@ import Sidebar from '../components/Sidebar.astro';
           </div>
 
           <!-- Leaderboard -->
-          <div class="lg:col-span-1 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.2s;">
+          <div class="lg:col-span-1 card-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.2s;">
             <div class="flex justify-between items-center mb-6">
               <h3 class="text-base font-extrabold m-0">Warga Teladan</h3>
               <span class="text-[11px] font-extrabold text-white bg-blue-500 px-2 py-1 rounded-md uppercase tracking-wider">TOP 10</span>
@@ -110,7 +110,7 @@ import Sidebar from '../components/Sidebar.astro';
           </div>
 
           <!-- Feed (Bento Wide Bottom) -->
-          <div class="md:col-span-2 lg:col-span-3 p-6 lg:p-8 rounded-[24px] lg:rounded-[2rem] border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark shadow-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.25s;">
+          <div class="md:col-span-2 lg:col-span-3 card-zen animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.25s;">
             <div class="flex justify-between items-center mb-6">
               <h3 class="text-base font-extrabold m-0">Pantauan Kota</h3>
               <div class="flex items-center gap-3">

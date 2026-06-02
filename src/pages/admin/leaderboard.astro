@@ -75,7 +75,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
         const rank = i + 1;
         const avatarHtml = u.avatar_url ? `<img src="${u.avatar_url.startsWith('http') ? u.avatar_url : API_URL + u.avatar_url}" class="w-full h-full object-cover rounded-2xl" />` : initial;
         return `
-          <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-3xl p-6 flex items-center gap-5 transition-transform duration-300 relative overflow-hidden hover:-translate-y-1 hover:border-blue-500 shadow-zen group">
+          <div class="card-zen rounded-3xl p-6 flex items-center gap-5 transition-transform duration-300 relative overflow-hidden hover:-translate-y-1 hover:border-blue-500 shadow-zen group">
             ${rank <= 3 ? `<div class="absolute top-0 right-0 px-4 py-2 rounded-bl-2xl text-[11px] font-extrabold uppercase tracking-wider ${rank === 1 ? 'bg-[#FFD700] text-[#8B4513]' : rank === 2 ? 'bg-[#C0C0C0] text-[#4F4F4F]' : 'bg-[#CD7F32] text-white'}">RANK ${rank}</div>` : ''}
             <div class="w-16 h-16 rounded-2xl bg-zen-bg dark:bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark flex items-center justify-center text-2xl font-extrabold text-blue-500 overflow-hidden shrink-0">${avatarHtml}</div>
             <div class="flex-1">

@@ -9,39 +9,39 @@ const { activePage } = Astro.props;
 ---
 
 <!-- Mobile Header (Visible only on mobile) -->
-<header class="lg:hidden flex items-center justify-between px-5 py-3 fixed top-0 left-0 right-0 z-[900] bg-zen-surface/80 dark:bg-zen-surface-dark/80 backdrop-blur-xl border-b border-zen-border dark:border-zen-border-dark">
-  <button id="mobile-menu-toggle" class="bg-transparent border-none text-zen-text dark:text-zen-text-dark p-2 cursor-pointer flex items-center justify-center transition-transform active:scale-90" aria-label="Menu">
+<header class="lg:hidden flex items-center justify-between px-5 py-3 fixed top-0 left-0 right-0 z-[900] bg-canvas-surface/80 backdrop-blur-xl border-b border-hairline">
+  <button id="mobile-menu-toggle" class="bg-transparent border-none text-ink p-2 cursor-pointer flex items-center justify-center transition-transform active:scale-90" aria-label="Menu">
     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
   </button>
   <a href="/" class="block">
     <img src="/logo.svg" alt="Sovra" class="h-10 w-auto dark:brightness-0 dark:invert" />
   </a>
   <div class="flex items-center gap-2">
-    <button class="relative p-2 text-stone-500 hover:text-stone-900 dark:hover:text-white transition-colors" onclick="window.toggleGlobalNotifPanel && window.toggleGlobalNotifPanel()">
+    <button class="relative p-2 text-ink-muted hover:text-ink transition-colors" onclick="window.toggleGlobalNotifPanel && window.toggleGlobalNotifPanel()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
       <span id="mobile-notif-badge" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full hidden"></span>
     </button>
-    <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-zen-surface dark:bg-zen-surface-dark border border-zen-border dark:border-zen-border-dark">
+    <div class="flex items-center gap-2.5 py-1 pl-3 pr-1 rounded-full bg-canvas-surface border border-hairline">
       <span id="mobile-points-badge" class="text-[11px] font-extrabold text-blue-500 hidden">0 PTS</span>
-      <div class="w-7 h-7 rounded-full bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center text-[11px] font-extrabold overflow-hidden border border-white/10" id="mobile-avatar-badge">U</div>
+      <div class="w-7 h-7 rounded-full bg-ink text-canvas-surface flex items-center justify-center text-[11px] font-extrabold overflow-hidden border border-hairline" id="mobile-avatar-badge">U</div>
     </div>
   </div>
 </header>
 
 <!-- Desktop/Mobile Sidebar -->
-<aside class="fixed left-0 top-0 w-[280px] h-screen bg-zen-sidebar-bg dark:bg-zen-sidebar-bg-dark border-r border-zen-border dark:border-zen-border-dark flex flex-col z-[1000] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] max-lg:-translate-x-full lg:translate-x-0 backdrop-blur-xl shadow-2xl lg:shadow-none" id="sidebar">
+<aside class="fixed left-0 top-0 w-[280px] h-screen bg-canvas-bg border-r border-hairline flex flex-col z-[1000] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] max-lg:-translate-x-full lg:translate-x-0 backdrop-blur-xl shadow-2xl lg:shadow-none" id="sidebar">
   <!-- Sidebar Header -->
   <div class="p-6 lg:py-10 flex items-center justify-between">
     <a href="/" class="block hover:opacity-80 transition-all active:scale-95">
       <img src="/logo.svg" alt="SovraEquitara" class="h-16 w-auto grayscale dark:brightness-0 dark:invert" />
     </a>
     <div class="flex items-center gap-2">
-      <button class="hidden lg:flex p-2 text-stone-400 hover:text-stone-900 dark:hover:text-white bg-transparent border-none cursor-pointer items-center justify-center transition-transform active:scale-90 relative" onclick="window.toggleGlobalNotifPanel && window.toggleGlobalNotifPanel()">
+      <button class="hidden lg:flex p-2 text-ink-muted hover:text-ink bg-transparent border-none cursor-pointer items-center justify-center transition-transform active:scale-90 relative" onclick="window.toggleGlobalNotifPanel && window.toggleGlobalNotifPanel()">
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
         <span id="desktop-notif-badge" class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full hidden"></span>
       </button>
       <ThemeToggle client:load />
-      <button id="btn-close-sidebar" class="lg:hidden p-2 text-zen-muted dark:text-zen-muted-dark hover:text-zen-text dark:hover:text-zen-text-dark bg-transparent border-none cursor-pointer flex items-center justify-center transition-transform active:scale-90">
+      <button id="btn-close-sidebar" class="lg:hidden p-2 text-ink-muted hover:text-ink bg-transparent border-none cursor-pointer flex items-center justify-center transition-transform active:scale-90">
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
     </div>
@@ -49,128 +49,128 @@ const { activePage } = Astro.props;
   
   <!-- Sidebar Navigation -->
   <nav class="flex-1 px-4 space-y-1 overflow-y-auto scrollbar-hide" id="sidebar-nav">
-    <div class="text-[10px] font-black text-stone-400 dark:text-stone-500 p-3 tracking-[0.2em] uppercase mb-1">Navigasi Utama</div>
+    <div class="text-[10px] font-black text-ink-tertiary p-3 tracking-[0.2em] uppercase mb-1">Navigasi Utama</div>
     
     <!-- User Links (Warga) -->
     <div id="nav-user-group" class="hidden space-y-1">
-      <a href="/dashboard" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'dashboard' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'dashboard' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator"></span>}
+      <a href="/dashboard" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'dashboard' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'dashboard' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
         <span>Dashboard Warga</span>
-        {activePage === 'dashboard' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'dashboard' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a href="/history" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'history' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'history' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator"></span>}
+      <a href="/history" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'history' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'history' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
         <span>Riwayat Laporan</span>
-        {activePage === 'history' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'history' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a href="/ai-assistant" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'ai-assistant' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'ai-assistant' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-emerald-500 rounded-full" transition:name="nav-indicator"></span>}
+      <a href="/ai-assistant" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'ai-assistant' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'ai-assistant' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M12 2a10 10 0 1 0 10 10H12V2Z"></path><path d="M12 12 2.1 14.9"></path><path d="M12 12 14.9 2.1"></path></svg>
         <span>Tanya AI</span>
-        {activePage === 'ai-assistant' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500"></span>}
+        {activePage === 'ai-assistant' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a href="/chat" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'chat' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'chat' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator"></span>}
+      <a href="/chat" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'chat' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'chat' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
         <span>Chat Admin</span>
-        {activePage === 'chat' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'chat' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a href="/map" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'map' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'map' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator"></span>}
+      <a href="/map" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'map' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'map' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
         <span>Peta Laporan</span>
-        {activePage === 'map' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'map' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a href="/profile" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'profile' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'profile' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator"></span>}
+      <a href="/profile" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'profile' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'profile' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
         <span>Profil Saya</span>
-        {activePage === 'profile' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'profile' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
     </div>
 
     <!-- Admin Links -->
     <div id="nav-admin-group" class="hidden space-y-1">
-      <a id="admin-dash-link" href="/admin/dashboard" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'dashboard' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'dashboard' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+      <a id="admin-dash-link" href="/admin/dashboard" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'dashboard' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'dashboard' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator-admin"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg>
         <span>Dashboard Admin</span>
-        {activePage === 'dashboard' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'dashboard' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a id="admin-reports-link" href="/admin/reports" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'reports' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'reports' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+      <a id="admin-reports-link" href="/admin/reports" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'reports' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'reports' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator-admin"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
         <span>Arsip Laporan</span>
-        {activePage === 'reports' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'reports' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a href="/admin/leaderboard" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'leaderboard' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'leaderboard' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+      <a href="/admin/leaderboard" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'leaderboard' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'leaderboard' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator-admin"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
         <span>Peringkat Warga</span>
-        {activePage === 'leaderboard' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'leaderboard' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a href="/admin/ai-assistant" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'ai-assistant' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'ai-assistant' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+      <a href="/admin/ai-assistant" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'ai-assistant' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'ai-assistant' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator-admin"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M12 2a10 10 0 1 0 10 10H12V2Z"></path><path d="M12 12 2.1 14.9"></path><path d="M12 12 14.9 2.1"></path></svg>
         <span>AI Assistant</span>
-        {activePage === 'ai-assistant' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'ai-assistant' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a id="admin-chat-link" href="/admin/chat" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'chat' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'chat' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+      <a id="admin-chat-link" href="/admin/chat" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'chat' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'chat' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator-admin"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
         <span>Chat Inbox</span>
-        {activePage === 'chat' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'chat' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a id="admin-map-link" href="/map" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'map' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'map' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+      <a id="admin-map-link" href="/map" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'map' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'map' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator-admin"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
         <span>Peta Laporan</span>
-        {activePage === 'map' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'map' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
-      <a id="admin-broadcast-link" href="/admin/broadcast" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'broadcast' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'broadcast' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+      <a id="admin-broadcast-link" href="/admin/broadcast" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'broadcast' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'broadcast' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator-admin"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><path d="M14.05 2a9 9 0 0 1 8 7.94"></path><path d="M14.05 6A5 5 0 0 1 18 10"></path></svg>
         <span>Broadcast</span>
-        {activePage === 'broadcast' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'broadcast' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
       <div id="superadmin-links-unified" class="hidden space-y-1">
-        <a href="/superadmin/admins" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'admins' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-          {activePage === 'admins' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+        <a href="/superadmin/admins" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'admins' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+          {activePage === 'admins' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator-admin"></span>}
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="11" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
           <span>Kelola Admin</span>
-          {activePage === 'admins' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+          {activePage === 'admins' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
         </a>
-        <a href="/superadmin/users" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'users' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-          {activePage === 'users' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+        <a href="/superadmin/users" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'users' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+          {activePage === 'users' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator-admin"></span>}
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M17 21v2a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4v-2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
           <span>Direktori Warga</span>
-          {activePage === 'users' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+          {activePage === 'users' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
         </a>
       </div>
-      <a id="admin-profile-link" href="/admin/profile" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'profile' ? 'bg-stone-900 dark:bg-white text-white dark:text-black shadow-xl shadow-stone-900/10 dark:shadow-white/10' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 hover:text-stone-900 dark:hover:text-white'}`}>
-        {activePage === 'profile' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-blue-500 rounded-full" transition:name="nav-indicator-admin"></span>}
+      <a id="admin-profile-link" href="/admin/profile" class={`nav-item relative group flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${activePage === 'profile' ? 'bg-ink text-canvas-surface shadow-xl' : 'text-ink-muted hover:bg-hairline hover:text-ink'}`}>
+        {activePage === 'profile' && <span class="absolute left-0 top-1/4 bottom-1/4 w-1 bg-aloe rounded-full" transition:name="nav-indicator-admin"></span>}
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
         <span>Profil Admin</span>
-        {activePage === 'profile' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>}
+        {activePage === 'profile' && <span class="ml-auto w-1.5 h-1.5 rounded-full bg-aloe"></span>}
       </a>
     </div>
   </nav>
 
   <!-- Sidebar Footer -->
-  <div class="p-6 border-t border-zen-border dark:border-zen-border-dark">
-    <div class="p-4 rounded-[24px] bg-zen-surface dark:bg-white/5 border border-zen-border dark:border-zen-border-dark flex items-center gap-3 mb-4 shadow-sm">
-      <div class="w-11 h-11 rounded-xl bg-stone-900 dark:bg-white text-white dark:text-black flex items-center justify-center font-black text-lg" id="sidebar-user-avatar">U</div>
+  <div class="p-6 border-t border-hairline">
+    <div class="p-4 rounded-[24px] bg-canvas-surface border border-hairline flex items-center gap-3 mb-4 shadow-sm">
+      <div class="w-11 h-11 rounded-xl bg-ink text-canvas-surface flex items-center justify-center font-black text-lg" id="sidebar-user-avatar">U</div>
       <div class="flex flex-col min-w-0">
-        <span class="font-black text-sm truncate text-zen-text dark:text-zen-text-dark" id="sidebar-user-name">Memuat...</span>
+        <span class="font-black text-sm truncate text-ink" id="sidebar-user-name">Memuat...</span>
         <div id="sidebar-user-meta" class="flex items-center gap-1.5 mt-0.5">
            <span id="sidebar-user-points" class="text-[10px] font-black text-blue-500 uppercase tracking-tight hidden">0 PTS</span>
            <span id="sidebar-admin-badge" class="text-[9px] font-black text-green-500 uppercase tracking-widest hidden flex items-center gap-1"><span class="w-1 h-1 rounded-full bg-green-500"></span> Online</span>
         </div>
       </div>
     </div>
-    <button id="btn-logout-unified" class="w-full flex items-center justify-center gap-2.5 p-4 bg-transparent border border-zen-border dark:border-zen-border-dark rounded-2xl text-stone-500 dark:text-stone-400 font-bold text-[13px] cursor-pointer transition-all hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-500/20 active:scale-95">
+    <button id="btn-logout-unified" class="w-full flex items-center justify-center gap-2.5 p-4 bg-transparent border border-hairline rounded-2xl text-ink-muted font-bold text-[13px] cursor-pointer transition-all hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-500/20 active:scale-95">
       <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
       <span>Keluar Sesi</span>
     </button>

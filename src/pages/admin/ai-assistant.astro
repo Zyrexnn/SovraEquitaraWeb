@@ -581,6 +581,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
     });
 
     document.getElementById("btn-new-chat")?.addEventListener("click", () => window.resetAIThread());
-    document.addEventListener('astro:page-load', () => checkAuthAndLoadReports());
-    if (document.readyState === 'complete') checkAuthAndLoadReports();
+    document.addEventListener('astro:page-load', () => {
+      if (window.location.pathname.includes('/admin/ai-assistant')) {
+        checkAuthAndLoadReports();
+      }
+    });
+    if (document.readyState === 'complete') {
+      if (window.location.pathname.includes('/admin/ai-assistant')) {
+        checkAuthAndLoadReports();
+      }
+    }
   </script>

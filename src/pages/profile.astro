@@ -86,21 +86,21 @@ import Sidebar from '../components/Sidebar.astro';
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div class="relative group/input">
                   <label class="block text-[11px] font-black text-zen-muted uppercase tracking-[0.15em] mb-2 transition-colors group-focus-within/input:text-blue-500">Nama Lengkap / Alias</label>
-                  <input type="text" id="full_name" placeholder="Nama Anda" required class="w-full p-4 rounded-2xl border-2 border-zen-border dark:border-white/10 bg-white dark:bg-black/40 text-base font-bold outline-none focus:border-blue-500 dark:focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-zen-text dark:text-zen-text-dark shadow-sm hover:border-stone-300 dark:hover:border-stone-700" />
+                  <input type="text" id="full_name" placeholder="Nama Anda" required class="input-zen" />
                   <p class="text-[11px] font-bold text-zen-muted mt-3 leading-relaxed">Nama ini akan digunakan saat Anda mengajukan aspirasi atau memposting komentar.</p>
                 </div>
                 
                 <div class="relative group/input">
                   <label class="block text-[11px] font-black text-zen-muted uppercase tracking-[0.15em] mb-2 transition-colors group-focus-within/input:text-blue-500">Nomor WhatsApp</label>
                   <div class="relative">
-                    <input type="tel" id="phone" placeholder="08xxxxxxxxxx" class="w-full p-4 pl-14 rounded-2xl border-2 border-zen-border dark:border-white/10 bg-white dark:bg-black/40 text-base font-bold outline-none focus:border-blue-500 dark:focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-zen-text dark:text-zen-text-dark shadow-sm hover:border-stone-300 dark:hover:border-stone-700" />
+                    <input type="tel" id="phone" placeholder="08xxxxxxxxxx" class="input-zen pl-14" />
                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-black text-zen-muted">🇮🇩</span>
                   </div>
                   <p class="text-[11px] font-bold text-zen-muted mt-3 leading-relaxed">Pihak instansi mungkin menghubungi Anda untuk konfirmasi lebih lanjut.</p>
                 </div>
               </div>
               
-              <button type="submit" id="btn-save" class="w-full p-5 mt-2 rounded-2xl bg-brand dark:bg-white text-white dark:text-brand font-black text-base border-none cursor-pointer transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/30 flex items-center justify-center gap-3 overflow-hidden relative group/btn">
+              <button type="submit" id="btn-save" class="btn-pill-primary w-full mt-2 flex items-center justify-center gap-3 overflow-hidden relative group/btn">
                 <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover/btn:opacity-100 dark:from-stone-200 dark:to-white transition-opacity duration-300"></span>
                 <span class="relative z-10 flex items-center gap-3">
                   Simpan Perubahan
@@ -137,7 +137,7 @@ import Sidebar from '../components/Sidebar.astro';
                 <!-- Citizen: OTP reset flow -->
                 <div id="pw-citizen-section">
                   <p class="text-[12px] font-bold text-zen-muted leading-relaxed mb-6">Ingin mengganti kunci akun? Kami akan mengirimkan instruksi ke email Anda.</p>
-                  <button id="btn-reset-pw" class="w-full p-4 rounded-xl bg-white dark:bg-black border-2 border-zen-border dark:border-zen-border-dark font-black text-[12px] uppercase tracking-widest cursor-pointer hover:bg-zen-text hover:text-white dark:hover:bg-white dark:hover:text-black transition-all shadow-sm">Kirim Tautan Reset</button>
+                  <button id="btn-reset-pw" class="btn-pill-outline w-full text-[12px] uppercase tracking-widest">Kirim Tautan Reset</button>
                 </div>
                 <!-- Admin/Super Admin: direct password change -->
                 <div id="pw-admin-section" class="hidden">
@@ -145,17 +145,17 @@ import Sidebar from '../components/Sidebar.astro';
                   <form id="form-change-pw" class="flex flex-col gap-4">
                     <div>
                       <label class="block text-[10px] font-black text-zen-muted uppercase tracking-[0.15em] mb-1.5">Kata Sandi Saat Ini</label>
-                      <input type="password" id="current_password" placeholder="••••••••" required class="w-full p-3.5 rounded-xl border-2 border-zen-border dark:border-white/10 bg-white dark:bg-black/40 text-sm font-bold outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-zen-text dark:text-zen-text-dark" />
+                      <input type="password" id="current_password" placeholder="••••••••" required class="input-zen" />
                     </div>
                     <div>
                       <label class="block text-[10px] font-black text-zen-muted uppercase tracking-[0.15em] mb-1.5">Kata Sandi Baru</label>
-                      <input type="password" id="new_password" placeholder="Minimal 6 karakter" required class="w-full p-3.5 rounded-xl border-2 border-zen-border dark:border-white/10 bg-white dark:bg-black/40 text-sm font-bold outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-zen-text dark:text-zen-text-dark" />
+                      <input type="password" id="new_password" placeholder="Minimal 6 karakter" required class="input-zen" />
                     </div>
                     <div>
                       <label class="block text-[10px] font-black text-zen-muted uppercase tracking-[0.15em] mb-1.5">Konfirmasi Sandi Baru</label>
-                      <input type="password" id="confirm_password" placeholder="Ulangi sandi baru" required class="w-full p-3.5 rounded-xl border-2 border-zen-border dark:border-white/10 bg-white dark:bg-black/40 text-sm font-bold outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-zen-text dark:text-zen-text-dark" />
+                      <input type="password" id="confirm_password" placeholder="Ulangi sandi baru" required class="input-zen" />
                     </div>
-                    <button type="submit" id="btn-change-pw" class="w-full p-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[12px] uppercase tracking-widest cursor-pointer transition-all border-none shadow-md hover:shadow-indigo-500/30">Perbarui Sandi</button>
+                    <button type="submit" id="btn-change-pw" class="btn-pill-primary w-full text-[12px] uppercase tracking-widest shadow-md">Perbarui Sandi</button>
                   </form>
                 </div>
               </div>

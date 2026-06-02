@@ -84,31 +84,31 @@ const {
       });
     </script>
   </head>
-  <body class="min-h-screen bg-zen-bg dark:bg-zen-bg-dark text-zen-text dark:text-zen-text-dark antialiased transition-colors duration-300">
+  <body class="min-h-screen bg-canvas-bg text-ink antialiased transition-colors duration-300">
     <slot />
 
     <!-- Global Emergency Modal -->
     <div id="global-emergency-modal" class="fixed inset-0 bg-red-900/80 backdrop-blur-md z-[9999] hidden items-center justify-center p-6">
-      <div class="bg-white dark:bg-stone-900 w-full max-w-md rounded-[32px] shadow-2xl overflow-hidden flex flex-col scale-95 opacity-0 transition-all duration-300" id="global-emergency-content">
+      <div class="bg-canvas-surface w-full max-w-md rounded-[32px] shadow-2xl overflow-hidden flex flex-col scale-95 opacity-0 transition-all duration-300" id="global-emergency-content">
         <div class="bg-red-500 p-6 flex flex-col items-center justify-center text-white">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="mb-2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
           <h2 class="text-2xl font-black tracking-widest uppercase m-0 text-center">Pesan Darurat!</h2>
         </div>
         <div class="p-8 flex flex-col items-center text-center">
-          <h3 id="emergency-title" class="text-xl font-bold text-zen-text dark:text-zen-text-dark mb-4"></h3>
-          <p id="emergency-message" class="text-stone-600 dark:text-stone-300 font-medium mb-8 leading-relaxed"></p>
-          <button id="btn-close-emergency" class="px-8 py-3.5 bg-stone-900 dark:bg-white text-white dark:text-black rounded-xl font-bold w-full hover:scale-105 transition-transform shadow-lg">SAYA MENGERTI</button>
+          <h3 id="emergency-title" class="text-xl font-bold text-ink mb-4"></h3>
+          <p id="emergency-message" class="text-ink-muted font-medium mb-8 leading-relaxed"></p>
+          <button id="btn-close-emergency" class="btn-pill-primary w-full py-3.5">SAYA MENGERTI</button>
         </div>
       </div>
     </div>
 
     <!-- Global Notification Panel -->
-    <div id="global-notif-panel" class="fixed top-24 lg:top-8 right-4 lg:right-8 w-80 sm:w-96 bg-white dark:bg-stone-900 border border-zen-border dark:border-zen-border-dark shadow-2xl rounded-3xl z-[5000] hidden flex-col overflow-hidden transition-all duration-300 opacity-0 translate-y-[-20px]">
-      <div class="p-4 border-b border-zen-border dark:border-zen-border-dark flex justify-between items-center bg-stone-50 dark:bg-stone-950">
-        <span class="font-black text-sm uppercase tracking-widest text-zen-text dark:text-zen-text-dark">Notifikasi</span>
+    <div id="global-notif-panel" class="fixed top-24 lg:top-8 right-4 lg:right-8 w-80 sm:w-96 bg-canvas-surface border border-hairline shadow-2xl rounded-3xl z-[5000] hidden flex-col overflow-hidden transition-all duration-300 opacity-0 translate-y-[-20px]">
+      <div class="p-4 border-b border-hairline flex justify-between items-center bg-canvas-surface">
+        <span class="font-black text-sm uppercase tracking-widest text-ink">Notifikasi</span>
         <div class="flex items-center gap-2">
-          <button id="btn-clear-all-notifs" class="text-[10px] font-bold text-stone-400 hover:text-red-500 transition-colors uppercase tracking-widest bg-stone-100 dark:bg-white/5 px-2 py-1 rounded-md hidden">Hapus Semua</button>
-          <button id="btn-close-notif-panel" class="text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+          <button id="btn-clear-all-notifs" class="text-[10px] font-bold text-ink-muted hover:text-red-500 transition-colors uppercase tracking-widest bg-hairline px-2 py-1 rounded-md hidden">Hapus Semua</button>
+          <button id="btn-close-notif-panel" class="text-ink-muted hover:text-ink transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
         </div>
       </div>
       <div id="global-notif-list" class="max-h-[60vh] overflow-y-auto p-2 flex flex-col gap-1">
@@ -252,17 +252,17 @@ const {
                 const isEmerg = n.type === 'EMERGENCY';
                 const isWarn = n.type === 'WARNING';
                 const icon = isEmerg ? '🚨' : (isWarn ? '⚠️' : 'ℹ️');
-                const bgClass = isEmerg ? 'bg-red-50 dark:bg-red-500/10' : (isWarn ? 'bg-amber-50 dark:bg-amber-500/10' : 'bg-transparent hover:bg-stone-50 dark:hover:bg-white/5');
-                const titleClass = isEmerg ? 'text-red-600 dark:text-red-400' : (isWarn ? 'text-amber-600 dark:text-amber-400' : 'text-zen-text dark:text-zen-text-dark');
+                const bgClass = isEmerg ? 'bg-red-50 dark:bg-red-500/10' : (isWarn ? 'bg-amber-50 dark:bg-amber-500/10' : 'bg-transparent hover:bg-hairline');
+                const titleClass = isEmerg ? 'text-red-600 dark:text-red-400' : (isWarn ? 'text-amber-600 dark:text-amber-400' : 'text-ink');
                 
                 return `
                   <div class="notif-item relative p-3 sm:p-4 rounded-2xl flex items-start gap-3 transition-colors ${bgClass} group" data-id="${n.id}">
                     <div class="text-xl shrink-0">${icon}</div>
                     <div class="flex-1 pr-6">
                       <div class="font-extrabold text-sm mb-1 ${titleClass}">${n.title}</div>
-                      <div class="text-xs text-stone-600 dark:text-stone-300 font-medium leading-relaxed">${n.message}</div>
-                      ${n.action_url ? `<a href="${n.action_url}" class="inline-block mt-2 px-3 py-1.5 bg-stone-900 dark:bg-white text-white dark:text-black text-[10px] font-black rounded-lg hover:scale-105 transition-transform uppercase tracking-widest">Lihat Detail</a>` : ''}
-                      <div class="text-[9px] font-bold text-stone-400 mt-2 uppercase tracking-widest">${new Date(n.created_at).toLocaleDateString('id-ID', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
+                      <div class="text-xs text-ink-muted font-medium leading-relaxed">${n.message}</div>
+                      ${n.action_url ? `<a href="${n.action_url}" class="inline-block mt-2 px-3 py-1.5 bg-ink text-canvas-surface text-[10px] font-black rounded-lg hover:scale-105 transition-transform uppercase tracking-widest">Lihat Detail</a>` : ''}
+                      <div class="text-[9px] font-bold text-ink-tertiary mt-2 uppercase tracking-widest">${new Date(n.created_at).toLocaleDateString('id-ID', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
                     </div>
                     <button class="absolute top-3 right-3 text-stone-300 hover:text-red-500 transition-colors lg:opacity-0 group-hover:opacity-100" onclick="window.hideNotification('${n.id}')" title="Hapus Notifikasi">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>

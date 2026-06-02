@@ -247,19 +247,19 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
   // ── Loading state ──────────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="w-full h-full min-h-[500px] flex flex-col items-center justify-center gap-4 bg-stone-50 dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800">
+      <div className="w-full h-full min-h-[500px] flex flex-col items-center justify-center gap-4 bg-zen-bg dark:bg-zen-bg-dark rounded-[2rem] border border-zen-border dark:border-zen-border-dark shadow-zen">
         {/* Shimmer map skeleton */}
-        <div className="relative w-full h-full min-h-[500px] rounded-3xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-stone-200 via-stone-100 to-stone-200 dark:from-stone-800 dark:via-stone-900 dark:to-stone-800 animate-pulse" />
+        <div className="relative w-full h-full min-h-[500px] rounded-[2rem] overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-zen-surface via-zen-bg to-zen-surface dark:from-zen-surface-dark dark:via-zen-bg-dark dark:to-zen-surface-dark animate-pulse" />
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-            <div className="w-14 h-14 rounded-2xl bg-white dark:bg-stone-800 shadow-lg flex items-center justify-center">
-              <svg className="w-7 h-7 text-blue-500 animate-spin" viewBox="0 0 24 24" fill="none">
+            <div className="w-14 h-14 rounded-2xl bg-zen-card dark:bg-zen-card-dark shadow-lg flex items-center justify-center">
+              <svg className="w-7 h-7 text-brand animate-spin" viewBox="0 0 24 24" fill="none">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
               </svg>
             </div>
-            <p className="text-sm font-bold text-stone-500 dark:text-stone-400">Memuat peta laporan…</p>
-            <p className="text-xs text-stone-400 dark:text-stone-500">Menghubungkan ke server tile…</p>
+            <p className="text-sm font-bold text-zen-text dark:text-zen-text-dark">Memuat peta laporan…</p>
+            <p className="text-xs text-zen-muted dark:text-zen-muted-dark">Menghubungkan ke server tile…</p>
           </div>
         </div>
       </div>
@@ -306,9 +306,9 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
             placeholder="Cari deskripsi atau lokasi..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 rounded-xl pl-10 pr-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            className="input-zen pl-10"
           />
-          <svg className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <svg className="w-4 h-4 text-zen-muted absolute left-3.5 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         </div>
 
         {/* Filter Scrollable Row */}
@@ -327,8 +327,8 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
                 onClick={() => setStatusFilter(filter.id)}
                 className={`flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl border transition-colors cursor-pointer ${
                   statusFilter === filter.id 
-                  ? 'bg-stone-200 dark:bg-stone-800 border-stone-300 dark:border-stone-600 text-stone-900 dark:text-white shadow-sm' 
-                  : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800 text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800/50'
+                  ? 'bg-zen-surface dark:bg-zen-surface-dark border-zen-border dark:border-zen-border-dark text-zen-text dark:text-zen-text-dark shadow-sm' 
+                  : 'bg-zen-bg dark:bg-zen-bg-dark border-zen-border dark:border-zen-border-dark text-zen-muted dark:text-zen-muted-dark hover:bg-zen-surface dark:hover:bg-zen-surface-dark'
                 }`}
               >
                 <span className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${filter.color}`}></span>
@@ -339,21 +339,21 @@ const ReportMap: React.FC<ReportMapProps> = ({ apiUrl }) => {
         </div>
       </div>
 
-      <div className="relative flex-1 w-full h-[60vh] min-h-[500px] rounded-3xl overflow-hidden border border-stone-200 dark:border-stone-800 shadow-lg">
+      <div className="relative flex-1 w-full h-[60vh] min-h-[500px] card-zen overflow-hidden rounded-[2rem] p-0">
         {isAdmin && (
-          <div className="absolute top-4 left-4 z-[1000] px-3 py-1.5 bg-blue-600 text-white border border-blue-500 rounded-xl shadow-md text-xs font-black tracking-wide uppercase">
+          <div className="absolute top-4 left-4 z-[1000] px-3 py-1.5 bg-brand text-white border border-blue-500 rounded-xl shadow-md text-xs font-black tracking-wide uppercase">
             Mode {isSuperAdmin ? 'Super Admin' : 'Admin'}
           </div>
         )}
 
         {filteredReports.length > 0 ? (
-          <div className="absolute bottom-4 right-4 z-[1000] px-3 py-1.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl shadow-md text-xs font-bold text-stone-700 dark:text-stone-300">
+          <div className="absolute bottom-4 right-4 z-[1000] px-3 py-1.5 bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-xl shadow-zen text-xs font-bold text-zen-text dark:text-zen-text-dark">
             {filteredReports.length} Laporan
           </div>
         ) : (
-          <div className="absolute inset-0 z-[1000] bg-white/80 dark:bg-black/80 flex flex-col items-center justify-center backdrop-blur-sm">
-            <svg className="w-12 h-12 text-stone-400 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <p className="text-stone-500 dark:text-stone-400 font-bold text-sm">Tidak ada laporan ditemukan</p>
+          <div className="absolute inset-0 z-[1000] bg-zen-bg/80 dark:bg-zen-bg-dark/80 flex flex-col items-center justify-center backdrop-blur-sm">
+            <svg className="w-12 h-12 text-zen-muted mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <p className="text-zen-muted dark:text-zen-muted-dark font-bold text-sm">Tidak ada laporan ditemukan</p>
           </div>
         )}
 

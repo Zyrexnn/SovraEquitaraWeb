@@ -8,23 +8,23 @@ import { ThemeToggle } from '../components/ThemeToggle';
     <ThemeToggle client:load />
   </div>
 
-  <main class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-zen-bg dark:bg-zen-bg-dark transition-colors duration-300">
-    <div class="w-full max-w-md animate-fade-in">
+  <main class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-12 bg-canvas-bg transition-colors duration-300">
+    <div class="w-full max-w-md animate-fade-in py-12">
       <!-- Logo -->
-      <div class="text-center mb-8">
+      <div class="text-center mb-10">
         <a href="/" class="inline-block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="h-20 sm:h-24 mx-auto mb-6 dark:brightness-0 dark:invert" />
+          <img src="/logo.svg" alt="SovraEquitara" class="h-20 sm:h-24 mx-auto mb-8 dark:brightness-0 dark:invert" />
         </a>
-        <h1 class="text-3xl sm:text-4xl font-display font-bold mb-2 text-stone-900 dark:text-white">Selamat Datang</h1>
-        <p class="text-base text-stone-600 dark:text-gray-400 font-medium">Masuk untuk melanjutkan kontribusi Anda</p>
+        <h1 class="display-md mb-3">Selamat Datang</h1>
+        <p class="text-base text-ink-muted font-medium">Masuk untuk melanjutkan kontribusi Anda</p>
       </div>
 
       <!-- Form Card -->
-      <div class="card shadow-xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+      <div class="card-zen">
         <form id="form-login" class="space-y-6">
           <!-- Email -->
           <div>
-            <label for="email" class="block text-sm font-bold text-stone-700 dark:text-gray-300 mb-2 uppercase tracking-widest">
+            <label for="email" class="block text-[11px] font-bold text-ink-tertiary mb-2 uppercase tracking-widest">
               Email
             </label>
             <input
@@ -32,24 +32,24 @@ import { ThemeToggle } from '../components/ThemeToggle';
               id="email"
               placeholder="nama@email.com"
               required
-              class="input"
+              class="input-zen"
             />
           </div>
 
           <!-- Password -->
           <div>
             <div class="flex items-center justify-between mb-2">
-              <label for="password" class="block text-sm font-bold text-stone-700 dark:text-gray-300 uppercase tracking-widest">
+              <label for="password" class="block text-[11px] font-bold text-ink-tertiary uppercase tracking-widest">
                 Kata Sandi
               </label>
-              <a href="#" class="text-xs font-bold text-amber-600 hover:text-amber-500 transition-colors">Lupa sandi?</a>
+              <a href="/forgot-password" class="text-[11px] font-bold text-ink hover:text-ink-muted transition-colors uppercase tracking-widest">Lupa sandi?</a>
             </div>
             <input
               type="password"
               id="password"
               placeholder="••••••••"
               required
-              class="input"
+              class="input-zen"
             />
           </div>
 
@@ -57,31 +57,31 @@ import { ThemeToggle } from '../components/ThemeToggle';
           <button
             type="submit"
             id="btn-submit"
-            class="btn-primary w-full py-4 text-lg"
+            class="btn-pill-primary w-full py-4 mt-2"
           >
             Masuk Sekarang
           </button>
         </form>
 
         <!-- Divider -->
-        <div class="relative my-8">
+        <div class="relative my-10">
           <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-stone-200 dark:border-white/10"></div>
+            <div class="w-full border-t border-hairline"></div>
           </div>
-          <div class="relative flex justify-center text-xs uppercase tracking-widest font-bold">
-            <span class="bg-zen-card dark:bg-zen-card-dark px-4 text-zen-text-secondary dark:text-zen-text-secondary-dark rounded-full">Atau</span>
+          <div class="relative flex justify-center text-[10px] uppercase tracking-widest font-bold">
+            <span class="bg-canvas-surface px-4 text-ink-tertiary rounded-full">Atau</span>
           </div>
         </div>
 
         <!-- Register Link -->
-        <p class="text-center text-sm font-medium text-stone-600 dark:text-gray-400">
+        <p class="text-center text-sm font-medium text-ink-muted">
           Belum punya akun?
-          <a href="/register" class="text-stone-900 dark:text-white font-bold hover:underline ml-1">Daftar gratis</a>
+          <a href="/register" class="text-ink font-bold hover:underline ml-1">Daftar gratis</a>
         </p>
       </div>
 
       <!-- Footer Info -->
-      <p class="text-center mt-12 text-xs font-bold text-stone-400 dark:text-gray-600 tracking-widest uppercase">
+      <p class="text-center mt-16 text-[10px] font-bold text-ink-tertiary tracking-widest uppercase">
         &copy; 2026 SovraEquitara &bull; Aman & Transparan
       </p>
     </div>

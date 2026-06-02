@@ -8,22 +8,22 @@ import { ThemeToggle } from '../components/ThemeToggle';
     <ThemeToggle client:load />
   </div>
 
-  <main class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-zen-bg dark:bg-zen-bg-dark transition-colors duration-300">
-    <div class="w-full max-w-md animate-fade-in">
+  <main class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-12 bg-canvas-bg transition-colors duration-300">
+    <div class="w-full max-w-md animate-fade-in py-12">
       <!-- Logo -->
-      <div class="text-center mb-8">
+      <div class="text-center mb-10">
         <a href="/" class="inline-block hover:opacity-80 transition-opacity">
-          <img src="/logo.svg" alt="SovraEquitara" class="h-20 sm:h-24 mx-auto mb-6 dark:brightness-0 dark:invert" />
+          <img src="/logo.svg" alt="SovraEquitara" class="h-20 sm:h-24 mx-auto mb-8 dark:brightness-0 dark:invert" />
         </a>
-        <h1 class="text-3xl sm:text-4xl font-display font-bold mb-2 text-stone-900 dark:text-white">Verifikasi Akun</h1>
-        <p id="instruction-text" class="text-base text-stone-600 dark:text-gray-400 font-medium">Masukkan kode OTP yang dikirim ke email Anda.</p>
+        <h1 class="display-md mb-3">Verifikasi Akun</h1>
+        <p id="instruction-text" class="text-base text-ink-muted font-medium">Masukkan kode OTP yang dikirim ke email Anda.</p>
       </div>
 
       <!-- Form Card -->
-      <div class="card shadow-xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+      <div class="card-zen">
         <form id="form-verify" class="space-y-6">
           <div class="space-y-2">
-            <label for="otp" class="block text-sm font-bold text-stone-700 dark:text-gray-300 uppercase tracking-widest text-center">
+            <label for="otp" class="block text-[11px] font-bold text-ink-tertiary uppercase tracking-widest text-center">
               Kode OTP (6 Digit)
             </label>
             <input
@@ -32,7 +32,7 @@ import { ThemeToggle } from '../components/ThemeToggle';
               placeholder="000000"
               maxlength="6"
               required
-              class="w-full !bg-zen-bg dark:!bg-zen-bg-dark border border-zen-border dark:border-zen-border-dark rounded-2xl p-4 px-5 text-zen-text dark:text-zen-text-dark font-display text-[24px] tracking-[0.2em] font-extrabold text-center transition-all duration-300 outline-none focus:border-blue-500 focus:ring-4 focus:ring-black/5 dark:focus:ring-white/5 appearance-none"
+              class="input-zen tracking-[0.2em] font-extrabold text-center text-lg"
             />
           </div>
 
@@ -40,45 +40,45 @@ import { ThemeToggle } from '../components/ThemeToggle';
           <button
             type="submit"
             id="btn-submit"
-            class="btn-primary w-full py-4 text-lg"
+            class="btn-pill-primary w-full py-4 mt-2"
           >
             Verifikasi & Masuk
           </button>
         </form>
 
         <!-- Divider -->
-        <div class="relative my-8">
+        <div class="relative my-10">
           <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-stone-200 dark:border-white/10"></div>
+            <div class="w-full border-t border-hairline"></div>
           </div>
-          <div class="relative flex justify-center text-xs uppercase tracking-widest font-bold">
-            <span class="bg-zen-card dark:bg-zen-card-dark px-4 text-zen-text-secondary dark:text-zen-text-secondary-dark rounded-full">Atau</span>
+          <div class="relative flex justify-center text-[10px] uppercase tracking-widest font-bold">
+            <span class="bg-canvas-surface px-4 text-ink-tertiary rounded-full">Atau</span>
           </div>
         </div>
 
         <!-- Login Link -->
-        <p class="text-center text-sm font-medium text-stone-600 dark:text-gray-400">
+        <p class="text-center text-sm font-medium text-ink-muted">
           Tidak menerima kode?
-          <a href="/register" class="text-stone-900 dark:text-white font-bold hover:underline ml-1">Daftar ulang</a>
+          <a href="/register" class="text-ink font-bold hover:underline ml-1">Daftar ulang</a>
         </p>
 
         <!-- Resend OTP Action -->
-        <div class="text-center mt-6 pt-4 border-t border-stone-100 dark:border-white/5">
+        <div class="text-center mt-6 pt-4 border-t border-hairline">
           <button
             type="button"
             id="btn-resend"
-            class="text-sm font-bold text-emerald-500 dark:text-emerald-400 hover:underline disabled:opacity-50 disabled:no-underline disabled:cursor-not-allowed"
+            class="text-[11px] font-bold text-ink hover:text-ink-muted transition-colors uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Kirim Ulang OTP
           </button>
-          <p id="cooldown-text" class="text-xs text-stone-500 dark:text-gray-400 mt-2 font-medium hidden animate-fade-in">
-            Silakan tunggu <span id="cooldown-seconds" class="font-bold text-red-500">60</span> detik sebelum meminta OTP baru.
+          <p id="cooldown-text" class="text-xs text-ink-muted mt-2 font-medium hidden animate-fade-in">
+            Silakan tunggu <span id="cooldown-seconds" class="font-bold text-ink">60</span> detik sebelum meminta OTP baru.
           </p>
         </div>
       </div>
 
       <!-- Footer Info -->
-      <p class="text-center mt-12 text-xs font-bold text-stone-400 dark:text-gray-600 tracking-widest uppercase">
+      <p class="text-center mt-16 text-[10px] font-bold text-ink-tertiary tracking-widest uppercase">
         &copy; 2026 SovraEquitara &bull; Aman & Transparan
       </p>
     </div>

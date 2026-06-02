@@ -18,7 +18,7 @@ import Sidebar from '../components/Sidebar.astro';
             <p class="text-sm lg:text-base font-semibold text-zen-muted dark:text-zen-muted-dark mt-1">Pantau perkembangan aspirasi dan laporan Anda.</p>
           </div>
           <div class="flex gap-4">
-            <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark p-4 px-6 rounded-2xl flex flex-col min-w-[140px] shadow-zen transition-transform hover:scale-[1.02]">
+            <div class="card-zen p-4 px-6 rounded-2xl flex flex-col min-w-[140px] transition-transform hover:scale-[1.02]">
               <span class="text-[10px] font-extrabold text-zen-muted dark:text-zen-muted-dark uppercase tracking-widest mb-1">Total Laporan</span>
               <span class="text-3xl font-black leading-tight text-zen-text dark:text-zen-text-dark" id="stat-total">0</span>
             </div>
@@ -28,13 +28,13 @@ import Sidebar from '../components/Sidebar.astro';
         <!-- Search & Filter -->
         <div class="mb-6 flex gap-3 animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.05s;">
            <div class="flex-1 relative">
-             <input type="text" id="search-input" placeholder="Cari laporan..." class="w-full p-3.5 pl-11 rounded-2xl border border-zen-border dark:border-zen-border-dark bg-zen-card dark:bg-zen-card-dark text-sm font-semibold outline-none focus:ring-4 focus:ring-brand/5 transition-all text-zen-text dark:text-zen-text-dark" />
+             <input type="text" id="search-input" placeholder="Cari laporan..." class="input-zen pl-11" />
              <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-zen-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
            </div>
         </div>
 
         <!-- History List -->
-        <div class="bg-zen-card dark:bg-zen-card-dark border border-zen-border dark:border-zen-border-dark rounded-[2rem] shadow-zen overflow-hidden animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
+        <div class="card-zen rounded-[2rem] overflow-hidden animate-[slideUp_0.6s_cubic-bezier(0.22,1,0.36,1)_both]" style="animation-delay: 0.1s;">
           <div class="hidden lg:grid grid-cols-[1fr_180px_160px_140px] p-5 px-8 bg-zen-surface dark:bg-zen-surface-dark border-b border-zen-border dark:border-zen-border-dark text-[11px] font-black text-zen-muted dark:text-zen-muted-dark uppercase tracking-widest">
             <div>DESKRIPSI & LOKASI</div>
             <div>KATEGORI</div>
@@ -118,7 +118,7 @@ import Sidebar from '../components/Sidebar.astro';
               <div id="comments-list" class="flex-1 p-6 flex flex-col gap-4 overflow-y-auto scrollbar-thin h-[300px] lg:h-[400px]"></div>
               <form id="form-comment" class="p-5 flex gap-3 border-t border-zen-border dark:border-zen-border-dark bg-zen-surface dark:bg-zen-surface-dark">
                 <input type="hidden" id="active-report-id" />
-                <input type="text" id="comment-input" class="flex-1 p-3.5 rounded-xl border border-zen-border dark:border-zen-border-dark !bg-zen-bg dark:!bg-zen-bg-dark text-zen-text dark:text-zen-text-dark text-sm font-medium outline-none transition-colors focus:ring-2 focus:ring-brand/20 dark:focus:ring-white/20 focus:border-brand dark:focus:border-white appearance-none placeholder:text-zen-muted dark:placeholder:text-zen-muted-dark" placeholder="Tulis pendapat Anda..." required />
+                <input type="text" id="comment-input" class="input-zen" placeholder="Tulis pendapat Anda..." required />
                 <button type="submit" id="btn-send-comment" class="w-12 h-12 rounded-xl bg-brand dark:bg-white text-white dark:text-brand border-none flex items-center justify-center cursor-pointer transition-transform hover:-translate-y-0.5">
                   <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                 </button>
